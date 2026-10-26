@@ -1,0 +1,367 @@
+/* Homepage cover: name, portrait frame, and the hand-off into Selected Work. */
+
+.vb-cv {
+  --cv-gap: 3rem;
+  --mx: 0;
+  --my: 0;
+  --name-size: clamp(3.2rem, 17.5vw, 7rem);
+  display: flex;
+  flex-direction: column;
+}
+
+.vb-cv-defs {
+  position: absolute;
+}
+
+/* Mobile: portrait first, with the name set over its lower edge. */
+
+.vb-cv-right {
+  order: -1;
+}
+
+.vb-cv-frame {
+  position: relative;
+  height: min(72svh, 36rem);
+  overflow: hidden;
+  background: var(--vb-wine);
+}
+
+.vb-cv-frame .vb-wk-panel:not(.vb-cv-portrait) {
+  display: none;
+}
+
+.vb-cv-portrait {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  color: var(--vb-paper);
+}
+
+.vb-cv-portrait::after {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(transparent 38%, rgb(28 18 20 / 82%));
+  content: "";
+}
+
+.vb-cv-photo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+@media (min-width: 960px) {
+  /* Show the whole figure instead of a tight crop, so the face sits smaller. */
+  .vb-cv-photo {
+    inset: auto 0 0 auto;
+    width: 74%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 50% 0;
+    translate: 0 -4%;
+    mask-image:
+      linear-gradient(90deg, transparent, #000 22%),
+      linear-gradient(180deg, #000 90%, transparent);
+    mask-composite: intersect;
+  }
+}
+
+.vb-cv-photo[data-duotone="true"] {
+  filter: url(#vb-duotone);
+}
+
+.vb-cv-bar {
+  position: absolute;
+  inset: 0 auto 0 0;
+  z-index: 2;
+  width: 0.45rem;
+  background: var(--vb-wine);
+}
+
+.vb-cv-interests {
+  position: absolute;
+  top: 1.1rem;
+  right: 1rem;
+  z-index: 2;
+  display: flex;
+  gap: 1rem;
+  margin: 0;
+  font-size: 0.72rem;
+  letter-spacing: 0.16em;
+  text-shadow: 0 0 0.6rem rgb(28 18 20 / 60%);
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+}
+
+.vb-cv-hero {
+  position: relative;
+  z-index: 2;
+  padding: 0 1.25rem;
+  margin-top: calc(var(--name-size) * -2.6);
+}
+
+.vb-cv-kicker {
+  display: none;
+}
+
+.vb-cv-name {
+  position: relative;
+  margin: 0;
+  font-family: var(--vb-display);
+  font-size: var(--name-size);
+  font-weight: 700;
+  line-height: 0.84;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  color: var(--vb-paper);
+}
+
+.vb-cv-name span {
+  display: block;
+}
+
+.vb-cv-name .vb-cv-name-paper {
+  display: none;
+}
+
+.vb-cv-bin {
+  margin-left: 18%;
+}
+
+.vb-cv-intro {
+  max-width: 28rem;
+  margin-top: 1.5rem;
+}
+
+.vb-cv-role {
+  margin: 0;
+  font-size: 1.1rem;
+  line-height: 1.4;
+}
+
+.vb-cv-lead {
+  max-width: 34ch;
+  margin: 0.7rem 0 0;
+  font-size: 0.98rem;
+  line-height: 1.65;
+}
+
+.vb-cv-facts {
+  margin: 1.5rem 0 0;
+}
+
+.vb-cv-facts > div {
+  display: grid;
+  grid-template-columns: 5.2rem minmax(0, 1fr);
+  gap: 0.75rem;
+  padding: 0.7rem 0;
+  border-top: 1px solid var(--vb-beige);
+}
+
+.vb-cv-facts > div:last-child {
+  border-bottom: 1px solid var(--vb-beige);
+}
+
+.vb-cv-facts dt {
+  color: #5c5a56;
+  font-size: 0.8rem;
+  line-height: 1.55;
+}
+
+.vb-cv-facts dd {
+  display: grid;
+  gap: 0.15rem;
+  margin: 0;
+  font-size: 0.92rem;
+  line-height: 1.45;
+}
+
+.vb-cv-facts dd span {
+  color: #5c5a56;
+  font-size: 0.82rem;
+}
+
+.vb-cv-facts a {
+  width: fit-content;
+  color: inherit;
+  text-decoration: none;
+  box-shadow: inset 0 -1px 0 var(--vb-beige);
+}
+
+.vb-cv-facts a:hover {
+  box-shadow: inset 0 -1px 0 var(--vb-wine);
+}
+
+.vb-cv-builds {
+  display: flex !important;
+  gap: 1.1rem !important;
+}
+
+.vb-cv-work {
+  padding: 3.5rem 1.25rem 2.5rem;
+  margin-top: 2.5rem;
+  border-top: 1px solid var(--vb-beige);
+  scroll-margin-top: 5rem;
+}
+
+.vb-cv-work .vb-kicker {
+  margin-bottom: 0.8rem;
+  color: #5c5a56;
+}
+
+.vb-cv-work .vb-wk-index {
+  display: none;
+}
+
+@media (min-width: 960px) {
+  .vb-cv {
+    --cv-gap: 3rem;
+    --name-size: clamp(5rem, 9.4vw, 10.5rem);
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    column-gap: var(--cv-gap);
+    padding: 0 2.5rem;
+  }
+
+  .vb-cv-right {
+    order: 0;
+  }
+
+  .vb-cv-frame {
+    position: sticky;
+    top: calc(var(--vb-nav) + 1.25rem);
+    height: calc(100svh - var(--vb-nav) - 2.5rem);
+    min-height: 32rem;
+    max-height: 62rem;
+    margin-top: 1.25rem;
+  }
+
+  .vb-cv-frame .vb-wk-panel:not(.vb-cv-portrait) {
+    display: block;
+  }
+
+  .vb-cv-portrait::after {
+    background: linear-gradient(90deg, rgb(28 18 20 / 28%), transparent 40%);
+  }
+
+  .vb-cv-interests {
+    top: auto;
+    bottom: 1.4rem;
+    right: 1.4rem;
+  }
+
+  .vb-cv-hero {
+    z-index: 3;
+    display: flex;
+    min-height: calc(100svh - var(--vb-nav));
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 1.5rem 0 1.5rem;
+    margin-top: 0;
+  }
+
+  .vb-cv-kicker {
+    display: block;
+    margin-bottom: 0.9rem;
+  }
+
+  .vb-cv-name {
+    color: var(--vb-ink);
+  }
+
+  /* The part of the name that crosses onto the portrait turns to paper. */
+  .vb-cv-name .vb-cv-name-paper {
+    position: absolute;
+    inset: 0;
+    display: block;
+    color: var(--vb-paper);
+    pointer-events: none;
+    clip-path: inset(-1rem -100vw -1rem calc(100% + var(--cv-gap)));
+  }
+
+  .vb-cv-intro {
+    margin-top: 1.25rem;
+  }
+
+  .vb-cv-facts {
+    margin-top: 1.1rem;
+  }
+
+  .vb-cv-facts > div {
+    padding: 0.5rem 0;
+  }
+
+  .vb-cv-work {
+    padding: 3.5rem 0 3rem;
+    margin-top: 0;
+  }
+
+  .vb-cv-work .vb-wk-index {
+    display: block;
+    margin-top: 1.25rem;
+  }
+
+  .vb-cv-facts {
+    margin-top: 1.1rem;
+  }
+
+  .vb-cv-facts > div {
+    padding: 0.5rem 0;
+  }
+
+  .vb-cv-work .vb-wk-item {
+    min-height: 15rem;
+    align-content: center;
+  }
+
+  .vb-cv .vb-wk-p-main {
+    left: calc(50% - 21cqw);
+    bottom: -10cqw;
+    width: 42cqw;
+  }
+
+  .vb-cv .vb-wk-p-left {
+    left: 3cqw;
+    bottom: -22cqw;
+    width: 30cqw;
+  }
+
+  .vb-cv .vb-wk-p-right {
+    right: 3cqw;
+    bottom: -18cqw;
+    width: 30cqw;
+  }
+
+  .vb-cv .vb-wk-glyph {
+    font-size: 44cqw;
+  }
+}
+
+@media (min-width: 1200px) {
+  .vb-cv {
+    padding: 0 3.5rem;
+  }
+}
+
+@media (min-width: 960px) and (prefers-reduced-motion: no-preference) {
+  .vb-cv-photo {
+    scale: 1.05;
+    translate: calc(var(--mx) * -10px) calc(var(--my) * -8px - 4%);
+    transition: translate 0.8s var(--vb-ease);
+  }
+}
+
+/* Reduced motion, and the moment before hydration: show the finished hero. */
+@media (prefers-reduced-motion: reduce) {
+  .vb-cv-name span,
+  .vb-cv-intro {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .vb-cv-frame {
+    clip-path: none !important;
+  }
+}

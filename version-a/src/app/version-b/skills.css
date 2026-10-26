@@ -1,0 +1,227 @@
+/* Skills: a project switch on the left, a ledger of skills on the right. */
+
+.vb-sk {
+  position: relative;
+  padding: 2.5rem 1.25rem 3.5rem;
+  background: var(--vb-paper);
+  scroll-margin-top: 5rem;
+}
+
+.vb-sk-title {
+  margin: 0;
+  font-family: var(--vb-display);
+  font-size: clamp(2.6rem, 11vw, 5.2rem);
+  font-weight: 700;
+  line-height: 0.9;
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
+}
+
+.vb-sk .vb-kicker {
+  margin-bottom: 0.8rem;
+  color: #5c5a56;
+}
+
+.vb-sk-switch {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 1.5rem;
+  overflow-x: auto;
+  padding-bottom: 0.25rem;
+  scroll-snap-type: x proximity;
+}
+
+.vb-sk-pick {
+  flex: none;
+  padding: 0.5rem 1rem;
+  border: 1px solid rgb(28 28 26 / 35%);
+  border-radius: 999px;
+  background: none;
+  color: inherit;
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.9rem;
+  scroll-snap-align: start;
+}
+
+.vb-sk-pick[aria-pressed="true"] {
+  border-color: var(--vb-wine);
+  background: var(--vb-wine);
+  color: var(--vb-paper);
+}
+
+.vb-sk-note {
+  min-height: 6.5rem;
+  margin-top: 1.25rem;
+}
+
+.vb-sk-note p {
+  max-width: 32ch;
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.55;
+}
+
+.vb-sk-note .vb-sk-legend {
+  margin-top: 0.4rem;
+  color: #5c5a56;
+  font-size: 0.85rem;
+}
+
+.vb-sk-note .vb-text-link {
+  display: inline-block;
+  margin-top: 0.7rem;
+}
+
+.vb-sk-key {
+  display: inline-block;
+  width: 0.55rem;
+  height: 0.55rem;
+  margin-right: 0.5rem;
+  background: var(--vb-wine);
+}
+
+.vb-sk-groups {
+  margin-top: 1.5rem;
+}
+
+.vb-sk-group {
+  padding: 1.1rem 0 1.25rem;
+  border-top: 1px solid var(--vb-beige);
+}
+
+.vb-sk-label {
+  margin: 0 0 0.6rem;
+  color: #5c5a56;
+  font-size: 0.82rem;
+  font-weight: 500;
+}
+
+.vb-sk-words {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 0.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.vb-sk-word {
+  padding: 0.08em 0.32em;
+  background: linear-gradient(var(--vb-wine), var(--vb-wine)) no-repeat left /
+    0% 100%;
+  font-family: var(--vb-display);
+  font-size: clamp(1.3rem, 5.4vw, 2.1rem);
+  font-weight: 500;
+  line-height: 1.15;
+  text-transform: uppercase;
+}
+
+.vb-sk-word[data-p]::before {
+  display: inline-block;
+  width: 0.28em;
+  height: 0.28em;
+  margin-right: 0.3em;
+  background: var(--vb-wine);
+  content: "";
+  vertical-align: 0.28em;
+}
+
+.vb-sk-detail {
+  display: block;
+  margin-top: 0.1rem;
+  font-family: var(--vb-sans);
+  font-size: 0.72rem;
+  font-weight: 400;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.vb-sk:not([data-sel="all"]) .vb-sk-word {
+  opacity: 0.42;
+}
+
+.vb-sk[data-sel="gthrz"] .vb-sk-word[data-p~="gthrz"],
+.vb-sk[data-sel="movie"] .vb-sk-word[data-p~="movie"],
+.vb-sk[data-sel="amanah"] .vb-sk-word[data-p~="amanah"] {
+  background-size: 100% 100%;
+  color: var(--vb-paper);
+  opacity: 1;
+}
+
+.vb-sk[data-sel="gthrz"] .vb-sk-word[data-p~="gthrz"]::before,
+.vb-sk[data-sel="movie"] .vb-sk-word[data-p~="movie"]::before,
+.vb-sk[data-sel="amanah"] .vb-sk-word[data-p~="amanah"]::before {
+  background: var(--vb-paper);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .vb-sk-word {
+    transition:
+      background-size 0.55s var(--vb-ease),
+      color 0.3s,
+      opacity 0.4s;
+  }
+
+  .vb-sk-pick {
+    transition:
+      background-color 0.3s,
+      color 0.3s;
+  }
+}
+
+@media (min-width: 900px) {
+  .vb-sk {
+    display: grid;
+    grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
+    gap: 4rem;
+    padding: 4rem 3.5rem 6rem;
+  }
+
+  .vb-sk-side {
+    position: sticky;
+    top: calc(var(--vb-nav) + 2rem);
+    align-self: start;
+  }
+
+  .vb-sk-switch {
+    flex-direction: column;
+    align-items: flex-start;
+    overflow: visible;
+  }
+
+  .vb-sk-groups {
+    margin-top: 0;
+  }
+
+  .vb-sk-group {
+    display: grid;
+    grid-template-columns: 11rem minmax(0, 1fr);
+    gap: 1rem;
+    padding: 1.5rem 0 1.6rem;
+  }
+
+  .vb-sk-label {
+    margin: 0.5rem 0 0;
+  }
+
+  .vb-sk-word {
+    font-size: clamp(1.5rem, 2.3vw, 2.2rem);
+  }
+}
+
+/* Phones: keep the project switch within reach while scrolling the ledger. */
+@media (max-width: 899px) {
+  .vb-sk-side {
+    display: contents;
+  }
+
+  .vb-sk-switch {
+    position: sticky;
+    top: var(--vb-nav);
+    z-index: 5;
+    margin: 1.5rem -1.25rem 0;
+    padding: 0.6rem 1.25rem;
+    background: var(--vb-paper);
+  }
+}

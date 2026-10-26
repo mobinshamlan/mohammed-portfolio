@@ -1,6 +1,12 @@
 import type { Metadata } from "next";
-import { VersionBHero } from "@/components/version-b/hero";
+import { VersionBAbout } from "@/components/version-b/about";
+import { VersionBCerts } from "@/components/version-b/certs";
+import { VersionBFinale } from "@/components/version-b/finale";
+import { VersionBCover } from "@/components/version-b/cover";
+import { DuotoneDefs } from "@/components/version-b/duotone";
+import { VersionBJourney } from "@/components/version-b/journey";
 import { VersionBNav } from "@/components/version-b/nav";
+import { VersionBSkills } from "@/components/version-b/skills";
 
 export const metadata: Metadata = {
   title: "Mohammed Bin Shamlan",
@@ -11,11 +17,19 @@ export const metadata: Metadata = {
 export default function VersionBPage() {
   return (
     <>
-      <a href="#content" className="vb-skip">
+      <a href="#home" className="vb-skip">
         Skip to content
       </a>
       <VersionBNav />
-      <VersionBHero />
+      <DuotoneDefs />
+      <main>
+        <VersionBCover />
+        <VersionBAbout />
+        <VersionBJourney />
+        <VersionBSkills />
+        <VersionBCerts />
+        <VersionBFinale />
+      </main>
     </>
   );
 }

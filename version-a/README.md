@@ -15,7 +15,8 @@ Open http://localhost:3000.
 
 - `/` — experience selection. Visitors choose Version A or Version B.
 - `/version-a` — the weak-prompt baseline. This is the original portfolio, kept as it was.
-- `/version-b` — strong-prompt portfolio. The homepage is in place. Work, about, education, and contact are not built yet.
+- `/version-b` — strong-prompt portfolio: hero, selected work, about, education, skills, and contact.
+- `/version-b/projects/gthrz` — Gthrz case study.
 - `/comparison` — reserved for a later comparison. It does not contain results.
 
 ## Version A prompt

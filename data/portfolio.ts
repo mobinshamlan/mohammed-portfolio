@@ -14,7 +14,7 @@ export const portfolio = {
       qualification: "BSc Computer Science (Hons)",
       institution: "Queen Mary University of London",
       period: "Graduated in 2026",
-      detail: "Upper Second-Class Honours (2:1)",
+      detail: "",
       status: "completed",
     },
     {

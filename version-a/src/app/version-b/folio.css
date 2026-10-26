@@ -1,0 +1,421 @@
+/* Certifications: a pile of real documents you can pull from. */
+
+.vb-cf {
+  position: relative;
+  z-index: 3;
+  padding: 3rem 1.25rem 3.5rem;
+  background: var(--vb-beige);
+  scroll-margin-top: 5rem;
+}
+
+.vb-cf .vb-kicker {
+  margin-bottom: 0.8rem;
+  color: #5c5a56;
+}
+
+.vb-cf-title {
+  margin: 0;
+  max-width: 10ch;
+  font-family: var(--vb-display);
+  font-size: clamp(2.6rem, 11vw, 5.4rem);
+  font-weight: 700;
+  line-height: 0.9;
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
+}
+
+.vb-cf-index {
+  display: none;
+  margin: 1.75rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.vb-cf-index li {
+  border-top: 1px solid rgb(28 28 26 / 20%);
+}
+
+.vb-cf-index li:last-child {
+  border-bottom: 1px solid rgb(28 28 26 / 20%);
+}
+
+.vb-cf-row {
+  display: grid;
+  width: 100%;
+  grid-template-columns: 2.2rem minmax(0, 1fr) auto;
+  gap: 0.75rem;
+  padding: 0.95rem 0.5rem;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+}
+
+button.vb-cf-row {
+  cursor: pointer;
+}
+
+.vb-cf-num {
+  padding-top: 0.2rem;
+  color: #5c5a56;
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+}
+
+.vb-cf-text {
+  display: grid;
+  gap: 0.2rem;
+}
+
+.vb-cf-name {
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 1.35;
+}
+
+.vb-cf-meta {
+  color: #5c5a56;
+  font-size: 0.85rem;
+  line-height: 1.45;
+}
+
+.vb-cf-open {
+  align-self: center;
+  color: var(--vb-wine);
+  font-size: 0.85rem;
+  opacity: 0;
+}
+
+.vb-cf-index li[data-active="true"] .vb-cf-row {
+  background: var(--vb-paper);
+}
+
+.vb-cf-index li[data-active="true"] .vb-cf-open,
+.vb-cf-row:focus-visible .vb-cf-open {
+  opacity: 1;
+}
+
+.vb-cf-stage {
+  display: none;
+}
+
+/* Phones: a swipe row at the certificates' own proportions. */
+
+.vb-cf-phone {
+  margin: 2rem -1.25rem 0;
+}
+
+.vb-cf-rail {
+  display: flex;
+  gap: 1rem;
+  padding: 0.5rem 1.25rem 1rem;
+  overflow-x: auto;
+  scroll-padding: 0 1.25rem;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+}
+
+.vb-cf-slide {
+  display: grid;
+  flex: none;
+  gap: 0.8rem;
+  width: 82vw;
+  margin: 0;
+  scroll-snap-align: start;
+}
+
+.vb-cf-slide-open {
+  display: block;
+  padding: 0;
+  border: 0;
+  background: #fff;
+  box-shadow: 0 0.6rem 1.2rem rgb(28 28 26 / 18%);
+  cursor: pointer;
+}
+
+.vb-cf-slide-open img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.vb-cf-slide figcaption {
+  display: grid;
+  gap: 0.2rem;
+}
+
+.vb-cf-count {
+  margin: 0.25rem 1.25rem 0;
+  color: #5c5a56;
+  font-size: 0.8rem;
+}
+
+/* Preview dialog. */
+
+.vb-cf-dialog {
+  inset: 0;
+  width: min(70rem, 94vw);
+  height: fit-content;
+  margin: auto;
+  max-height: 94svh;
+  padding: 0;
+  border: 0;
+  background: var(--vb-night);
+  color: var(--vb-paper);
+  overflow: auto;
+}
+
+.vb-cf-dialog::backdrop {
+  background: rgb(28 18 20 / 84%);
+}
+
+.vb-cf-dialog-body {
+  display: grid;
+  gap: 1rem;
+  padding: 1rem;
+}
+
+.vb-cf-dialog-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.vb-cf-dialog-head h3 {
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+.vb-cf-dialog-head p {
+  margin: 0.2rem 0 0;
+  color: var(--vb-fade);
+  font-size: 0.88rem;
+}
+
+.vb-cf-dialog button,
+.vb-cf-dialog a {
+  color: var(--vb-paper);
+  font: inherit;
+  font-size: 0.9rem;
+}
+
+.vb-cf-close {
+  flex: none;
+  padding: 0.4rem 0.9rem;
+  border: 1px solid rgb(245 243 238 / 50%);
+  border-radius: 999px;
+  background: none;
+  cursor: pointer;
+}
+
+.vb-cf-full {
+  display: block;
+  width: auto;
+  max-width: 100%;
+  height: auto;
+  max-height: 68svh;
+  margin: 0 auto;
+  background: #fff;
+}
+
+.vb-cf-dialog-foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem 1.5rem;
+}
+
+.vb-cf-step {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.vb-cf-step button {
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  box-shadow: inset 0 -1px 0 var(--vb-rose);
+}
+
+.vb-cf-step span {
+  color: var(--vb-fade);
+  font-size: 0.82rem;
+}
+
+.vb-cf-dialog a {
+  box-shadow: inset 0 -1px 0 var(--vb-rose);
+  text-decoration: none;
+}
+
+.vb-cf-dialog :focus-visible {
+  outline: 2px solid var(--vb-rose);
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .vb-cf-row,
+  .vb-cf-open {
+    transition:
+      background-color 0.35s,
+      opacity 0.35s;
+  }
+
+  .vb-cf-dialog[open] {
+    animation: vb-cf-in 0.45s var(--vb-ease);
+  }
+
+  .vb-cf-dialog[open]::backdrop {
+    animation: vb-cf-fade 0.45s;
+  }
+}
+
+@keyframes vb-cf-in {
+  from {
+    opacity: 0;
+    transform: translateY(1.2rem) scale(0.98);
+  }
+}
+
+@keyframes vb-cf-fade {
+  from {
+    opacity: 0;
+  }
+}
+
+@media (min-width: 900px) {
+  .vb-cf {
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    gap: 4rem;
+    padding: 5rem 3.5rem 7rem;
+  }
+
+  .vb-cf-phone {
+    display: none;
+  }
+
+  .vb-cf-index {
+    display: block;
+  }
+
+  .vb-cf-stage {
+    position: relative;
+    display: block;
+    margin-top: -7rem;
+    container-type: inline-size;
+    aspect-ratio: 100 / 82;
+  }
+
+  .vb-cf-sheet {
+    --push-x: 0rem;
+    --push-y: 0rem;
+    position: absolute;
+    width: 58cqw;
+    padding: 0;
+    border: 0;
+    background: #fff;
+    box-shadow:
+      0 0.9rem 1.8rem rgb(28 28 26 / 20%),
+      0 0.15rem 0.4rem rgb(28 28 26 / 14%);
+    cursor: pointer;
+  }
+
+  .vb-cf-sheet img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  .vb-cf-s1 {
+    top: 0;
+    left: 0;
+    z-index: 1;
+    rotate: -3deg;
+    --push-x: -1.2rem;
+    --push-y: -0.8rem;
+  }
+
+  .vb-cf-s2 {
+    top: 5cqw;
+    left: 40cqw;
+    z-index: 2;
+    rotate: 2.5deg;
+    --push-x: 1.2rem;
+    --push-y: -0.8rem;
+  }
+
+  .vb-cf-s3 {
+    top: 31cqw;
+    left: 2cqw;
+    z-index: 3;
+    rotate: 1.8deg;
+    --push-x: -1.2rem;
+    --push-y: 0.8rem;
+  }
+
+  .vb-cf-s4 {
+    top: 37cqw;
+    left: 42cqw;
+    z-index: 4;
+    rotate: -2.2deg;
+    --push-x: 1.2rem;
+    --push-y: 0.8rem;
+  }
+
+  .vb-cf-s5 {
+    top: 16cqw;
+    left: 31cqw;
+    z-index: 5;
+    width: 34cqw;
+    rotate: 0.7deg;
+    --push-x: 0;
+    --push-y: 1.1rem;
+  }
+
+  .vb-cf-stage[data-hover="true"] .vb-cf-sheet:not([data-active="true"]) {
+    filter: brightness(0.93);
+    scale: 0.985;
+    translate: var(--push-x) var(--push-y);
+  }
+
+  .vb-cf-sheet[data-active="true"] {
+    z-index: 10;
+    box-shadow:
+      0 1.8rem 3rem rgb(28 28 26 / 28%),
+      0 0.3rem 0.8rem rgb(28 28 26 / 16%);
+    rotate: 0deg;
+    scale: 1.035;
+    translate: 0 -0.8rem;
+  }
+
+  .vb-cf-sheet:focus-visible {
+    outline: 3px solid var(--vb-wine);
+    outline-offset: 4px;
+  }
+
+  .vb-cf-title {
+    max-width: 8ch;
+  }
+
+  .vb-cf-dialog-body {
+    padding: 1.5rem;
+  }
+}
+
+@media (min-width: 900px) and (prefers-reduced-motion: no-preference) {
+  .vb-cf-sheet {
+    transition:
+      translate 0.55s var(--vb-ease),
+      rotate 0.55s var(--vb-ease),
+      scale 0.55s var(--vb-ease),
+      box-shadow 0.55s var(--vb-ease),
+      filter 0.4s;
+  }
+}

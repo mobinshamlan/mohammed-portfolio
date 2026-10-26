@@ -1,0 +1,1184 @@
+/* Selected Work stage and the Gthrz case study. */
+
+.vb {
+  --vb-night: #1c1214;
+  --vb-rose: #d9b8ba;
+  --vb-fade: rgb(245 243 238 / 82%);
+  --vb-ease: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ---------- Selected Work ---------- */
+
+.vb-wk-posters {
+  display: grid;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.vb-wk-poster {
+  position: relative;
+  display: block;
+  min-height: 27rem;
+  overflow: hidden;
+  container-type: inline-size;
+  color: inherit;
+  text-decoration: none;
+}
+
+.vb-wk-poster-gthrz {
+  background: var(--vb-night);
+  color: var(--vb-paper);
+}
+
+.vb-wk-poster-amanah {
+  background: var(--vb-beige);
+}
+
+.vb-wk-poster-name {
+  position: relative;
+  z-index: 3;
+  display: block;
+  padding: 1.35rem 1.35rem 0;
+  font-family: var(--vb-display);
+  font-size: clamp(3.4rem, 17vw, 5rem);
+  font-weight: 700;
+  line-height: 0.88;
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
+}
+
+.vb-wk-poster-lead {
+  position: relative;
+  z-index: 3;
+  display: block;
+  max-width: 24ch;
+  padding: 0.7rem 1.35rem 0;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.vb-wk-poster-art {
+  position: absolute;
+  inset: auto 0 0;
+  display: block;
+  height: 86cqw;
+}
+
+.vb-wk-cluster {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.vb-wk-poster .vb-wk-cluster {
+  inset: auto 0 0;
+  height: 70cqw;
+}
+
+.vb-wk-phone {
+  position: absolute;
+  filter: drop-shadow(0 1.2rem 1.6rem rgb(0 0 0 / 45%));
+}
+
+.vb-wk-phone-img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.vb-wk-p-main {
+  left: 33cqw;
+  bottom: -26cqw;
+  z-index: 2;
+  width: 40cqw;
+}
+
+.vb-wk-p-left {
+  left: 6cqw;
+  bottom: -34cqw;
+  width: 31cqw;
+  transform: rotate(-6deg);
+}
+
+.vb-wk-p-right {
+  right: 5cqw;
+  bottom: -30cqw;
+  width: 31cqw;
+  transform: rotate(6deg);
+}
+
+.vb-wk-glyph {
+  position: absolute;
+  left: -0.04em;
+  bottom: -0.2em;
+  font-family: var(--vb-display);
+  font-size: 34cqw;
+  font-weight: 700;
+  line-height: 1;
+  color: rgb(78 36 40 / 70%);
+}
+
+/* Amanah art: a lost tag and a found tag joined by a possible match. */
+
+.vb-aa {
+  position: absolute;
+  inset: 0;
+  container-type: inline-size;
+  overflow: hidden;
+}
+
+.vb-aa-letter {
+  position: absolute;
+  right: 3cqw;
+  bottom: -7cqw;
+  font-family: var(--vb-display);
+  font-size: 44cqw;
+  font-weight: 700;
+  line-height: 1;
+  color: rgb(78 36 40 / 10%);
+}
+
+.vb-aa-link {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  fill: none;
+  stroke: var(--vb-wine);
+  stroke-width: 1.5;
+  stroke-dasharray: 5 6;
+}
+
+.vb-aa-tag {
+  position: absolute;
+  display: flex;
+  width: 31cqw;
+  min-height: 46cqw;
+  flex-direction: column;
+  gap: 2.2cqw;
+  padding: 11cqw 3.4cqw 3.4cqw;
+  background: var(--vb-paper);
+  clip-path: polygon(0 12%, 12% 0, 100% 0, 100% 100%, 0 100%);
+  filter: drop-shadow(0 0.6rem 0.8rem rgb(28 28 26 / 18%));
+}
+
+.vb-aa-lost {
+  left: 9cqw;
+  top: 8cqw;
+  transform: rotate(-6deg);
+}
+
+.vb-aa-found {
+  right: 11cqw;
+  top: 24cqw;
+  transform: rotate(5deg);
+}
+
+.vb-aa-hole {
+  position: absolute;
+  top: 3.6cqw;
+  left: 50%;
+  width: 3.4cqw;
+  height: 3.4cqw;
+  margin-left: -1.7cqw;
+  border-radius: 50%;
+  background: var(--vb-beige);
+}
+
+.vb-aa-tag-name {
+  font-family: var(--vb-display);
+  font-size: 5.6cqw;
+  font-weight: 700;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.vb-aa-bar {
+  display: block;
+  height: 1.8cqw;
+  background: var(--vb-beige);
+}
+
+.vb-aa-bar-short {
+  width: 60%;
+}
+
+.vb-aa-match {
+  position: absolute;
+  left: 38cqw;
+  top: 40cqw;
+  padding: 1.2cqw 2.6cqw;
+  background: var(--vb-wine);
+  color: var(--vb-paper);
+  font-size: 3cqw;
+  white-space: nowrap;
+  transform: rotate(-3deg);
+}
+
+.vb-aa-stamp {
+  position: absolute;
+  left: 7cqw;
+  bottom: 7cqw;
+  display: flex;
+  width: 19cqw;
+  height: 19cqw;
+  align-items: center;
+  justify-content: center;
+  padding: 2cqw;
+  border: 2px solid var(--vb-wine);
+  border-radius: 50%;
+  color: var(--vb-wine);
+  font-family: var(--vb-display);
+  font-size: 3.1cqw;
+  font-weight: 600;
+  line-height: 1.05;
+  text-align: center;
+  text-transform: uppercase;
+  transform: rotate(-12deg);
+}
+
+@media (min-width: 960px) {
+  .vb-wk-posters {
+    display: none;
+  }
+
+  .vb-wk-index {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .vb-wk-index li + li .vb-wk-item {
+    border-top: 1px solid var(--vb-beige);
+  }
+
+  .vb-wk-item {
+    display: grid;
+    gap: 0.6rem;
+    padding: 2.1rem 0;
+    color: #6b6965;
+    text-decoration: none;
+  }
+
+  .vb-wk-item[data-active="true"] {
+    color: var(--vb-ink);
+  }
+
+  .vb-wk-name {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.6rem;
+    font-family: var(--vb-display);
+    font-size: clamp(3.6rem, 6.4vw, 6.4rem);
+    font-weight: 700;
+    line-height: 0.88;
+    letter-spacing: -0.03em;
+    text-transform: uppercase;
+  }
+
+  .vb-wk-arrow {
+    margin-top: 0.15em;
+    color: var(--vb-wine);
+    font-size: 0.4em;
+    opacity: 0;
+    transform: translate(-0.4em, 0.4em);
+  }
+
+  .vb-wk-item[data-active="true"] .vb-wk-arrow {
+    opacity: 1;
+    transform: none;
+  }
+
+  .vb-wk-lead {
+    max-width: 34ch;
+    font-size: 1.02rem;
+    line-height: 1.55;
+  }
+
+  .vb-wk-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.3rem 0.9rem;
+    font-size: 0.78rem;
+  }
+
+  .vb-wk-status {
+    color: var(--vb-wine);
+    font-weight: 600;
+  }
+
+  .vb-wk-panel {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    display: block;
+    overflow: hidden;
+    container-type: inline-size;
+    clip-path: inset(100% 0 0 0);
+    transition:
+      clip-path 0.8s var(--vb-ease),
+      visibility 0s 0.8s;
+    visibility: hidden;
+  }
+
+  .vb-wk-panel[data-active="true"] {
+    z-index: 2;
+    clip-path: inset(0);
+    transition: clip-path 0.8s var(--vb-ease);
+    visibility: visible;
+  }
+
+  /* The outgoing panel stays put under the incoming wipe. */
+  .vb-wk-panel[data-active="false"] {
+    visibility: visible;
+  }
+
+  .vb-wk-panel-gthrz {
+    background: var(--vb-night);
+  }
+
+  .vb-wk-panel-amanah {
+    background: var(--vb-beige);
+  }
+
+  .vb-wk-p-main {
+    left: calc(50% - 17cqw);
+    bottom: -9cqw;
+    width: 34cqw;
+  }
+
+  .vb-wk-p-left {
+    left: 8cqw;
+    bottom: -20cqw;
+    width: 26cqw;
+  }
+
+  .vb-wk-p-right {
+    right: 8cqw;
+    bottom: -17cqw;
+    width: 26cqw;
+  }
+
+  .vb-wk-open {
+    position: absolute;
+    right: 1.4rem;
+    bottom: 1.2rem;
+    z-index: 5;
+    padding: 0.55rem 0.9rem;
+    background: var(--vb-paper);
+    color: var(--vb-ink);
+    font-size: 0.85rem;
+  }
+}
+
+@media (min-width: 960px) and (prefers-reduced-motion: no-preference) {
+  .vb-wk-item,
+  .vb-wk-arrow {
+    transition:
+      color 0.4s var(--vb-ease),
+      opacity 0.4s var(--vb-ease),
+      transform 0.5s var(--vb-ease);
+  }
+
+  .vb-wk-p-main,
+  .vb-wk-p-left,
+  .vb-wk-p-right {
+    transition: translate 0.6s var(--vb-ease);
+  }
+
+  .vb-wk-p-main {
+    translate: calc(var(--mx) * -8px) calc(var(--my) * -6px);
+  }
+
+  .vb-wk-p-left {
+    translate: calc(var(--mx) * 16px) calc(var(--my) * 10px);
+  }
+
+  .vb-wk-p-right {
+    translate: calc(var(--mx) * 22px) calc(var(--my) * 12px);
+  }
+
+  .vb-wk-glyph {
+    translate: calc(var(--mx) * 10px) 0;
+    transition: translate 0.8s var(--vb-ease);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vb-wk-panel,
+  .vb-wk-panel[data-active="true"] {
+    transition: none;
+  }
+}
+
+/* ---------- Gthrz case study ---------- */
+
+.vb-case-bleed {
+  padding: 0;
+}
+
+/* Chapter 1: one pinned phone, four screens. */
+
+.vb-gs {
+  position: relative;
+  background: var(--vb-night);
+  color: var(--vb-paper);
+}
+
+.vb-gs-stage {
+  --gs-h: min(57svh, 30rem);
+  --gs-shift: 0px;
+  --p: 0;
+  --rail: 0;
+  position: sticky;
+  top: var(--vb-nav);
+  height: calc(100svh - var(--vb-nav));
+  min-height: 34rem;
+  overflow: hidden;
+}
+
+.vb-gs-travel {
+  height: 230svh;
+}
+
+/* Reduced motion: no scrubbing, the first screen simply gives way. */
+@media (prefers-reduced-motion: reduce) {
+  .vb-gs-stage[data-step="1"],
+  .vb-gs-stage[data-step="2"],
+  .vb-gs-stage[data-step="3"] {
+    --p: 1;
+  }
+
+  .vb-gs-rail {
+    display: none;
+  }
+}
+
+.vb-gs-word {
+  position: absolute;
+  top: calc(1.1rem + var(--gs-h) - 0.6em);
+  left: 1.25rem;
+  z-index: 4;
+  margin: 0;
+  font-family: var(--vb-display);
+  font-size: 31vw;
+  font-weight: 700;
+  line-height: 0.8;
+  letter-spacing: -0.04em;
+  text-transform: uppercase;
+  opacity: calc(1 - var(--p) * 1.3);
+  transform: translateY(calc(var(--p) * -30%));
+}
+
+.vb-gs-phones {
+  position: absolute;
+  top: 1.1rem;
+  left: 50%;
+  z-index: 2;
+  height: var(--gs-h);
+  aspect-ratio: 455 / 952;
+  translate: -50% 0;
+  transform: translateX(calc(var(--p) * var(--gs-shift)));
+}
+
+.vb-gs-main {
+  position: absolute;
+  inset: 0;
+  filter: drop-shadow(0 1.6rem 2.4rem rgb(0 0 0 / 55%));
+}
+
+.vb-gs-main img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+}
+
+.vb-gs-main img[data-on="true"] {
+  opacity: 1;
+}
+
+.vb-gs-side {
+  position: absolute;
+  bottom: -14%;
+  z-index: -1;
+  width: 66%;
+  opacity: calc(1 - var(--p) * 1.4);
+  filter: drop-shadow(0 1.2rem 1.6rem rgb(0 0 0 / 45%));
+}
+
+.vb-gs-side img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.vb-gs-left {
+  right: 72%;
+  transform: translateX(calc(var(--p) * -45%)) rotate(-7deg);
+}
+
+.vb-gs-right {
+  left: 72%;
+  transform: translateX(calc(var(--p) * 45%)) rotate(7deg);
+}
+
+.vb-gs-fade {
+  position: absolute;
+  inset: auto 0 0;
+  z-index: 3;
+  height: 46%;
+  background: linear-gradient(transparent, var(--vb-night) 58%);
+}
+
+.vb-gs-copy {
+  position: absolute;
+  inset: auto 1.25rem 1.9rem;
+  z-index: 5;
+  height: 31svh;
+  min-height: 11.5rem;
+}
+
+.vb-gs-block {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.vb-gs-block[data-on="true"] {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.vb-gs-crumb {
+  margin: 0 0 0.6rem;
+  color: var(--vb-rose);
+  font-size: 0.8rem;
+}
+
+.vb-gs-lead {
+  max-width: 24ch;
+  margin: 0;
+  font-size: 1.15rem;
+  line-height: 1.45;
+}
+
+.vb-gs-tech {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem 0.85rem;
+  margin: 0.9rem 0 0;
+  padding: 0;
+  color: var(--vb-fade);
+  font-size: 0.78rem;
+  list-style: none;
+}
+
+.vb-gs-title {
+  margin: 0 0 0.7rem;
+  font-family: var(--vb-display);
+  font-size: clamp(2rem, 9vw, 3.4rem);
+  font-weight: 600;
+  line-height: 0.95;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+}
+
+.vb-gs-body {
+  max-width: 34ch;
+  margin: 0;
+  color: var(--vb-fade);
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+.vb-gs-rail {
+  position: absolute;
+  inset: auto 1.25rem 0.75rem;
+  z-index: 6;
+  height: 2px;
+  background: rgb(245 243 238 / 18%);
+}
+
+.vb-gs-rail::after {
+  position: absolute;
+  inset: 0;
+  background: var(--vb-rose);
+  content: "";
+  transform: scaleX(var(--rail));
+  transform-origin: left;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .vb-gs-main img,
+  .vb-gs-block {
+    transition:
+      opacity 0.5s var(--vb-ease),
+      transform 0.6s var(--vb-ease);
+  }
+
+  .vb-gs-block {
+    transform: translateY(0.8rem);
+  }
+
+  .vb-gs-block[data-on="true"] {
+    transform: none;
+  }
+}
+
+@media (min-width: 900px) {
+  .vb-gs-stage {
+    --gs-h: min(74svh, 38rem);
+    --gs-shift: 5vw;
+  }
+
+  .vb-gs-travel {
+    height: 250svh;
+  }
+
+  .vb-gs-word {
+    top: auto;
+    bottom: calc(1rem + 0.12em);
+    left: 3rem;
+    z-index: 1;
+    font-size: clamp(8rem, 19vw, 19rem);
+    line-height: 0.82;
+  }
+
+  .vb-gs-phones {
+    top: auto;
+    bottom: 7%;
+    left: 66%;
+  }
+
+  .vb-gs-side {
+    width: 74%;
+  }
+
+  .vb-gs-fade {
+    display: none;
+  }
+
+  .vb-gs-copy {
+    inset: 2.75rem auto 3rem 3.5rem;
+    width: min(27rem, 38%);
+    height: auto;
+    min-height: 0;
+  }
+
+  .vb-gs-block {
+    justify-content: center;
+  }
+
+  .vb-gs-intro {
+    justify-content: flex-start;
+  }
+
+  .vb-gs-lead {
+    max-width: 18ch;
+    font-size: 1.6rem;
+  }
+
+  .vb-gs-title {
+    font-size: clamp(2.6rem, 4.4vw, 4rem);
+  }
+
+  .vb-gs-body {
+    font-size: 1.05rem;
+    line-height: 1.7;
+  }
+
+  .vb-gs-rail {
+    inset: 18% 1.5rem 18% auto;
+    width: 2px;
+    height: auto;
+  }
+
+  .vb-gs-rail::after {
+    transform: scaleY(var(--rail));
+    transform-origin: top;
+  }
+}
+
+/* Chapter 2: privacy, picked apart control by control. */
+
+.vb-gp {
+  display: grid;
+  gap: 2.5rem;
+  padding: 1.5rem 1.25rem 6rem;
+  background: var(--vb-night);
+  color: var(--vb-paper);
+}
+
+.vb-gp-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1.5rem;
+}
+
+.vb-gp-tab {
+  padding: 0.5rem 0.95rem;
+  border: 1px solid rgb(245 243 238 / 35%);
+  border-radius: 999px;
+  background: none;
+  color: inherit;
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.85rem;
+}
+
+.vb-gp-tab[aria-selected="true"] {
+  border-color: var(--vb-paper);
+  background: var(--vb-paper);
+  color: var(--vb-night);
+}
+
+.vb-gp-note {
+  max-width: 34ch;
+  min-height: 3.2em;
+  margin: 1rem 0 0;
+  color: var(--vb-rose);
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+.vb-gp-phones {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.vb-gp-main {
+  position: relative;
+  width: 58%;
+  max-width: 20.5rem;
+  flex: none;
+}
+
+.vb-gp-main img,
+.vb-gp-side img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.vb-gp-hl {
+  position: absolute;
+  left: 11%;
+  width: 78%;
+  border: 2px solid var(--vb-rose);
+  border-radius: 0.7rem;
+  box-shadow: 0 0 0 0.4rem rgb(217 184 186 / 16%);
+}
+
+.vb-gp-side {
+  width: 37%;
+  max-width: 15rem;
+  margin: 3.5rem 0 0;
+}
+
+.vb-gp-side figcaption {
+  max-width: 20ch;
+  margin-top: 0.7rem;
+  color: var(--vb-fade);
+  font-size: 0.8rem;
+  line-height: 1.5;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .vb-gp-hl {
+    transition:
+      top 0.5s var(--vb-ease),
+      height 0.5s var(--vb-ease);
+  }
+
+  .vb-gp-tab {
+    transition:
+      background-color 0.3s,
+      color 0.3s;
+  }
+}
+
+@media (min-width: 900px) {
+  .vb-gp {
+    grid-template-columns: minmax(0, 27rem) auto;
+    justify-content: space-between;
+    gap: 4rem;
+    padding: 1rem 3.5rem 12rem;
+  }
+
+  .vb-gp-phones {
+    gap: 2rem;
+    padding-right: 4vw;
+  }
+
+  .vb-gp-main {
+    width: 20.5rem;
+  }
+
+  .vb-gp-side {
+    width: 14.5rem;
+    margin-top: 9rem;
+  }
+}
+
+/* Chapter 3: what it does. Phones straddle the dark and light chapters. */
+
+.vb-gg {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  gap: 2.5rem;
+  padding: 0 1.25rem 3.5rem;
+  background: var(--vb-paper);
+}
+
+.vb-gg-phones {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-top: -5rem;
+}
+
+.vb-gg .vb-gg-lead-shot {
+  width: 56%;
+  max-width: 19rem;
+}
+
+.vb-gg .vb-gg-second-shot {
+  width: 40%;
+  max-width: 14.5rem;
+  margin-top: 5rem;
+}
+
+.vb-gg .vb-shot-cap {
+  color: #5c5a56;
+  font-size: 0.78rem;
+  letter-spacing: 0;
+}
+
+.vb-gg-title {
+  margin: 0 0 1rem;
+  font-family: var(--vb-display);
+  font-size: clamp(2.2rem, 8vw, 3.4rem);
+  font-weight: 600;
+  line-height: 0.95;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+}
+
+.vb-gg-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.vb-gg-list li {
+  padding: 0.7rem 0;
+  border-top: 1px solid var(--vb-beige);
+  font-family: var(--vb-display);
+  font-size: clamp(1.25rem, 5vw, 1.9rem);
+  font-weight: 500;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+}
+
+.vb-gg-list li:last-child {
+  border-bottom: 1px solid var(--vb-beige);
+}
+
+.vb-gg-note {
+  max-width: 40ch;
+  margin: 1rem 0 0;
+  color: #5c5a56;
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .vb-gg-list li {
+    transition:
+      color 0.3s,
+      padding-left 0.4s var(--vb-ease);
+  }
+
+  .vb-gg-list li:hover {
+    padding-left: 0.6rem;
+    color: var(--vb-wine);
+  }
+}
+
+@media (min-width: 900px) {
+  .vb-gg {
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: start;
+    gap: 5rem;
+    padding: 4.5rem 3.5rem 5rem;
+  }
+
+  .vb-gg-phones {
+    order: 2;
+    gap: 1.75rem;
+    margin-top: -15rem;
+  }
+
+  .vb-gg .vb-gg-lead-shot {
+    width: 19rem;
+  }
+
+  .vb-gg .vb-gg-second-shot {
+    width: 14rem;
+    margin-top: 9rem;
+  }
+
+  .vb-gg-copy {
+    max-width: 36rem;
+  }
+}
+
+/* Chapter 4: Smart Planner as a stack of three screens. */
+
+.vb-gl {
+  display: grid;
+  gap: 2rem;
+  padding: 3.5rem 1.25rem;
+  background: var(--vb-beige);
+}
+
+.vb-gl-title {
+  margin: 0;
+  font-family: var(--vb-display);
+  font-size: clamp(2.6rem, 11vw, 4.6rem);
+  font-weight: 700;
+  line-height: 0.9;
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
+}
+
+.vb-gl-body {
+  max-width: 28ch;
+  margin: 0.9rem 0 0;
+  font-size: 1.05rem;
+  line-height: 1.6;
+}
+
+.vb-gl-steps {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1.5rem;
+}
+
+.vb-gl-step {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.95rem 0.5rem 0.55rem;
+  border: 1px solid rgb(28 28 26 / 35%);
+  border-radius: 999px;
+  background: none;
+  color: inherit;
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.88rem;
+}
+
+.vb-gl-step[aria-pressed="true"] {
+  border-color: var(--vb-wine);
+  background: var(--vb-wine);
+  color: var(--vb-paper);
+}
+
+.vb-gl-num {
+  display: inline-flex;
+  width: 1.4rem;
+  height: 1.4rem;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: rgb(28 28 26 / 10%);
+  font-size: 0.75rem;
+}
+
+.vb-gl-step[aria-pressed="true"] .vb-gl-num {
+  background: rgb(245 243 238 / 20%);
+}
+
+.vb-gl-stack {
+  display: grid;
+  place-items: start center;
+  width: min(100%, 29rem);
+  margin: 0;
+  padding: 2.2rem 1.4rem;
+  border: 0;
+  background: none;
+  cursor: pointer;
+}
+
+.vb-gl-card {
+  grid-area: 1 / 1;
+  width: 100%;
+  height: auto;
+  filter: drop-shadow(0 1rem 1.4rem rgb(28 28 26 / 28%));
+}
+
+.vb-gl-card {
+  translate: calc(var(--d) * 7%) calc(var(--d) * 15%);
+}
+
+.vb-gl-card[data-dist="0"] {
+  z-index: 3;
+}
+
+.vb-gl-card[data-dist="1"] {
+  z-index: 2;
+  opacity: 0.5;
+  scale: 0.92;
+}
+
+.vb-gl-card[data-dist="2"] {
+  z-index: 1;
+  opacity: 0.3;
+  scale: 0.84;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .vb-gl-card {
+    transition:
+      translate 0.7s var(--vb-ease),
+      scale 0.7s var(--vb-ease),
+      opacity 0.5s;
+  }
+}
+
+@media (min-width: 900px) {
+  .vb-gl {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    align-items: center;
+    gap: 4rem;
+    padding: 5rem 3.5rem;
+  }
+
+  .vb-gl-stack {
+    justify-self: center;
+    width: min(100%, 32rem);
+  }
+}
+
+/* Chapter 5: stack and next project. */
+
+.vb-gx {
+  display: grid;
+  gap: 2.5rem;
+  padding: 3.5rem 1.25rem 4rem;
+  background: var(--vb-wine);
+  color: var(--vb-paper);
+}
+
+.vb-gx-title {
+  margin: 0 0 0.8rem;
+  font-family: var(--vb-display);
+  font-size: clamp(2rem, 7vw, 2.8rem);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+}
+
+.vb-gx-body {
+  max-width: 36ch;
+  margin: 0;
+  color: var(--vb-fade);
+  font-size: 1rem;
+  line-height: 1.65;
+}
+
+.vb-gx-tech {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 1.4rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.vb-gx-tech li {
+  padding: 0.4rem 0.85rem;
+  border: 1px solid rgb(245 243 238 / 35%);
+  border-radius: 999px;
+  font-size: 0.85rem;
+}
+
+.vb-gx-link {
+  display: grid;
+  color: inherit;
+  text-decoration: none;
+}
+
+.vb-gx-hint {
+  font-size: 0.85rem;
+  color: var(--vb-rose);
+}
+
+.vb-gx-name {
+  font-family: var(--vb-display);
+  font-size: clamp(4rem, 17vw, 9rem);
+  font-weight: 700;
+  line-height: 0.88;
+  letter-spacing: -0.04em;
+  text-transform: uppercase;
+}
+
+.vb-gx-status {
+  margin-top: 0.4rem;
+  font-size: 0.85rem;
+}
+
+.vb-gx-back {
+  display: inline-block;
+  width: fit-content;
+  margin-top: 1.6rem;
+  color: inherit;
+  font-size: 0.92rem;
+  text-decoration: none;
+  box-shadow: inset 0 -1px 0 var(--vb-rose);
+}
+
+.vb-gx-next {
+  display: flex;
+  flex-direction: column;
+}
+
+.vb-gx-link:hover .vb-gx-name {
+  color: var(--vb-rose);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .vb-gx-name {
+    transition: color 0.4s;
+  }
+}
+
+@media (min-width: 900px) {
+  .vb-gx {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);
+    align-items: end;
+    gap: 4rem;
+    padding: 5rem 3.5rem;
+  }
+}
+
+.vb-wk-sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+}

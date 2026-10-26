@@ -1,0 +1,308 @@
+/* Contact: the closing screen. */
+
+.vb-fn {
+  position: relative;
+  display: flex;
+  min-height: 100svh;
+  flex-direction: column;
+  padding: 4rem 1.25rem 1.5rem;
+  background: var(--vb-night);
+  color: var(--vb-paper);
+  scroll-margin-top: 0;
+}
+
+.vb-fn-top {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem 1.5rem;
+}
+
+.vb-fn-top .vb-kicker {
+  margin: 0;
+  color: var(--vb-rose);
+}
+
+.vb-fn-status {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+.vb-fn-dot {
+  position: relative;
+  width: 0.55rem;
+  height: 0.55rem;
+  border-radius: 50%;
+  background: var(--vb-rose);
+}
+
+.vb-fn-title {
+  margin: 3rem 0 0;
+  font-family: var(--vb-display);
+  font-size: clamp(3.8rem, 17.5vw, 15rem);
+  font-weight: 700;
+  line-height: 0.86;
+  letter-spacing: 0.004em;
+  text-transform: uppercase;
+}
+
+.vb-fn-line {
+  display: block;
+  white-space: nowrap;
+}
+
+.vb-fn-letter {
+  --near: 0;
+  display: inline-block;
+  color: color-mix(
+    in srgb,
+    var(--vb-rose) calc(var(--near) * 100%),
+    var(--vb-paper)
+  );
+  translate: 0 calc(var(--near) * -0.06em);
+}
+
+.vb-fn-space {
+  display: inline-block;
+  width: 0.28em;
+}
+
+.vb-fn-intro {
+  margin-top: 1.5rem;
+}
+
+.vb-fn-intro p {
+  max-width: 28ch;
+  margin: 0;
+  color: var(--vb-fade);
+  font-size: 1.15rem;
+  line-height: 1.5;
+}
+
+.vb-fn-rows {
+  margin: 2.5rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.vb-fn-rows li {
+  position: relative;
+  border-top: 1px solid rgb(245 243 238 / 22%);
+}
+
+.vb-fn-rows li:last-child {
+  border-bottom: 1px solid rgb(245 243 238 / 22%);
+}
+
+.vb-fn-row {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0.25rem 1rem;
+  padding: 1.1rem 0.75rem;
+  overflow: hidden;
+  color: inherit;
+  text-decoration: none;
+}
+
+.vb-fn-row::before {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: var(--vb-paper);
+  content: "";
+  transform: scaleY(0);
+  transform-origin: bottom;
+}
+
+.vb-fn-row > * {
+  position: relative;
+  z-index: 1;
+}
+
+.vb-fn-label {
+  grid-column: 1 / -1;
+  color: var(--vb-rose);
+  font-size: 0.8rem;
+}
+
+.vb-fn-value {
+  min-width: 0;
+  font-size: clamp(1rem, 4.4vw, 2.2rem);
+  font-weight: 500;
+  line-height: 1.2;
+  overflow-wrap: break-word;
+}
+
+.vb-fn-arrow {
+  align-self: end;
+  font-size: 1.4rem;
+}
+
+.vb-fn-row:hover,
+.vb-fn-row:focus-visible {
+  color: var(--vb-night);
+}
+
+.vb-fn-row:hover::before,
+.vb-fn-row:focus-visible::before {
+  transform: scaleY(1);
+}
+
+.vb-fn-row:hover .vb-fn-label,
+.vb-fn-row:focus-visible .vb-fn-label {
+  color: var(--vb-wine);
+}
+
+.vb-fn .vb-fn-row:focus-visible {
+  outline: 2px solid var(--vb-rose);
+  outline-offset: -2px;
+}
+
+.vb-fn-copy {
+  position: absolute;
+  top: 1rem;
+  right: 3.4rem;
+  z-index: 2;
+  padding: 0.3rem 0.7rem;
+  border: 1px solid rgb(245 243 238 / 40%);
+  border-radius: 999px;
+  background: var(--vb-night);
+  color: var(--vb-paper);
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.78rem;
+}
+
+.vb-fn-copy:hover {
+  border-color: var(--vb-paper);
+}
+
+.vb-fn-sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+}
+
+.vb-fn-foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.5rem 1.75rem;
+  margin-top: auto;
+  padding-top: 2.5rem;
+  color: var(--vb-fade);
+  font-size: 0.8rem;
+}
+
+.vb-fn-foot p {
+  margin: 0;
+}
+
+.vb-fn-time span {
+  margin-left: 0.4rem;
+  color: var(--vb-paper);
+  font-variant-numeric: tabular-nums;
+}
+
+.vb-fn-top-link {
+  margin-left: auto;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--vb-paper);
+  cursor: pointer;
+  font: inherit;
+  box-shadow: inset 0 -1px 0 var(--vb-rose);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .vb-fn-letter {
+    transition:
+      translate 0.35s var(--vb-ease),
+      color 0.35s;
+  }
+
+  .vb-fn-row::before {
+    transition: transform 0.45s var(--vb-ease);
+  }
+
+  .vb-fn-row,
+  .vb-fn-arrow {
+    transition:
+      color 0.3s,
+      transform 0.4s var(--vb-ease);
+  }
+
+  .vb-fn-row:hover .vb-fn-arrow,
+  .vb-fn-row:focus-visible .vb-fn-arrow {
+    transform: translate(0.2em, -0.2em);
+  }
+
+  .vb-fn-dot::after {
+    position: absolute;
+    inset: 0;
+    border: 1.5px solid var(--vb-rose);
+    border-radius: 50%;
+    content: "";
+    animation: vb-fn-pulse 2.6s ease-out infinite;
+  }
+}
+
+@keyframes vb-fn-pulse {
+  from {
+    opacity: 0.9;
+    transform: scale(1);
+  }
+
+  to {
+    opacity: 0;
+    transform: scale(3);
+  }
+}
+
+@media (min-width: 900px) {
+  .vb-fn {
+    padding: 6.5rem 3.5rem 2rem;
+    margin-top: -3rem;
+    clip-path: polygon(0 0, 100% 3rem, 100% 100%, 0 100%);
+  }
+
+  .vb-fn-title {
+    margin-top: 2rem;
+    font-size: clamp(7rem, 15.5vw, 17rem);
+  }
+
+  .vb-fn-intro {
+    margin-top: 1.75rem;
+  }
+
+  .vb-fn-rows {
+    margin-top: 3rem;
+  }
+
+  .vb-fn-row {
+    grid-template-columns: 9rem 1fr auto;
+    align-items: baseline;
+    padding: 1.4rem 1rem;
+  }
+
+  .vb-fn-label {
+    grid-column: auto;
+  }
+
+  .vb-fn-value {
+    font-size: clamp(1.4rem, 2.6vw, 2.6rem);
+  }
+
+  .vb-fn-copy {
+    top: 1.5rem;
+    right: 4.2rem;
+  }
+}

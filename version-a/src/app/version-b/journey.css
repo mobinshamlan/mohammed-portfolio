@@ -1,0 +1,436 @@
+/* Education: a route that draws itself from Brighton to London to Riyadh. */
+
+.vb-ed {
+  --ed-gutter: 0.35rem;
+  position: relative;
+  padding: 4.5rem 1.25rem 5rem;
+  background: var(--vb-night);
+  color: var(--vb-paper);
+  scroll-margin-top: 4rem;
+}
+
+.vb-ed-route {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: visible;
+}
+
+.vb-ed-reveal {
+  fill: none;
+  stroke: #fff;
+  stroke-width: 6;
+  stroke-dashoffset: 0;
+}
+
+.vb-ed-solid,
+.vb-ed-dashed {
+  fill: none;
+  stroke: var(--vb-rose);
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+
+.vb-ed-dashed {
+  stroke-dasharray: 2 12;
+  stroke-width: 3;
+}
+
+.vb-ed-traveller {
+  fill: var(--vb-paper);
+  filter: drop-shadow(0 0 0.6rem rgb(217 184 186 / 90%));
+  opacity: 0;
+}
+
+.vb-ed-head {
+  position: relative;
+}
+
+.vb-ed-head .vb-kicker {
+  color: var(--vb-rose);
+}
+
+.vb-ed-title {
+  margin: 0;
+  font-family: var(--vb-display);
+  font-size: clamp(3.4rem, 15vw, 9rem);
+  font-weight: 700;
+  line-height: 0.86;
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
+}
+
+.vb-ed-sub {
+  margin: 0.9rem 0 0 2.4rem;
+  color: var(--vb-fade);
+  font-size: 1.05rem;
+}
+
+.vb-ed-chapters {
+  position: relative;
+  margin: 4rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.vb-ed-place {
+  position: relative;
+}
+
+.vb-ed-city {
+  display: block;
+  margin: 0 0 1rem 2.4rem;
+  font-family: var(--vb-display);
+  font-size: clamp(3.6rem, 19vw, 6rem);
+  font-weight: 700;
+  line-height: 0.9;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  color: transparent;
+  -webkit-text-stroke: 1.5px rgb(217 184 186 / 45%);
+  user-select: none;
+}
+
+.vb-ed-ch {
+  position: relative;
+  padding: 0 0 4.5rem 2.4rem;
+}
+
+.vb-ed-node {
+  position: absolute;
+  top: 0.35rem;
+  left: var(--ed-gutter);
+  z-index: 2;
+  width: 0.95rem;
+  height: 0.95rem;
+  box-sizing: border-box;
+  border: 2px solid var(--vb-rose);
+  border-radius: 50%;
+  background: var(--vb-night);
+}
+
+.vb-ed-node[data-lit="true"] {
+  background: var(--vb-paper);
+  box-shadow: 0 0 0 0.35rem rgb(217 184 186 / 20%);
+}
+
+.vb-ed-end {
+  position: absolute;
+  bottom: 0;
+  left: var(--ed-gutter);
+  width: 0.95rem;
+  height: 1px;
+}
+
+.vb-ed-copy {
+  max-width: 30rem;
+}
+
+.vb-ed-copy p {
+  margin: 0.35rem 0 0;
+  color: var(--vb-fade);
+  font-size: 0.98rem;
+  line-height: 1.6;
+}
+
+.vb-ed-copy .vb-ed-meta {
+  margin: 0 0 0.6rem;
+  color: var(--vb-rose);
+  font-size: 0.8rem;
+}
+
+.vb-ed-meta span {
+  margin-right: 0.5rem;
+  color: var(--vb-paper);
+}
+
+.vb-ed-lead {
+  margin: 0;
+  font-family: var(--vb-display);
+  font-size: clamp(2rem, 9vw, 3.4rem);
+  font-weight: 600;
+  line-height: 0.95;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+}
+
+.vb-ed-copy .vb-ed-years {
+  margin-top: 0.8rem;
+  color: var(--vb-rose);
+  font-family: var(--vb-display);
+  font-size: 1.3rem;
+  letter-spacing: 0.02em;
+}
+
+.vb-ed-copy .vb-ed-name {
+  margin-top: 0.5rem;
+  color: var(--vb-paper);
+  font-size: 1.15rem;
+  font-weight: 600;
+}
+
+.vb-ed-copy .vb-ed-degree {
+  color: var(--vb-paper);
+  font-family: var(--vb-display);
+  font-size: 1.6rem;
+  font-weight: 500;
+  line-height: 1.1;
+  text-transform: uppercase;
+}
+
+.vb-ed-copy .vb-ed-scholar {
+  max-width: 24rem;
+  margin-top: 1rem;
+  padding-left: 0.8rem;
+  border-left: 2px solid var(--vb-rose);
+  color: var(--vb-paper);
+  font-size: 0.88rem;
+  line-height: 1.5;
+}
+
+.vb-ed-copy .vb-ed-now {
+  color: var(--vb-rose);
+  font-weight: 600;
+}
+
+.vb-ed-photo {
+  position: relative;
+  width: min(100%, 22rem);
+  margin: 1.75rem 0 0;
+}
+
+.vb-ed-photo-frame {
+  position: relative;
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+  background: var(--vb-wine);
+}
+
+.vb-ed-photo-move {
+  position: absolute;
+  inset: -7% 0;
+}
+
+.vb-ed-photo-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: url(#vb-duotone);
+}
+
+.vb-ed-photo-bar {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 0.45rem;
+  background: var(--vb-wine);
+}
+
+.vb-ed-caption {
+  margin-top: 0.6rem;
+  color: var(--vb-fade);
+  font-size: 0.8rem;
+}
+
+/* The leap to Riyadh: a pulse on the node while the chapter is still open. */
+@media (prefers-reduced-motion: no-preference) {
+  .vb-ed-node-now[data-lit="true"]::after {
+    position: absolute;
+    inset: -2px;
+    border: 2px solid var(--vb-rose);
+    border-radius: 50%;
+    content: "";
+    animation: vb-ed-pulse 2.4s ease-out infinite;
+  }
+
+  .vb-ed[data-ready="true"] .vb-ed-copy {
+    opacity: 0.3;
+    transform: translateY(0.7rem);
+    transition:
+      opacity 0.7s var(--vb-ease),
+      transform 0.8s var(--vb-ease);
+  }
+
+  .vb-ed[data-ready="true"] .vb-ed-ch[data-lit="true"] .vb-ed-copy {
+    opacity: 1;
+    transform: none;
+  }
+
+  .vb-ed-node {
+    transition:
+      background-color 0.4s,
+      box-shadow 0.5s;
+  }
+}
+
+@keyframes vb-ed-pulse {
+  from {
+    opacity: 0.9;
+    transform: scale(1);
+  }
+
+  to {
+    opacity: 0;
+    transform: scale(2.8);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vb-ed-photo-frame {
+    clip-path: none !important;
+  }
+
+  .vb-ed-photo-move {
+    transform: none !important;
+  }
+}
+
+@media (min-width: 900px) {
+  .vb-ed {
+    padding: 6.5rem 3.5rem 7rem;
+    clip-path: polygon(0 3rem, 100% 0, 100% calc(100% - 3rem), 0 100%);
+    margin-top: -3rem;
+  }
+
+  .vb-ed-sub {
+    margin-left: 0;
+  }
+
+  .vb-ed-chapters {
+    margin-top: 5rem;
+  }
+
+  .vb-ed-place {
+    margin-bottom: 7rem;
+  }
+
+  .vb-ed-riyadh {
+    margin-bottom: 0;
+  }
+
+  .vb-ed-city {
+    position: absolute;
+    margin: 0;
+    font-size: clamp(8rem, 18vw, 17rem);
+    -webkit-text-stroke-width: 2px;
+  }
+
+  .vb-ed-brighton {
+    padding-bottom: 5rem;
+  }
+
+  .vb-ed-brighton .vb-ed-city {
+    right: 0;
+    bottom: 0;
+    font-size: clamp(5.5rem, 11.5vw, 12.5rem);
+  }
+
+  .vb-ed-city-track {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+
+  .vb-ed-city-track .vb-ed-city {
+    position: sticky;
+    top: 26vh;
+    right: auto;
+    left: 18%;
+  }
+
+  .vb-ed-riyadh .vb-ed-city {
+    bottom: -1rem;
+    left: 0;
+    font-size: clamp(6rem, 13vw, 14rem);
+  }
+
+  .vb-ed-ch {
+    padding: 0 0 0 0;
+  }
+
+  .vb-ed-node {
+    top: 0.4rem;
+    left: 6%;
+    width: 1.15rem;
+    height: 1.15rem;
+  }
+
+  .vb-ed-end {
+    left: 6%;
+    width: 1.15rem;
+  }
+
+  .vb-ed-brighton .vb-ed-copy {
+    margin-left: 16%;
+    padding-bottom: 1rem;
+  }
+
+  .vb-ed-kaplan .vb-ed-node,
+  .vb-ed-kaplan .vb-ed-end {
+    left: 52%;
+  }
+
+  .vb-ed-kaplan .vb-ed-copy {
+    margin-left: 58%;
+    max-width: 28rem;
+  }
+
+  .vb-ed-kaplan {
+    margin-bottom: 7rem;
+  }
+
+  .vb-ed-qmul {
+    min-height: 38rem;
+    padding-bottom: 2rem;
+  }
+
+  .vb-ed-qmul .vb-ed-copy {
+    margin-left: 16%;
+    padding-top: 2rem;
+  }
+
+  .vb-ed-photo {
+    position: absolute;
+    top: 0;
+    right: 3%;
+    width: min(32vw, 27rem);
+    margin: 0;
+  }
+
+  .vb-ed-copy .vb-ed-degree {
+    font-size: 2.1rem;
+  }
+
+  .vb-ed-riyadh .vb-ed-node,
+  .vb-ed-riyadh .vb-ed-end {
+    left: 90%;
+  }
+
+  .vb-ed-riyadh .vb-ed-copy {
+    margin-left: 52%;
+    padding-bottom: 7rem;
+  }
+
+  .vb-ed-lead {
+    font-size: clamp(2.4rem, 4.2vw, 4rem);
+  }
+}
+
+@media (min-width: 1200px) {
+  .vb-ed {
+    padding-left: 3.5rem;
+    padding-right: 3.5rem;
+  }
+}
+
+/* Narrower desktops: keep the university copy clear of the photograph. */
+@media (min-width: 900px) and (max-width: 1279px) {
+  .vb-ed-qmul .vb-ed-copy {
+    max-width: 40%;
+  }
+
+  .vb-ed-photo {
+    width: min(30vw, 27rem);
+  }
+}
