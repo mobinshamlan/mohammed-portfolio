@@ -1,0 +1,356 @@
+.vb {
+  --vb-paper: #f5f3ee;
+  --vb-ink: #1c1c1a;
+  --vb-mute: #a5a39e;
+  --vb-beige: #ded9d0;
+  --vb-wine: #4e2428;
+  --vb-sans: var(--font-vb-sans), "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --vb-display: var(--font-vb-display), "Arial Narrow", sans-serif;
+  --vb-nav: 4.25rem;
+  min-height: 100dvh;
+  background: var(--vb-paper);
+  color: var(--vb-ink);
+  font-family: var(--vb-sans);
+  overflow-x: hidden;
+}
+
+.vb ::selection {
+  background: var(--vb-beige);
+  color: var(--vb-ink);
+}
+
+.vb :focus-visible {
+  outline: 2px solid var(--vb-ink);
+  outline-offset: 3px;
+}
+
+.vb-skip {
+  position: absolute;
+  left: 1rem;
+  top: 1rem;
+  z-index: 40;
+  background: var(--vb-paper);
+  padding: 0.5rem 0.75rem;
+  font-size: 0.875rem;
+  transform: translateY(-200%);
+}
+
+.vb-skip:focus {
+  transform: none;
+}
+
+.vb-nav {
+  display: flex;
+  min-height: var(--vb-nav);
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding: 0.9rem 1.25rem;
+}
+
+.vb-brand {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.vb-brand-mark {
+  font-family: var(--vb-display);
+  font-size: 1.05rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: inherit;
+  text-decoration: none;
+}
+
+.vb-brand-back {
+  width: fit-content;
+  color: var(--vb-mute);
+  font-size: 0.72rem;
+  text-decoration: none;
+}
+
+.vb-brand-back:hover {
+  color: var(--vb-ink);
+}
+
+.vb-nav-desktop {
+  display: none;
+  align-items: baseline;
+  gap: 1.35rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 0.92rem;
+}
+
+.vb-nav-desktop a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.vb-nav-desktop a[aria-current="page"] {
+  box-shadow: inset 0 -1px 0 var(--vb-wine);
+}
+
+.vb-soon {
+  color: var(--vb-mute);
+  pointer-events: none;
+}
+
+.vb-soon small {
+  margin-left: 0.4rem;
+  font-size: 0.62rem;
+  letter-spacing: 0.04em;
+}
+
+.vb-menu-toggle {
+  margin: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.92rem;
+}
+
+.vb-menu {
+  position: fixed;
+  inset: 0;
+  z-index: 30;
+  display: flex;
+  flex-direction: column;
+  padding: 1rem 1.25rem 2rem;
+  background: var(--vb-paper);
+}
+
+.vb-menu-head {
+  display: flex;
+  min-height: var(--vb-nav);
+  align-items: center;
+  justify-content: space-between;
+}
+
+.vb-menu-list {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1.25rem;
+  margin: 0;
+  padding: 0 0 2rem;
+  list-style: none;
+}
+
+.vb-menu-list a,
+.vb-menu-list .vb-soon {
+  font-family: var(--vb-display);
+  font-size: clamp(2.4rem, 12vw, 3.4rem);
+  font-weight: 700;
+  line-height: 0.95;
+  letter-spacing: -0.04em;
+  color: inherit;
+  text-decoration: none;
+}
+
+.vb-menu-list .vb-soon small {
+  display: inline;
+  margin-left: 0.65rem;
+  font-family: var(--vb-sans);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  vertical-align: super;
+}
+
+.vb-menu-experiences {
+  font-size: 0.95rem;
+  color: var(--vb-ink);
+  text-decoration: none;
+  border-bottom: 1px solid var(--vb-ink);
+}
+
+.vb-hero {
+  display: grid;
+  gap: 2.5rem;
+  padding: 0.5rem 1.25rem 1.75rem;
+}
+
+.vb-hero > * {
+  min-width: 0;
+}
+
+.vb-identity {
+  container-type: inline-size;
+}
+
+.vb-kicker {
+  margin: 0 0 1.5rem;
+  color: var(--vb-mute);
+  font-size: 0.72rem;
+  letter-spacing: 0.16em;
+}
+
+.vb-name {
+  margin: 0;
+  font-family: var(--vb-display);
+  font-size: clamp(3.15rem, 18cqi, 6.4rem);
+  font-weight: 700;
+  line-height: 0.84;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+}
+
+.vb-name span {
+  display: block;
+}
+
+.vb-name-bin {
+  margin-left: 18%;
+}
+
+.vb-copy {
+  max-width: 22rem;
+  margin-top: 2rem;
+}
+
+.vb-title {
+  margin: 0;
+  font-size: 1.05rem;
+  line-height: 1.4;
+}
+
+.vb-intro {
+  margin: 1rem 0 0;
+  max-width: 28ch;
+  color: var(--vb-ink);
+  font-size: 0.98rem;
+  line-height: 1.65;
+}
+
+.vb-portrait {
+  position: relative;
+  height: 21rem;
+  overflow: hidden;
+  background: var(--vb-ink);
+  color: var(--vb-beige);
+}
+
+.vb-portrait-bar {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 0.45rem;
+  background: var(--vb-wine);
+}
+
+.vb-portrait-letter {
+  position: absolute;
+  left: 5%;
+  bottom: -16%;
+  margin: 0;
+  font-family: var(--vb-display);
+  font-size: clamp(10rem, 28vw, 16rem);
+  font-weight: 700;
+  line-height: 0.72;
+  letter-spacing: -0.04em;
+  user-select: none;
+}
+
+.vb-portrait-year {
+  position: absolute;
+  right: 1rem;
+  bottom: 0.9rem;
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
+}
+
+.vb-portrait-tag {
+  position: absolute;
+  top: 1.1rem;
+  left: 1.2rem;
+  max-width: 8rem;
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+  line-height: 1.5;
+}
+
+.vb-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1.5rem;
+  padding-top: 0.25rem;
+  color: var(--vb-mute);
+  font-size: 0.7rem;
+  letter-spacing: 0.14em;
+}
+
+@media (min-width: 880px) {
+  .vb-nav {
+    padding: 1rem 2.5rem;
+  }
+
+  .vb-nav-desktop {
+    display: flex;
+  }
+
+  .vb-menu-toggle {
+    display: none;
+  }
+
+  .vb-hero {
+    grid-template-columns: minmax(0, 1.15fr) minmax(16rem, 0.82fr);
+    grid-template-rows: auto auto 1fr;
+    column-gap: 1.25rem;
+    min-height: calc(100dvh - var(--vb-nav));
+    padding: 0 2.5rem 1.75rem;
+  }
+
+  .vb-identity {
+    grid-column: 1;
+    grid-row: 1;
+    padding-top: 6vh;
+  }
+
+  .vb-copy {
+    grid-column: 1;
+    grid-row: 2;
+    margin-top: 2.75rem;
+  }
+
+  .vb-portrait {
+    grid-column: 2;
+    grid-row: 1 / 3;
+    width: 100%;
+    height: calc(100dvh - var(--vb-nav) - 7.5rem);
+    max-height: 42rem;
+    align-self: start;
+    margin-top: 1.5rem;
+  }
+
+  .vb-meta {
+    grid-column: 1 / -1;
+    grid-row: 3;
+    align-self: end;
+    justify-content: space-between;
+    padding: 1.5rem 0 0.25rem;
+  }
+}
+
+@media (min-width: 1200px) {
+  .vb-nav,
+  .vb-hero {
+    padding-left: 3.5rem;
+    padding-right: 3.5rem;
+  }
+
+  .vb-copy {
+    max-width: 24rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vb-portrait-letter {
+    left: 4%;
+    bottom: -18%;
+  }
+}
