@@ -1,3 +1,5 @@
+export const gthrzRepo = "https://github.com/mobinshamlan/Gthrz";
+
 export type GthrzShot = {
   src: string;
   alt: string;

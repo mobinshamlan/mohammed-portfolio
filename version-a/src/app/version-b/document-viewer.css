@@ -1,0 +1,106 @@
+/* Shared document viewer: a document opened in a native modal dialog. */
+
+.vb-doc-dialog {
+  inset: 0;
+  width: min(64rem, 94vw);
+  height: fit-content;
+  max-height: 94svh;
+  margin: auto;
+  padding: 0;
+  border: 0;
+  background: #1c1214;
+  color: var(--vb-paper);
+  overflow: auto;
+}
+
+.vb-doc-dialog::backdrop {
+  background: rgb(28 18 20 / 86%);
+}
+
+.vb-doc-body {
+  display: grid;
+  gap: 1rem;
+  padding: 1.1rem;
+}
+
+.vb-doc-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.vb-doc-head h3 {
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+
+.vb-doc-head p {
+  margin: 0.2rem 0 0;
+  color: #d9b8ba;
+  font-size: 0.88rem;
+}
+
+.vb-doc-close {
+  flex: none;
+  padding: 0.4rem 0.9rem;
+  border: 1px solid rgb(245 243 238 / 50%);
+  border-radius: 999px;
+  background: none;
+  color: var(--vb-paper);
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.9rem;
+}
+
+.vb-doc-full {
+  display: block;
+  width: auto;
+  max-width: 100%;
+  height: auto;
+  max-height: 70svh;
+  margin: 0 auto;
+  background: #fff;
+}
+
+.vb-doc-foot a {
+  color: var(--vb-paper);
+  font-size: 0.9rem;
+  box-shadow: inset 0 -1px 0 #d9b8ba;
+  text-decoration: none;
+}
+
+.vb-doc-dialog :focus-visible,
+.vb-doc-close:focus-visible {
+  outline: 2px solid #d9b8ba;
+  outline-offset: 3px;
+}
+
+.vb-doc-dialog[open] {
+  animation: vb-doc-in 0.45s var(--vb-ease);
+}
+
+.vb-doc-dialog[open]::backdrop {
+  animation: vb-doc-fade 0.45s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vb-doc-dialog[open],
+  .vb-doc-dialog[open]::backdrop {
+    animation: none;
+  }
+}
+
+@keyframes vb-doc-in {
+  from {
+    opacity: 0;
+    transform: translateY(1rem) scale(0.98);
+  }
+}
+
+@keyframes vb-doc-fade {
+  from {
+    opacity: 0;
+  }
+}

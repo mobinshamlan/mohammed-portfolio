@@ -1,15 +1,19 @@
 /**
- * Skills, grouped, with the projects each one was actually used in.
- * A skill with no `projects` is listed on the CV or site but not tied to one
- * of the three projects below. Do not add a project here without evidence.
+ * Skills, grouped, with evidence for each tier:
+ * - `projects`: used in Gthrz or Amanah (checked against each repository).
+ * - a group with `coursework`: module titles from the QMUL degree.
+ * - `learning`: covered in the Tuwaiq Academy AI Fundamentals Bootcamp, in progress.
+ * A skill with none of these is listed on the CV. Do not add one without evidence.
  */
-export type SkillProjectId = "gthrz" | "movie" | "amanah";
+export type SkillProjectId = "gthrz" | "amanah";
 
 export type SkillProject = {
   id: SkillProjectId;
   name: string;
   note: string;
   href: string | null;
+  linkLabel?: string;
+  external?: boolean;
 };
 
 export const skillProjects: SkillProject[] = [
@@ -18,29 +22,26 @@ export const skillProjects: SkillProject[] = [
     name: "Gthrz",
     note: "Privacy-first event management app. September 2025 to present.",
     href: "/version-b/projects/gthrz",
-  },
-  {
-    id: "movie",
-    name: "Movie Discovery",
-    note: "Personal web project. January to February 2025.",
-    href: null,
+    linkLabel: "Read the case study",
   },
   {
     id: "amanah",
     name: "Amanah",
-    note: "Lost-and-found web application. In development.",
+    note: "AI-assisted lost-and-found web application. In development.",
     href: "/version-b/projects/amanah",
+    linkLabel: "Read the case study",
   },
 ];
 
 export type Skill = {
   name: string;
-  detail?: string;
   projects?: SkillProjectId[];
+  learning?: boolean;
 };
 
 export type SkillGroup = {
   title: string;
+  coursework?: boolean;
   skills: Skill[];
 };
 
@@ -49,73 +50,93 @@ export const skillGroups: SkillGroup[] = [
     title: "Languages",
     skills: [
       { name: "TypeScript", projects: ["gthrz", "amanah"] },
-      { name: "JavaScript", projects: ["movie"] },
+      { name: "JavaScript" },
       { name: "Python" },
       { name: "Java" },
-      { name: "SQL" },
       { name: "C++" },
+      { name: "SQL", projects: ["gthrz", "amanah"] },
     ],
   },
   {
-    title: "Frontend & mobile",
+    title: "Web & mobile",
     skills: [
-      { name: "React", projects: ["movie"] },
-      { name: "React Native", projects: ["gthrz"] },
-      { name: "Expo", projects: ["gthrz"] },
-      { name: "Expo Router" },
-      { name: "Expo Notifications", projects: ["gthrz"] },
-      { name: "React Router", projects: ["movie"] },
+      { name: "React", projects: ["amanah"] },
+      {
+        name: "React Native",
+        projects: ["gthrz"],
+      },
       { name: "Next.js", projects: ["amanah"] },
-      { name: "Vue.js" },
       { name: "Tailwind CSS", projects: ["amanah"] },
-      { name: "HTML" },
-      { name: "CSS" },
+      { name: "HTML & CSS" },
+      { name: "Vue.js" },
+      {
+        name: "State management",
+        projects: ["gthrz"],
+      },
     ],
   },
   {
-    title: "Backend, data & APIs",
+    title: "Backend & data",
     skills: [
       {
         name: "Supabase",
-        detail: "Auth, Realtime, Storage, Edge Functions",
-        projects: ["gthrz"],
+        projects: ["gthrz", "amanah"],
       },
-      { name: "PostgreSQL", projects: ["gthrz"] },
-      { name: "Row Level Security", projects: ["gthrz"] },
-      { name: "Django" },
+      { name: "PostgreSQL", projects: ["gthrz", "amanah"] },
+      {
+        name: "Row Level Security & migrations",
+        projects: ["gthrz", "amanah"],
+      },
+      { name: "Database design", projects: ["gthrz"] },
+      { name: "Authentication", projects: ["gthrz"] },
       { name: "REST APIs" },
-      { name: "OpenAI Responses API", projects: ["gthrz"] },
-      { name: "TMDB API", projects: ["movie"] },
+      { name: "Django" },
     ],
   },
   {
-    title: "AI & development workflow",
+    title: "AI",
     skills: [
-      { name: "Prompt engineering" },
-      { name: "AI-assisted development" },
-      { name: "AI integration concepts" },
-      { name: "Cursor" },
-      { name: "Claude Code" },
+      {
+        name: "OpenAI & Gemini APIs",
+        projects: ["gthrz", "amanah"],
+      },
+      {
+        name: "LLM integration & AI workflows",
+        projects: ["gthrz", "amanah"],
+      },
+      {
+        name: "AI evaluation & monitoring",
+        projects: ["amanah"],
+        learning: true,
+      },
+      { name: "Prompt engineering", learning: true },
+      {
+        name: "AI-assisted development",
+      },
     ],
   },
   {
-    title: "Tools",
+    title: "Tools & testing",
     skills: [
-      { name: "Git" },
-      { name: "GitHub" },
+      { name: "Git & GitHub" },
+      { name: "Automated testing", projects: ["amanah"] },
+      { name: "Debugging" },
       { name: "Figma" },
-      { name: "Vite", projects: ["movie"] },
-      { name: "Netlify", projects: ["movie"] },
+      { name: "Vite & Netlify" },
     ],
   },
   {
-    title: "Engineering fundamentals",
+    title: "Coursework",
+    coursework: true,
     skills: [
       { name: "Object-oriented programming" },
-      { name: "Data structures" },
-      { name: "Relational database design" },
-      { name: "Authentication", projects: ["gthrz"] },
-      { name: "Debugging" },
+      { name: "Algorithms & data structures" },
+      { name: "Database systems" },
+      { name: "Software engineering" },
+      { name: "Operating systems" },
+      { name: "Networks" },
+      { name: "GUIs" },
+      { name: "Web technology" },
     ],
   },
 ];

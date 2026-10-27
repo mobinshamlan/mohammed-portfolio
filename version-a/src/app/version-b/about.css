@@ -421,30 +421,27 @@
 }
 
 @media (min-width: 900px) {
+  /* Two categories sit as equal cards; the open one takes more room. */
   .vb-ab-index[data-wide="true"] .vb-ab-item:not([data-open="true"]) {
-    flex: 0 0 3.4rem;
+    flex: 1 1 0;
   }
 
   .vb-ab-index[data-wide="true"]
     .vb-ab-item:not([data-open="true"])
     .vb-ab-name {
-    font-size: 1.05rem;
-    writing-mode: vertical-rl;
-    transform: rotate(180deg);
-  }
-
-  .vb-ab-index[data-wide="true"]
-    .vb-ab-item:not([data-open="true"])
-    .vb-ab-mark {
-    display: none;
+    font-size: clamp(1.6rem, 2.6vw, 2.4rem);
   }
 
   .vb-ab-item[data-wide="true"][data-open="true"] {
-    flex-grow: 1;
+    flex-grow: 1.7;
   }
 
   .vb-ab-item[data-wide="true"] .vb-ab-trigger {
     height: auto;
+  }
+
+  .vb-ab-item[data-wide="true"]:not([data-open="true"]) .vb-ab-trigger {
+    flex: 1;
   }
 
   .vb-ab-panel {
@@ -484,4 +481,40 @@
       flex-grow 0.6s var(--vb-ease),
       flex-basis 0.6s var(--vb-ease);
   }
+}
+
+/* Gaming panel: a single confirmed favourite, set in the same display type. */
+.vb-gm {
+  display: grid;
+  align-content: center;
+  gap: 0.35rem;
+  padding: 1.2rem 1rem 1.4rem;
+}
+
+.vb-gm-label {
+  margin: 0;
+  color: var(--vb-rose);
+  font-size: 0.78rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.vb-gm-title {
+  margin: 0;
+  font-family: var(--vb-display);
+  font-size: clamp(2.4rem, 9vw, 4rem);
+  font-weight: 700;
+  line-height: 0.92;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+}
+
+.vb-gm-sub {
+  margin: 0;
+  font-family: var(--vb-display);
+  font-size: clamp(1.4rem, 4.8vw, 2.2rem);
+  font-weight: 500;
+  line-height: 1;
+  text-transform: uppercase;
+  color: #d9b8ba;
 }

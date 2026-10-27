@@ -7,6 +7,7 @@ import "./finale.css";
 import "./skills.css";
 import "./about.css";
 import "./folio.css";
+import "./document-viewer.css";
 
 const display = Oswald({
   subsets: ["latin"],
@@ -24,6 +25,8 @@ export default function VersionBLayout({
   children,
 }: LayoutProps<"/version-b">) {
   return (
-    <div className={`vb ${display.variable} ${jakarta.variable}`}>{children}</div>
+    <div className={`vb ${display.variable} ${jakarta.variable}`}>
+      {children}
+    </div>
   );
 }

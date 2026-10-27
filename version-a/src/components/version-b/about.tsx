@@ -8,9 +8,20 @@ type Interest = {
   id: string;
   label: string;
   mark: ReactNode;
-  /** Content shown when the interest opens. Wide panels push the others into spines. */
+  /** Content shown when the interest opens. */
   panel?: ReactNode;
 };
+
+/** Favourite game, as confirmed by the owner. Add more only when confirmed. */
+function GamingPanel() {
+  return (
+    <div className="vb-gm">
+      <p className="vb-gm-label">Favourite</p>
+      <p className="vb-gm-title">Call of Duty</p>
+      <p className="vb-gm-sub">Black Ops 4</p>
+    </div>
+  );
+}
 
 // Each mark is a quiet line drawing, not a claim about taste. They draw once
 // when the interest opens.
@@ -34,55 +45,12 @@ const interests: Interest[] = [
   {
     id: "gaming",
     label: "Gaming",
+    panel: <GamingPanel />,
     mark: (
       <>
         <path pathLength={1} d="M10 100H34V80H58V60H82V40H106V20" />
         <path pathLength={1} d="M82 100H118" />
         <rect pathLength={1} x="96" y="6" width="14" height="14" />
-      </>
-    ),
-  },
-  {
-    id: "photography",
-    label: "Photo\u00adgraphy",
-    mark: (
-      <>
-        <path pathLength={1} d="M10 34V10H34" />
-        <path pathLength={1} d="M94 10H118V34" />
-        <path pathLength={1} d="M118 78V102H94" />
-        <path pathLength={1} d="M34 102H10V78" />
-        <circle pathLength={1} cx="64" cy="56" r="18" />
-        <path pathLength={1} d="M64 44V68M52 56H76" />
-      </>
-    ),
-  },
-  {
-    id: "fashion",
-    label: "Fashion",
-    mark: (
-      <>
-        <circle pathLength={1} cx="64" cy="56" r="34" />
-        <circle pathLength={1} cx="64" cy="56" r="22" />
-        <path pathLength={1} d="M56 48h.01M72 48h.01M56 64h.01M72 64h.01" />
-        <path
-          pathLength={1}
-
-          d="M6 100C30 84 46 112 64 100S98 84 122 100"
-        />
-      </>
-    ),
-  },
-  {
-    id: "design",
-    label: "Creative design",
-    mark: (
-      <>
-        <path pathLength={1} d="M14 90C30 10 90 110 112 24" />
-        <path pathLength={1} d="M14 90L40 40M112 24L88 76" />
-        <rect pathLength={1} x="9" y="85" width="10" height="10" />
-        <rect pathLength={1} x="107" y="19" width="10" height="10" />
-        <circle pathLength={1} cx="40" cy="40" r="4" />
-        <circle pathLength={1} cx="88" cy="76" r="4" />
       </>
     ),
   },
@@ -113,15 +81,7 @@ export function VersionBAbout() {
             digital products through software, creativity, and emerging
             technologies.
           </p>
-          <p>
-            Outside of code: music, gaming, photography, and an eye for fashion
-            and creative design.
-          </p>
-          <p className="vb-ab-community">
-            Since 2026 he has volunteered at community events run by the
-            Cultural Bureau of the Royal Embassy of Saudi Arabia in London,
-            helping with guest registration and logistics.
-          </p>
+          <p>Outside of code: music and gaming.</p>
         </Reveal>
 
         <ul

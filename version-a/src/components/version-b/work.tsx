@@ -83,7 +83,7 @@ export function WorkPosters() {
         className="vb-wk-poster vb-wk-poster-amanah"
       >
         <span className="vb-wk-poster-name">Amanah</span>
-        <span className="vb-wk-sr">In development</span>
+        <span className="vb-wk-poster-status">In development</span>
         <span className="vb-wk-poster-lead">{projects[1].lead}</span>
         <span className="vb-wk-poster-art">
           <AmanahArt />

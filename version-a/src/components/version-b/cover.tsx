@@ -5,6 +5,7 @@ import Link from "next/link";
 import { motion, useReducedMotion } from "motion/react";
 import { useEffect, useRef, useState } from "react";
 import { portfolio } from "../../../../data/portfolio";
+import { contact } from "@/lib/contact";
 import { portrait } from "@/lib/portrait";
 import { AmanahArt } from "./amanah-art";
 import { Reveal } from "./reveal";
@@ -143,6 +144,28 @@ export function VersionBCover() {
             }
           >
             <p className="vb-cv-role">{portfolio.title}</p>
+            <p className="vb-cv-open">{contact.status}</p>
+
+            <nav className="vb-cv-path" aria-label="Start here">
+              {contact.cv.href ? (
+                <a href={contact.cv.href} download className="vb-cv-path-main">
+                  Download CV
+                </a>
+              ) : (
+                <span
+                  className="vb-cv-path-main vb-cv-path-off"
+                  aria-disabled="true"
+                >
+                  Download CV
+                  <span className="vb-cv-soon">Coming soon</span>
+                </span>
+              )}
+              <Link href="#contact">Get in touch</Link>
+              <a href={contact.github.href} target="_blank" rel="noreferrer">
+                GitHub
+              </a>
+            </nav>
+
             <p className="vb-cv-lead">
               Computer Science graduate. Building thoughtful digital products
               through software, creativity, and emerging technologies.
@@ -164,21 +187,6 @@ export function VersionBCover() {
                   <Link href="#education">
                     {current.qualification}, {current.institution}
                   </Link>
-                </dd>
-              </div>
-              <div>
-                <dt>Building</dt>
-                <dd className="vb-cv-builds">
-                  {projects.map((project) => (
-                    <Link
-                      key={project.id}
-                      href={project.href}
-                      onMouseEnter={() => setActive(project.id)}
-                      onFocus={() => setActive(project.id)}
-                    >
-                      {project.name}
-                    </Link>
-                  ))}
                 </dd>
               </div>
               <div>
@@ -259,11 +267,6 @@ export function VersionBCover() {
               style={{ objectPosition: portrait.position }}
             />
             <span className="vb-cv-bar" aria-hidden="true" />
-            <p className="vb-cv-interests">
-              <span>Music</span>
-              <span>Gaming</span>
-              <span>Photography</span>
-            </p>
           </div>
 
           <Link

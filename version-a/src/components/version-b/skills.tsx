@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import { gthrzRepo } from "@/lib/gthrz";
 import { skillGroups, skillProjects, type SkillProjectId } from "@/lib/skills";
 import { Reveal } from "./reveal";
 
@@ -60,24 +61,64 @@ export function VersionBSkills() {
                 Highlighted: technologies used in {project.name}.
               </p>
               {project.href ? (
-                <Link href={project.href} className="vb-text-link">
-                  Read the case study
-                </Link>
+                project.external ? (
+                  <a
+                    href={project.href}
+                    className="vb-text-link"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    {project.linkLabel ?? "View on GitHub"}
+                  </a>
+                ) : (
+                  <Link href={project.href} className="vb-text-link">
+                    {project.linkLabel ?? "Read the case study"}
+                  </Link>
+                )
+              ) : null}
+              {project.id === "gthrz" ? (
+                <a
+                  href={gthrzRepo}
+                  className="vb-text-link"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  View on GitHub
+                </a>
               ) : null}
             </>
           ) : (
-            <p className="vb-sk-legend">
-              <span className="vb-sk-key" aria-hidden="true" />
-              Marked skills were used in one of these projects. Choose a project
-              to see which.
-            </p>
+            <ul className="vb-sk-keys">
+              <li>
+                <span className="vb-sk-key" aria-hidden="true" />
+                Used in Gthrz or Amanah. Choose a project to see which.
+              </li>
+              <li>
+                <span
+                  className="vb-sk-key vb-sk-key-learn"
+                  aria-hidden="true"
+                />
+                Currently learning at Tuwaiq Academy.
+              </li>
+              <li>
+                <span
+                  className="vb-sk-key vb-sk-key-course"
+                  aria-hidden="true"
+                />
+                Studied in my Computer Science degree.
+              </li>
+            </ul>
           )}
         </div>
       </div>
 
       <div className="vb-sk-groups">
         {skillGroups.map((group, groupIndex) => (
-          <div key={group.title} className="vb-sk-group">
+          <div
+            key={group.title}
+            className="vb-sk-group"
+            data-coursework={group.coursework ? "true" : undefined}
+          >
             <h3 className="vb-sk-label">{group.title}</h3>
             <ul className="vb-sk-words">
               {group.skills.map((skill, index) => (
@@ -85,14 +126,12 @@ export function VersionBSkills() {
                   key={skill.name}
                   className="vb-sk-word"
                   data-p={skill.projects?.join(" ")}
+                  data-learning={skill.learning ? "true" : undefined}
                   style={{
                     transitionDelay: `${(groupIndex * 3 + index) * 18}ms`,
                   }}
                 >
                   {skill.name}
-                  {skill.detail ? (
-                    <span className="vb-sk-detail">{skill.detail}</span>
-                  ) : null}
                 </li>
               ))}
             </ul>

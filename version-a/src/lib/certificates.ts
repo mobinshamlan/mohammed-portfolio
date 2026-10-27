@@ -9,6 +9,8 @@ export type Certificate = {
   name: string;
   organisation: string;
   completed: string | null;
+  /** One short line about the contribution the certificate recognises. */
+  note?: string;
   /** The original PDF. */
   href: string | null;
   /** A page-one preview rendered from the PDF. Leave null for text-only entries. */
@@ -62,6 +64,19 @@ export const certificates: Certificate[] = [
       src: "/images/certificates/satr-ux-ui.jpg",
       width: 1800,
       height: 1271,
+    },
+  },
+  {
+    id: "05",
+    name: "Volunteer Appreciation — London Saudi Club 45",
+    organisation: "Eid al-Fitr 2026 · Saudi Cultural Bureau, UK",
+    completed: null,
+    note: "Volunteered to support and organise the club's Eid al-Fitr 2026 event, under the patronage of the Saudi Cultural Bureau in the UK.",
+    href: "/images/certificates/london-saudi-club-45-eid.jpg",
+    image: {
+      src: "/images/certificates/london-saudi-club-45-eid.jpg",
+      width: 1206,
+      height: 833,
     },
   },
 ];

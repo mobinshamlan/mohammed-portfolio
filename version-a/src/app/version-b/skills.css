@@ -71,6 +71,7 @@
 .vb-sk-note .vb-text-link {
   display: inline-block;
   margin-top: 0.7rem;
+  margin-right: 1.15rem;
 }
 
 .vb-sk-key {
@@ -86,7 +87,7 @@
 }
 
 .vb-sk-group {
-  padding: 1.1rem 0 1.25rem;
+  padding: 0.9rem 0 1rem;
   border-top: 1px solid var(--vb-beige);
 }
 
@@ -111,7 +112,7 @@
   background: linear-gradient(var(--vb-wine), var(--vb-wine)) no-repeat left /
     0% 100%;
   font-family: var(--vb-display);
-  font-size: clamp(1.3rem, 5.4vw, 2.1rem);
+  font-size: clamp(1.05rem, 4.4vw, 1.4rem);
   font-weight: 500;
   line-height: 1.15;
   text-transform: uppercase;
@@ -127,22 +128,11 @@
   vertical-align: 0.28em;
 }
 
-.vb-sk-detail {
-  display: block;
-  margin-top: 0.1rem;
-  font-family: var(--vb-sans);
-  font-size: 0.72rem;
-  font-weight: 400;
-  letter-spacing: 0;
-  text-transform: none;
-}
-
 .vb-sk:not([data-sel="all"]) .vb-sk-word {
   opacity: 0.42;
 }
 
 .vb-sk[data-sel="gthrz"] .vb-sk-word[data-p~="gthrz"],
-.vb-sk[data-sel="movie"] .vb-sk-word[data-p~="movie"],
 .vb-sk[data-sel="amanah"] .vb-sk-word[data-p~="amanah"] {
   background-size: 100% 100%;
   color: var(--vb-paper);
@@ -150,7 +140,6 @@
 }
 
 .vb-sk[data-sel="gthrz"] .vb-sk-word[data-p~="gthrz"]::before,
-.vb-sk[data-sel="movie"] .vb-sk-word[data-p~="movie"]::before,
 .vb-sk[data-sel="amanah"] .vb-sk-word[data-p~="amanah"]::before {
   background: var(--vb-paper);
 }
@@ -198,7 +187,7 @@
     display: grid;
     grid-template-columns: 11rem minmax(0, 1fr);
     gap: 1rem;
-    padding: 1.5rem 0 1.6rem;
+    padding: 1.1rem 0 1.2rem;
   }
 
   .vb-sk-label {
@@ -206,7 +195,7 @@
   }
 
   .vb-sk-word {
-    font-size: clamp(1.5rem, 2.3vw, 2.2rem);
+    font-size: clamp(1.15rem, 1.55vw, 1.5rem);
   }
 }
 
@@ -224,4 +213,72 @@
     padding: 0.6rem 1.25rem;
     background: var(--vb-paper);
   }
+}
+
+/* Three tiers: used in a project (filled mark), currently learning (outlined
+   mark), coursework (a quieter group in paper ink). */
+.vb-sk-keys {
+  display: grid;
+  gap: 0.45rem;
+  margin: 0;
+  padding: 0;
+  color: #5c5a56;
+  font-size: 0.85rem;
+  line-height: 1.45;
+  list-style: none;
+}
+
+.vb-sk-keys li {
+  display: flex;
+  align-items: baseline;
+}
+
+.vb-sk-key-learn {
+  border: 1.5px solid var(--vb-wine);
+  background: transparent;
+}
+
+.vb-sk-key-course {
+  background: #8a8782;
+}
+
+.vb-sk-word[data-learning="true"]:not([data-p])::before {
+  display: inline-block;
+  width: 0.28em;
+  height: 0.28em;
+  margin-right: 0.3em;
+  border: 1.5px solid var(--vb-wine);
+  content: "";
+  vertical-align: 0.28em;
+}
+
+.vb-sk-group[data-coursework="true"] .vb-sk-word {
+  color: #4a4844;
+}
+
+.vb-sk-group[data-coursework="true"] .vb-sk-word::before {
+  display: inline-block;
+  width: 0.28em;
+  height: 0.28em;
+  margin-right: 0.3em;
+  background: #8a8782;
+  content: "";
+  vertical-align: 0.28em;
+}
+
+/* Coursework is a quiet, running line rather than display type. */
+.vb-sk-group[data-coursework="true"] .vb-sk-words {
+  gap: 0.15rem 0.9rem;
+}
+
+.vb-sk-group[data-coursework="true"] .vb-sk-word {
+  padding: 0;
+  font-family: var(--vb-sans);
+  font-size: 0.92rem;
+  font-weight: 400;
+  text-transform: none;
+}
+
+.vb-sk-group[data-coursework="true"] .vb-sk-word::before {
+  margin-right: 0.45em;
 }

@@ -6,7 +6,7 @@ import { GthrzPrivacy } from "@/components/version-b/gthrz-privacy";
 import { GthrzStory } from "@/components/version-b/gthrz-story";
 import { PhoneShot } from "@/components/version-b/phone-shot";
 import { Reveal } from "@/components/version-b/reveal";
-import { gthrzShots } from "@/lib/gthrz";
+import { gthrzRepo, gthrzShots } from "@/lib/gthrz";
 
 export const metadata: Metadata = {
   title: "Gthrz — Mohammed Bin Shamlan",
@@ -84,6 +84,14 @@ export default function GthrzCaseStudyPage() {
               <li key={item}>{item}</li>
             ))}
           </ul>
+          <a
+            href={gthrzRepo}
+            className="vb-gx-repo"
+            target="_blank"
+            rel="noreferrer"
+          >
+            View on GitHub
+          </a>
         </Reveal>
         <Reveal className="vb-gx-next" delay={0.08}>
           <Link href="/version-b/projects/amanah" className="vb-gx-link">

@@ -127,6 +127,7 @@ button.vb-cf-row {
 
 .vb-cf-slide-open {
   display: block;
+  min-height: 2.75rem;
   padding: 0;
   border: 0;
   background: #fff;
@@ -369,12 +370,13 @@ button.vb-cf-row {
     --push-y: 0.8rem;
   }
 
+  /* The fifth sheet is tucked along the bottom edge of the pile. */
   .vb-cf-s5 {
-    top: 16cqw;
-    left: 31cqw;
+    top: 52cqw;
+    left: 26cqw;
     z-index: 5;
-    width: 34cqw;
-    rotate: 0.7deg;
+    width: 42cqw;
+    rotate: -1.5deg;
     --push-x: 0;
     --push-y: 1.1rem;
   }
@@ -418,4 +420,19 @@ button.vb-cf-row {
       box-shadow 0.55s var(--vb-ease),
       filter 0.4s;
   }
+}
+
+.vb-cf-note {
+  max-width: 44ch;
+  margin-top: 0.15rem;
+  font-size: 0.85rem;
+  line-height: 1.5;
+}
+
+.vb-cf-aside {
+  max-width: 44ch;
+  margin: 1.1rem 0 0;
+  color: #5c5a56;
+  font-size: 0.85rem;
+  line-height: 1.55;
 }

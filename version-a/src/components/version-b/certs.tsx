@@ -110,6 +110,9 @@ export function VersionBCerts() {
                   <span className="vb-cf-text">
                     <span className="vb-cf-name">{item.name}</span>
                     <span className="vb-cf-meta">{meta(item)}</span>
+                    {item.note ? (
+                      <span className="vb-cf-note">{item.note}</span>
+                    ) : null}
                   </span>
                   <span className="vb-cf-open" aria-hidden="true">
                     View
@@ -121,12 +124,20 @@ export function VersionBCerts() {
                   <span className="vb-cf-text">
                     <span className="vb-cf-name">{item.name}</span>
                     <span className="vb-cf-meta">{meta(item)}</span>
+                    {item.note ? (
+                      <span className="vb-cf-note">{item.note}</span>
+                    ) : null}
                   </span>
                 </div>
               )}
             </li>
           ))}
         </ol>
+        <p className="vb-cf-aside">
+          Separately, I volunteered at the Language Intelligence Conference
+          2026, held at the Saudi Cultural Bureau in London. There is no
+          certificate for this.
+        </p>
       </div>
 
       <div className="vb-cf-stage" data-hover={hover ? "true" : undefined}>
@@ -179,6 +190,9 @@ export function VersionBCerts() {
               <figcaption>
                 <span className="vb-cf-name">{item.name}</span>
                 <span className="vb-cf-meta">{meta(item)}</span>
+                {item.note ? (
+                  <span className="vb-cf-note">{item.note}</span>
+                ) : null}
               </figcaption>
             </figure>
           ))}
@@ -238,7 +252,9 @@ export function VersionBCerts() {
               </div>
               {current.href ? (
                 <a href={current.href} target="_blank" rel="noreferrer">
-                  Open the original PDF
+                  {current.href.endsWith(".pdf")
+                    ? "Open the original PDF"
+                    : "Open the image in a new tab"}
                 </a>
               ) : null}
             </footer>
