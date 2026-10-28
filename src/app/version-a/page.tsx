@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ContactForm } from "@/components/contact-form";
 // Shared content sits beside this app so a later version can import it too.
-import { portfolio } from "../../../../data/portfolio";
+import { portfolio } from "../../../data/portfolio";
 
 export const metadata: Metadata = {
   title: "Mohammed Bin Shamlan",

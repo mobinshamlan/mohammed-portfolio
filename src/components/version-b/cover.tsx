@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion, useReducedMotion } from "motion/react";
 import { useEffect, useRef, useState } from "react";
-import { portfolio } from "../../../../data/portfolio";
+import { portfolio } from "../../../data/portfolio";
 import { contact } from "@/lib/contact";
 import { portrait } from "@/lib/portrait";
 import { AmanahArt } from "./amanah-art";
