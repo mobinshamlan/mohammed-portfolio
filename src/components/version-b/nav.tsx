@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useId, useState } from "react";
 import type { MouseEvent } from "react";
+import { appPath } from "@/lib/site";
 
 const links = [
   { href: "/version-b", hash: "", label: "Home", extra: false },
@@ -34,7 +35,7 @@ export function VersionBNav() {
   const [open, setOpen] = useState(false);
   const [spy, setSpy] = useState("home");
   const menuId = useId();
-  const pathname = usePathname();
+  const pathname = appPath(usePathname());
   const onHome = pathname === "/version-b";
   const onProject = pathname.startsWith("/version-b/projects/");
 

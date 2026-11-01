@@ -7,6 +7,7 @@ import { useEffect, useRef, useState } from "react";
 import { portfolio } from "../../../data/portfolio";
 import { contact } from "@/lib/contact";
 import { portrait } from "@/lib/portrait";
+import { publicUrl } from "@/lib/site";
 import { AmanahArt } from "./amanah-art";
 import { Reveal } from "./reveal";
 import { GthrzCluster, WorkPosters, projects, type ProjectId } from "./work";
@@ -148,7 +149,11 @@ export function VersionBCover() {
 
             <nav className="vb-cv-path" aria-label="Start here">
               {contact.cv.href ? (
-                <a href={contact.cv.href} download className="vb-cv-path-main">
+                <a
+                  href={publicUrl(contact.cv.href)}
+                  download
+                  className="vb-cv-path-main"
+                >
                   Download CV
                 </a>
               ) : (

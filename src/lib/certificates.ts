@@ -1,3 +1,5 @@
+import { publicUrl } from "@/lib/site";
+
 export type CertificateImage = {
   src: string;
   width: number;
@@ -23,9 +25,9 @@ export const certificates: Certificate[] = [
     name: "Entrepreneurship & Innovation: Web Development Job Simulation",
     organisation: "Moreton Bay Regional Council / Forage",
     completed: "April 2024",
-    href: "/certificates/moreton-bay-web-development.pdf",
+    href: publicUrl("/certificates/moreton-bay-web-development.pdf"),
     image: {
-      src: "/images/certificates/moreton-bay-web-development.jpg",
+      src: publicUrl("/images/certificates/moreton-bay-web-development.jpg"),
       width: 1800,
       height: 1271,
     },
@@ -35,9 +37,9 @@ export const certificates: Certificate[] = [
     name: "Developer and Technology Job Simulation",
     organisation: "Accenture / Forage",
     completed: "April 2025",
-    href: "/certificates/accenture-developer-technology.pdf",
+    href: publicUrl("/certificates/accenture-developer-technology.pdf"),
     image: {
-      src: "/images/certificates/accenture-developer-technology.jpg",
+      src: publicUrl("/images/certificates/accenture-developer-technology.jpg"),
       width: 1800,
       height: 1271,
     },
@@ -47,9 +49,9 @@ export const certificates: Certificate[] = [
     name: "Information Literacy Skills",
     organisation: "Queen Mary University of London",
     completed: null,
-    href: "/certificates/qmul-information-literacy.pdf",
+    href: publicUrl("/certificates/qmul-information-literacy.pdf"),
     image: {
-      src: "/images/certificates/qmul-information-literacy.jpg",
+      src: publicUrl("/images/certificates/qmul-information-literacy.jpg"),
       width: 1800,
       height: 1272,
     },
@@ -59,9 +61,9 @@ export const certificates: Certificate[] = [
     name: "UX/UI",
     organisation: "Satr / Tuwaiq Academy",
     completed: "February 2026",
-    href: "/certificates/satr-ux-ui.pdf",
+    href: publicUrl("/certificates/satr-ux-ui.pdf"),
     image: {
-      src: "/images/certificates/satr-ux-ui.jpg",
+      src: publicUrl("/images/certificates/satr-ux-ui.jpg"),
       width: 1800,
       height: 1271,
     },
@@ -72,9 +74,9 @@ export const certificates: Certificate[] = [
     organisation: "Eid al-Fitr 2026 · Saudi Cultural Bureau, UK",
     completed: null,
     note: "Volunteered to support and organise the club's Eid al-Fitr 2026 event, under the patronage of the Saudi Cultural Bureau in the UK.",
-    href: "/images/certificates/london-saudi-club-45-eid.jpg",
+    href: publicUrl("/images/certificates/london-saudi-club-45-eid.jpg"),
     image: {
-      src: "/images/certificates/london-saudi-club-45-eid.jpg",
+      src: publicUrl("/images/certificates/london-saudi-club-45-eid.jpg"),
       width: 1206,
       height: 833,
     },

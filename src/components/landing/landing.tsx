@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useRef, useState, type CSSProperties } from "react";
+import { appPath, publicUrl } from "@/lib/site";
 
 type Side = "a" | "b";
 
@@ -29,11 +30,15 @@ const versions: Version[] = [
     blurb: "Built from a single, simple prompt.",
     cta: "Open Version A",
     desktop: {
-      src: "/images/landing/a-desktop.jpg",
+      src: publicUrl("/images/landing/a-desktop.jpg"),
       width: 1440,
       height: 3848,
     },
-    mobile: { src: "/images/landing/a-mobile.jpg", width: 780, height: 8516 },
+    mobile: {
+      src: publicUrl("/images/landing/a-mobile.jpg"),
+      width: 780,
+      height: 8516,
+    },
   },
   {
     side: "b",
@@ -44,11 +49,15 @@ const versions: Version[] = [
       "Built through structured prompts, intentional design and rounds of refinement.",
     cta: "Open Version B",
     desktop: {
-      src: "/images/landing/b-desktop.jpg",
+      src: publicUrl("/images/landing/b-desktop.jpg"),
       width: 1440,
       height: 7894,
     },
-    mobile: { src: "/images/landing/b-mobile.jpg", width: 780, height: 17302 },
+    mobile: {
+      src: publicUrl("/images/landing/b-mobile.jpg"),
+      width: 780,
+      height: 17302,
+    },
   },
 ];
 
@@ -351,7 +360,7 @@ export function Landing() {
   // back button never finds it still raised.
   if (pathname !== seenPath) {
     setSeenPath(pathname);
-    if (pathname !== "/" && leaving) {
+    if (appPath(pathname) !== "/" && leaving) {
       setLeaving(null);
     }
   }
@@ -362,7 +371,7 @@ export function Landing() {
     const warm = () =>
       versions.forEach((version) => {
         const image = new window.Image();
-        image.src = phone ? version.mobile.src : version.desktop.src;
+        image.src = publicUrl(phone ? version.mobile.src : version.desktop.src);
       });
     const id = window.setTimeout(warm, 1800);
     return () => window.clearTimeout(id);
@@ -505,7 +514,7 @@ export function Landing() {
           aria-hidden="true"
         >
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={leaving.src} alt="" className="vl-curtain-img" />
+          <img src={publicUrl(leaving.src)} alt="" className="vl-curtain-img" />
         </div>
       ) : null}
     </>

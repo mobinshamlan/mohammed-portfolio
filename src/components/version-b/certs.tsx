@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { certificates, type Certificate } from "@/lib/certificates";
+import { publicUrl } from "@/lib/site";
 import { Reveal } from "./reveal";
 
 const previewable = certificates.filter((item) => item.image);
@@ -251,7 +252,7 @@ export function VersionBCerts() {
                 </button>
               </div>
               {current.href ? (
-                <a href={current.href} target="_blank" rel="noreferrer">
+                <a href={publicUrl(current.href)} target="_blank" rel="noreferrer">
                   {current.href.endsWith(".pdf")
                     ? "Open the original PDF"
                     : "Open the image in a new tab"}

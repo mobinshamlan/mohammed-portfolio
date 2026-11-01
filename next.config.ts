@@ -1,8 +1,14 @@
 import type { NextConfig } from "next";
+import { BASE_PATH } from "./src/lib/site";
 
 const nextConfig: NextConfig = {
-  cacheComponents: true,
-  partialPrefetching: true,
+  output: "export",
+  trailingSlash: true,
+  basePath: BASE_PATH,
+  assetPrefix: BASE_PATH,
+  images: {
+    unoptimized: true,
+  },
   turbopack: {
     root: __dirname,
     rules: {

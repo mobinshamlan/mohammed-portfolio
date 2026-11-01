@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useEffect, useRef, useState, type ReactNode } from "react";
+import { publicUrl } from "@/lib/site";
 
 type DocumentViewerProps = {
   children: ReactNode;
@@ -105,7 +106,7 @@ export function DocumentViewer({
             />
           ) : null}
           <footer className="vb-doc-foot">
-            <a href={href} target="_blank" rel="noreferrer">
+            <a href={publicUrl(href)} target="_blank" rel="noreferrer">
               Open the image in a new tab
             </a>
           </footer>
