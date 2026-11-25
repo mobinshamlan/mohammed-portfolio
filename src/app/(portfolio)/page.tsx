@@ -1,14 +1,13 @@
 import type { Metadata } from "next";
-import { About } from "@/components/portfolio/about";
 import { Certs } from "@/components/portfolio/certs";
 import { Contact } from "@/components/portfolio/contact";
 import { Covers } from "@/components/portfolio/covers";
 import { Footer } from "@/components/portfolio/footer";
 import { Hero } from "@/components/portfolio/hero";
-import { Journey } from "@/components/portfolio/journey";
 import { Nav } from "@/components/portfolio/nav";
 import { MotionRoot } from "@/components/portfolio/reveal";
-import { Skills } from "@/components/portfolio/skills";
+import { Story } from "@/components/portfolio/story";
+import { Toolkit } from "@/components/portfolio/toolkit";
 
 export const metadata: Metadata = {
   title: { absolute: "Mohammed Bin Shamlan — AI products for real Saudi life" },
@@ -27,9 +26,8 @@ export default function HomePage() {
       <main>
         <Hero />
         <Covers />
-        <About />
-        <Journey />
-        <Skills />
+        <Story />
+        <Toolkit />
         <Certs />
         <Contact />
       </main>

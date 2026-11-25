@@ -1,0 +1,499 @@
+/* ---------- Where I come from: the route, stop by stop ----------
+   Home, a short stop in Brighton, four years in London, home again.
+   London gets the most room because it held the most. */
+
+.vb-story {
+  padding: clamp(4rem, 8vw, 8rem) var(--gutter);
+  scroll-margin-top: 4rem;
+}
+
+.vb-story-head {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+/* Small labels: years, durations, "Next". */
+.vb-story-when {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.6rem;
+  color: var(--ember);
+  font-size: var(--step-small);
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
+
+/* Place names: big English, Arabic underneath. */
+.vb-story-place {
+  font-size: clamp(2rem, 1.4rem + 2.4vw, 3.25rem);
+}
+
+.vb-story-place [lang="ar"] {
+  display: block;
+  width: fit-content;
+  margin-top: 0.35em;
+  color: var(--sand-2);
+  font-size: 0.55em;
+  font-weight: 500;
+  line-height: 1.3;
+}
+
+.vb-story-place-sm {
+  font-size: clamp(1.75rem, 1.3rem + 1.6vw, 2.5rem);
+}
+
+.vb-story-place-xl {
+  font-size: clamp(3.5rem, 1.6rem + 8vw, 9rem);
+  letter-spacing: -0.04em;
+}
+
+.vb-story-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  max-width: 38ch;
+}
+
+.vb-story-copy > .vb-story-place {
+  margin-bottom: 0.25rem;
+}
+
+/* ---------- The route line ---------- */
+
+.vb-story-route {
+  margin-top: clamp(2.5rem, 5vw, 4.5rem);
+}
+
+.vb-story-rail {
+  position: relative;
+  height: clamp(3.5rem, 2rem + 4vw, 6rem);
+}
+
+.vb-story-rail svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  fill: none;
+}
+
+.vb-story-line,
+.vb-story-line-london,
+.vb-story-line-next {
+  vector-effect: non-scaling-stroke;
+  stroke-linecap: round;
+}
+
+.vb-story-line {
+  stroke: var(--sand-2);
+  stroke-width: 1.5;
+  stroke-dasharray: 2 7;
+}
+
+.vb-story-line-london {
+  stroke: var(--ember);
+  stroke-width: 7;
+}
+
+.vb-story-line-next {
+  stroke: var(--sand-2);
+  stroke-width: 1.5;
+  stroke-dasharray: 1 9;
+  opacity: 0.5;
+}
+
+.vb-story-pin {
+  position: absolute;
+  width: 0.8rem;
+  height: 0.8rem;
+  border: 2px solid var(--sand);
+  border-radius: 50%;
+  background: var(--night);
+  transform: translate(-50%, -50%);
+}
+
+/* London is the stretch itself; its pin sits on the ember line as a quiet mark. */
+.vb-story-pin[data-kind="long"] {
+  width: 0.5rem;
+  height: 0.5rem;
+  border: 0;
+  background: var(--ember-ink);
+}
+
+.vb-story-pin[data-kind="now"] {
+  width: 1rem;
+  height: 1rem;
+  border: 0;
+  background: var(--ember);
+  box-shadow: 0 0 0 0.4rem color-mix(in srgb, var(--ember) 22%, transparent);
+}
+
+.vb-story-stops {
+  display: grid;
+  grid-template-columns: 2.2fr 1.8fr 3.6fr 2.4fr;
+  margin: 0.75rem 0 0;
+  padding: 0;
+  list-style: none;
+  text-align: center;
+}
+
+.vb-story-stops a {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.15rem;
+  padding: 0.5rem 0.25rem;
+  border-radius: 0.4rem;
+  text-decoration: none;
+  transition: background-color var(--t-hover) ease;
+}
+
+.vb-story-stops a:hover {
+  background: var(--night-2);
+}
+
+.vb-story-stop-en {
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: clamp(0.8rem, 0.6rem + 0.7vw, 1.15rem);
+  line-height: 1.15;
+}
+
+.vb-story-stops [data-kind="long"] .vb-story-stop-en {
+  font-size: clamp(1rem, 0.6rem + 1.4vw, 1.75rem);
+  color: var(--ember);
+}
+
+.vb-story-stop-ar {
+  color: var(--sand-2);
+  font-size: clamp(0.78rem, 0.65rem + 0.4vw, 1rem);
+}
+
+.vb-story-stop-when {
+  color: var(--sand-2);
+  font-size: clamp(0.72rem, 0.65rem + 0.25vw, 0.875rem);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- Photos ---------- */
+
+.vb-story-photo {
+  margin: 0;
+}
+
+.vb-story-photo img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  border-radius: 0.5rem;
+}
+
+.vb-story-photo figcaption {
+  margin-top: 0.6rem;
+  color: var(--sand-2);
+  font-size: var(--step-small);
+}
+
+.vb-story-child img {
+  aspect-ratio: 4 / 5;
+}
+
+.vb-story-grad img {
+  aspect-ratio: 4 / 5;
+}
+
+/* ---------- Home, then Brighton ---------- */
+
+.vb-story-start {
+  display: grid;
+  gap: 3rem;
+  margin-top: clamp(3rem, 6vw, 5.5rem);
+}
+
+.vb-story-origin {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.vb-story-child {
+  width: min(100%, 15rem);
+}
+
+/* A short stop: no photo, a dashed edge like the line that led to it. */
+.vb-story-brighton {
+  padding-left: 1.25rem;
+  border-left: 2px dashed color-mix(in srgb, var(--sand-2) 55%, transparent);
+}
+
+/* ---------- London ---------- */
+
+.vb-story-london {
+  display: grid;
+  gap: 2.5rem;
+  margin-top: clamp(3.5rem, 7vw, 6.5rem);
+  padding: clamp(1.5rem, 4vw, 4rem);
+  border-top: 7px solid var(--ember);
+  border-radius: 0 0 0.75rem 0.75rem;
+  background: var(--night-2);
+  scroll-margin-top: 4rem;
+}
+
+.vb-story-london-head {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.vb-story-fund {
+  max-width: 40ch;
+  color: var(--sand-2);
+}
+
+.vb-story-years {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.vb-story-years > li {
+  position: relative;
+  padding-left: 1.75rem;
+}
+
+/* The years as a thin rail with a mark at each one. */
+.vb-story-years > li::before {
+  content: "";
+  position: absolute;
+  left: 0.3rem;
+  top: 0.55rem;
+  bottom: -2rem;
+  width: 1px;
+  background: color-mix(in srgb, var(--sand-2) 40%, transparent);
+}
+
+.vb-story-years > li:last-child::before {
+  display: none;
+}
+
+.vb-story-years > li::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.3rem;
+  width: 0.65rem;
+  height: 0.65rem;
+  border: 2px solid var(--ember);
+  border-radius: 50%;
+  background: var(--night-2);
+}
+
+.vb-story-milestone::after {
+  background: var(--ember) !important;
+}
+
+.vb-story-years .vb-reveal {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  max-width: 46ch;
+}
+
+.vb-story-years h4 {
+  margin: 0;
+  font-family: var(--display);
+  font-size: var(--step-lead);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.015em;
+}
+
+/* Certificates that open in the viewer. */
+.vb-story-doc {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  width: fit-content;
+  max-width: 100%;
+  margin-top: 0.5rem;
+  padding: 0.65rem;
+  border: 0;
+  border-radius: 0.5rem;
+  background: var(--night-3);
+  color: var(--sand);
+  cursor: pointer;
+  text-align: left;
+  text-decoration: none;
+  transition: background-color var(--t-hover) ease;
+}
+
+.vb-story-doc:hover {
+  background: #242b3d;
+}
+
+.vb-story-doc-img {
+  display: block;
+  width: 3.5rem;
+  flex: none;
+  overflow: hidden;
+  border-radius: 0.2rem;
+}
+
+.vb-story-doc-wide {
+  width: 5.5rem;
+}
+
+.vb-story-doc-text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.vb-story-doc-title {
+  font-weight: 500;
+  line-height: 1.3;
+}
+
+.vb-story-doc-cta {
+  color: var(--ember);
+  font-size: var(--step-small);
+  text-decoration: underline;
+}
+
+/* ---------- Home again, and what comes next ---------- */
+
+.vb-story-end {
+  display: grid;
+  gap: 2.5rem;
+  margin-top: clamp(3.5rem, 7vw, 6rem);
+}
+
+.vb-story-now-tag {
+  padding: 0.1rem 0.6rem;
+  border-radius: 999px;
+  background: var(--ember);
+  color: var(--ember-ink);
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.vb-story-link {
+  width: fit-content;
+  min-height: 2.75rem;
+  display: inline-flex;
+  align-items: center;
+  color: var(--ember);
+  font-weight: 500;
+  text-decoration: underline;
+}
+
+.vb-story-next {
+  padding: 1.5rem;
+  border: 1px dashed color-mix(in srgb, var(--sand-2) 55%, transparent);
+  border-radius: 0.75rem;
+}
+
+.vb-story-next-title {
+  font-size: var(--step-lead);
+  line-height: 1.15;
+}
+
+/* ---------- Off the keyboard ---------- */
+
+.vb-story-off {
+  display: grid;
+  gap: 2.5rem;
+  margin-top: clamp(4rem, 8vw, 7rem);
+  padding-top: clamp(2.5rem, 5vw, 4rem);
+  border-top: 1px solid color-mix(in srgb, var(--sand-2) 25%, transparent);
+}
+
+.vb-story-values {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  max-width: var(--measure);
+}
+
+.vb-story-values-line {
+  font-family: var(--display);
+  font-size: var(--step-lead);
+  font-weight: 500;
+  line-height: 1.3;
+  text-wrap: pretty;
+}
+
+.vb-story-music-title {
+  font-size: var(--step-lead);
+  font-weight: 700;
+}
+
+/* ---------- Wide screens ---------- */
+
+@media (min-width: 900px) {
+  .vb-story-start {
+    grid-template-columns: 7fr 4fr;
+    align-items: end;
+    column-gap: clamp(2rem, 5vw, 5rem);
+  }
+
+  .vb-story-origin {
+    grid-template-columns: minmax(12rem, 15rem) 1fr;
+    align-items: end;
+    column-gap: 2rem;
+  }
+
+  .vb-story-origin .vb-story-copy {
+    padding-bottom: 2.4rem;
+  }
+
+  .vb-story-brighton {
+    margin-bottom: 2.4rem;
+  }
+
+  .vb-story-london {
+    grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+    grid-template-areas:
+      "head years"
+      "photo years";
+    column-gap: clamp(2.5rem, 5vw, 6rem);
+    align-items: start;
+  }
+
+  .vb-story-london-head {
+    grid-area: head;
+  }
+
+  .vb-story-grad {
+    grid-area: photo;
+    max-width: 26rem;
+  }
+
+  .vb-story-years {
+    grid-area: years;
+    padding-top: 0.5rem;
+  }
+
+  .vb-story-end {
+    grid-template-columns: 7fr 4fr;
+    align-items: start;
+    column-gap: clamp(2rem, 5vw, 5rem);
+  }
+
+  .vb-story-off {
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    column-gap: clamp(2rem, 5vw, 5rem);
+    align-items: start;
+  }
+}
+
+@media (max-width: 899px) {
+  .vb-story-grad {
+    width: min(100%, 24rem);
+  }
+}

@@ -10,7 +10,6 @@ import { DeviceFrame } from "./device-frame";
 import { Footer } from "./footer";
 import { Nav } from "./nav";
 import { MotionRoot, Reveal } from "./reveal";
-import { NightMark } from "./sky";
 
 /** One reading on a step: a time, a state, or who can see it. `off` dims it; `all` covers every lane. */
 type Cue = { text: string; tone?: "off" | "held" | "done"; all?: boolean };
@@ -494,7 +493,6 @@ export function CaseBody({
 
       <section className="vb-case-section vb-case-problem" aria-labelledby="problem-title">
         <Reveal>
-          <NightMark part="nightfall" className="vb-case-hour" />
           <h2 id="problem-title" className="vb-case-h2">
             The problem
           </h2>

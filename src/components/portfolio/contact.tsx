@@ -5,7 +5,7 @@ import { useHydrated } from "@/lib/use-hydrated";
 import { contact } from "@/lib/contact";
 import { Collapsible } from "./collapsible";
 import { Reveal } from "./reveal";
-import { NightMark } from "./sky";
+import { ChapterMark } from "./chapter-mark";
 
 type Fields = { name: string; email: string; message: string };
 type FieldName = keyof Fields;
@@ -116,7 +116,7 @@ export function Contact() {
   return (
     <section id="contact" className="vb-contact" aria-labelledby="contact-title">
       <div className="vb-contact-top">
-        <NightMark part="dawn" />
+        <ChapterMark n={5} en="Contact" ar="تواصل معي" />
         <Reveal>
           <h2 id="contact-title" className="vb-section-head">
             Write to me.

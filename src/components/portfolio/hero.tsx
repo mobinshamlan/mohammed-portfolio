@@ -1,142 +1,106 @@
-"use client";
-
+import Image from "next/image";
 import Link from "next/link";
 import { contact } from "@/lib/contact";
-import { callScript } from "@/lib/naqah-call";
-import { projects } from "@/lib/projects";
-import { Horizon, Moon, NightMark } from "./sky";
+import { graduation } from "@/lib/portrait";
+import { fieldStyle, projects } from "@/lib/projects";
 
-/** The horizon at sunset: tonight's moon in the sky, the sun going down behind the far dune. */
-function HeroSky() {
-  return (
-    <div className="vb-hero-horizon" aria-hidden="true">
-      <Moon className="vb-moon vb-hero-moon" size={96} />
-      <span className="vb-hero-sun" />
-      <Horizon />
-    </div>
-  );
-}
+/** The six products, in the order the Work chapter shows them. */
+const work = projects.filter((project) => project.id !== "experiment");
 
 /**
- * The opening's visual: one Naqah call turning into facts and an owner alert.
- * Quote → the fact it supports → the alert, on the line of moments. Simulated sample.
+ * The opening is about the person: the name in both scripts on one shared
+ * rule, a portrait, one sentence on what he builds, and the way into the work.
  */
-function HeroArtifact() {
-  const worker = callScript.find((l) => l.kind === "worker");
-  const fact = callScript.find((l) => l.kind === "fact" && l.flag);
-  return (
-    <div className="vb-hero-art" data-ui="">
-      <p className="vb-hero-art-label">One answer on a Naqah call. Simulated sample.</p>
-      <ol className="vb-hero-steps">
-        <li className="vb-hero-step">
-          <span className="vb-hero-step-time">5:40 pm</span>
-          <span className="vb-hero-step-who">The worker answers</span>
-          {worker && worker.kind === "worker" ? (
-            <>
-              <span className="vb-hero-step-ar" lang="ar">
-                {worker.ar}
-              </span>
-              <span className="vb-hero-step-en vb-hero-step-gloss">{worker.en}</span>
-            </>
-          ) : null}
-        </li>
-        <li className="vb-hero-step">
-          <span className="vb-hero-step-time">5:44 pm</span>
-          <span className="vb-hero-step-who">Saved as a record, audio discarded</span>
-          {fact && fact.kind === "fact" ? (
-            <span className="vb-hero-step-fact">
-              <span>{fact.label}</span>
-              <strong>{fact.value}</strong>
-            </span>
-          ) : null}
-        </li>
-        <li className="vb-hero-step" data-alert="true">
-          <span className="vb-hero-step-time">7:00 pm</span>
-          <span className="vb-hero-step-who">The owner is alerted</span>
-          <span className="vb-hero-step-en vb-hero-step-owner">
-            Wadha has not drunk since morning.
-          </span>
-        </li>
-      </ol>
-      <Link href="#naqah-demo" className="vb-link vb-hero-art-link">
-        Play the full call, 15 s
-      </Link>
-    </div>
-  );
-}
-
-/** Each live project's passing tests: a passing CI run where one exists, else the tests themselves. */
-const testSources = projects.flatMap((project) => {
-  const tests = project.proof.evidence?.find((item) => item.kind === "tests");
-  if (!tests) return [];
-  return [{ id: project.id, name: project.name, href: tests.run?.href ?? tests.source.href }];
-});
-
-const naqahOutcome = projects.find((project) => project.id === "naqah")?.proof.outcome;
-
 export function Hero() {
   return (
-    <section id="home" className="vb-hero" aria-labelledby="hero-title">
-      <div className="vb-hero-copy">
-        <NightMark part="sunset" className="vb-hero-hour" />
-        <h1 id="hero-title" className="vb-hero-title" data-rise="1">
-          <span className="vb-hero-name">Mohammed Bin&nbsp;Shamlan</span>{" "}
-          <span className="vb-hero-claim">builds Arabic-first AI for real Saudi life.</span>
-        </h1>
-        <p className="vb-hero-role" data-rise="2">
-          Software developer in Saudi Arabia.
-          <span lang="ar">أبني منتجات ذكاء اصطناعي، بالعربي أولاً، لحياة سعودية حقيقية</span>
+    <section id="home" className="vb-open" aria-labelledby="hero-title">
+      <div className="vb-open-copy">
+        <p className="vb-open-kicker" data-rise="1">
+          <span>Software developer</span>
+          <span aria-hidden="true">·</span>
+          <span>Riyadh, Saudi Arabia</span>
         </p>
-        {naqahOutcome ? (
-          <p className="vb-hero-outcome" data-rise="3">
-            {naqahOutcome.text}{" "}
-            <a href={naqahOutcome.source.href} className="vb-hero-proof-link" target="_blank" rel="noreferrer">
-              {naqahOutcome.source.label}
-            </a>
-            , {naqahOutcome.date}.
-          </p>
-        ) : null}
-        <div className="vb-hero-actions" data-rise="4">
+
+        <h1 id="hero-title" className="vb-open-name" data-rise="1">
+          <span className="vb-open-en">
+            <span>Mohammed</span> <span>Bin&nbsp;Shamlan</span>
+          </span>
+          <span className="vb-open-ar" lang="ar" dir="rtl">
+            محمد بن شملان
+          </span>
+        </h1>
+
+        <p className="vb-open-lead" data-rise="2">
+          I build Arabic-first AI products for everyday Saudi life: a ranch that phones its owner,
+          school news that reaches parents by call, a planner for a night in the desert.
+        </p>
+        <p className="vb-open-lead-ar" lang="ar" dir="rtl" data-rise="2">
+          أبني منتجات ذكاء اصطناعي بالعربي أولاً، لحياة سعودية حقيقية.
+        </p>
+
+        <div className="vb-open-actions" data-rise="3">
           <Link href="#work" className="vb-btn">
-            View work
+            See the six products
           </Link>
-          <Link href="#contact" className="vb-link vb-hero-secondary">
-            Get in touch
+          <Link href="#about" className="vb-link">
+            My story
+          </Link>
+          <Link href="#contact" className="vb-link">
+            Email me
           </Link>
         </div>
-        {/* One compact, sourced line; the counts and check dates live on each case page. */}
-        <p className="vb-hero-proof" data-rise="5">
-          Lead contributor on Naqah ·{" "}
-          <a
-            href="https://github.com/justAbdulaziz10/Naqah/commits/main"
-            className="vb-hero-proof-link"
-            target="_blank"
-            rel="noreferrer"
-          >
-            128 of 209 commits
-          </a>{" "}
-          · tests passing in {testSources.length} public repos:{" "}
-          {testSources.map((item, index) => (
-            <span key={item.id}>
-              {index > 0 ? ", " : null}
-              <a href={item.href} className="vb-hero-proof-link" target="_blank" rel="noreferrer">
-                {item.name}
-                <span className="vb-sr"> tests</span>
-              </a>
-            </span>
-          ))}
-        </p>
-        <p className="vb-hero-status" data-rise="5">
+
+        <p className="vb-open-status" data-rise="3">
           <span className="vb-hero-dot" aria-hidden="true" />
           {contact.status}
         </p>
       </div>
 
-      <div className="vb-hero-visual" data-rise="3">
-        <HeroArtifact />
-      </div>
+      <figure className="vb-open-portrait" data-rise="2">
+        <span className="vb-open-frame">
+          <Image
+            src={graduation.src}
+            alt={graduation.alt}
+            width={graduation.width}
+            height={graduation.height}
+            sizes="(max-width: 899px) 40vw, 30vw"
+            priority
+            className="vb-open-img"
+          />
+        </span>
+        <figcaption>
+          Graduation, Queen Mary University of London, July 2026.{" "}
+          <span lang="ar">لندن ← الرياض</span>
+        </figcaption>
+      </figure>
 
-      <HeroSky />
+      <nav className="vb-open-work" aria-label="The six products">
+        <p className="vb-open-work-label">Jump to a product</p>
+        <ol className="vb-open-work-list">
+          {work.map((project) => (
+            <li key={project.id} style={fieldStyle(project)}>
+              <Link href={`#${project.id}`} className="vb-open-tile">
+                <span className="vb-open-tile-shot" aria-hidden="true">
+                  <Image
+                    src={(project.coverPhone ?? project.cover).src}
+                    alt=""
+                    width={(project.coverPhone ?? project.cover).width}
+                    height={(project.coverPhone ?? project.cover).height}
+                    sizes="8rem"
+                  />
+                </span>
+                <span className="vb-open-tile-text">
+                  <span className="vb-open-tile-name">
+                    {project.name}
+                    {project.arabic ? <span lang="ar">{project.arabic}</span> : null}
+                  </span>
+                  <span className="vb-open-tile-kind">{project.kind}</span>
+                </span>
+              </Link>
+            </li>
+          ))}
+        </ol>
+      </nav>
     </section>
   );
 }

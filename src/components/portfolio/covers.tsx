@@ -2,7 +2,6 @@ import Image from "next/image";
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { gthrzShots } from "@/lib/gthrz";
-import { publicUrl } from "@/lib/site";
 import { fieldStyle, projectById, type Project, type ProjectId } from "@/lib/projects";
 import { SeetChat } from "./artifacts";
 import { CallDemo } from "./call-demo";
@@ -14,8 +13,7 @@ import { TammeniScheduleDemo } from "./demos/tammeni-schedule";
 import { DeviceFrame } from "./device-frame";
 import { GthrzImg } from "./gthrz-img";
 import { Reveal } from "./reveal";
-import { NightTable } from "./night-table";
-import { MoonFacts, NightMark } from "./sky";
+import { ChapterMark } from "./chapter-mark";
 
 function projectHref(project: Project) {
   return project.href ?? `/projects/${project.id}`;
@@ -68,15 +66,38 @@ function Head({ project, hook }: { project: Project; hook: ReactNode }) {
   );
 }
 
-/** Status, dates, my part and where to go next. */
+/** Checked numbers from the public repository: tests and commits, each with its source. */
+function Evidence({ project }: { project: Project }) {
+  const items = project.proof.evidence?.filter((item) => item.kind !== "scope") ?? [];
+  if (!items.length) return null;
+  return (
+    <ul className="vb-proj-evidence">
+      {items.map((item) => (
+        <li key={item.kind}>
+          <strong>{item.value}</strong> {item.kind === "tests" ? "automated tests pass" : "commits are mine"}
+          {" · "}
+          <a href={item.run?.href ?? item.source.href} className="vb-link" target="_blank" rel="noreferrer">
+            {item.run ? "passing run" : item.source.label}
+          </a>
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+/** My part first, then the checked numbers, status, and where to go next. */
 function Foot({ project }: { project: Project }) {
   return (
     <Reveal className="vb-proj-foot" delay={0.08}>
+      <div className="vb-proj-part">
+        <p className="vb-proj-label">My part</p>
+        <p>{project.contribution}</p>
+      </div>
+      <Evidence project={project} />
       <p className="vb-proj-meta">
         <span className="vb-chip">{project.statusChip}</span>
         <span>{project.dates}</span>
       </p>
-      <p className="vb-proj-part">{project.contribution}</p>
       <div className="vb-proj-actions">
         <Link href={projectHref(project)} prefetch={false} className="vb-btn vb-btn-field">
           Read the case study
@@ -84,6 +105,18 @@ function Foot({ project }: { project: Project }) {
         <ProjectLinks project={project} />
       </div>
     </Reveal>
+  );
+}
+
+/** One real screen from the live product, with a caption saying what it shows. */
+function Screen({ shot, caption, sizes }: { shot: Project["screens"][number]; caption: string; sizes: string }) {
+  return (
+    <figure className="vb-proj-screen">
+      <div className="vb-phone vb-phone-sm" data-ui="">
+        <Image src={shot.src} alt={shot.alt} width={shot.width} height={shot.height} sizes={sizes} className="vb-phone-img" />
+      </div>
+      <figcaption>{caption}</figcaption>
+    </figure>
   );
 }
 
@@ -99,6 +132,7 @@ function Section({
   const project = projectById[id];
   return (
     <article
+      id={id}
       className="vb-proj"
       data-layout={layout}
       data-id={id}
@@ -132,6 +166,13 @@ function Naqah() {
       <div className="vb-proj-art">
         <CallDemo compact id="naqah-demo" />
       </div>
+      {project.coverPhone ? (
+        <Screen
+          shot={project.coverPhone}
+          sizes="(max-width: 899px) 60vw, 220px"
+          caption="The live site, in Arabic first: Naqah calls your worker at the time you choose, keeps the answers, then calls you with what matters."
+        />
+      ) : null}
       <Foot project={project} />
     </Section>
   );
@@ -181,6 +222,13 @@ function Seet() {
       <div className="vb-proj-art">
         <SeetChat compact />
       </div>
+      {project.coverPhone ? (
+        <Screen
+          shot={project.coverPhone}
+          sizes="(max-width: 899px) 60vw, 220px"
+          caption="The live landing page: a Snap story at 4,500 SAR, Tuesday free, and the booking confirmed only once the 2,250 SAR deposit arrives."
+        />
+      ) : null}
       <Foot project={project} />
     </Section>
   );
@@ -284,47 +332,12 @@ function Experiment() {
   );
 }
 
-/* ---------- Midnight: the darkest point of the night, before the desert planner ---------- */
-
-const sky = {
-  src640: publicUrl("/images/projects/credits/alula-night-sky-640.jpg"),
-  src1000: publicUrl("/images/projects/credits/alula-night-sky-1000.jpg"),
-  alt: "The Milky Way seen through a gap between two sandstone cliffs at night in AlUla, Saudi Arabia.",
-  width: 1067,
-  height: 1600,
-};
-
-function Midnight() {
-  return (
-    <div className="vb-midnight">
-      <div className="vb-midnight-copy">
-        <NightMark part="midnight" className="vb-midnight-hour" />
-        <MoonFacts />
-      </div>
-      <figure className="vb-midnight-sky">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src={sky.src640}
-          srcSet={`${sky.src640} 640w, ${sky.src1000} 1000w`}
-          sizes="(max-width: 899px) 1px, 45vw"
-          alt={sky.alt}
-          width={sky.width}
-          height={sky.height}
-          loading="lazy"
-          decoding="async"
-        />
-        <figcaption>The sky over AlUla. Photo: Saudi Press Agency.</figcaption>
-      </figure>
-    </div>
-  );
-}
-
 export function Covers() {
   return (
     <section id="work" className="vb-work" aria-labelledby="work-title">
       <div className="vb-work-head">
         <div className="vb-work-intro">
-          <NightMark part="nightfall" />
+          <ChapterMark n={1} en="Work" ar="أعمالي" />
           <Reveal>
             <h2 id="work-title" className="vb-section-head">
               Six products, one decision each.
@@ -333,16 +346,14 @@ export function Covers() {
           <Reveal delay={0.1}>
             <p className="vb-lead vb-work-lead">
               A ranch, a school, an ads inbox, a desert night, a lost umbrella and a private party.
-              Each section shows the choice that shaped the product.
+              Each one shows the decision that shaped it, the part I built, and where to try it.
             </p>
           </Reveal>
         </div>
-        <NightTable />
       </div>
       <Naqah />
       <Tammeni />
       <Seet />
-      <Midnight />
       <Kashta />
       <Amanah />
       <Gthrz />

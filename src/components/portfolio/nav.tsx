@@ -11,9 +11,8 @@ import { Jumper } from "./jumper";
 
 const links = [
   { href: "/#work", id: "work", label: "Work" },
-  { href: "/#about", id: "about", label: "About" },
-  { href: "/#journey", id: "journey", label: "Journey" },
-  { href: "/#skills", id: "skills", label: "Skills" },
+  { href: "/#about", id: "about", label: "Story" },
+  { href: "/#skills", id: "skills", label: "Tools" },
   { href: "/#contact", id: "contact", label: "Contact" },
 ] as const;
 
