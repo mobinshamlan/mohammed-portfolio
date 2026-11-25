@@ -6,6 +6,7 @@ import "./styles/demos.css";
 import "./styles/sadu.css";
 import "./styles/journey.css";
 import "./styles/credentials.css";
+import "./styles/worlds.css";
 
 // The portfolio: one display face and one text face, both Arabic and Latin.
 const display = Alexandria({
