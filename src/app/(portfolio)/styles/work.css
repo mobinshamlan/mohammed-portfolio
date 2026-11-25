@@ -69,6 +69,7 @@
   display: inline-flex;
   flex-wrap: wrap;
   align-items: baseline;
+  min-height: 2.75rem;
   gap: 0 0.3em;
   text-decoration: none;
 }
@@ -173,13 +174,6 @@
   align-items: center;
   color: inherit;
   text-underline-offset: 0.2em;
-}
-
-/* With a mouse, the source lines sit closer; touch keeps full-size targets. */
-@media (pointer: fine) {
-  .vb .w-ev-src a {
-    min-height: 1.75rem;
-  }
 }
 
 .w-part {
@@ -598,6 +592,7 @@
 
 .vb .vb-exp-name a {
   display: inline-block;
+  min-height: 2.75rem;
   padding-block: 0.25rem;
   text-decoration: none;
 }
