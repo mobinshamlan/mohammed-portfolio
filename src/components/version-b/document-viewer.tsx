@@ -3,11 +3,11 @@
 import Image from "next/image";
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { publicUrl } from "@/lib/site";
+import { useHydrated } from "@/lib/use-hydrated";
 
 type DocumentViewerProps = {
   children: ReactNode;
   triggerClassName: string;
-  triggerLabel: string;
   src: string;
   width: number;
   height: number;
@@ -24,7 +24,6 @@ type DocumentViewerProps = {
 export function DocumentViewer({
   children,
   triggerClassName,
-  triggerLabel,
   src,
   width,
   height,
@@ -33,6 +32,7 @@ export function DocumentViewer({
   subtitle,
   href,
 }: DocumentViewerProps) {
+  const hydrated = useHydrated();
   const [open, setOpen] = useState(false);
   const trigger = useRef<HTMLButtonElement>(null);
   const dialog = useRef<HTMLDialogElement>(null);
@@ -54,6 +54,15 @@ export function DocumentViewer({
     };
   }, [open]);
 
+  // Without JavaScript the trigger is a plain link to the file.
+  if (!hydrated) {
+    return (
+      <a href={publicUrl(href)} className={triggerClassName}>
+        {children}
+      </a>
+    );
+  }
+
   return (
     <>
       <button
@@ -61,7 +70,6 @@ export function DocumentViewer({
         type="button"
         className={triggerClassName}
         aria-haspopup="dialog"
-        aria-label={triggerLabel}
         onClick={() => setOpen(true)}
       >
         {children}

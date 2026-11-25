@@ -23,7 +23,7 @@
 
 .vb-hero-title {
   max-width: 9ch;
-  font-size: clamp(2.8rem, 1.2rem + 6.6vw, 6.4rem);
+  font-size: clamp(2.8rem, 1rem + 5.8vw, 6.4rem);
   font-weight: 800;
   line-height: 0.92;
   letter-spacing: -0.04em;
@@ -277,7 +277,7 @@
 
 @media (min-width: 900px) {
   .vb-hero {
-    grid-template-columns: 6fr 6fr;
+    grid-template-columns: 6fr 5fr;
     grid-template-rows: auto auto;
     column-gap: clamp(2rem, 5vw, 5rem);
     align-items: center;
@@ -467,7 +467,12 @@
 }
 
 .vb-cover .vb-art-chat li[data-who="brand"] {
-  background: color-mix(in srgb, var(--field) 26%, transparent);
+  background: color-mix(in srgb, var(--field) 20%, transparent);
+}
+
+/* Translations inside the bubbles read at 4.5:1 or more. */
+.vb-cover .vb-art-chat .vb-art-en {
+  color: var(--field);
 }
 
 .vb-cover .vb-art-chat li[data-who="system"] {
@@ -1085,6 +1090,15 @@
   cursor: pointer;
   text-align: left;
   transition: background-color var(--t-hover) ease;
+}
+
+a.vb-certs-row,
+a.vb-certs-sheet {
+  text-decoration: none;
+}
+
+div.vb-certs-row {
+  cursor: default;
 }
 
 .vb-certs-row:hover,
@@ -1817,8 +1831,67 @@
 
 /* ---------- Phone: shorter route to the work ---------- */
 @media (max-width: 899px) {
+  /* The first screen holds who, when, the main action and one answer becoming an alert. */
+  .vb-hero {
+    gap: 0.75rem;
+    padding-top: 1rem;
+  }
   .vb-hero-copy {
-    gap: 0.8rem;
+    display: contents;
+  }
+  .vb-hero-title {
+    max-width: none;
+    font-size: clamp(2.4rem, 1rem + 6.4vw, 3.2rem);
+  }
+  .vb-hero-role {
+    font-size: 1.0625rem;
+  }
+  .vb-hero-role span[lang="ar"] {
+    margin-top: 0.2rem;
+    line-height: 1.5;
+  }
+  .vb-hero-proof {
+    font-size: var(--step-small);
+  }
+  .vb-hero-actions {
+    flex-wrap: nowrap;
+    margin-top: 0;
+  }
+  .vb .vb-hero-play {
+    display: none;
+  }
+  .vb-hero-visual {
+    margin-top: 0.5rem;
+  }
+  .vb-hero-status {
+    order: 1;
+    margin-top: 0.5rem;
+  }
+  .vb-hero-strip {
+    order: 2;
+  }
+  .vb-hero-art {
+    gap: 0.6rem;
+    padding: 0.9rem 1rem 0.4rem;
+  }
+  .vb-hero-steps {
+    gap: 0.6rem;
+  }
+  .vb-hero-step {
+    gap: 0.1rem;
+  }
+  .vb-hero-step::before {
+    bottom: -0.7rem;
+  }
+  .vb-hero-step-ar {
+    font-size: 1.05rem;
+    line-height: 1.5;
+  }
+  .vb-hero-step-gloss {
+    display: none;
+  }
+  .vb-hero-step-fact {
+    padding: 0.4rem 0.7rem;
   }
   .vb-hero-sky {
     display: none;

@@ -102,25 +102,23 @@ function HeroArtifact() {
   const fact = callScript.find((l) => l.kind === "fact" && l.flag);
   return (
     <div className="vb-hero-art" data-ui="">
-      <p className="vb-hero-art-label">
-        What Naqah does with one answer. Simulated sample.
-      </p>
+      <p className="vb-hero-art-label">One answer on a Naqah call. Simulated sample.</p>
       <ol className="vb-hero-steps">
         <li className="vb-hero-step">
           <span className="vb-hero-step-dot" aria-hidden="true" />
-          <span className="vb-hero-step-who">Worker, on the phone, 5:40 pm</span>
+          <span className="vb-hero-step-who">The worker answers, 5:40 pm</span>
           {worker && worker.kind === "worker" ? (
             <>
               <span className="vb-hero-step-ar" lang="ar">
                 {worker.ar}
               </span>
-              <span className="vb-hero-step-en">{worker.en}</span>
+              <span className="vb-hero-step-en vb-hero-step-gloss">{worker.en}</span>
             </>
           ) : null}
         </li>
         <li className="vb-hero-step">
           <span className="vb-hero-step-dot" aria-hidden="true" />
-          <span className="vb-hero-step-who">Kept as a record, audio discarded</span>
+          <span className="vb-hero-step-who">Saved as a record, audio discarded</span>
           {fact && fact.kind === "fact" ? (
             <span className="vb-hero-step-fact">
               <span>{fact.label}</span>
@@ -130,9 +128,9 @@ function HeroArtifact() {
         </li>
         <li className="vb-hero-step">
           <span className="vb-hero-step-dot" aria-hidden="true" />
-          <span className="vb-hero-step-who">Owner, called at 7:00 pm</span>
+          <span className="vb-hero-step-who">The owner is alerted, 7:00 pm</span>
           <span className="vb-hero-step-en vb-hero-step-owner">
-            Wadha has not drunk since morning. The east fence needs repair. Feed arrived.
+            Wadha has not drunk since morning.
           </span>
         </li>
       </ol>
@@ -164,7 +162,7 @@ export function VersionBHero() {
             View work
           </Link>
           <span className="vb-hero-secondary">
-            <Link href="#naqah-demo" className="vb-link">
+            <Link href="#naqah-demo" className="vb-link vb-hero-play">
               Play the Naqah call
             </Link>
             <Link href="#contact" className="vb-link">

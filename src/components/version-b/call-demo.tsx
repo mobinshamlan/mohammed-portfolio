@@ -183,7 +183,6 @@ export function CallDemo({ compact = false, id }: { compact?: boolean; id?: stri
             setStep((s) => Math.max(0, s - 1));
           }}
           disabled={step === 0}
-          aria-label="Previous line"
         >
           Back
         </button>

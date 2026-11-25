@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { callScript } from "@/lib/naqah-call";
+import { kashtaExample } from "@/lib/kashta-example";
 import type { ProjectId } from "@/lib/projects";
 import { useHydrated } from "@/lib/use-hydrated";
 
@@ -157,7 +158,14 @@ export function TammeniSchedule() {
 
 /* ---------- Seet: hold → deposit → confirmed ---------- */
 
-type ChatLine = { who: "brand" | "seet" | "system"; ar: string; en: string; state?: string };
+type ChatLine = {
+  who: "brand" | "seet" | "system";
+  ar: string;
+  en: string;
+  state?: string;
+  /** A Latin URL inside an Arabic message, isolated left to right. */
+  link?: string;
+};
 
 const seetChat: ChatLine[] = [
   { who: "brand", ar: "السلام عليكم، كم سعر سناب ستوري؟", en: "Hi, how much is a Snap story?" },
@@ -174,7 +182,13 @@ const seetChat: ChatLine[] = [
     en: "Done, Tuesday is held for two hours. The booking is confirmed after the deposit: 2,250 SAR.",
     state: "Held",
   },
-  { who: "seet", ar: "رابط الدفع: moyasar.example/… ", en: "Payment link sent.", state: "Deposit" },
+  {
+    who: "seet",
+    ar: "رابط الدفع:",
+    link: "moyasar.example/…",
+    en: "Payment link sent.",
+    state: "Deposit",
+  },
   {
     who: "system",
     ar: "وصل العربون. الحجز مؤكد.",
@@ -203,90 +217,47 @@ export function SeetChat({ compact = false }: { compact?: boolean }) {
           </span>
         ))}
       </div>
+      {/* Controls sit above the thread, so they stay in place as it grows. */}
+      {hydrated ? (
+        <div className="vb-art-controls">
+          <button
+            type="button"
+            className="vb-btn vb-btn-quiet"
+            onClick={() => setStep((s) => Math.max(1, s - 1))}
+            disabled={step <= 1}
+          >
+            Back
+          </button>
+          <button
+            type="button"
+            className="vb-btn"
+            onClick={() => setStep((s) => (done ? 1 : Math.min(last, s + 1)))}
+          >
+            {done ? "Start again" : "Next"}
+          </button>
+        </div>
+      ) : null}
       <ol className="vb-art-chat" aria-live="polite">
         {shown.map((m, i) => (
           <li key={i} data-who={m.who}>
             <span lang="ar">{m.ar}</span>
+            {m.link ? (
+              <span className="vb-art-url" dir="ltr">
+                {m.link}
+              </span>
+            ) : null}
             <span className="vb-art-en">{m.en}</span>
           </li>
         ))}
       </ol>
-      <div className="vb-art-controls">
-        {hydrated ? (
-          <>
-            <button
-              type="button"
-              className="vb-btn vb-btn-quiet"
-              onClick={() => setStep((s) => Math.max(1, s - 1))}
-              disabled={step <= 1}
-            >
-              Back
-            </button>
-            <button
-              type="button"
-              className="vb-btn"
-              onClick={() => setStep((s) => (done ? 1 : Math.min(last, s + 1)))}
-            >
-              {done ? "Start again" : "Next"}
-            </button>
-          </>
-        ) : null}
-        <span className="vb-art-note">
-          Only the last step, the payment callback, can write &ldquo;confirmed&rdquo;.
-        </span>
-      </div>
+      <p className="vb-art-note">
+        Only the last step, the payment callback, can write &ldquo;confirmed&rdquo;.
+      </p>
     </div>
   );
 }
 
 /* ---------- Kashta: a worked score ---------- */
-
-/**
- * Real limits and weights from Kashta's src/lib/score.ts, and every value the
- * live app showed for this night (destination page, forecast details, 25 Nov 2026).
- */
-const kashtaExample = {
-  site: "Al-Rahmaniya Park, Al-Kharj",
-  night: "Wednesday 25 November 2026",
-  liveScore: 99,
-  rows: [
-    {
-      factor: "Temperature",
-      value: "21.7° evening, 14.9° min feels-like",
-      rule: "100 inside the 14–22° mild band, −8 per degree outside; −5 per degree of feels-like below 4°",
-      score: 100,
-      weight: 0.3,
-    },
-    {
-      factor: "Wind",
-      value: "11.5 km/h strongest gust",
-      rule: "100 at ≤30 km/h, 0 at ≥55, straight line between (medium tolerance)",
-      score: 100,
-      weight: 0.3,
-    },
-    {
-      factor: "Rain",
-      value: "0% highest chance",
-      rule: "100 at ≤10%, 0 at ≥70%",
-      score: 100,
-      weight: 0.2,
-    },
-    {
-      factor: "Dust",
-      value: "85 µg/m³ peak",
-      rule: "100 at ≤60, 0 at ≥400: 100 × (1 − 25⁄340) = 92.6, rounded 93",
-      score: 93,
-      weight: 0.15,
-    },
-    {
-      factor: "Cloud",
-      value: "0% mean, 20:00–04:00",
-      rule: "100 at ≤10%, 0 at ≥80%",
-      score: 100,
-      weight: 0.05,
-    },
-  ],
-};
 
 export function KashtaScore() {
   const total = kashtaExample.rows.reduce((sum, r) => sum + r.score * r.weight, 0);
@@ -337,6 +308,8 @@ export function AmanahQuestions() {
   const hydrated = useHydrated();
   const [answered, setAnswered] = useState<string | null>(null);
   const options = ["Yellow", "Black", "Wooden"];
+  const after =
+    "If it matches, staff may ask one more question or approve; the finder's report is never shown to the owner, and the link credential is stored only as a SHA-256 hash.";
   return (
     <div className="vb-art vb-art-amanah" data-ui="">
       <p className="vb-art-label">
@@ -347,25 +320,36 @@ export function AmanahQuestions() {
       <p className="vb-art-h">
         <span lang="ar">وش لون المقبض؟</span> What colour is the handle?
       </p>
-      <div className="vb-art-options" role="group" aria-label="Sample answer">
-        {options.map((o) => (
-          <button
-            key={o}
-            type="button"
-            className="vb-btn vb-btn-quiet"
-            aria-pressed={answered === o}
-            disabled={!hydrated}
-            onClick={() => setAnswered(o)}
-          >
-            {o}
-          </button>
-        ))}
-      </div>
-      <p className="vb-art-sum" aria-live="polite">
-        {answered
-          ? `Simulated: "${answered}" goes to staff on the private tracking link. If it matches, staff may ask one more question or approve; the finder's report is never shown to you, and the link credential is stored only as a SHA-256 hash.`
-          : "Pick a sample answer. In the product the answer goes to staff, not to the finder; a second question is asked only if staff want more certainty."}
-      </p>
+      {hydrated ? (
+        <>
+          <div className="vb-art-options" role="group" aria-label="Sample answer">
+            {options.map((o) => (
+              <button
+                key={o}
+                type="button"
+                className="vb-btn vb-btn-quiet"
+                aria-pressed={answered === o}
+                onClick={() => setAnswered(o)}
+              >
+                {o}
+              </button>
+            ))}
+          </div>
+          <p className="vb-art-sum" aria-live="polite">
+            {answered
+              ? `Simulated: "${answered}" goes to staff on the private tracking link. ${after}`
+              : "Pick a sample answer. In the product the answer goes to staff, not to the finder; a second question is asked only if staff want more certainty."}
+          </p>
+        </>
+      ) : (
+        <>
+          <p className="vb-art-sum">
+            Sample answers: {options.join(", ")}. Whichever the owner picks goes to staff on the
+            private tracking link, not to the finder.
+          </p>
+          <p className="vb-art-sum">{after}</p>
+        </>
+      )}
     </div>
   );
 }

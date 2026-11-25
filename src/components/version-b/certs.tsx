@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { certificates, type Certificate } from "@/lib/certificates";
 import { publicUrl } from "@/lib/site";
+import { useHydrated } from "@/lib/use-hydrated";
 import { Collapsible } from "./collapsible";
 import { Reveal } from "./reveal";
 
@@ -15,7 +16,13 @@ function meta(item: Certificate) {
     : item.organisation;
 }
 
+/** The file a certificate opens without JavaScript: the PDF, else its preview. */
+function fileOf(item: Certificate) {
+  return item.href ?? item.image?.src ?? null;
+}
+
 export function VersionBCerts() {
+  const hydrated = useHydrated();
   const [hover, setHover] = useState<string | null>(previewable[0]?.id ?? null);
   const [openId, setOpenId] = useState<string | null>(null);
   const dialog = useRef<HTMLDialogElement>(null);
@@ -71,19 +78,30 @@ export function VersionBCerts() {
         <ul className="vb-certs-list">
           {certificates.map((item) => (
             <li key={item.id} data-active={hover === item.id ? "true" : undefined}>
-              <button
-                type="button"
-                className="vb-certs-row"
-                onMouseEnter={() => setHover(item.id)}
-                onFocus={() => setHover(item.id)}
-                onClick={() => setOpenId(item.id)}
-              >
-                <span className="vb-certs-name">{item.name}</span>
-                <span className="vb-certs-meta">{meta(item)}</span>
-                {item.note ? (
-                  <span className="vb-certs-note">{item.note}</span>
-                ) : null}
-              </button>
+              {hydrated && item.image ? (
+                <button
+                  type="button"
+                  className="vb-certs-row"
+                  onMouseEnter={() => setHover(item.id)}
+                  onFocus={() => setHover(item.id)}
+                  onClick={() => setOpenId(item.id)}
+                >
+                  <CertRow item={item} />
+                </button>
+              ) : fileOf(item) ? (
+                <a
+                  href={publicUrl(fileOf(item) ?? "")}
+                  className="vb-certs-row"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <CertRow item={item} />
+                </a>
+              ) : (
+                <div className="vb-certs-row">
+                  <CertRow item={item} />
+                </div>
+              )}
             </li>
           ))}
         </ul>
@@ -95,7 +113,23 @@ export function VersionBCerts() {
       </div>
 
       <div className="vb-certs-stage">
-        {shown?.image ? (
+        {shown?.image && !hydrated ? (
+          <a
+            href={publicUrl(fileOf(shown) ?? "")}
+            className="vb-certs-sheet"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <Image
+              src={shown.image.src}
+              alt=""
+              width={shown.image.width}
+              height={shown.image.height}
+              sizes="(max-width: 900px) 92vw, 46vw"
+            />
+            <span className="vb-certs-sheet-cap">{shown.name}</span>
+          </a>
+        ) : shown?.image ? (
           <button
             type="button"
             className="vb-certs-sheet"
@@ -175,5 +209,15 @@ export function VersionBCerts() {
         ) : null}
       </dialog>
     </section>
+  );
+}
+
+function CertRow({ item }: { item: Certificate }) {
+  return (
+    <>
+      <span className="vb-certs-name">{item.name}</span>
+      <span className="vb-certs-meta">{meta(item)}</span>
+      {item.note ? <span className="vb-certs-note">{item.note}</span> : null}
+    </>
   );
 }

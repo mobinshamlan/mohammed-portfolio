@@ -76,15 +76,23 @@ html:has(.vb) {
   margin: 0;
 }
 
-.vb h1,
-.vb h2,
-.vb h3 {
+/* Zero specificity beyond the element, so component classes can set spacing. */
+:where(.vb) :where(h1, h2, h3) {
   margin: 0;
   font-family: var(--display);
   font-weight: 700;
   letter-spacing: -0.025em;
   line-height: 0.98;
   text-wrap: balance;
+}
+
+.vb-sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
 }
 
 :where(.vb) a {
@@ -593,6 +601,10 @@ html:has(.vb) {
 .vb-jump-empty {
   font-size: var(--step-small);
   opacity: 0.8;
+}
+
+.vb-jump-empty:not(:empty) {
+  padding: 0.75rem 0.9rem;
 }
 
 @media (min-width: 900px) {

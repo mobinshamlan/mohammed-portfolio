@@ -1,8 +1,9 @@
 "use client";
 
-import Image from "next/image";
 import { useState } from "react";
 import { gthrzShots } from "@/lib/gthrz";
+import { useHydrated } from "@/lib/use-hydrated";
+import { GthrzImg } from "./gthrz-img";
 
 // Positions are percentages of the create-event-settings screenshot.
 const controls = [
@@ -37,6 +38,7 @@ const controls = [
 ] as const;
 
 export function GthrzPrivacy() {
+  const hydrated = useHydrated();
   const [index, setIndex] = useState(0);
   const control = controls[index];
 
@@ -66,57 +68,61 @@ export function GthrzPrivacy() {
           Hosts decide when guests see the address, and whether names and
           photos are visible to other guests.
         </p>
-        <div className="vb-gp-tabs" role="tablist" aria-label="Privacy settings">
-          {controls.map((item, i) => (
-            <button
-              key={item.id}
-              type="button"
-              role="tab"
-              id={`gp-tab-${item.id}`}
-              aria-selected={i === index}
-              aria-controls="gp-panel"
-              tabIndex={i === index ? 0 : -1}
-              className="vb-gp-tab"
-              onClick={() => setIndex(i)}
-              onKeyDown={(event) => onTabKey(event, i)}
+        {hydrated ? (
+          <>
+            <div className="vb-gp-tabs" role="tablist" aria-label="Privacy settings">
+              {controls.map((item, i) => (
+                <button
+                  key={item.id}
+                  type="button"
+                  role="tab"
+                  id={`gp-tab-${item.id}`}
+                  aria-selected={i === index}
+                  aria-controls="gp-panel"
+                  tabIndex={i === index ? 0 : -1}
+                  className="vb-gp-tab"
+                  onClick={() => setIndex(i)}
+                  onKeyDown={(event) => onTabKey(event, i)}
+                >
+                  {item.label}
+                </button>
+              ))}
+            </div>
+            <p
+              id="gp-panel"
+              role="tabpanel"
+              aria-labelledby={`gp-tab-${control.id}`}
+              className="vb-gp-note"
             >
-              {item.label}
-            </button>
-          ))}
-        </div>
-        <p
-          id="gp-panel"
-          role="tabpanel"
-          aria-labelledby={`gp-tab-${control.id}`}
-          className="vb-gp-note"
-        >
-          {control.note}
-        </p>
+              {control.note}
+            </p>
+          </>
+        ) : (
+          // Without JavaScript every setting is listed instead of tabbed.
+          <dl className="vb-gp-list">
+            {controls.map((item) => (
+              <div key={item.id}>
+                <dt>{item.label}</dt>
+                <dd>{item.note}</dd>
+              </div>
+            ))}
+          </dl>
+        )}
       </div>
 
       <div className="vb-gp-phones">
         <div className="vb-gp-main">
-          <Image
-            src={gthrzShots.privacy.src}
-            alt={gthrzShots.privacy.alt}
-            width={gthrzShots.privacy.width}
-            height={gthrzShots.privacy.height}
-            sizes="(max-width: 900px) 56vw, 330px"
-          />
-          <span
-            className="vb-gp-hl"
-            aria-hidden="true"
-            style={{ top: `${control.top}%`, height: `${control.height}%` }}
-          />
+          <GthrzImg shot={gthrzShots.privacy} sizes="(max-width: 899px) 56vw, 330px" />
+          {hydrated ? (
+            <span
+              className="vb-gp-hl"
+              aria-hidden="true"
+              style={{ top: `${control.top}%`, height: `${control.height}%` }}
+            />
+          ) : null}
         </div>
         <figure className="vb-gp-side">
-          <Image
-            src={gthrzShots.details.src}
-            alt={gthrzShots.details.alt}
-            width={gthrzShots.details.width}
-            height={gthrzShots.details.height}
-            sizes="(max-width: 900px) 40vw, 240px"
-          />
+          <GthrzImg shot={gthrzShots.details} sizes="(max-width: 899px) 40vw, 240px" />
           <figcaption>The event page shows when the location is revealed.</figcaption>
         </figure>
       </div>

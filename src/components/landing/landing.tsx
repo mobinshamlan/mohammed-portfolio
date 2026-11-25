@@ -181,9 +181,11 @@ function Showcase({
       className={`vl-cell vl-cell-${side}`}
       data-hover={hovered === side}
     >
+      {/* No prefetching: this page stays light, and each version loads on click. */}
       <Link
         ref={window}
         href={version.href}
+        prefetch={false}
         className={`vl-win vl-win-${side}`}
         tabIndex={-1}
         aria-hidden="true"
@@ -217,6 +219,7 @@ function Showcase({
         <p className="vl-label-blurb">{version.blurb}</p>
         <Link
           href={version.href}
+          prefetch={false}
           className="vl-cta"
           onFocus={() => {
             onHover(side);
@@ -453,7 +456,9 @@ export function Landing() {
       <main className="vl-main">
         <header className="vl-head">
           <p className="vl-eyebrow">
-            <Link href="/">Mohammed Bin Shamlan</Link>
+            <Link href="/" prefetch={false}>
+              Mohammed Bin Shamlan
+            </Link>
             <span>Prompt experiment / 2026</span>
           </p>
           <h1 className="vl-title">
@@ -487,7 +492,11 @@ export function Landing() {
           <ul>
             {versions.map((version) => (
               <li key={version.side}>
-                <Link href={version.href} className="vl-end-row">
+                <Link
+                  href={version.href}
+                  prefetch={false}
+                  className="vl-end-row"
+                >
                   <span className="vl-end-name">{version.kicker}</span>
                   <span className="vl-end-title">{version.title}</span>
                   <span className="vl-end-arrow" aria-hidden="true">
@@ -501,7 +510,9 @@ export function Landing() {
 
         <footer className="vl-foot">
           <p>
-            <Link href="/">Mohammed Bin Shamlan</Link>
+            <Link href="/" prefetch={false}>
+              Mohammed Bin Shamlan
+            </Link>
           </p>
           <p>Prompt experiment / 2026</p>
         </footer>

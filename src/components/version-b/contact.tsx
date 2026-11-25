@@ -1,6 +1,6 @@
 "use client";
 
-import { useId, useRef, useState, type FormEvent } from "react";
+import { useEffect, useId, useRef, useState, type FormEvent } from "react";
 import { useHydrated } from "@/lib/use-hydrated";
 import { contact } from "@/lib/contact";
 import { Collapsible } from "./collapsible";
@@ -45,7 +45,21 @@ export function VersionBContact() {
   // The form needs JavaScript to open a draft; without it the email link above is the way in.
   const mounted = useHydrated();
   const noteRef = useRef<HTMLDivElement>(null);
+  // The first invalid field, focused once its error message has rendered.
+  const [invalid, setInvalid] = useState<{ field: FieldName; attempt: number } | null>(null);
   const mail = buildMail(fields);
+
+  useEffect(() => {
+    if (!invalid) return;
+    const field = document.getElementById(`${id}-${invalid.field}`);
+    if (!field) return;
+    field.focus({ preventScroll: true });
+    // Centred, so the sticky header never covers the field or its message.
+    field.scrollIntoView({
+      block: "center",
+      behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth",
+    });
+  }, [id, invalid]);
 
   function update(name: FieldName, value: string) {
     setFields((current) => ({ ...current, [name]: value }));
@@ -84,7 +98,7 @@ export function VersionBContact() {
       (key) => next[key],
     );
     if (first) {
-      document.getElementById(`${id}-${first}`)?.focus();
+      setInvalid((current) => ({ field: first, attempt: (current?.attempt ?? 0) + 1 }));
       return;
     }
     setStatus("opening");

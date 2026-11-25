@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import { CasePage } from "@/components/version-b/case-study";
 import { GthrzPlanner } from "@/components/version-b/gthrz-planner";
+import { GthrzImg } from "@/components/version-b/gthrz-img";
 import { GthrzPrivacy } from "@/components/version-b/gthrz-privacy";
 import { Reveal } from "@/components/version-b/reveal";
 import { gthrzShots } from "@/lib/gthrz";
@@ -29,12 +29,9 @@ function Phones() {
       {heroShots.map((shot, index) => (
         <figure key={shot.src} className="vb-phone vb-phone-sm" data-ui="">
           <span className="vb-phone-notch" aria-hidden="true" />
-          <Image
-            src={shot.src}
-            alt={shot.alt}
-            width={shot.width}
-            height={shot.height}
-            sizes="(max-width: 900px) 30vw, 230px"
+          <GthrzImg
+            shot={shot}
+            sizes="(max-width: 899px) 17rem, 230px"
             priority={index === 1}
             className="vb-phone-img"
           />
@@ -60,12 +57,9 @@ export default function GthrzCaseStudyPage() {
             <Reveal key={shot.src} delay={index * 0.05} className="vb-screen vb-screen-phone">
               <figure className="vb-phone" data-ui="">
                 <span className="vb-phone-notch" aria-hidden="true" />
-                <Image
-                  src={shot.src}
-                  alt={shot.alt}
-                  width={shot.width}
-                  height={shot.height}
-                  sizes="(max-width: 900px) 44vw, 220px"
+                <GthrzImg
+                  shot={shot}
+                  sizes="(max-width: 899px) 44vw, 220px"
                   className="vb-phone-img"
                 />
                 <figcaption className="vb-frame-cap">{shot.caption}</figcaption>

@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useEffect, useId, useRef, useState } from "react";
 import { projects } from "@/lib/projects";
+import { useHydrated } from "@/lib/use-hydrated";
 import { focusSection } from "./nav";
 
 type Item = { label: string; hint: string; href: string };
@@ -29,6 +30,11 @@ const items: Item[] = [
  * Jump anywhere: Cmd/Ctrl+K or "/" opens a dialog with every project and
  * section. Type to filter, arrows to move, Enter to go, Escape to close.
  */
+/** Lower case, without Arabic diacritics or tatweel, so طمني matches طمّني. */
+function fold(text: string) {
+  return text.toLowerCase().replace(/[\u064B-\u065F\u0670\u0640]/g, "");
+}
+
 export function Jumper() {
   const router = useRouter();
   const dialog = useRef<HTMLDialogElement>(null);
@@ -38,10 +44,10 @@ export function Jumper() {
   const [index, setIndex] = useState(0);
   const listId = useId();
   const returnTo = useRef<HTMLElement | null>(null);
+  const hydrated = useHydrated();
 
-  const shown = items.filter((item) =>
-    `${item.label} ${item.hint}`.toLowerCase().includes(query.trim().toLowerCase()),
-  );
+  const needle = fold(query.trim());
+  const shown = items.filter((item) => fold(`${item.label} ${item.hint}`).includes(needle));
   const active = Math.min(index, Math.max(0, shown.length - 1));
 
   function open() {
@@ -112,6 +118,11 @@ export function Jumper() {
     }
   }
 
+  // The dialog needs JavaScript; without it the nav links do the same job.
+  if (!hydrated) {
+    return null;
+  }
+
   return (
     <>
       <button
@@ -154,7 +165,7 @@ export function Jumper() {
             placeholder="Type a project or section"
             value={query}
             role="combobox"
-            aria-expanded="true"
+            aria-expanded={shown.length > 0}
             aria-controls={listId}
             aria-activedescendant={shown[active] ? `${listId}-${active}` : undefined}
             aria-autocomplete="list"
@@ -165,11 +176,17 @@ export function Jumper() {
             }}
             onKeyDown={onInputKey}
           />
-          <ul id={listId} role="listbox" className="vb-jump-list" aria-label="Destinations">
-            {shown.length === 0 ? (
-              <li className="vb-jump-empty">Nothing matches. Try a project name.</li>
-            ) : (
-              shown.map((item, i) => (
+          <p className="vb-jump-empty" role="status">
+            {shown.length === 0 ? "Nothing matches. Try a project name." : ""}
+          </p>
+          <ul
+            id={listId}
+            role="listbox"
+            className="vb-jump-list"
+            aria-label="Destinations"
+            hidden={shown.length === 0}
+          >
+            {shown.map((item, i) => (
                 <li
                   key={item.href + item.label}
                   id={`${listId}-${i}`}
@@ -182,8 +199,7 @@ export function Jumper() {
                   <span className="vb-jump-name">{item.label}</span>
                   <span className="vb-jump-hint">{item.hint}</span>
                 </li>
-              ))
-            )}
+            ))}
           </ul>
           <p className="vb-jump-foot">
             Arrows move, Enter opens, Esc closes. Press / anywhere to open this.

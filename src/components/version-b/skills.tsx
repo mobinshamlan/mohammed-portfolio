@@ -4,12 +4,15 @@ import Link from "next/link";
 import { useState } from "react";
 import { projects, type ProjectId } from "@/lib/projects";
 import { skillGroups } from "@/lib/skills";
+import { useHydrated } from "@/lib/use-hydrated";
 import { Collapsible } from "./collapsible";
 import { Reveal } from "./reveal";
 
 type Selection = ProjectId | "all";
 
 export function VersionBSkills() {
+  // The project switch needs JavaScript; without it the groups still show what was used.
+  const hydrated = useHydrated();
   const [selected, setSelected] = useState<Selection>("all");
   const project = projects.find((item) => item.id === selected);
   const count =
@@ -38,54 +41,62 @@ export function VersionBSkills() {
         </Reveal>
         <Reveal delay={0.08}>
           <p className="vb-lead">
-            Pick a project to light up the tools it was built with. The rest
-            come from the degree, the bootcamp, or the CV.
+            {hydrated
+              ? "Pick a project to light up the tools it was built with."
+              : "Lit words were used in a project I built."}{" "}
+            The rest come from the degree, the bootcamp, or the CV.
           </p>
         </Reveal>
 
-        <div
-          className="vb-skills-switch"
-          role="group"
-          aria-label="Show skills used in a project"
-        >
-          <button
-            type="button"
-            className="vb-skills-pick"
-            aria-pressed={selected === "all"}
-            onClick={() => setSelected("all")}
-          >
-            All
-          </button>
-          {projects.map((item) => (
-            <button
-              key={item.id}
-              type="button"
-              className="vb-skills-pick"
-              aria-pressed={selected === item.id}
-              onClick={() => setSelected(item.id)}
+        {hydrated ? (
+          <>
+            <div
+              className="vb-skills-switch"
+              role="group"
+              aria-label="Show skills used in a project"
             >
-              {item.name}
-            </button>
-          ))}
-        </div>
+              <button
+                type="button"
+                className="vb-skills-pick"
+                aria-pressed={selected === "all"}
+                onClick={() => setSelected("all")}
+              >
+                All
+              </button>
+              {projects.map((item) => (
+                <button
+                  key={item.id}
+                  type="button"
+                  className="vb-skills-pick"
+                  aria-pressed={selected === item.id}
+                  onClick={() => setSelected(item.id)}
+                >
+                  {item.name}
+                </button>
+              ))}
+            </div>
 
-        <p className="vb-skills-note" aria-live="polite">
-          {project ? (
-            <>
-              {count} tools lit for {project.name}.{" "}
-              <Link href={`/projects/${project.id}`} className="vb-link">
-                Read the case study
-              </Link>
-            </>
-          ) : (
-            "Lit words were used in a project I built. Dimmer ones are learned or studied."
-          )}
-        </p>
+            <p className="vb-skills-note" aria-live="polite">
+              {project ? (
+                <>
+                  {count} tools lit for {project.name}.{" "}
+                  <Link href={`/projects/${project.id}`} className="vb-link">
+                    Read the case study
+                  </Link>
+                </>
+              ) : (
+                "Lit words were used in a project I built. Dimmer ones are learned or studied."
+              )}
+            </p>
+          </>
+        ) : null}
       </div>
 
       <Collapsible
         className="vb-skills-groups"
-        summary={<span className="vb-skills-summary">All the tools, by group</span>}
+        summary={
+          <span className="vb-skills-summary">All the tools, by group</span>
+        }
       >
         {skillGroups.map((group) => (
           <div key={group.title} className="vb-skills-group">
@@ -96,7 +107,7 @@ export function VersionBSkills() {
                 const lit =
                   selected === "all"
                     ? used
-                    : skill.projects?.includes(selected) ?? false;
+                    : (skill.projects?.includes(selected) ?? false);
                 return (
                   <li
                     key={skill.name}

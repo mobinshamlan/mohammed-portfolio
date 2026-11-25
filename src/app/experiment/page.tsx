@@ -5,6 +5,7 @@ import "./landing.css";
 
 const display = Oswald({
   subsets: ["latin"],
+  weight: ["600", "700"],
   variable: "--font-vl-display",
   display: "swap",
 });

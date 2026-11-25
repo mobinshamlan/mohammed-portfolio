@@ -33,7 +33,9 @@ export function VersionBFooter() {
             <Link href="/#work">Work</Link>
           </li>
           <li>
-            <Link href="/experiment">How this site was built →</Link>
+            <Link href="/experiment" prefetch={false}>
+              How this site was built →
+            </Link>
           </li>
           <li>Saudi Arabia, 2026</li>
         </ul>

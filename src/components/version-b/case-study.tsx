@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { CSSProperties, ReactNode } from "react";
 import { nextProject, previousProject, type Project } from "@/lib/projects";
+import { kashtaExample } from "@/lib/kashta-example";
 import { DecisionArtifact } from "./artifacts";
 import { DayLine } from "./dayline";
 import { DeviceFrame } from "./device-frame";
@@ -32,6 +33,150 @@ export function Flow({ project }: { project: Project }) {
   );
 }
 
+/** The live link a case points to first, or its repository. */
+function evidenceLink(project: Project, match: RegExp) {
+  return project.links.find((link) => match.test(link.label)) ?? project.links[0];
+}
+
+function ExternalLink({ href, children }: { href: string; children: ReactNode }) {
+  return (
+    <a href={href} className="vb-link" target="_blank" rel="noreferrer">
+      {children}
+      <span className="vb-sr"> (opens in a new tab)</span>
+    </a>
+  );
+}
+
+const openings: ReadonlySet<string> = new Set(["kashta", "seet", "amanah"]);
+
+function hasOpening(project: Project) {
+  return openings.has(project.id);
+}
+
+/**
+ * What each case leads with, before the metadata: the one thing that shows
+ * how the product thinks, and a link to the strongest evidence for it.
+ */
+function CaseOpening({ project }: { project: Project }) {
+  if (project.id === "kashta") {
+    const total = kashtaExample.rows.reduce((sum, r) => sum + r.score * r.weight, 0);
+    const live = evidenceLink(project, /live/i);
+    return (
+      <section className="vb-case-open vb-open-kashta" aria-labelledby="open-title">
+        <h2 id="open-title" className="vb-open-title">
+          One real night, scored by code: <strong>{Math.round(total)}</strong>
+        </h2>
+        <p className="vb-open-sub">
+          {kashtaExample.site}, {kashtaExample.shortNight}. The live app showed{" "}
+          {kashtaExample.liveScore}.
+        </p>
+        <ol className="vb-open-factors">
+          {kashtaExample.rows.map((row) => (
+            <li key={row.factor}>
+              <span>
+                <abbr title={row.factor}>{row.short}</abbr>
+              </span>
+              <strong>{row.score}</strong>
+              <em>×&nbsp;{row.weight}</em>
+            </li>
+          ))}
+        </ol>
+        <p className="vb-open-links">
+          <Link href="#decision-title" className="vb-link">
+            See the working
+          </Link>
+          <ExternalLink href={live.href}>Open the live app</ExternalLink>
+        </p>
+      </section>
+    );
+  }
+  if (project.id === "seet") {
+    const live = evidenceLink(project, /live/i);
+    return (
+      <section className="vb-case-open vb-open-seet" aria-labelledby="open-title">
+        <h2 id="open-title" className="vb-open-title">
+          A slot is held first. Only the deposit confirms it.
+        </h2>
+        <DayLine
+          className="vb-open-line"
+          label="One booking, simulated with made-up prices"
+          moments={[
+            { time: "Held", label: "Tuesday, for two hours" },
+            { time: "Deposit", label: "2,250 SAR link sent" },
+            { time: "Confirmed", label: "Payment callback only" },
+          ]}
+        />
+        <p className="vb-open-sub">Simulated booking with made-up prices. The app is in development.</p>
+        <p className="vb-open-links">
+          <Link href="#decision-title" className="vb-link">
+            Step through the chat
+          </Link>
+          <ExternalLink href={live.href}>Live landing page</ExternalLink>
+        </p>
+      </section>
+    );
+  }
+  if (project.id === "amanah") {
+    const demo = evidenceLink(project, /demo/i);
+    return (
+      <section className="vb-case-open vb-open-amanah" aria-labelledby="open-title">
+        <h2 id="open-title" className="vb-open-title">
+          One match, two different views
+        </h2>
+        <div className="vb-open-views">
+          <div>
+            <h3>Staff see</h3>
+            <ul>
+              <li>Both reports, lost and found</li>
+              <li>Gemini&rsquo;s suggested match</li>
+              <li>The answers; approve or reject, logged</li>
+            </ul>
+          </div>
+          <div>
+            <h3>The claimant sees</h3>
+            <ul>
+              <li>Their own report, on a private link</li>
+              <li>
+                One question: <span lang="ar">وش لون المقبض؟</span>
+              </li>
+              <li>Never the finder&rsquo;s report</li>
+            </ul>
+          </div>
+        </div>
+        <p className="vb-open-links">
+          <ExternalLink href={demo.href}>Walk through the guided demo</ExternalLink>
+        </p>
+      </section>
+    );
+  }
+  return null;
+}
+
+/** The cover as one legible crop: the phone capture on phones, the window on wide screens. */
+function CoverShot({ project }: { project: Project }) {
+  const { cover, coverPhone } = project;
+  const label = project.links[0]?.href.replace("https://", "");
+  return (
+    <figure className="vb-window vb-case-shot" data-ui="" data-crop={project.id}>
+      <span className="vb-window-bar" aria-hidden="true">
+        <span className="vb-window-dots" />
+        {label ? <span className="vb-window-url">{label}</span> : null}
+      </span>
+      <picture>
+        {coverPhone ? <source media="(max-width: 899px)" srcSet={coverPhone.src} /> : null}
+        <img
+          src={cover.src}
+          alt={cover.alt}
+          width={cover.width}
+          height={cover.height}
+          fetchPriority="high"
+          className="vb-window-img"
+        />
+      </picture>
+    </figure>
+  );
+}
+
 export function CaseHero({
   project,
   art,
@@ -39,6 +184,33 @@ export function CaseHero({
   project: Project;
   art?: ReactNode;
 }) {
+  // Cases with an opening lead with it and keep their links with the metadata.
+  const opening = hasOpening(project) ? <CaseOpening project={project} /> : null;
+  const links = (
+    <div className="vb-case-links">
+      <span className="vb-chip">{project.statusChip}</span>
+      {project.links.map((link) =>
+        link.href.startsWith("/") ? (
+          <Link key={link.href} href={link.href} className="vb-btn vb-btn-field">
+            {link.label}
+          </Link>
+        ) : (
+          <a
+            key={link.href}
+            href={link.href}
+            className="vb-btn vb-btn-field"
+            target="_blank"
+            rel="noreferrer"
+          >
+            {link.label}
+          </a>
+        ),
+      )}
+      {project.linkNote ? (
+        <p className="vb-case-linknote">{project.linkNote}</p>
+      ) : null}
+    </div>
+  );
   return (
     <header
       className="vb-case-hero"
@@ -51,11 +223,16 @@ export function CaseHero({
           {project.arabic ? <span lang="ar">{project.arabic}</span> : null}
         </h1>
         <p className="vb-case-tagline">{project.tagline}</p>
+        {opening ?? links}
+      </div>
+      <div className="vb-case-hero-art">{art ?? <CoverShot project={project} />}</div>
+      <div className="vb-case-hero-meta">
         {project.arabicTagline ? (
           <p className="vb-case-arabic" lang="ar">
             {project.arabicTagline}
           </p>
         ) : null}
+        {opening ? links : null}
         <dl className="vb-case-facts">
           <div>
             <dt>Status</dt>
@@ -76,42 +253,9 @@ export function CaseHero({
             <dd>{project.contribution}</dd>
           </div>
         </dl>
-        <div className="vb-case-links">
-          <span className="vb-chip">{project.statusChip}</span>
-          {project.links.map((link) =>
-            link.href.startsWith("/") ? (
-              <Link key={link.href} href={link.href} className="vb-btn vb-btn-field">
-                {link.label}
-              </Link>
-            ) : (
-              <a
-                key={link.href}
-                href={link.href}
-                className="vb-btn vb-btn-field"
-                target="_blank"
-                rel="noreferrer"
-              >
-                {link.label}
-              </a>
-            ),
-          )}
-          {project.linkNote ? (
-            <p className="vb-case-linknote">{project.linkNote}</p>
-          ) : null}
-        </div>
         <p className="vb-crumbs">
           <Link href="/#work">All work</Link>
         </p>
-      </div>
-      <div className="vb-case-hero-art">
-        {art ?? (
-          <DeviceFrame
-            shot={project.cover}
-            sizes="(max-width: 900px) 100vw, 60vw"
-            priority
-            label={project.links[0]?.href.replace("https://", "")}
-          />
-        )}
       </div>
     </header>
   );
@@ -131,6 +275,7 @@ export function CaseBody({
   const next = nextProject(project.id);
   const previous = previousProject(project.id);
   const hrefOf = (item: Project) => item.href ?? `/projects/${item.id}`;
+  // The experiment page brings its own fonts; only fetch them when someone goes there.
   // The cover already showed the first screen; do not repeat it unless it would leave one.
   const unrepeated = project.screens.filter((shot) => shot.src !== project.cover.src);
   const screens = unrepeated.length >= 2 ? unrepeated : project.screens;
@@ -223,7 +368,11 @@ export function CaseBody({
         <section className="vb-case-section vb-case-screens" aria-labelledby="screens-title">
           <Reveal>
             <h2 id="screens-title" className="vb-case-h2">
-              {project.id === "gthrz" ? "Screens from the app" : "Screens from the live app"}
+              {project.id === "seet"
+                ? "The live landing page"
+                : project.id === "gthrz"
+                  ? "Screens from the app"
+                  : "Screens from the live app"}
             </h2>
           </Reveal>
           <div className="vb-screens" data-layout={project.id}>
@@ -276,6 +425,7 @@ export function CaseBody({
       <nav className="vb-case-next" aria-label="More projects">
         <Link
           href={hrefOf(previous)}
+          prefetch={previous.id === "experiment" ? false : undefined}
           className="vb-case-next-link"
           style={fieldStyle(previous)}
         >
@@ -287,6 +437,7 @@ export function CaseBody({
         </Link>
         <Link
           href={hrefOf(next)}
+          prefetch={next.id === "experiment" ? false : undefined}
           className="vb-case-next-link"
           style={fieldStyle(next)}
         >

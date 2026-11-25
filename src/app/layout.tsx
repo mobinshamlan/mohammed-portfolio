@@ -1,22 +1,8 @@
 import type { Metadata } from "next";
-import { Alexandria, Readex_Pro } from "next/font/google";
 import "./globals.css";
 
-// Version A (the frozen baseline) loads its own two faces in src/app/version-a/layout.tsx.
-// The portfolio: one display face and one text face, both Arabic and Latin.
-const display = Alexandria({
-  subsets: ["arabic", "latin"],
-  weight: ["700", "800"],
-  variable: "--font-vb-display",
-  display: "swap",
-});
-
-const text = Readex_Pro({
-  subsets: ["arabic", "latin"],
-  weight: ["400"],
-  variable: "--font-vb-text",
-  display: "swap",
-});
+// Each area loads only its own faces: the portfolio in src/app/(portfolio)/layout.tsx,
+// the experiment in src/app/experiment/page.tsx, Version A in src/app/version-a/layout.tsx.
 
 export const metadata: Metadata = {
   title: {
@@ -29,11 +15,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html
-      lang="en"
-      data-scroll-behavior="smooth"
-      className={`${display.variable} ${text.variable} h-full antialiased`}
-    >
+    <html lang="en" data-scroll-behavior="smooth" className="h-full antialiased">
       <body className="min-h-full">{children}</body>
     </html>
   );

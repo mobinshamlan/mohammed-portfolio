@@ -110,7 +110,6 @@ export function VersionBJourney() {
                 <div className="vb-award">
                   <DocumentViewer
                     triggerClassName="vb-award-trigger"
-                    triggerLabel="View degree certificate"
                     src={degree.src}
                     width={degree.width}
                     height={degree.height}
