@@ -388,7 +388,7 @@
   }
 }
 
-/* ---------- Selected work: covers that stack ---------- */
+/* ---------- Selected work: one section per project ---------- */
 
 .vb-work {
   display: flex;
@@ -409,198 +409,722 @@
 .vb-work-head {
   display: grid;
   gap: 1.25rem;
-  padding: clamp(3rem, 7vw, 6rem) var(--gutter) clamp(3rem, 6vw, 5rem);
+  padding: clamp(3rem, 7vw, 6rem) var(--gutter) clamp(2.5rem, 5vw, 4rem);
 }
 
 .vb-work-lead {
   color: var(--sand-2);
 }
 
-.vb-covers {
-  margin: 0;
-  padding: 0;
-  list-style: none;
+.vb-about-grid > * {
+  min-width: 0;
 }
 
-.vb-cover {
+/* Shared parts. Each project sits on its own field; the parts keep one voice. */
+.vb-proj {
   position: relative;
   background: var(--field);
   color: var(--field-ink);
 }
 
-.vb-cover-inner {
+.vb-proj-inner {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: 2rem;
-  padding: clamp(3rem, 8vw, 6rem) var(--gutter) clamp(3rem, 8vw, 5rem);
+  padding: clamp(3.5rem, 7vw, 7rem) var(--gutter);
 }
 
-.vb-cover-inner > *,
-.vb-hero > *,
-.vb-about-grid > * {
+.vb-proj-inner > * {
   min-width: 0;
 }
 
-.vb-cover-copy {
-  display: flex;
-  flex-direction: column;
-  gap: 1.25rem;
-  align-self: center;
+.vb-proj-head {
+  display: grid;
+  gap: 0.9rem;
+  align-content: start;
 }
 
-.vb-cover-name {
-  font-size: clamp(3.4rem, 2rem + 7vw, 7.5rem);
+.vb-proj-kind,
+.vb-proj-label {
+  color: var(--field-muted);
+  font-size: var(--step-small);
+  line-height: 1.4;
+}
+
+.vb-proj-name {
+  font-size: clamp(3rem, 1.4rem + 5vw, 6.5rem);
   font-weight: 800;
-  line-height: 0.9;
+  line-height: 0.92;
   letter-spacing: -0.04em;
 }
 
-.vb-cover-name a {
+.vb-proj-name a {
   text-decoration: none;
 }
 
-.vb-cover-name a:hover {
+.vb-proj-name a:hover {
   text-decoration: underline;
   text-decoration-thickness: 0.06em;
   text-underline-offset: 0.08em;
 }
 
-.vb-cover-name span[lang="ar"] {
+.vb-proj-name span[lang="ar"] {
   display: block;
-  margin-top: 0.18em;
-  font-size: 0.62em;
+  width: fit-content;
+  margin-top: 0.2em;
+  font-size: 0.58em;
   font-weight: 700;
   line-height: 1.25;
+  letter-spacing: 0;
   color: var(--accent);
 }
 
-.vb-cover-tagline {
-  max-width: 30ch;
+.vb-proj-tagline {
+  max-width: 32ch;
   font-size: var(--step-lead);
   line-height: 1.35;
   text-wrap: pretty;
 }
 
-.vb-cover-facts {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 0.9rem 1.5rem;
-  max-width: 40rem;
-  margin: 0.5rem 0 1.5rem;
+/* The decision, in one line: the reason the section looks the way it does. */
+.vb-proj-hook {
+  max-width: 40ch;
+  margin-top: 0.4rem;
+  padding-top: 0.9rem;
+  border-top: 2px solid var(--accent);
+  font-family: var(--display);
+  font-size: clamp(1.05rem, 0.95rem + 0.4vw, 1.3rem);
+  font-weight: 700;
+  line-height: 1.4;
+  letter-spacing: -0.01em;
+  text-wrap: pretty;
 }
 
-.vb-cover-facts dt {
-  color: var(--field-muted);
+.vb-proj-foot {
+  display: grid;
+  gap: 0.75rem;
+  align-content: start;
+}
+
+.vb-proj-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 0.9rem;
   font-size: var(--step-small);
 }
 
-.vb-cover-facts dd {
-  margin: 0.1rem 0 0;
-  font-weight: 500;
+.vb-proj-part {
+  max-width: 48ch;
+  color: var(--field-muted);
+  font-size: var(--step-small);
+  line-height: 1.5;
 }
 
-.vb-cover-fact-wide {
-  grid-column: 1 / -1;
+.vb-proj-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 1.5rem;
+  margin-top: 0.5rem;
 }
 
-.vb-cover-art {
+.vb-proj-links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0 1.25rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: var(--step-small);
+}
+
+.vb-proj-linknote {
+  color: var(--field-muted);
+}
+
+.vb-proj-art {
   position: relative;
   align-self: center;
-  min-width: 0;
 }
 
-.vb-cover-window {
-  width: 100%;
-}
-
-.vb-cover-phone {
-  position: absolute;
-  right: -0.5rem;
-  bottom: -1.5rem;
-  width: 26%;
-  max-width: 180px;
-}
-
-.vb-cover-phones {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 0.8rem;
-  align-items: end;
-}
-
-.vb-cover-phones .vb-phone:nth-child(2) {
-  transform: translateY(-1.5rem);
-}
-
-.vb-cover-phones-2 {
-  grid-template-columns: repeat(2, minmax(0, 15rem));
-  justify-content: center;
-}
-
-.vb-cover .vb-art {
+/* Product artifacts drawn in the field's ink. */
+.vb-proj .vb-art {
   background: color-mix(in srgb, var(--field-ink) 90%, var(--field));
   color: var(--field);
 }
 
-.vb-cover .vb-art-label,
-.vb-cover .vb-art-en,
-.vb-cover .vb-art-note {
+.vb-proj .vb-art-label,
+.vb-proj .vb-art-en,
+.vb-proj .vb-art-note {
   color: color-mix(in srgb, var(--field) 75%, var(--field-ink));
 }
 
-.vb-cover .vb-art-chat li {
+.vb-proj .vb-art-chat li {
   background: color-mix(in srgb, var(--field) 14%, transparent);
 }
 
-.vb-cover .vb-art-chat li[data-who="brand"] {
+.vb-proj .vb-art-chat li[data-who="brand"] {
   background: color-mix(in srgb, var(--field) 20%, transparent);
 }
 
 /* Translations inside the bubbles read at 4.5:1 or more. */
-.vb-cover .vb-art-chat .vb-art-en {
+.vb-proj .vb-art-chat .vb-art-en {
   color: var(--field);
 }
 
-.vb-cover .vb-art-chat li[data-who="system"] {
+.vb-proj .vb-art-chat li[data-who="system"] {
   background: color-mix(in srgb, var(--ok) 22%, transparent);
 }
 
-.vb-cover .vb-art-state span {
+.vb-proj .vb-art-state span {
   background: color-mix(in srgb, var(--field) 14%, transparent);
 }
 
-.vb-cover .vb-art-state span[data-on="true"] {
+.vb-proj .vb-art-state span[data-on="true"] {
   background: var(--field);
   color: var(--field-ink);
 }
 
-.vb-cover .vb-art .vb-btn {
+.vb-proj .vb-art .vb-btn {
   background: var(--field);
   color: var(--field-ink);
 }
 
-.vb-cover .vb-art .vb-btn-quiet {
+.vb-proj .vb-art .vb-btn-quiet {
   background: color-mix(in srgb, var(--field) 18%, transparent);
   color: var(--field);
 }
 
-@media (min-width: 900px) {
-  .vb-cover-inner {
-    grid-template-columns: 5fr 7fr;
-    column-gap: clamp(2rem, 5vw, 5rem);
-    align-items: center;
+/* Tammeni: one family's rules beside the screens that set them. */
+.vb-proj-rules {
+  display: grid;
+  gap: 0.75rem;
+  align-content: start;
+}
+
+.vb-proj-rules ul {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-radius: 0.6rem;
+  overflow: hidden;
+  background: color-mix(in srgb, var(--field-ink) 18%, transparent);
+}
+
+.vb-proj-rules li {
+  display: grid;
+  gap: 0.15rem;
+  padding: 0.8rem 0.9rem;
+  background: var(--field);
+}
+
+.vb-proj-rules li span {
+  color: var(--accent);
+  font-size: var(--step-small);
+}
+
+.vb-proj-rules li strong {
+  font-weight: 500;
+  line-height: 1.35;
+}
+
+.vb-proj-phones {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 15.5rem));
+  justify-content: center;
+  align-items: start;
+  gap: clamp(0.75rem, 2vw, 1.5rem);
+}
+
+.vb-proj-phones .vb-phone:nth-child(2) {
+  margin-top: 3rem;
+}
+
+/* Seet: the held → deposit → confirmed line under the masthead. */
+.vb-proj-states .vb-dayline {
+  --rail-on: var(--field-ink);
+}
+
+.vb-proj-states .vb-dayline-time {
+  font-size: 1.15rem;
+}
+
+.vb-proj-states .vb-dayline-label {
+  opacity: 1;
+}
+
+/* Kashta: one real night, scored by hand. */
+.vb-proj[data-layout="score"] {
+  background:
+    radial-gradient(ellipse 60% 70% at 62% 115%, color-mix(in srgb, var(--accent) 22%, transparent), transparent 70%),
+    var(--field);
+}
+
+.vb-proj-score figure {
+  display: grid;
+  gap: 1rem;
+  margin: 0;
+}
+
+.vb-score-total {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 0.5rem 1.25rem;
+}
+
+.vb-score-total strong {
+  font-family: var(--display);
+  font-size: clamp(6rem, 3rem + 8vw, 11rem);
+  font-weight: 800;
+  line-height: 0.8;
+  letter-spacing: -0.05em;
+  color: var(--accent);
+  font-variant-numeric: tabular-nums;
+}
+
+.vb-score-total span {
+  max-width: 22ch;
+  padding-bottom: 0.3rem;
+  color: var(--field-muted);
+  font-size: var(--step-small);
+}
+
+.vb-score-bars {
+  display: grid;
+  gap: 0.6rem;
+  margin: 0.5rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.vb-score-bars li {
+  display: grid;
+  grid-template-columns: 6.5rem minmax(0, 1fr) 2.2rem 3.2rem;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: var(--step-small);
+  font-variant-numeric: tabular-nums;
+}
+
+.vb-score-bar {
+  position: relative;
+  height: 0.45rem;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--field-ink) 14%, transparent);
+}
+
+.vb-score-bar::before {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: var(--score);
+  border-radius: inherit;
+  background: var(--accent);
+}
+
+.vb-score-bars strong {
+  text-align: right;
+}
+
+.vb-score-bars em {
+  color: var(--field-muted);
+  font-style: normal;
+}
+
+/* Amanah: the same match from each side of the desk. */
+.vb-proj-view {
+  display: grid;
+  gap: 0.75rem;
+  align-content: start;
+  padding-top: 1rem;
+  border-top: 2px solid var(--field-ink);
+}
+
+.vb-proj-view h4 {
+  margin: 0;
+  font-family: var(--display);
+  font-size: var(--step-lead);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.vb-proj-view ul {
+  display: grid;
+  gap: 0.6rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.vb-proj-view li {
+  padding-bottom: 0.6rem;
+  border-bottom: 1px solid color-mix(in srgb, var(--field-ink) 18%, transparent);
+  line-height: 1.45;
+}
+
+.vb-proj-view li span[lang="ar"] {
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.vb-proj[data-layout="views"] .vb-window {
+  box-shadow: 0 1.5rem 3rem -1.5rem color-mix(in srgb, var(--field-ink) 45%, transparent);
+}
+
+/* Gthrz: a phone app, so phones lead. */
+.vb-proj[data-layout="fan"] {
+  background:
+    radial-gradient(ellipse 50% 60% at 25% 50%, color-mix(in srgb, var(--accent) 18%, transparent), transparent 70%),
+    var(--field);
+}
+
+.vb-proj-fan {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem 0;
+}
+
+/* The captures carry their own bezel; the clip follows its corners. */
+.vb-proj-fan .vb-phone {
+  flex: none;
+  width: clamp(7.5rem, 26vw, 15rem);
+  border: 0;
+  border-radius: 14% / 6.6%;
+  background: transparent;
+  filter: drop-shadow(0 1.25rem 1.5rem rgb(0 0 0 / 0.5));
+}
+
+.vb-proj-fan .vb-phone-img {
+  clip-path: inset(0.8% round 13% / 6.2%);
+}
+
+.vb-proj-fan .vb-phone:nth-child(1) {
+  transform: rotate(-6deg) translateY(1.5rem);
+  margin-right: -2.5rem;
+}
+
+.vb-proj-fan .vb-phone:nth-child(2) {
+  z-index: 1;
+}
+
+.vb-proj-fan .vb-phone:nth-child(3) {
+  transform: rotate(6deg) translateY(1.5rem);
+  margin-left: -2.5rem;
+}
+
+.vb-proj-ladder table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--step-small);
+}
+
+.vb-proj-ladder caption {
+  padding-bottom: 0.6rem;
+  text-align: left;
+}
+
+.vb-proj-ladder th,
+.vb-proj-ladder td {
+  padding: 0.55rem 0.5rem 0.55rem 0;
+  border-bottom: 1px solid color-mix(in srgb, var(--field-ink) 16%, transparent);
+  text-align: left;
+  font-weight: 400;
+}
+
+.vb-proj-ladder thead th {
+  color: var(--field-muted);
+}
+
+.vb-proj-ladder tbody th {
+  font-weight: 500;
+}
+
+.vb-proj-ladder td {
+  color: var(--field-muted);
+  white-space: nowrap;
+}
+
+.vb-proj-ladder td[data-on="true"] {
+  color: var(--field-ink);
+}
+
+.vb-ladder-dot {
+  display: inline-block;
+  width: 0.65rem;
+  height: 0.65rem;
+  margin-right: 0.45rem;
+  border: 2px solid var(--accent);
+  border-radius: 50%;
+  vertical-align: -0.05rem;
+}
+
+td[data-on="true"] .vb-ladder-dot {
+  background: var(--accent);
+}
+
+/* The Prompt Experiment: a smaller, secondary entry at the end of the work. */
+.vb-exp {
+  display: grid;
+  gap: 1.75rem;
+  align-items: center;
+  padding: clamp(3rem, 6vw, 5rem) var(--gutter);
+  border-top: 1px solid color-mix(in srgb, var(--sand) 14%, transparent);
+}
+
+.vb-exp-copy {
+  display: grid;
+  gap: 0.6rem;
+  justify-items: start;
+}
+
+.vb-exp .vb-proj-kind {
+  color: var(--sand-2);
+}
+
+.vb-exp-name {
+  font-size: clamp(1.9rem, 1.3rem + 2vw, 3rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+}
+
+.vb-exp-name a {
+  text-decoration: none;
+}
+
+.vb-exp-name a:hover {
+  text-decoration: underline;
+}
+
+.vb-exp-tagline {
+  max-width: 36ch;
+  color: var(--sand-2);
+  font-size: var(--step-body);
+}
+
+.vb-exp-pair {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+  text-decoration: none;
+}
+
+.vb-exp-shot {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.vb-exp-shot img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  object-position: top;
+  border-radius: 0.5rem;
+  background: var(--field);
+  transition: transform var(--t-ui) var(--ease-out);
+}
+
+.vb-exp-pair:hover img {
+  transform: translateY(-4px);
+}
+
+.vb-exp-label {
+  color: var(--sand-2);
+  font-size: var(--step-small);
+}
+
+/* Phones: one column, the product's picture right after its name. */
+@media (max-width: 899px) {
+  .vb-proj-inner {
+    gap: 1.5rem;
   }
-  .vb-cover:nth-child(even) .vb-cover-art {
-    order: -1;
+  .vb-proj-foot {
+    order: 2;
   }
-  .vb-cover:nth-child(even) .vb-cover-phone {
-    right: auto;
-    left: -0.5rem;
+  .vb-proj[data-layout="fan"] .vb-proj-art {
+    order: 1;
   }
-  .vb-cover-inner {
-    min-height: 90svh;
+  .vb-proj[data-layout="score"] .vb-proj-art {
+    display: none;
+  }
+  .vb-proj-phones .vb-phone:nth-child(2) {
+    margin-top: 1.5rem;
+  }
+  .vb-proj-links,
+  .vb-proj-part,
+  .vb-proj[data-layout="views"] .vb-proj-art {
+    display: none;
+  }
+  /* The top of each capture carries the screen; the rest is cropped on phones. */
+  .vb-proj-phones .vb-phone,
+  .vb-proj-fan .vb-phone {
+    aspect-ratio: 440 / 640;
+  }
+  .vb-proj-phones .vb-phone-img,
+  .vb-proj-fan .vb-phone-img {
+    height: 100%;
+    object-fit: cover;
+    object-position: top;
+  }
+  .vb-proj-fan .vb-phone:nth-child(1) {
+    margin-right: -1.5rem;
+  }
+  .vb-proj-fan .vb-phone:nth-child(3) {
+    margin-left: -1.5rem;
+  }
+  .vb-score-bars li {
+    grid-template-columns: 5.5rem minmax(0, 1fr) 2rem 2.8rem;
+    gap: 0.5rem;
   }
 }
 
+/* Wide: each project composed from its own subject; no two neighbours alike. */
+@media (min-width: 900px) {
+  .vb-proj-inner {
+    column-gap: clamp(2rem, 5vw, 6rem);
+    row-gap: 2rem;
+  }
+
+  /* Naqah: the call on the left, the story on the right. */
+  .vb-proj[data-layout="stage"] .vb-proj-inner {
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+    grid-template-areas: "art head" "art foot";
+  }
+  .vb-proj[data-layout="stage"] .vb-proj-head {
+    grid-area: head;
+    align-self: end;
+  }
+
+  /* Tammeni: name across, rules and actions under it, phones to the right. */
+  .vb-proj[data-layout="schedule"] .vb-proj-inner {
+    grid-template-columns: minmax(0, 4fr) minmax(0, 3fr) minmax(0, 5fr);
+    grid-template-areas: "head head art" "rules foot art";
+  }
+  .vb-proj[data-layout="schedule"] .vb-proj-rules {
+    grid-area: rules;
+  }
+
+  /* Seet: a masthead, then the booking line beside the chat. */
+  .vb-proj[data-layout="masthead"] .vb-proj-inner {
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    grid-template-areas: "head head" "states art" "foot art";
+    row-gap: 2.5rem;
+  }
+  .vb-proj[data-layout="masthead"] .vb-proj-head {
+    grid-template-columns: auto minmax(0, 38rem);
+    grid-template-areas: "name kind" "name tagline" "name hook";
+    justify-content: space-between;
+    align-content: end;
+    column-gap: clamp(2rem, 6vw, 8rem);
+    padding-bottom: 2.5rem;
+    border-bottom: 2px solid var(--field-ink);
+  }
+  .vb-proj[data-layout="masthead"] .vb-proj-name {
+    grid-area: name;
+    align-self: end;
+    font-size: clamp(5rem, 2rem + 8vw, 11rem);
+  }
+  .vb-proj[data-layout="masthead"] .vb-proj-kind {
+    grid-area: kind;
+  }
+  .vb-proj[data-layout="masthead"] .vb-proj-tagline {
+    grid-area: tagline;
+  }
+  .vb-proj[data-layout="masthead"] .vb-proj-hook {
+    grid-area: hook;
+  }
+  .vb-proj[data-layout="masthead"] .vb-proj-states {
+    grid-area: states;
+  }
+  .vb-proj[data-layout="masthead"] .vb-proj-art {
+    align-self: start;
+  }
+
+  /* Kashta: story, the worked score, the app on a phone. */
+  .vb-proj[data-layout="score"] .vb-proj-inner {
+    grid-template-columns: minmax(0, 4fr) minmax(0, 5fr);
+    grid-template-areas: "head score" "foot score";
+  }
+  .vb-proj[data-layout="score"] .vb-proj-art {
+    display: none;
+  }
+  .vb-proj[data-layout="score"] .vb-proj-score {
+    grid-area: score;
+    align-self: center;
+  }
+
+  /* Amanah: a centred head, the two views either side of the demo. */
+  .vb-proj[data-layout="views"] .vb-proj-inner {
+    grid-template-columns: minmax(0, 3fr) minmax(0, 6fr) minmax(0, 3fr);
+    grid-template-areas: "head head head" "v1 art v2" "foot foot foot";
+    column-gap: clamp(1.5rem, 3vw, 3.5rem);
+    row-gap: clamp(2rem, 4vw, 3.5rem);
+  }
+  .vb-proj[data-layout="views"] .vb-proj-head,
+  .vb-proj[data-layout="views"] .vb-proj-foot {
+    justify-items: center;
+    text-align: center;
+  }
+  .vb-proj[data-layout="views"] .vb-proj-name span[lang="ar"] {
+    margin-inline: auto;
+  }
+  .vb-proj[data-layout="views"] .vb-proj-hook {
+    border-top: 0;
+    padding-top: 0;
+    margin-top: 0;
+  }
+  .vb-proj[data-layout="views"] .vb-proj-view:nth-child(2) {
+    grid-area: v1;
+  }
+  .vb-proj[data-layout="views"] .vb-proj-view:nth-child(3) {
+    grid-area: v2;
+  }
+  .vb-proj[data-layout="views"] .vb-proj-meta,
+  .vb-proj[data-layout="views"] .vb-proj-actions {
+    justify-content: center;
+  }
+
+  /* Gthrz: phones fanned on the left, the visibility ladder on the right. */
+  .vb-proj[data-layout="fan"] .vb-proj-inner {
+    grid-template-columns: minmax(0, 6fr) minmax(0, 5fr);
+    grid-template-areas: "art head" "art ladder" "art foot";
+  }
+  .vb-proj[data-layout="fan"] .vb-proj-ladder {
+    grid-area: ladder;
+  }
+
+  .vb-proj-head {
+    grid-area: head;
+  }
+  .vb-proj-foot {
+    grid-area: foot;
+  }
+  .vb-proj-art {
+    grid-area: art;
+  }
+
+  .vb-exp {
+    grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+    column-gap: clamp(2rem, 5vw, 6rem);
+  }
+}
+
+/* Room for the app itself beside Kashta's score. */
+@media (min-width: 1200px) {
+  .vb-proj[data-layout="score"] .vb-proj-inner {
+    grid-template-columns: minmax(0, 4fr) minmax(0, 5fr) minmax(0, 2.5fr);
+    grid-template-areas: "head score art" "foot score art";
+  }
+  .vb-proj[data-layout="score"] .vb-proj-art {
+    display: block;
+  }
+}
 
 /* ---------- Device frames ---------- */
 
@@ -1651,57 +2175,7 @@ div.vb-certs-row {
   }
 }
 
-/* ---------- The rest of the work ---------- */
-
-.vb-index {
-  padding: clamp(4rem, 9vw, 8rem) var(--gutter) 0;
-}
-
-.vb-index-head {
-  margin-bottom: 2rem;
-}
-
-.vb-index-list {
-  display: grid;
-  gap: 2.5rem;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.vb-index-row {
-  display: grid;
-  gap: 1.25rem;
-  padding: 1.25rem;
-  border-radius: 0.75rem;
-  background: var(--night-2);
-}
-
-.vb-index-still {
-  display: block;
-  overflow: hidden;
-  border-radius: 0.5rem;
-  background: var(--field);
-  aspect-ratio: 16 / 10;
-}
-
 @media (max-width: 899px) {
-  .vb-index-still {
-    aspect-ratio: 21 / 9;
-  }
-  .vb-index-list {
-    gap: 1.25rem;
-  }
-  .vb-index-row {
-    padding: 1rem;
-  }
-  .vb-cover-inner {
-    padding-top: 2.5rem;
-    padding-bottom: 2.5rem;
-  }
-  .vb-cover-facts .vb-cover-fact-wide ~ div {
-    display: none;
-  }
   .vb-chapters {
     gap: 2.25rem;
   }
@@ -1717,101 +2191,6 @@ div.vb-certs-row {
   .vb-call-log {
     max-height: 11rem;
   }
-}
-
-.vb-index-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: top;
-}
-
-.vb-index-phones {
-  display: flex;
-  height: 100%;
-  justify-content: center;
-  align-items: flex-end;
-  gap: 0.75rem;
-  padding: 1.25rem 1rem 0;
-}
-
-.vb-index-phones img {
-  width: 34%;
-  height: auto;
-  border-radius: 0.9rem 0.9rem 0 0;
-}
-
-.vb-index-copy {
-  display: grid;
-  gap: 0.5rem;
-  align-content: start;
-}
-
-.vb-index-name {
-  font-size: clamp(1.8rem, 1.3rem + 2vw, 3rem);
-  font-weight: 800;
-  letter-spacing: -0.03em;
-}
-
-.vb-index-name a {
-  display: inline-block;
-  padding: 0.3rem 0;
-  text-decoration: none;
-}
-
-.vb-index-name a:hover {
-  text-decoration: underline;
-}
-
-.vb-index-name span[lang="ar"] {
-  margin-left: 0.45em;
-  font-size: 0.7em;
-  font-weight: 700;
-  color: var(--ember);
-}
-
-.vb-index-tagline {
-  max-width: 44ch;
-  font-size: var(--step-lead);
-  line-height: 1.35;
-}
-
-.vb-index-meta {
-  color: var(--sand-2);
-  font-size: var(--step-small);
-}
-
-.vb-cover-links {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 0 1.25rem;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  font-size: var(--step-small);
-}
-
-.vb-cover-linknote {
-  color: var(--field-muted, var(--sand-2));
-}
-
-.vb-cover-actions {
-  display: grid;
-  gap: 1rem;
-  justify-items: start;
-}
-
-.vb-cover-cta {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 0.75rem;
-}
-
-.vb-index-meta .vb-chip {
-  margin-right: 0.35rem;
-  color: var(--sand);
 }
 
 /* The work line: every project as a point on one night line. */
@@ -1903,14 +2282,6 @@ div.vb-certs-row {
   }
   .vb-workline-status {
     grid-column: auto;
-  }
-}
-
-@media (min-width: 900px) {
-  .vb-index-row {
-    grid-template-columns: 2fr 3fr;
-    column-gap: 2rem;
-    align-items: center;
   }
 }
 
@@ -2013,16 +2384,6 @@ div.vb-certs-row {
     grid-row: 1 / 4;
     align-self: start;
     margin-top: 0.35rem;
-  }
-  .vb-cover-links,
-  .vb-index-row .vb-cover-links {
-    display: none;
-  }
-  .vb-index-still {
-    aspect-ratio: 3 / 1;
-  }
-  .vb-index-tagline {
-    font-size: var(--step-body);
   }
   .vb-chapter-city {
     font-size: clamp(2rem, 1.2rem + 4vw, 3rem);

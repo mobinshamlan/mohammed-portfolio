@@ -93,3 +93,18 @@ export const gthrzShots = {
     ...phone,
   },
 } as const satisfies Record<string, GthrzShot>;
+
+/**
+ * What a guest can read at each state, for an event whose host chose
+ * "reveal the address later" and left guest names on. Title, time and
+ * category are always visible; row-level security enforces the rest.
+ */
+export const gthrzVisibility = {
+  columns: ["Address", "Exact pin", "Guest list"],
+  rows: [
+    { state: "Discovered", values: [false, false, false] },
+    { state: "Requested", values: [false, false, false] },
+    { state: "Approved", values: [true, false, true] },
+    { state: "Revealed by host", values: [true, true, true] },
+  ],
+} as const;

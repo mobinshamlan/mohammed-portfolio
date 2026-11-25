@@ -288,7 +288,17 @@
   text-decoration: none;
 }
 
+@media (min-width: 900px) {
+  .vb-case-phones .vb-phone:nth-child(2) {
+    transform: translateY(-1.5rem);
+  }
+}
+
 .vb-case-phones {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.8rem;
+  align-items: end;
   max-width: 44rem;
   margin: 0 auto;
 }

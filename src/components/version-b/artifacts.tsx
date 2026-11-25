@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { callScript } from "@/lib/naqah-call";
+import { gthrzVisibility } from "@/lib/gthrz";
 import { kashtaExample } from "@/lib/kashta-example";
 import type { ProjectId } from "@/lib/projects";
 import { useHydrated } from "@/lib/use-hydrated";
@@ -357,13 +358,7 @@ export function AmanahQuestions() {
 /* ---------- Gthrz: what a guest sees, by state ---------- */
 
 export function GthrzVisibility() {
-  const rows = [
-    { state: "Discovered", address: "No", exact: "No", guests: "No" },
-    { state: "Requested", address: "No", exact: "No", guests: "No" },
-    { state: "Approved", address: "Yes", exact: "No", guests: "Yes" },
-    { state: "Revealed by host", address: "Yes", exact: "Yes", guests: "Yes" },
-  ];
-  const cols = ["Address", "Exact pin", "Guest list"];
+  const { rows, columns: cols } = gthrzVisibility;
   return (
     <div className="vb-art vb-art-gthrz" data-ui="">
       <p className="vb-art-label">
@@ -386,9 +381,9 @@ export function GthrzVisibility() {
           {rows.map((r) => (
             <tr key={r.state}>
               <th scope="row">{r.state}</th>
-              {[r.address, r.exact, r.guests].map((v, i) => (
-                <td key={i} data-label={cols[i]} data-on={v === "Yes" ? "true" : undefined}>
-                  {v}
+              {r.values.map((v, i) => (
+                <td key={i} data-label={cols[i]} data-on={v ? "true" : undefined}>
+                  {v ? "Yes" : "No"}
                 </td>
               ))}
             </tr>

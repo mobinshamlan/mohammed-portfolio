@@ -1,6 +1,7 @@
 import Link from "next/link";
-import type { CSSProperties, ReactNode } from "react";
-import { nextProject, previousProject, type Project } from "@/lib/projects";
+import type { ReactNode } from "react";
+import { fieldStyle, nextProject, previousProject, type Project } from "@/lib/projects";
+import { amanahViews } from "@/lib/amanah-views";
 import { kashtaExample } from "@/lib/kashta-example";
 import { DecisionArtifact } from "./artifacts";
 import { DayLine } from "./dayline";
@@ -8,15 +9,6 @@ import { DeviceFrame } from "./device-frame";
 import { VersionBFooter } from "./footer";
 import { VersionBNav } from "./nav";
 import { MotionRoot, Reveal } from "./reveal";
-
-export function fieldStyle(project: Project) {
-  return {
-    "--field": project.field,
-    "--field-ink": project.fieldInk,
-    "--field-muted": project.fieldMuted,
-    "--accent": project.accent,
-  } as CSSProperties;
-}
 
 /** How it works: actors and actions drawn as a flow, left to right on wide screens. */
 export function Flow({ project }: { project: Project }) {
@@ -124,24 +116,24 @@ function CaseOpening({ project }: { project: Project }) {
           One match, two different views
         </h2>
         <div className="vb-open-views">
-          <div>
-            <h3>Staff see</h3>
-            <ul>
-              <li>Both reports, lost and found</li>
-              <li>Gemini&rsquo;s suggested match</li>
-              <li>The answers; approve or reject, logged</li>
-            </ul>
-          </div>
-          <div>
-            <h3>The claimant sees</h3>
-            <ul>
-              <li>Their own report, on a private link</li>
-              <li>
-                One question: <span lang="ar">وش لون المقبض؟</span>
-              </li>
-              <li>Never the finder&rsquo;s report</li>
-            </ul>
-          </div>
+          {amanahViews.map((view) => (
+            <div key={view.who}>
+              <h3>{view.who}</h3>
+              <ul>
+                {view.items.map((item) => (
+                  <li key={item.text}>
+                    {item.text}
+                    {"ar" in item ? (
+                      <>
+                        {" "}
+                        <span lang="ar">{item.ar}</span>
+                      </>
+                    ) : null}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
         </div>
         <p className="vb-open-links">
           <ExternalLink href={demo.href}>Walk through the guided demo</ExternalLink>

@@ -1,3 +1,4 @@
+import type { CSSProperties } from "react";
 import { publicUrl } from "@/lib/site";
 
 /**
@@ -94,8 +95,6 @@ export type Project = {
   contribution: string;
   /** An annotated figure of the key decision, drawn from data. */
   proof: Proof;
-  /** Flagship projects get a full cover on the home page. */
-  flagship: boolean;
   /** Where the project opens from the index; defaults to its case study. */
   href?: string;
   /** The one decision that shaped the product. */
@@ -177,7 +176,6 @@ export const projects: Project[] = [
         },
       ],
     },
-    flagship: true,
     decision: {
       constraint:
         "The ranch worker has an ordinary phone and no time for an app. Anything he has to type will not get typed.",
@@ -318,7 +316,6 @@ export const projects: Project[] = [
         },
       ],
     },
-    flagship: true,
     decision: {
       constraint:
         "Parents do not want another feed. They want to be told at a time that suits them, in a form they will actually notice.",
@@ -451,7 +448,6 @@ export const projects: Project[] = [
         "The dashboard shows holds and confirmations as two different things.",
       ],
     },
-    flagship: true,
     decision: {
       constraint:
         "A booking is money. The agent must never promise a slot it cannot hold, and must never say 'confirmed' before the deposit lands.",
@@ -594,7 +590,6 @@ export const projects: Project[] = [
         },
       ],
     },
-    flagship: false,
     decision: {
       constraint:
         "A ranking people will drive two hours on cannot depend on a model's arithmetic, and the project brief required Llama to be central.",
@@ -741,7 +736,6 @@ export const projects: Project[] = [
         },
       ],
     },
-    flagship: false,
     decision: {
       constraint:
         "A lost-and-found board that shows items to everyone leaks more than it should: a photo of a wallet is a description of its owner.",
@@ -866,7 +860,6 @@ export const projects: Project[] = [
         "Row-level security enforces who can read what, not the client.",
       ],
     },
-    flagship: false,
     decision: {
       constraint:
         "A host's address and guest list should not be visible to everyone who can see the event exists.",
@@ -947,7 +940,6 @@ projects.push({
     ],
     notes: ["The Version A prompt is published in the README."],
   },
-  flagship: false,
   href: "/experiment",
   tagline: "One brief, two prompts. The same portfolio built twice.",
   status: "Course project · live",
@@ -992,6 +984,16 @@ projects.push({
   },
   screens: [],
 });
+
+/** A project's field colours as CSS variables, for its section or case page. */
+export function fieldStyle(project: Project) {
+  return {
+    "--field": project.field,
+    "--field-ink": project.fieldInk,
+    "--field-muted": project.fieldMuted,
+    "--accent": project.accent,
+  } as CSSProperties;
+}
 
 export const projectById = Object.fromEntries(
   projects.map((project) => [project.id, project]),

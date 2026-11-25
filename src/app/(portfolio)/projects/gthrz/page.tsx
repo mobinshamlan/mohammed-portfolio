@@ -25,7 +25,7 @@ const gallery = [
 
 function Phones() {
   return (
-    <div className="vb-cover-phones vb-case-phones">
+    <div className="vb-case-phones">
       {heroShots.map((shot, index) => (
         <figure key={shot.src} className="vb-phone vb-phone-sm" data-ui="">
           <span className="vb-phone-notch" aria-hidden="true" />
