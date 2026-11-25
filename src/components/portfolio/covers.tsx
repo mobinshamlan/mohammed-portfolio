@@ -1,14 +1,15 @@
 import Image from "next/image";
 import Link from "next/link";
-import type { CSSProperties, ReactNode } from "react";
-import { amanahViews } from "@/lib/amanah-views";
-import { gthrzShots, gthrzVisibility } from "@/lib/gthrz";
-import { kashtaExample } from "@/lib/kashta-example";
+import type { ReactNode } from "react";
+import { gthrzShots } from "@/lib/gthrz";
 import { fieldStyle, projectById, type Project, type ProjectId } from "@/lib/projects";
 import { SeetChat } from "./artifacts";
 import { CallDemo } from "./call-demo";
-import { Collapsible } from "./collapsible";
 import { DayLine } from "./dayline";
+import { AmanahClaimDemo } from "./demos/amanah-claim";
+import { GthrzStatesDemo } from "./demos/gthrz-states";
+import { KashtaScoreDemo } from "./demos/kashta-score";
+import { TammeniScheduleDemo } from "./demos/tammeni-schedule";
 import { DeviceFrame } from "./device-frame";
 import { GthrzImg } from "./gthrz-img";
 import { Reveal } from "./reveal";
@@ -22,6 +23,7 @@ function projectHref(project: Project) {
  * Every project gets its own section on its own colour field. The parts are
  * shared (name, the decision in one line, status, actions); the composition
  * comes from the product: a call, a schedule, a chat, a score, two views, phones.
+ * Each section's centrepiece is a small working demo of that one decision.
  */
 
 function ProjectLinks({ project }: { project: Project }) {
@@ -144,17 +146,9 @@ function Tammeni() {
         project={project}
         hook="Each parent chooses, per child and per topic, whether news comes by call or text, and when."
       />
-      <Reveal className="vb-proj-rules" delay={0.1}>
-        <p className="vb-proj-label">{project.proof.title}. Fictional demo family.</p>
-        <ul>
-          {project.proof.moments.map((m) => (
-            <li key={m.time + m.label}>
-              <span>{m.time}</span>
-              <strong>{m.label}</strong>
-            </li>
-          ))}
-        </ul>
-      </Reveal>
+      <div className="vb-proj-demo">
+        <TammeniScheduleDemo compact />
+      </div>
       <div className="vb-proj-art vb-proj-phones" aria-hidden="true">
         {phones.map((shot) => (
           <Phone key={shot.src} shot={shot} sizes="(max-width: 899px) 42vw, 250px" />
@@ -190,42 +184,16 @@ function Seet() {
   );
 }
 
-/* ---------- Kashta: one real night, scored by hand ---------- */
+/* ---------- Kashta: one real night, scored by the app's own rules ---------- */
 
 function Kashta() {
   const project = projectById.kashta;
-  const total = kashtaExample.rows.reduce((sum, r) => sum + r.score * r.weight, 0);
   return (
     <Section id="kashta" layout="score">
       <Head project={project} hook="The score is code, not AI. Llama explains a ranking it never computes." />
-      <Reveal className="vb-proj-score" delay={0.1}>
-        <figure>
-          <figcaption className="vb-proj-label">
-            {kashtaExample.site}, {kashtaExample.shortNight}.
-          </figcaption>
-          <p className="vb-score-total">
-            <strong>{Math.round(total)}</strong>
-            <span>
-              Worked by hand: {total.toFixed(2)}, rounded. The live app showed {kashtaExample.liveScore}.
-            </span>
-          </p>
-          <Collapsible className="vb-proj-more" summary="The five factors behind it">
-            <ol className="vb-score-bars">
-              {kashtaExample.rows.map((row) => (
-                <li key={row.factor} style={{ "--score": `${row.score}%` } as CSSProperties}>
-                  <span className="vb-score-factor">{row.factor}</span>
-                  <span className="vb-score-bar" aria-hidden="true" />
-                  <strong>{row.score}</strong>
-                  <em>×&nbsp;{row.weight}</em>
-                </li>
-              ))}
-            </ol>
-            <p className="vb-proj-label vb-score-source">
-              Limits and weights from the app&rsquo;s score.ts; values from its live forecast.
-            </p>
-          </Collapsible>
-        </figure>
-      </Reveal>
+      <div className="vb-proj-demo">
+        <KashtaScoreDemo compact />
+      </div>
       {project.coverPhone ? (
         <div className="vb-proj-art" aria-hidden="true">
           <Phone shot={project.coverPhone} sizes="240px" />
@@ -236,7 +204,7 @@ function Kashta() {
   );
 }
 
-/* ---------- Amanah: the same match, seen from each side ---------- */
+/* ---------- Amanah: the same claim, seen from each side ---------- */
 
 function Amanah() {
   const project = projectById.amanah;
@@ -244,28 +212,13 @@ function Amanah() {
   return (
     <Section id="amanah" layout="views">
       <Head project={project} hook="One match, two different views." />
-      {amanahViews.map((view, index) => (
-        <Reveal key={view.who} className="vb-proj-view" delay={0.08 + index * 0.06}>
-          <h4>{view.who}</h4>
-          <ul>
-            {view.items.map((item) => (
-              <li key={item.text}>
-                {item.text}
-                {"ar" in item ? (
-                  <>
-                    {" "}
-                    <span lang="ar">{item.ar}</span>
-                  </>
-                ) : null}
-              </li>
-            ))}
-          </ul>
-        </Reveal>
-      ))}
+      <div className="vb-proj-demo">
+        <AmanahClaimDemo compact />
+      </div>
       <div className="vb-proj-art">
         <DeviceFrame
           shot={{ ...ownership, caption: undefined }}
-          sizes="(max-width: 899px) 100vw, 46vw"
+          sizes="(max-width: 899px) 100vw, 40vw"
           label="amanahz.vercel.app/demo"
         />
       </div>
@@ -289,38 +242,9 @@ function Gthrz() {
         ))}
       </div>
       <Head project={project} hook="The host decides who sees the address, and when." />
-      <Reveal className="vb-proj-ladder" delay={0.1}>
-        <Collapsible className="vb-proj-more" summary="Address, pin and guest list, by state">
-          <table>
-            <caption className="vb-proj-label">
-              What a guest can read, by state. Host chose &ldquo;reveal later&rdquo;.
-            </caption>
-            <thead>
-              <tr>
-                <th scope="col">State</th>
-                {gthrzVisibility.columns.map((c) => (
-                  <th key={c} scope="col">
-                    {c}
-                  </th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              {gthrzVisibility.rows.map((r) => (
-                <tr key={r.state}>
-                  <th scope="row">{r.state}</th>
-                  {r.values.map((v, i) => (
-                    <td key={i} data-on={v ? "true" : undefined}>
-                      <span aria-hidden="true" className="vb-ladder-dot" />
-                      {v ? "Yes" : "No"}
-                    </td>
-                  ))}
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </Collapsible>
-      </Reveal>
+      <div className="vb-proj-demo">
+        <GthrzStatesDemo compact />
+      </div>
       <Foot project={project} />
     </Section>
   );

@@ -15,9 +15,11 @@ const steps = ["Request to join", "Host approves", "Host reveals the pin", "Star
 
 /**
  * A guest's view of one event at each state, from the visibility table in
- * lib/gthrz.ts. Before hydration the full table is shown instead.
+ * lib/gthrz.ts. Before hydration the full table is shown instead. `compact`
+ * (the homepage) moves the guest with the state buttons alone, shows each
+ * field's status under its name and leaves the note to the case study.
  */
-export function GthrzStatesDemo() {
+export function GthrzStatesDemo({ compact = false }: { compact?: boolean }) {
   const hydrated = useHydrated();
   const [index, setIndex] = useState(0);
   const { rows, columns } = gthrzVisibility;
@@ -26,7 +28,7 @@ export function GthrzStatesDemo() {
 
   if (!hydrated) {
     return (
-      <div className="vb-art vb-art-gthrz vb-demo" data-ui="">
+      <div className="vb-art vb-art-gthrz vb-demo" data-ui="" data-compact={compact ? "true" : undefined}>
         <p className="vb-demo-hint">
           <span className="vb-demo-tag">Simulated</span>
           What a guest can read at each state.
@@ -55,16 +57,18 @@ export function GthrzStatesDemo() {
             ))}
           </tbody>
         </table>
-        <Note />
+        {compact ? null : <Note />}
       </div>
     );
   }
 
   return (
-    <div className="vb-art vb-demo vb-demo-gthrz" data-ui="">
+    <div className="vb-art vb-demo vb-demo-gthrz" data-ui="" data-compact={compact ? "true" : undefined}>
       <p className="vb-demo-hint">
         <span className="vb-demo-tag">Simulated</span>
-        Move the guest along and watch what they can read.
+        {compact
+          ? "Choose the guest\u2019s state."
+          : "Move the guest along and watch what they can read."}
       </p>
 
       <ol className="vb-demo-steps" aria-label="Guest state">
@@ -77,13 +81,15 @@ export function GthrzStatesDemo() {
         ))}
       </ol>
 
-      <button
-        type="button"
-        className="vb-btn vb-demo-next"
-        onClick={() => setIndex((i) => (i >= last ? 0 : i + 1))}
-      >
-        {steps[index]}
-      </button>
+      {compact ? null : (
+        <button
+          type="button"
+          className="vb-btn vb-demo-next"
+          onClick={() => setIndex((i) => (i >= last ? 0 : i + 1))}
+        >
+          {steps[index]}
+        </button>
+      )}
 
       <div className="vb-demo-event">
         <p className="vb-demo-event-title">
@@ -94,9 +100,12 @@ export function GthrzStatesDemo() {
             const on = row.values[i];
             return (
               <div key={c} data-on={on ? "true" : undefined}>
-                <dt>{c}</dt>
+                <dt>
+                  {c}
+                  {compact ? <span className="vb-demo-status">{on ? "Visible" : "Hidden"}</span> : null}
+                </dt>
                 <dd>
-                  <span className="vb-demo-status">{on ? "Visible" : "Hidden"}</span>
+                  {compact ? null : <span className="vb-demo-status">{on ? "Visible" : "Hidden"}</span>}
                   {on ? reveal[i].shown : reveal[i].hidden}
                 </dd>
               </div>
@@ -105,7 +114,7 @@ export function GthrzStatesDemo() {
         </dl>
       </div>
 
-      <Note />
+      {compact ? null : <Note />}
     </div>
   );
 }

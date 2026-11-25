@@ -52,8 +52,10 @@ function format(value: number, unit: string) {
  * The Kashta Score, live. Wind, dust and cloud move; temperature and rain stay
  * at the real night's readings. The maths is score.ts's own, mirrored in
  * lib/kashta-example.ts. Before hydration it shows the real night, worked.
+ * `compact` (the homepage) keeps the score and the sliders; the limits stay
+ * for screen readers and the held factors are left to the case study.
  */
-export function KashtaScoreDemo() {
+export function KashtaScoreDemo({ compact = false }: { compact?: boolean }) {
   const hydrated = useHydrated();
   const [inputs, setInputs] = useState(start);
   const id = useId();
@@ -63,22 +65,32 @@ export function KashtaScoreDemo() {
   const rating = kashtaRating(result.score);
 
   return (
-    <div className="vb-art vb-demo vb-demo-kashta" data-ui="">
+    <div className="vb-art vb-demo vb-demo-kashta" data-ui="" data-compact={compact ? "true" : undefined}>
       <p className="vb-demo-hint">
         <span className="vb-demo-tag">Simulated</span>
         {hydrated
-          ? "Drag the wind or the dust and watch the score answer."
+          ? compact
+            ? `Move a slider. Dangerous wind or dust caps the night at ${kashtaLimits.cap}.`
+            : "Drag the wind or the dust and watch the score answer."
           : "The real night, worked by score.ts\u2019s rules."}
       </p>
 
       <div className="vb-demo-kashta-top">
         <p className="vb-demo-kashta-score" data-capped={capped ? "true" : undefined}>
           <strong>{result.score}</strong>
-          <span>{rating}</span>
+          <span>{compact && capped ? `capped: dangerous ${result.dangers.join(" and ")}` : rating}</span>
         </p>
         <p className="vb-demo-kashta-where">
-          {kashtaExample.site}. Starts from {kashtaExample.night}, when the live app showed{" "}
-          {kashtaExample.liveScore}.
+          {compact ? (
+            <>
+              {kashtaExample.site}, {kashtaExample.shortNight}. The live app showed {kashtaExample.liveScore}.
+            </>
+          ) : (
+            <>
+              {kashtaExample.site}. Starts from {kashtaExample.night}, when the live app showed{" "}
+              {kashtaExample.liveScore}.
+            </>
+          )}
         </p>
         {hydrated ? (
           <button
@@ -130,40 +142,44 @@ export function KashtaScoreDemo() {
                   onChange={(e) => setInputs((v) => ({ ...v, [s.key]: Number(e.target.value) }))}
                 />
               ) : null}
-              <p id={`${id}-${s.key}-rule`} className="vb-demo-rule">
+              <p id={`${id}-${s.key}-rule`} className={compact ? "vb-art-sr" : "vb-demo-rule"}>
                 {s.rule}
               </p>
             </div>
           );
         })}
-        <p className="vb-demo-held">
-          Held at the night&rsquo;s readings: temperature 21.7° evening, 14.9° feels-like,{" "}
-          <span className="vb-demo-points">
-            <strong>{result.factors.temp}</strong> ×&nbsp;{kashtaWeights.temp}
-          </span>
-          ; rain 0% chance,{" "}
-          <span className="vb-demo-points">
-            <strong>{result.factors.rain}</strong> ×&nbsp;{kashtaWeights.rain}
-          </span>
-          .
-        </p>
+        {compact ? null : (
+          <p className="vb-demo-held">
+            Held at the night&rsquo;s readings: temperature 21.7° evening, 14.9° feels-like,{" "}
+            <span className="vb-demo-points">
+              <strong>{result.factors.temp}</strong> ×&nbsp;{kashtaWeights.temp}
+            </span>
+            ; rain 0% chance,{" "}
+            <span className="vb-demo-points">
+              <strong>{result.factors.rain}</strong> ×&nbsp;{kashtaWeights.rain}
+            </span>
+            .
+          </p>
+        )}
       </div>
 
-      <p className="vb-art-sum">
-        {capped ? (
-          <>
-            Dangerous {result.dangers.join(" and ")}: the night is capped at{" "}
-            <strong>{kashtaLimits.cap}</strong> however good the rest looks (weighted sum{" "}
-            {result.uncapped}).
-          </>
-        ) : (
-          <>
-            Weighted sum, rounded: <strong>{result.score}</strong>. Any gust from {kashtaLimits.wind.bad} km/h or
-            dust from {kashtaLimits.dust.bad} µg/m³ caps the night at {kashtaLimits.cap}.
-          </>
-        )}{" "}
-        Limits and weights are the app&rsquo;s own (src/lib/score.ts).
-      </p>
+      {compact ? null : (
+        <p className="vb-art-sum">
+          {capped ? (
+            <>
+              Dangerous {result.dangers.join(" and ")}: the night is capped at{" "}
+              <strong>{kashtaLimits.cap}</strong> however good the rest looks (weighted sum{" "}
+              {result.uncapped}).
+            </>
+          ) : (
+            <>
+              Weighted sum, rounded: <strong>{result.score}</strong>. Any gust from {kashtaLimits.wind.bad} km/h or
+              dust from {kashtaLimits.dust.bad} µg/m³ caps the night at {kashtaLimits.cap}.
+            </>
+          )}{" "}
+          Limits and weights are the app&rsquo;s own (src/lib/score.ts).
+        </p>
+      )}
     </div>
   );
 }

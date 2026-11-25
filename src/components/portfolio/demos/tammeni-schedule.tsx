@@ -37,9 +37,10 @@ function sentence(key: string, cell: Cell) {
 
 /**
  * One family's alert rules: pick a child's topic in the grid, then how and
- * when. Before hydration the grid reads as a plain schedule.
+ * when. Before hydration the grid reads as a plain schedule. `compact` (the
+ * homepage) leaves the storage note to the case study.
  */
-export function TammeniScheduleDemo() {
+export function TammeniScheduleDemo({ compact = false }: { compact?: boolean }) {
   const hydrated = useHydrated();
   const [cells, setCells] = useState(initial);
   const [selected, setSelected] = useState("Reem:Attendance");
@@ -52,11 +53,13 @@ export function TammeniScheduleDemo() {
   }
 
   return (
-    <div className="vb-art vb-demo vb-demo-tammeni" data-ui="">
+    <div className="vb-art vb-demo vb-demo-tammeni" data-ui="" data-compact={compact ? "true" : undefined}>
       <p className="vb-demo-hint">
         <span className="vb-demo-tag">Simulated</span>
         {hydrated
-          ? "Pick a child\u2019s topic, then choose call or text and when."
+          ? compact
+            ? "Pick a cell, then set how and when."
+            : "Pick a child\u2019s topic, then choose call or text and when."
           : "One family's rules, with the demo's fictional children."}
       </p>
 
@@ -142,9 +145,11 @@ export function TammeniScheduleDemo() {
       <p className="vb-demo-result" aria-live="polite">
         {hydrated ? sentence(selected, cell) : "Each parent sets this per child and per topic."}
       </p>
-      <p className="vb-art-note">
-        Each cell is one row per parent, child and topic, kept private by row-level security.
-      </p>
+      {compact ? null : (
+        <p className="vb-art-note">
+          Each cell is one row per parent, child and topic, kept private by row-level security.
+        </p>
+      )}
     </div>
   );
 }

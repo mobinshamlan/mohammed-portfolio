@@ -603,42 +603,17 @@
   color: var(--field);
 }
 
-/* Tammeni: one family's rules beside the screens that set them. */
-.vb-proj-rules {
-  display: grid;
-  gap: 0.75rem;
-  align-content: start;
+/* The working demo is each section's centrepiece; a little more room than a caption card. */
+.vb-proj-demo {
+  min-width: 0;
 }
 
-.vb-proj-rules ul {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 1px;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  border-radius: 0.6rem;
-  overflow: hidden;
-  background: color-mix(in srgb, var(--field-ink) 18%, transparent);
+.vb-proj-demo .vb-demo {
+  padding: clamp(1.1rem, 2vw, 1.6rem);
+  box-shadow: 0 1.5rem 3rem -1.75rem color-mix(in srgb, var(--field-ink) 60%, transparent);
 }
 
-.vb-proj-rules li {
-  display: grid;
-  gap: 0.15rem;
-  padding: 0.8rem 0.9rem;
-  background: var(--field);
-}
-
-.vb-proj-rules li span {
-  color: var(--accent);
-  font-size: var(--step-small);
-}
-
-.vb-proj-rules li strong {
-  font-weight: 500;
-  line-height: 1.35;
-}
-
+/* Tammeni: two alert-settings screens beside the family's schedule. */
 .vb-proj-phones {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 15.5rem));
@@ -664,121 +639,14 @@
   opacity: 1;
 }
 
-/* Kashta: one real night, scored by hand. */
+/* Kashta: one real night, scored by the app's own rules. */
 .vb-proj[data-layout="score"] {
   background:
     radial-gradient(ellipse 60% 70% at 62% 115%, color-mix(in srgb, var(--accent) 22%, transparent), transparent 70%),
     var(--field);
 }
 
-.vb-proj-score figure {
-  display: grid;
-  gap: 1rem;
-  margin: 0;
-}
-
-.vb-score-total {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: flex-end;
-  gap: 0.5rem 1.25rem;
-}
-
-.vb-score-total strong {
-  font-family: var(--display);
-  font-size: clamp(6rem, 3rem + 8vw, 11rem);
-  font-weight: 800;
-  line-height: 0.8;
-  letter-spacing: -0.05em;
-  color: var(--accent);
-  font-variant-numeric: tabular-nums;
-}
-
-.vb-score-total span {
-  max-width: 22ch;
-  padding-bottom: 0.3rem;
-  color: var(--field-muted);
-  font-size: var(--step-small);
-}
-
-.vb-score-bars {
-  display: grid;
-  gap: 0.6rem;
-  margin: 0.5rem 0 0;
-  padding: 0;
-  list-style: none;
-}
-
-.vb-score-bars li {
-  display: grid;
-  grid-template-columns: 6.5rem minmax(0, 1fr) 2.2rem 3.2rem;
-  align-items: center;
-  gap: 0.75rem;
-  font-size: var(--step-small);
-  font-variant-numeric: tabular-nums;
-}
-
-.vb-score-bar {
-  position: relative;
-  height: 0.45rem;
-  border-radius: 999px;
-  background: color-mix(in srgb, var(--field-ink) 14%, transparent);
-}
-
-.vb-score-bar::before {
-  content: "";
-  position: absolute;
-  inset: 0 auto 0 0;
-  width: var(--score);
-  border-radius: inherit;
-  background: var(--accent);
-}
-
-.vb-score-bars strong {
-  text-align: right;
-}
-
-.vb-score-bars em {
-  color: var(--field-muted);
-  font-style: normal;
-}
-
-/* Amanah: the same match from each side of the desk. */
-.vb-proj-view {
-  display: grid;
-  gap: 0.75rem;
-  align-content: start;
-  padding-top: 1rem;
-  border-top: 2px solid var(--field-ink);
-}
-
-.vb-proj-view h4 {
-  margin: 0;
-  font-family: var(--display);
-  font-size: var(--step-lead);
-  font-weight: 700;
-  letter-spacing: -0.02em;
-}
-
-.vb-proj-view ul {
-  display: grid;
-  gap: 0.6rem;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.vb-proj-view li {
-  padding-bottom: 0.6rem;
-  border-bottom: 1px solid color-mix(in srgb, var(--field-ink) 18%, transparent);
-  line-height: 1.45;
-}
-
-.vb-proj-view li span[lang="ar"] {
-  font-weight: 700;
-  color: var(--accent);
-}
-
+/* Amanah: the same claim from each side of the desk, beside the live site. */
 .vb-proj[data-layout="views"] .vb-window {
   box-shadow: 0 1.5rem 3rem -1.5rem color-mix(in srgb, var(--field-ink) 45%, transparent);
 }
@@ -818,56 +686,6 @@
 .vb-proj-fan .vb-capture:nth-child(3) {
   transform: rotate(6deg) translateY(1.5rem);
   margin-left: -2.5rem;
-}
-
-.vb-proj-ladder table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: var(--step-small);
-}
-
-.vb-proj-ladder caption {
-  padding-bottom: 0.6rem;
-  text-align: left;
-}
-
-.vb-proj-ladder th,
-.vb-proj-ladder td {
-  padding: 0.55rem 0.5rem 0.55rem 0;
-  border-bottom: 1px solid color-mix(in srgb, var(--field-ink) 16%, transparent);
-  text-align: left;
-  font-weight: 400;
-}
-
-.vb-proj-ladder thead th {
-  color: var(--field-muted);
-}
-
-.vb-proj-ladder tbody th {
-  font-weight: 500;
-}
-
-.vb-proj-ladder td {
-  color: var(--field-muted);
-  white-space: nowrap;
-}
-
-.vb-proj-ladder td[data-on="true"] {
-  color: var(--field-ink);
-}
-
-.vb-ladder-dot {
-  display: inline-block;
-  width: 0.65rem;
-  height: 0.65rem;
-  margin-right: 0.45rem;
-  border: 2px solid var(--accent);
-  border-radius: 50%;
-  vertical-align: -0.05rem;
-}
-
-td[data-on="true"] .vb-ladder-dot {
-  background: var(--accent);
 }
 
 /* The Prompt Experiment: a smaller, secondary entry at the end of the work. */
@@ -948,26 +766,18 @@ td[data-on="true"] .vb-ladder-dot {
   .vb-proj-foot {
     order: 2;
   }
-  .vb-proj[data-layout="fan"] .vb-proj-art {
-    order: 1;
-  }
   .vb-proj[data-layout="score"] .vb-proj-art {
     display: none;
   }
-  .vb-proj-phones .vb-phone:nth-child(2) {
-    margin-top: 1.5rem;
-  }
+  /* The demo is the picture on phones; the screenshots wait in the case study. */
   .vb-proj-links,
   .vb-proj-part,
-  .vb-proj[data-layout="views"] .vb-proj-art {
+  .vb-proj[data-layout="views"] .vb-proj-art,
+  .vb-proj[data-layout="fan"] .vb-proj-art,
+  .vb-exp-pair {
     display: none;
   }
   /* The top of each capture carries the screen; the rest is cropped on phones. */
-  .vb-proj-phones .vb-phone,
-  .vb-proj-fan .vb-capture {
-    aspect-ratio: 440 / 640;
-  }
-  .vb-proj-phones .vb-phone-img,
   .vb-proj-fan .vb-capture img {
     height: 100%;
     object-fit: cover;
@@ -982,10 +792,6 @@ td[data-on="true"] .vb-ladder-dot {
   }
   .vb-proj-fan .vb-capture:nth-child(3) {
     margin-left: -1.5rem;
-  }
-  .vb-score-bars li {
-    grid-template-columns: 5.5rem minmax(0, 1fr) 2rem 2.8rem;
-    gap: 0.5rem;
   }
 }
 
@@ -1006,13 +812,14 @@ td[data-on="true"] .vb-ladder-dot {
     align-self: end;
   }
 
-  /* Tammeni: name across, rules and actions under it, phones to the right. */
+  /* Tammeni: name, then the family's schedule; the real screens to the right, actions under them. */
   .vb-proj[data-layout="schedule"] .vb-proj-inner {
-    grid-template-columns: minmax(0, 4fr) minmax(0, 3fr) minmax(0, 5fr);
-    grid-template-areas: "head head art" "rules foot art";
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+    grid-template-areas: "head art" "demo art" "demo foot";
+    grid-template-rows: auto auto 1fr;
   }
-  .vb-proj[data-layout="schedule"] .vb-proj-rules {
-    grid-area: rules;
+  .vb-proj[data-layout="schedule"] .vb-proj-art {
+    align-self: start;
   }
 
   /* Seet: a masthead, then the booking line beside the chat. */
@@ -1051,23 +858,22 @@ td[data-on="true"] .vb-ladder-dot {
     align-self: start;
   }
 
-  /* Kashta: story, the worked score, the app on a phone. */
+  /* Kashta: story, the live score, the app on a phone. */
   .vb-proj[data-layout="score"] .vb-proj-inner {
     grid-template-columns: minmax(0, 4fr) minmax(0, 5fr);
-    grid-template-areas: "head score" "foot score";
+    grid-template-areas: "head demo" "foot demo";
   }
   .vb-proj[data-layout="score"] .vb-proj-art {
     display: none;
   }
-  .vb-proj[data-layout="score"] .vb-proj-score {
-    grid-area: score;
+  .vb-proj[data-layout="score"] .vb-proj-demo {
     align-self: center;
   }
 
-  /* Amanah: a centred head, the two views either side of the demo. */
+  /* Amanah: a centred head, the claim from both sides beside the live site. */
   .vb-proj[data-layout="views"] .vb-proj-inner {
-    grid-template-columns: minmax(0, 3fr) minmax(0, 6fr) minmax(0, 3fr);
-    grid-template-areas: "head head head" "v1 art v2" "foot foot foot";
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+    grid-template-areas: "head head" "demo art" "foot foot";
     column-gap: clamp(1.5rem, 3vw, 3.5rem);
     row-gap: clamp(2rem, 4vw, 3.5rem);
   }
@@ -1084,24 +890,15 @@ td[data-on="true"] .vb-ladder-dot {
     padding-top: 0;
     margin-top: 0;
   }
-  .vb-proj[data-layout="views"] .vb-proj-view:nth-child(2) {
-    grid-area: v1;
-  }
-  .vb-proj[data-layout="views"] .vb-proj-view:nth-child(3) {
-    grid-area: v2;
-  }
   .vb-proj[data-layout="views"] .vb-proj-meta,
   .vb-proj[data-layout="views"] .vb-proj-actions {
     justify-content: center;
   }
 
-  /* Gthrz: phones fanned on the left, the visibility ladder on the right. */
+  /* Gthrz: phones fanned on the left, a guest's view state by state on the right. */
   .vb-proj[data-layout="fan"] .vb-proj-inner {
     grid-template-columns: minmax(0, 6fr) minmax(0, 5fr);
-    grid-template-areas: "art head" "art ladder" "art foot";
-  }
-  .vb-proj[data-layout="fan"] .vb-proj-ladder {
-    grid-area: ladder;
+    grid-template-areas: "art head" "art demo" "art foot";
   }
 
   .vb-proj-head {
@@ -1113,6 +910,9 @@ td[data-on="true"] .vb-ladder-dot {
   .vb-proj-art {
     grid-area: art;
   }
+  .vb-proj-demo {
+    grid-area: demo;
+  }
 
   .vb-exp {
     grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
@@ -1120,11 +920,29 @@ td[data-on="true"] .vb-ladder-dot {
   }
 }
 
+/* Room for Tammeni's editor beside its grid. */
+@media (min-width: 1400px) {
+  .vb-proj[data-layout="schedule"] .vb-demo-tammeni {
+    grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+    column-gap: 1.5rem;
+    align-items: start;
+  }
+  .vb-proj[data-layout="schedule"] .vb-demo-tammeni > :not(.vb-demo-grid, .vb-demo-editor) {
+    grid-column: 1 / -1;
+  }
+  .vb-proj[data-layout="schedule"] .vb-demo-grid :is(tbody th, thead td) {
+    width: 6.5rem;
+  }
+  .vb-proj[data-layout="schedule"] .vb-demo-grid button {
+    padding-inline: 0.6rem;
+  }
+}
+
 /* Room for the app itself beside Kashta's score. */
 @media (min-width: 1200px) {
   .vb-proj[data-layout="score"] .vb-proj-inner {
     grid-template-columns: minmax(0, 4fr) minmax(0, 5fr) minmax(0, 2.5fr);
-    grid-template-areas: "head score art" "foot score art";
+    grid-template-areas: "head demo art" "foot demo art";
   }
   .vb-proj[data-layout="score"] .vb-proj-art {
     display: block;
@@ -2402,33 +2220,6 @@ div.vb-certs-row {
 
 /* ---------- Phone: a shorter home ---------- */
 
-/* Secondary detail inside a project: a quiet toggle on phones, always open on wide screens. */
-.vb-proj-more > .vb-details-summary {
-  width: fit-content;
-  font-family: var(--text);
-  font-size: var(--step-body);
-  font-weight: 500;
-  text-decoration: underline;
-  text-decoration-color: color-mix(in srgb, currentColor 40%, transparent);
-  text-underline-offset: 0.25em;
-}
-
-.vb-proj-more > .vb-details-body {
-  padding-top: 0.5rem;
-}
-
-.vb-proj-score .vb-score-source {
-  margin-top: 0.9rem;
-}
-
-@media (min-width: 900px) {
-  .vb-proj-more[open] > .vb-details-summary {
-    display: none;
-  }
-  .vb-proj-more[open] > .vb-details-body {
-    padding-top: 0;
-  }
-}
 
 @media (max-width: 899px) {
   .vb-about,
@@ -2440,7 +2231,7 @@ div.vb-certs-row {
   }
   .vb-proj-inner {
     gap: 1.25rem;
-    padding-block: 2.5rem;
+    padding-block: 2rem;
   }
   .vb-work-head {
     gap: 1rem;
@@ -2473,11 +2264,9 @@ div.vb-certs-row {
     padding-inline: 0.5rem;
     font-size: 0.8125rem;
   }
-  .vb-proj-rules li {
-    padding: 0.6rem 0.8rem;
-  }
-  .vb-proj-phones .vb-phone:nth-child(2) {
-    margin-top: 1rem;
+  /* Tammeni: the schedule demo stands in for the screens that set it. */
+  .vb-proj[data-layout="schedule"] .vb-proj-phones {
+    display: none;
   }
   .vb-proj-head {
     gap: 0.7rem;
@@ -2512,42 +2301,17 @@ div.vb-certs-row {
     display: none;
   }
 
-  /* Gthrz: name, then the phones, then the ladder behind its toggle. */
+  /* Gthrz: name, then the phones, then the guest's view. */
   .vb-proj[data-layout="fan"] .vb-proj-head {
     order: -1;
   }
-  .vb-proj[data-layout="fan"] .vb-proj-ladder {
+  .vb-proj[data-layout="fan"] .vb-proj-demo {
     order: 1;
   }
 
   /* Phone crops keep each capture's header and title. */
-  .vb-proj-phones .vb-phone,
   .vb-proj-fan .vb-capture {
     aspect-ratio: 440 / 560;
-  }
-
-  /* Amanah: the two views side by side, so the difference reads at a glance. */
-  .vb-proj[data-layout="views"] .vb-proj-inner {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    column-gap: 1rem;
-  }
-  .vb-proj[data-layout="views"] .vb-proj-head,
-  .vb-proj[data-layout="views"] .vb-proj-foot,
-  .vb-proj[data-layout="views"] .vb-proj-art {
-    grid-column: 1 / -1;
-  }
-  .vb-proj-view {
-    gap: 0.5rem;
-    font-size: var(--step-small);
-  }
-  .vb-proj-view h4 {
-    font-size: 1.125rem;
-  }
-  .vb-proj-view ul {
-    gap: 0.4rem;
-  }
-  .vb-proj-view li {
-    padding-bottom: 0.4rem;
   }
 
   /* Skills: the project switch only lights words inside the list, so it waits for the list. */
@@ -2678,7 +2442,7 @@ div.vb-certs-row {
 
 @media (max-width: 899px) {
   .vb-proj:has(+ .vb-proj) .vb-proj-inner {
-    padding-bottom: calc(2.5rem + var(--edge) * 0.5);
+    padding-bottom: calc(2rem + var(--edge) * 0.5);
   }
 }
 

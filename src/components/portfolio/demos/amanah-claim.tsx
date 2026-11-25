@@ -24,18 +24,23 @@ function Verdict({ answer }: { answer: string | null }) {
 /**
  * The claim step: the owner answers one question, staff compare it with the
  * finder's report and decide. Before hydration it shows a matching answer.
+ * `compact` (the homepage) leaves the audit note to the case study.
  */
-export function AmanahClaimDemo() {
+export function AmanahClaimDemo({ compact = false }: { compact?: boolean }) {
   const hydrated = useHydrated();
   const [answer, setAnswer] = useState<string | null>(null);
   const shown = hydrated ? answer : finderSaid;
   const id = useId();
 
   return (
-    <div className="vb-art vb-demo vb-demo-amanah" data-ui="">
+    <div className="vb-art vb-demo vb-demo-amanah" data-ui="" data-compact={compact ? "true" : undefined}>
       <p className="vb-demo-hint">
         <span className="vb-demo-tag">Simulated</span>
-        {hydrated ? "Answer as the owner, then see what staff decide." : "A made-up claim, answered correctly."}
+        {hydrated
+          ? compact
+            ? "Answer as the owner; staff decide."
+            : "Answer as the owner, then see what staff decide."
+          : "A made-up claim, answered correctly."}
       </p>
 
       <div className="vb-demo-amanah-views">
@@ -73,10 +78,12 @@ export function AmanahClaimDemo() {
         </section>
       </div>
 
-      <p className="vb-art-note">
-        Staff can ask one more question when unsure. Every approve or reject is logged; the link credential is
-        stored only as a SHA-256 hash.
-      </p>
+      {compact ? null : (
+        <p className="vb-art-note">
+          Staff can ask one more question when unsure. Every approve or reject is logged; the link credential is
+          stored only as a SHA-256 hash.
+        </p>
+      )}
     </div>
   );
 }
