@@ -295,6 +295,18 @@ html:has(.vb) {
   }
 }
 
+/* Before hydration the phone gets plain links; the Menu button needs JavaScript. */
+@media (max-width: 899px) {
+  .vb-nav:not([data-hydrated]) .vb-nav-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 1rem;
+  }
+  .vb-nav:not([data-hydrated]) .vb-menu-toggle {
+    display: none;
+  }
+}
+
 @media (min-width: 900px) {
   .vb-nav-links {
     display: flex;

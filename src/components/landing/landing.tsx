@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useRef, useState, type CSSProperties } from "react";
@@ -31,13 +30,13 @@ const versions: Version[] = [
     cta: "Open Version A",
     desktop: {
       src: publicUrl("/images/landing/a-desktop.jpg"),
-      width: 1440,
-      height: 3848,
+      width: 1200,
+      height: 3206,
     },
     mobile: {
       src: publicUrl("/images/landing/a-mobile.jpg"),
-      width: 780,
-      height: 8516,
+      width: 390,
+      height: 4258,
     },
   },
   {
@@ -50,13 +49,13 @@ const versions: Version[] = [
     cta: "Open Version B",
     desktop: {
       src: publicUrl("/images/landing/b-desktop.jpg"),
-      width: 1440,
-      height: 7200,
+      width: 1200,
+      height: 5000,
     },
     mobile: {
       src: publicUrl("/images/landing/b-mobile.jpg"),
-      width: 780,
-      height: 17200,
+      width: 390,
+      height: 6000,
     },
   },
 ];
@@ -197,26 +196,18 @@ function Showcase({
           <span className="vl-win-url">{version.href}</span>
         </span>
         <span className="vl-win-view">
-          <Image
-            src={version.desktop.src}
-            alt=""
-            width={version.desktop.width}
-            height={version.desktop.height}
-            sizes="(max-width: 759px) 0px, 780px"
-            quality={74}
-            priority
-            className="vl-shot vl-shot-desktop"
-          />
-          <Image
-            src={version.mobile.src}
-            alt=""
-            width={version.mobile.width}
-            height={version.mobile.height}
-            sizes="(max-width: 759px) 56vw, 0px"
-            quality={70}
-            priority
-            className="vl-shot vl-shot-mobile"
-          />
+          {/* One picture per version: the browser downloads only the variant it shows. */}
+          <picture>
+            <source media="(max-width: 759px)" srcSet={version.mobile.src} />
+            <img
+              src={version.desktop.src}
+              alt=""
+              width={version.desktop.width}
+              height={version.desktop.height}
+              className="vl-shot"
+              decoding="async"
+            />
+          </picture>
         </span>
       </Link>
 
@@ -278,13 +269,21 @@ const milestones = [
 
 function Evolution() {
   const root = useRef<HTMLElement>(null);
-  const [seen, setSeen] = useState(false);
+  // null until hydration: the milestones show by default and animate only once JS can reveal them.
+  const [seen, setSeen] = useState<boolean | null>(null);
 
   useEffect(() => {
     const node = root.current;
     if (!node) {
       return;
     }
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      return;
+    }
+    if (node.getBoundingClientRect().top < window.innerHeight) {
+      return;
+    }
+    setSeen(false);
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
@@ -302,7 +301,7 @@ function Evolution() {
     <section
       ref={root}
       className="vl-ev"
-      data-seen={seen}
+      data-seen={seen === null ? undefined : seen}
       aria-labelledby="ev-title"
     >
       <div className="vl-ev-head">
@@ -421,11 +420,7 @@ export function Landing() {
       return;
     }
     const view = node.querySelector<HTMLElement>(".vl-win-view");
-    const shot = node.querySelector<HTMLElement>(
-      window.matchMedia("(max-width: 759px)").matches
-        ? ".vl-shot-mobile"
-        : ".vl-shot-desktop",
-    );
+    const shot = node.querySelector<HTMLElement>(".vl-shot");
     if (!view || !shot) {
       return;
     }

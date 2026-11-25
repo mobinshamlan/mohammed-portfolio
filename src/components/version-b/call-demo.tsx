@@ -2,6 +2,7 @@
 
 import { useEffect, useId, useRef, useState } from "react";
 import { callMoments, callScript } from "@/lib/naqah-call";
+import { useHydrated } from "@/lib/use-hydrated";
 import { DayLine } from "./dayline";
 
 const STEP_MS = 1150;
@@ -15,6 +16,7 @@ export function CallDemo({ compact = false, id }: { compact?: boolean; id?: stri
   const [step, setStep] = useState(0);
   const [playing, setPlaying] = useState(false);
   const [reduced, setReduced] = useState(false);
+  const mounted = useHydrated();
   const log = useRef<HTMLOListElement>(null);
   const titleId = useId();
   const last = callScript.length - 1;
@@ -22,7 +24,12 @@ export function CallDemo({ compact = false, id }: { compact?: boolean; id?: stri
 
   useEffect(() => {
     const query = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const sync = () => setReduced(query.matches);
+    const sync = () => {
+      setReduced(query.matches);
+      if (query.matches) {
+        setPlaying(false); // a running timer stops the moment reduced motion turns on
+      }
+    };
     sync();
     query.addEventListener("change", sync);
     return () => query.removeEventListener("change", sync);
@@ -79,8 +86,10 @@ export function CallDemo({ compact = false, id }: { compact?: boolean; id?: stri
 
   void stillPlaying;
 
-  const activeMoment = callMoments.filter((m) => m.at <= step).length - 1;
-  const shown = callScript.slice(0, step + 1);
+  // Before hydration the whole transcript is readable; after it, the demo steps.
+  const visibleStep = mounted ? step : last;
+  const activeMoment = callMoments.filter((m) => m.at <= visibleStep).length - 1;
+  const shown = callScript.slice(0, visibleStep + 1);
   const facts = shown.filter((line) => line.kind === "fact");
 
   return (

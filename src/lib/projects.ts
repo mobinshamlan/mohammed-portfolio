@@ -108,8 +108,8 @@ export type Project = {
   credit?: string;
 };
 
-const browser = { width: 1400, height: 875, frame: "browser" } as const;
-const phone = { width: 600, height: 1298, frame: "phone" } as const;
+const browser = { width: 1000, height: 625, frame: "browser" } as const;
+const phone = { width: 440, height: 952, frame: "phone" } as const;
 
 export const projects: Project[] = [
   {
@@ -249,8 +249,8 @@ export const projects: Project[] = [
       moments: [
         { time: "Attendance", label: "Reem: right away, text" },
         { time: "Grades", label: "Reem: weekly, call" },
-        { time: "Exams", label: "Turki: daily, call" },
-        { time: "Attendance", label: "Turki: off" },
+        { time: "Exams", label: "Nawaf: daily, call" },
+        { time: "Attendance", label: "Nawaf: off" },
       ],
       notes: [
         "Every child and every topic has its own choice of timing and channel, stored per parent under row-level security.",
@@ -346,21 +346,27 @@ export const projects: Project[] = [
     screens: [
       {
         ...browser,
-        src: publicUrl("/images/projects/tammeni/desktop.jpg"),
-        alt: "Tammeni welcome page.",
-        caption: "The welcome page, with Lulwa and a sample reminder.",
+        src: publicUrl("/images/projects/tammeni/dashboard.jpg"),
+        alt: "Tammeni parent dashboard: latest grades per subject with the average, and attendance at 92% with the last recorded days.",
+        caption: "The parent dashboard from the demo: grades, attendance, upcoming exams.",
+      },
+      {
+        ...phone,
+        src: publicUrl("/images/projects/tammeni/prefs-when.jpg"),
+        alt: "Tammeni alert preferences, step 4 of 11: when should attendance news reach you, right away or after the school day.",
+        caption: "Step 4 of 11: when attendance news reaches you.",
+      },
+      {
+        ...phone,
+        src: publicUrl("/images/projects/tammeni/prefs-how.jpg"),
+        alt: "Tammeni alert preferences, step 3 of 11: text message or a call from Lulwa.",
+        caption: "Step 3: a text, or Lulwa calls.",
       },
       {
         ...browser,
         src: publicUrl("/images/projects/tammeni/day.jpg"),
         alt: "Tammeni welcome page section: a sample text reminder from Lulwa about a maths test, and the per-topic choices for attendance, exams and grades.",
-        caption: "A sample school day: Lulwa's text reminder, and the choices a parent makes per topic.",
-      },
-      {
-        ...phone,
-        src: publicUrl("/images/projects/tammeni/phone.jpg"),
-        alt: "Tammeni on a phone.",
-        caption: "On a phone.",
+        caption: "A sample school day on the welcome page: Lulwa's text reminder.",
       },
     ],
   },
@@ -487,7 +493,7 @@ export const projects: Project[] = [
     id: "kashta",
     name: "Kashta",
     arabic: "كشتة",
-    statusChip: "Private repo · not deployed",
+    statusChip: "Live · open source",
     dates: "Nov 2026",
     contribution: "Solo: the scoring model, the forecast pipeline, the Llama guards and the Arabic-first interface.",
     proof: {
@@ -517,7 +523,7 @@ export const projects: Project[] = [
     },
     tagline: "A desert night planner for Riyadh, scored by code and explained by Llama.",
     arabicTagline: "أحسن ليلة لكشتتك، وأنسب مكان لها",
-    status: "Private repo · demo on request",
+    status: "Live",
     year: "2026",
     kind: "Forecast ranking · Arabic-first",
     role: "Developer",
@@ -573,8 +579,10 @@ export const projects: Project[] = [
       "Llama 4 Scout",
       "Cloudflare Workers AI",
     ],
-    links: [],
-    linkNote: "Private repository and no public deploy. A demo is available on request.",
+    links: [
+      { label: "Live app", href: "https://4kashta.vercel.app" },
+      { label: "Source on GitHub", href: "https://github.com/mobinshamlan/kashta" },
+    ],
     cover: {
       ...browser,
       src: publicUrl("/images/projects/kashta/desktop.jpg"),
@@ -588,14 +596,14 @@ export const projects: Project[] = [
     screens: [
       {
         ...browser,
-        src: publicUrl("/images/projects/kashta/desktop.jpg"),
-        alt: "Kashta home page.",
-        caption: "Home: this week's best night around Riyadh.",
+        src: publicUrl("/images/projects/kashta/score.jpg"),
+        alt: "Kashta destination page: seven nights with their scores, and a Kashta Score of 99 explained by comfortable temperature, calm wind and no rain.",
+        caption: "A destination page: seven nights scored, and why tonight is a 99.",
       },
       {
         ...browser,
         src: publicUrl("/images/projects/kashta/stars.jpg"),
-        alt: "Kashta Star Hunter page with the Milky Way over a dark ridge.",
+        alt: "Kashta Star Hunter mode with the Milky Way over a dark ridge.",
         caption: "Star Hunter: nights ranked for stargazing by cloud, moon, dust and wind.",
       },
       {
@@ -606,8 +614,8 @@ export const projects: Project[] = [
       },
       {
         ...phone,
-        src: publicUrl("/images/projects/kashta/stars-phone.jpg"),
-        alt: "Kashta Star Hunter on a phone.",
+        src: publicUrl("/images/projects/kashta/phone.jpg"),
+        alt: "Kashta on a phone.",
         caption: "On a phone.",
       },
     ],
@@ -720,9 +728,15 @@ export const projects: Project[] = [
       },
       {
         ...browser,
+        src: publicUrl("/images/projects/amanah/ownership.jpg"),
+        alt: "Amanah guided demo, ownership step: staff ask 'What colour is the handle?' while the found report stays private.",
+        caption: "The ownership step: one question from staff; the found report stays hidden.",
+      },
+      {
+        ...browser,
         src: publicUrl("/images/projects/amanah/demo.jpg"),
         alt: "Amanah guided demo with a blue umbrella tag.",
-        caption: "The guided demo: a lost blue umbrella, from report to staff decision.",
+        caption: "The guided demo starts with a lost blue umbrella.",
       },
       {
         ...phone,

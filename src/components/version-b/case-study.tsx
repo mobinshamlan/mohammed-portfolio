@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { CSSProperties, ReactNode } from "react";
 import { nextProject, previousProject, type Project } from "@/lib/projects";
+import { DecisionArtifact } from "./artifacts";
 import { DayLine } from "./dayline";
 import { DeviceFrame } from "./device-frame";
 import { VersionBFooter } from "./footer";
@@ -169,6 +170,7 @@ export function CaseBody({
             The decision that shaped it
           </h2>
         </Reveal>
+        <div className="vb-decision-pair">
         <Reveal delay={0.06}>
           <dl className="vb-decision">
             <div className="vb-decision-constraint">
@@ -189,6 +191,10 @@ export function CaseBody({
             </div>
           </dl>
         </Reveal>
+        <Reveal delay={0.12} className="vb-decision-artifact">
+          <DecisionArtifact id={project.id} />
+        </Reveal>
+        </div>
       </section>
 
       <section className="vb-case-section vb-case-proof" aria-labelledby="proof-title">
@@ -217,10 +223,10 @@ export function CaseBody({
         <section className="vb-case-section vb-case-screens" aria-labelledby="screens-title">
           <Reveal>
             <h2 id="screens-title" className="vb-case-h2">
-              {project.id === "kashta" ? "Screens, captured locally from the private app" : "Screens from the live demo"}
+              {project.id === "gthrz" ? "Screens from the app" : "Screens from the live app"}
             </h2>
           </Reveal>
-          <div className="vb-screens">
+          <div className="vb-screens" data-layout={project.id}>
             {screens.map((shot, index) => (
               <Reveal key={shot.src} delay={index * 0.05} className={`vb-screen vb-screen-${shot.frame}`}>
                 <DeviceFrame

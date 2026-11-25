@@ -23,14 +23,14 @@ const sourceSerif = Source_Serif_4({
 // The portfolio: one display face and one text face, both Arabic and Latin.
 const display = Alexandria({
   subsets: ["arabic", "latin"],
-  weight: ["500", "700", "800"],
+  weight: ["700", "800"],
   variable: "--font-vb-display",
   display: "swap",
 });
 
 const text = Readex_Pro({
   subsets: ["arabic", "latin"],
-  weight: ["300", "400", "500"],
+  weight: ["400", "500"],
   variable: "--font-vb-text",
   display: "swap",
 });

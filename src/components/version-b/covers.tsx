@@ -47,17 +47,17 @@ function ProjectLinks({ project }: { project: Project }) {
 function Cover({ project }: { project: Project }) {
   const href = projectHref(project);
   return (
-    <li
+    <article
       className="vb-cover"
       style={fieldVars(project)}
       data-light={project.light ? "true" : undefined}
       data-id={project.id}
     >
-      <article className="vb-cover-inner">
+      <div className="vb-cover-inner">
         <div className="vb-cover-copy">
           <Reveal>
             <h3 className="vb-cover-name">
-              <Link href={href}>
+              <Link href={href} prefetch={false}>
                 {project.name}
                 {project.arabic ? <span lang="ar">{project.arabic}</span> : null}
               </Link>
@@ -83,7 +83,7 @@ function Cover({ project }: { project: Project }) {
             </dl>
             <div className="vb-cover-actions">
               <div className="vb-cover-cta">
-                <Link href={href} className="vb-btn vb-btn-field">
+                <Link href={href} prefetch={false} className="vb-btn vb-btn-field">
                   Read the case study
                 </Link>
                 <span className="vb-chip">{project.statusChip}</span>
@@ -114,8 +114,8 @@ function Cover({ project }: { project: Project }) {
             </>
           )}
         </div>
-      </article>
-    </li>
+      </div>
+    </article>
   );
 }
 
@@ -125,7 +125,7 @@ function IndexRow({ project }: { project: Project }) {
   const gthrz = project.id === "gthrz";
   return (
     <li className="vb-index-row" style={fieldVars(project)}>
-      <Link href={href} className="vb-index-still" aria-hidden="true" tabIndex={-1}>
+      <Link href={href} prefetch={false} className="vb-index-still" aria-hidden="true" tabIndex={-1}>
         {gthrz ? (
           <span className="vb-index-phones">
             {[gthrzShots.home, gthrzShots.details].map((shot) => (
@@ -152,7 +152,7 @@ function IndexRow({ project }: { project: Project }) {
       </Link>
       <div className="vb-index-copy">
         <h3 className="vb-index-name">
-          <Link href={href}>
+          <Link href={href} prefetch={false}>
             {project.name}
             {project.arabic ? <span lang="ar">{project.arabic}</span> : null}
           </Link>
@@ -170,6 +170,7 @@ function IndexRow({ project }: { project: Project }) {
 
 export function VersionBCovers() {
   const flagship = projects.filter((project) => project.flagship);
+  const [first, ...otherFlagships] = flagship;
   const rest = projects.filter((project) => !project.flagship);
   return (
     <section id="work" className="vb-work" aria-labelledby="work-title">
@@ -182,17 +183,18 @@ export function VersionBCovers() {
         <Reveal delay={0.1}>
           <p className="vb-lead vb-work-lead">
             A ranch, a school and an ads inbox, each run by a voice or a chat
-            that keeps to the facts. Every project is a point on the line
-            below; four more follow after the three.
+            that keeps to the facts.{" "}
+            <Link href="#all-projects" className="vb-link vb-work-all">
+              All seven projects on one line
+            </Link>
           </p>
         </Reveal>
       </div>
+      <Cover project={first} />
       <WorkLine />
-      <ol className="vb-covers">
-        {flagship.map((project) => (
-          <Cover key={project.id} project={project} />
-        ))}
-      </ol>
+      {otherFlagships.map((project) => (
+        <Cover key={project.id} project={project} />
+      ))}
 
       <div className="vb-index" id="more-work">
         <Reveal>

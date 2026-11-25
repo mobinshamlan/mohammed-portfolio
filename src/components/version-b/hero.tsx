@@ -1,15 +1,17 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { contact } from "@/lib/contact";
+import { callScript } from "@/lib/naqah-call";
 import { publicUrl } from "@/lib/site";
 import { tonightInRiyadh, type Tonight } from "@/lib/riyadh";
 import { DayLine } from "./dayline";
 
 const sky = {
   src: publicUrl("/images/projects/credits/alula-night-sky.jpg"),
+  src640: publicUrl("/images/projects/credits/alula-night-sky-640.jpg"),
+  src1000: publicUrl("/images/projects/credits/alula-night-sky-1000.jpg"),
   alt: "The Milky Way seen through a gap between two sandstone cliffs at night in AlUla, Saudi Arabia.",
   width: 1067,
   height: 1600,
@@ -80,13 +82,53 @@ function TonightStrip() {
           <span>
             {tonight ? `${tonight.moon.name}, ${percent}% lit.` : "Reading the sky."}{" "}
             Computed here from the date, for Kashta&rsquo;s forecast city.{" "}
-            <Link href="/projects/kashta#how-title" className="vb-tonight-link">
+            <Link href="/projects/kashta#how-title" prefetch={false} className="vb-tonight-link">
               How Kashta scores a night
             </Link>
           </span>
         </p>
       </div>
       <DayLine moments={moments} active={1} label="Riyadh tonight" />
+    </div>
+  );
+}
+
+/** A real artifact on the first screen: what one Naqah call turns into. Simulated sample. */
+function HeroArtifact() {
+  const worker = callScript.find((l) => l.kind === "worker");
+  const facts = callScript.filter((l) => l.kind === "fact").slice(0, 3);
+  return (
+    <div className="vb-hero-art" data-ui="">
+      <p className="vb-hero-art-label">
+        From a Naqah call to the owner&rsquo;s summary. Simulated sample.
+      </p>
+      <div className="vb-hero-art-grid">
+        <div className="vb-hero-art-worker">
+          <span className="vb-hero-art-who">Worker, 5:40 pm</span>
+          {worker && worker.kind === "worker" ? (
+            <>
+              <span lang="ar">{worker.ar}</span>
+              <span className="vb-hero-art-en">{worker.en}</span>
+            </>
+          ) : null}
+        </div>
+        <ul className="vb-hero-art-facts" aria-label="Facts kept">
+          {facts.map((fact, i) =>
+            fact.kind === "fact" ? (
+              <li key={i} data-flag={fact.flag ? "true" : undefined}>
+                <span>{fact.label}</span>
+                <strong>{fact.value}</strong>
+              </li>
+            ) : null,
+          )}
+        </ul>
+      </div>
+      <p className="vb-hero-art-owner">
+        <strong>Owner, 7:00 pm</strong> Wadha has not drunk since morning. Feed arrived.{" "}
+        <Link href="#naqah-demo" className="vb-link">
+          Play the full call, 15 s
+        </Link>
+      </p>
     </div>
   );
 }
@@ -104,19 +146,21 @@ export function VersionBHero() {
           <span lang="ar">أبني منتجات ذكاء اصطناعي، بالعربي أولاً، لحياة سعودية حقيقية</span>
         </p>
         <p className="vb-hero-proof" data-rise="3">
-          Four AI products built in 2026, from a ranch that phones its owner to
-          a desert night scored by code.
+          Lead contributor on Naqah, a live investor MVP. Four of my five AI
+          products are live.
         </p>
         <div className="vb-hero-actions" data-rise="4">
           <Link href="#work" className="vb-btn">
             View work
           </Link>
-          <Link href="#naqah-demo" className="vb-btn vb-btn-quiet">
-            Play the Naqah call, 15 s
-          </Link>
-          <Link href="#contact" className="vb-link">
-            Get in touch
-          </Link>
+          <span className="vb-hero-secondary">
+            <Link href="#naqah-demo" className="vb-link">
+              Play the Naqah call
+            </Link>
+            <Link href="#contact" className="vb-link">
+              Get in touch
+            </Link>
+          </span>
         </div>
         <p className="vb-hero-status" data-rise="5">
           <span className="vb-hero-dot" aria-hidden="true" />
@@ -125,13 +169,16 @@ export function VersionBHero() {
       </div>
 
       <figure className="vb-hero-sky" data-open="1">
-        <Image
-          src={sky.src}
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={sky.src1000}
+          srcSet={`${sky.src640} 640w, ${sky.src1000} 1000w, ${sky.src} 1067w`}
+          sizes="(max-width: 899px) 100vw, 40vw"
           alt={sky.alt}
           width={sky.width}
           height={sky.height}
-          sizes="(max-width: 900px) 100vw, 40vw"
-          priority
+          fetchPriority="high"
+          decoding="async"
           className="vb-hero-sky-img"
         />
         <figcaption className="vb-hero-sky-cap">
@@ -140,6 +187,7 @@ export function VersionBHero() {
       </figure>
 
       <div className="vb-hero-strip" data-rise="6">
+        <HeroArtifact />
         <TonightStrip />
       </div>
     </section>

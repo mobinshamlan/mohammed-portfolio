@@ -696,13 +696,272 @@
   background: var(--night-3);
 }
 
+.vb-decision-pair {
+  display: grid;
+  gap: 2.5rem;
+}
+
 @media (min-width: 900px) {
-  .vb-decision {
+  .vb-decision-pair {
     grid-template-columns: 5fr 7fr;
     column-gap: clamp(2rem, 5vw, 5rem);
+    align-items: start;
   }
-  .vb-decision-constraint {
-    grid-row: 1 / 4;
+  .vb-decision-artifact {
+    position: sticky;
+    top: 5rem;
+  }
+}
+
+/* ---------- Artifacts beside the decisions ---------- */
+
+.vb-art {
+  display: grid;
+  gap: 0.9rem;
+  padding: 1.25rem;
+  border-radius: 0.75rem;
+  background: var(--night-2);
+}
+
+.vb-art-label,
+.vb-art-en,
+.vb-art-note {
+  color: var(--sand-2);
+  font-size: var(--step-small);
+}
+
+.vb-art-h {
+  font-family: var(--display);
+  font-weight: 700;
+}
+
+.vb-art-h span[lang="ar"] {
+  margin-right: 0.5rem;
+}
+
+.vb-art-sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.vb-art-lines,
+.vb-art-facts,
+.vb-art-chat {
+  display: grid;
+  gap: 0.6rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.vb-art-lines li {
+  display: grid;
+  gap: 0.15rem;
+  padding: 0.6rem 0.8rem;
+  border-radius: 0.6rem;
+  background: var(--night-3);
+}
+
+.vb-art-lines span[lang="ar"],
+.vb-art-chat span[lang="ar"] {
+  display: block;
+  font-size: 1.05rem;
+  font-weight: 500;
+  text-align: right;
+}
+
+.vb-art-facts li {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  font-size: var(--step-small);
+}
+
+.vb-art-facts li[data-flag="true"] strong {
+  color: var(--ember);
+}
+
+.vb-art-naqah-grid {
+  display: grid;
+  gap: 1rem;
+}
+
+.vb-art-owner {
+  font-size: var(--step-small);
+}
+
+.vb-art-owner strong {
+  font-family: var(--display);
+  margin-right: 0.3rem;
+}
+
+.vb-art-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--step-small);
+}
+
+.vb-art-table th,
+.vb-art-table td {
+  padding: 0.5rem 0.4rem;
+  text-align: left;
+  vertical-align: top;
+}
+
+.vb-art-table thead th {
+  color: var(--sand-2);
+  font-weight: 500;
+}
+
+.vb-art-table tbody th {
+  font-family: var(--display);
+  font-weight: 700;
+}
+
+.vb-art-table tbody tr {
+  background: var(--night-3);
+}
+
+.vb-art-table tbody tr:nth-child(even) {
+  background: color-mix(in srgb, var(--night-3) 60%, var(--night-2));
+}
+
+.vb-art-table td[data-on="true"] {
+  color: var(--ok);
+  font-weight: 500;
+}
+
+.vb-art-table select {
+  width: 100%;
+  margin-bottom: 0.35rem;
+  padding: 0.35rem 0.4rem;
+  border: 1px solid var(--night);
+  border-radius: 0.35rem;
+  background: var(--night);
+  color: var(--sand);
+  font: inherit;
+  font-size: var(--step-small);
+}
+
+.vb-art-toggle {
+  min-height: 2rem;
+  padding: 0 0.7rem;
+  border: 0;
+  border-radius: 999px;
+  background: var(--night);
+  color: var(--sand);
+  cursor: pointer;
+  font-size: var(--step-small);
+  font-weight: 500;
+}
+
+.vb-art-toggle[aria-pressed="true"] {
+  background: var(--ember);
+  color: var(--ember-ink);
+}
+
+.vb-art-toggle:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+
+.vb-art-sum {
+  font-size: var(--step-small);
+  line-height: 1.5;
+}
+
+.vb-art-state {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.vb-art-state span {
+  padding: 0.2rem 0.7rem;
+  border-radius: 999px;
+  background: var(--night-3);
+  font-size: var(--step-small);
+}
+
+.vb-art-state span[data-on="true"] {
+  background: var(--ember);
+  color: var(--ember-ink);
+  font-weight: 500;
+}
+
+.vb-art-chat li {
+  display: grid;
+  gap: 0.15rem;
+  max-width: 88%;
+  padding: 0.6rem 0.8rem;
+  border-radius: 0.75rem;
+  background: var(--night-3);
+}
+
+.vb-art-chat li[data-who="brand"] {
+  justify-self: end;
+  background: #263048;
+}
+
+.vb-art-chat li[data-who="system"] {
+  max-width: none;
+  background: color-mix(in srgb, var(--ok) 18%, var(--night-2));
+}
+
+.vb-art-controls,
+.vb-art-options {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.vb-art-score td:nth-child(3) {
+  color: var(--sand-2);
+}
+
+@media (min-width: 600px) {
+  .vb-art-naqah-grid {
+    grid-template-columns: 3fr 2fr;
+  }
+}
+
+/* Screens: each project composes its gallery differently. */
+@media (min-width: 900px) {
+  .vb-screens[data-layout="tammeni"] .vb-screen-browser {
+    grid-column: span 12;
+  }
+  .vb-screens[data-layout="tammeni"] .vb-screen-phone {
+    grid-column: span 3;
+  }
+  .vb-screens[data-layout="tammeni"] .vb-screen-browser:last-child {
+    grid-column: span 6;
+  }
+  .vb-screens[data-layout="kashta"] .vb-screen-browser {
+    grid-column: span 6;
+  }
+  .vb-screens[data-layout="kashta"] .vb-screen-browser:first-child {
+    grid-column: span 12;
+  }
+  .vb-screens[data-layout="kashta"] .vb-screen-phone {
+    grid-column: span 12;
+    justify-self: center;
+  }
+  .vb-screens[data-layout="amanah"] .vb-screen-browser {
+    grid-column: span 6;
+  }
+  .vb-screens[data-layout="amanah"] .vb-screen-browser:first-child {
+    grid-column: span 12;
+  }
+  .vb-screens[data-layout="naqah"] .vb-screen-browser:first-child {
+    grid-column: span 12;
+  }
+  .vb-screens[data-layout="naqah"] .vb-screen-browser:nth-child(2) {
+    grid-column: span 8;
   }
 }
 

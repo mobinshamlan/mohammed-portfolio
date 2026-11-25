@@ -118,6 +118,86 @@
 
 .vb-hero-strip {
   grid-column: 1 / -1;
+  display: grid;
+  gap: 1rem;
+}
+
+.vb-hero-secondary {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0 1.25rem;
+}
+
+/* The first-screen artifact: one call, what it became. */
+.vb-hero-art {
+  display: grid;
+  gap: 0.9rem;
+  padding: 1.1rem 1.25rem;
+  border-radius: 0.5rem;
+  background: var(--night-2);
+}
+
+.vb-hero-art-label,
+.vb-hero-art-who,
+.vb-hero-art-en {
+  color: var(--sand-2);
+  font-size: var(--step-small);
+}
+
+.vb-hero-art-grid {
+  display: grid;
+  gap: 0.9rem;
+}
+
+.vb-hero-art-worker {
+  display: grid;
+  gap: 0.2rem;
+  padding: 0.75rem 0.9rem;
+  border-radius: 0.6rem;
+  background: var(--night-3);
+}
+
+.vb-hero-art-worker span[lang="ar"] {
+  display: block;
+  font-size: 1.05rem;
+  font-weight: 500;
+  text-align: right;
+}
+
+.vb-hero-art-facts {
+  display: grid;
+  gap: 0.35rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: var(--step-small);
+}
+
+.vb-hero-art-facts li {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.vb-hero-art-facts li[data-flag="true"] strong {
+  color: var(--ember);
+}
+
+.vb-hero-art-owner {
+  font-size: var(--step-small);
+}
+
+.vb-hero-art-owner strong {
+  font-family: var(--display);
+  margin-right: 0.3rem;
+}
+
+@media (min-width: 600px) {
+  .vb-hero-art-grid {
+    grid-template-columns: 3fr 2fr;
+    align-items: start;
+  }
 }
 
 .vb-tonight {
@@ -183,6 +263,9 @@
     grid-column: 1;
     grid-row: 2;
   }
+  .vb-hero-actions .vb-hero-secondary .vb-link {
+    min-height: 3rem;
+  }
   .vb-tonight {
     grid-template-columns: minmax(16rem, 1fr) 1.4fr;
     align-items: center;
@@ -192,7 +275,31 @@
 /* ---------- Selected work: covers that stack ---------- */
 
 .vb-work {
+  display: flex;
+  flex-direction: column;
   scroll-margin-top: 0;
+}
+
+.vb-work-all {
+  display: inline-flex;
+}
+
+@media (min-width: 900px) {
+  .vb-work-head {
+    order: 0;
+  }
+  .vb-workline {
+    order: 1;
+  }
+  .vb-cover {
+    order: 2;
+  }
+  .vb-index {
+    order: 3;
+  }
+  .vb-work-all {
+    display: none;
+  }
 }
 
 .vb-work-head {

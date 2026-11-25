@@ -151,10 +151,6 @@
   will-change: translate;
 }
 
-.vl-shot-desktop {
-  display: none;
-}
-
 .vl-label {
   padding-top: 1.25rem;
 }
@@ -630,14 +626,6 @@
   .vl-win-view {
     aspect-ratio: 16 / 10;
     border-radius: 0;
-  }
-
-  .vl-shot-desktop {
-    display: block;
-  }
-
-  .vl-shot-mobile {
-    display: none;
   }
 
   .vl-cell-a .vl-label,

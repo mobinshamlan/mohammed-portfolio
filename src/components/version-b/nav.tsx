@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from "react";
 import type { MouseEvent } from "react";
 import { contact } from "@/lib/contact";
 import { appPath } from "@/lib/site";
+import { useHydrated } from "@/lib/use-hydrated";
 import { Jumper } from "./jumper";
 
 const links = [
@@ -42,6 +43,7 @@ export function VersionBNav({
   fieldInk?: string;
 }) {
   const [spy, setSpy] = useState("");
+  const hydrated = useHydrated();
   const menu = useRef<HTMLDialogElement>(null);
   const toggle = useRef<HTMLButtonElement>(null);
   const refocus = useRef(true);
@@ -132,6 +134,7 @@ export function VersionBNav({
     <header
       className="vb-nav"
       data-tone={tone}
+      data-hydrated={hydrated ? "true" : undefined}
       style={
         field
           ? ({ "--field": field, "--field-ink": fieldInk } as React.CSSProperties)

@@ -37,6 +37,7 @@ export function Jumper() {
   const [query, setQuery] = useState("");
   const [index, setIndex] = useState(0);
   const listId = useId();
+  const returnTo = useRef<HTMLElement | null>(null);
 
   const shown = items.filter((item) =>
     `${item.label} ${item.hint}`.toLowerCase().includes(query.trim().toLowerCase()),
@@ -50,6 +51,7 @@ export function Jumper() {
     }
     setQuery("");
     setIndex(0);
+    returnTo.current = document.activeElement as HTMLElement | null;
     node.showModal();
     requestAnimationFrame(() => input.current?.focus());
   }
@@ -57,6 +59,11 @@ export function Jumper() {
   function close() {
     dialog.current?.close();
   }
+
+  // Keep the selected result in view as the arrows move.
+  useEffect(() => {
+    document.getElementById(`${listId}-${active}`)?.scrollIntoView({ block: "nearest" });
+  }, [active, listId]);
 
   useEffect(() => {
     const onKey = (event: KeyboardEvent) => {
@@ -116,7 +123,14 @@ export function Jumper() {
         ref={dialog}
         className="vb-jump"
         aria-label="Jump to a project or section"
-        onClose={() => opener.current?.focus()}
+        onClose={() => {
+          const target = returnTo.current;
+          if (target && target !== document.body && document.contains(target)) {
+            target.focus();
+          } else {
+            opener.current?.focus();
+          }
+        }}
         onClick={(event) => {
           if (event.target === event.currentTarget) {
             close();

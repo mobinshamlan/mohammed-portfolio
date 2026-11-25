@@ -28,7 +28,7 @@ export function WorkLine() {
   }
 
   return (
-    <nav className="vb-workline" aria-label="All projects, in the order they were built">
+    <nav id="all-projects" className="vb-workline" aria-label="All projects, in the order they were built">
       <ol className="vb-workline-list">
         {ordered.map((project, index) => (
           <li
@@ -41,6 +41,7 @@ export function WorkLine() {
                 refs.current[index] = node;
               }}
               href={project.href ?? `/projects/${project.id}`}
+              prefetch={false}
               className="vb-workline-link"
               onKeyDown={(event) => onKeyDown(event, index)}
             >

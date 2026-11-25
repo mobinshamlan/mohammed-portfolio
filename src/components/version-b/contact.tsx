@@ -1,6 +1,7 @@
 "use client";
 
 import { useId, useRef, useState, type FormEvent } from "react";
+import { useHydrated } from "@/lib/use-hydrated";
 import { contact } from "@/lib/contact";
 import { Reveal } from "./reveal";
 
@@ -40,6 +41,8 @@ export function VersionBContact() {
   const [errors, setErrors] = useState<Partial<Record<FieldName, string>>>({});
   const [status, setStatus] = useState<Status>("idle");
   const [emailCopied, setEmailCopied] = useState(false);
+  // The form needs JavaScript to open a draft; without it the email link above is the way in.
+  const mounted = useHydrated();
   const noteRef = useRef<HTMLDivElement>(null);
   const mail = buildMail(fields);
 
@@ -137,6 +140,7 @@ export function VersionBContact() {
         </div>
       </Reveal>
 
+      {mounted ? (
       <form className="vb-form" onSubmit={onSubmit} noValidate>
         <h3 className="vb-form-title">Draft an email</h3>
         <div className="vb-form-grid">
@@ -211,10 +215,21 @@ export function VersionBContact() {
             </p>
           ) : null}
           {status === "failed" ? (
-            <pre className="vb-form-note">{mail.body}</pre>
+            <div className="vb-form-note">
+              {mail.body.split("\n").map((line, i) => (
+                <p key={i} dir="auto">
+                  {line || "\u00a0"}
+                </p>
+              ))}
+            </div>
           ) : null}
         </div>
       </form>
+      ) : (
+        <p className="vb-form-fallback">
+          The draft form appears once the page has loaded. The email link above works without it.
+        </p>
+      )}
     </section>
   );
 }
