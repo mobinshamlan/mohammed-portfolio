@@ -1,15 +1,13 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { ReactNode } from "react";
-import { gthrzShots } from "@/lib/gthrz";
 import { fieldStyle, projectById, type Evidence, type Project, type ProjectId } from "@/lib/projects";
 import { SeetChat } from "./artifacts";
 import { CallDemo } from "./call-demo";
-import { AmanahClaimDemo } from "./demos/amanah-claim";
-import { GthrzStatesDemo } from "./demos/gthrz-states";
-import { KashtaScoreDemo } from "./demos/kashta-score";
 import { TammeniScheduleDemo } from "./demos/tammeni-schedule";
-import { GthrzImg } from "./gthrz-img";
+import { AmanahWorld } from "./worlds/amanah-world";
+import { GthrzWorld } from "./worlds/gthrz-world";
+import { KashtaWorld } from "./worlds/kashta-world";
 import { Reveal } from "./reveal";
 import {
   CallEndedSeam,
@@ -223,115 +221,6 @@ function Seet() {
   );
 }
 
-/* ---------- Kashta: the only night on the page ---------- */
-
-/** Hand-placed stars: left %, top %, size in px. Fewer show on phones. */
-const stars: [number, number, number][] = [
-  [6, 9, 2], [14, 22, 1.5], [23, 6, 2], [31, 15, 1.5], [38, 4, 2.5], [44, 19, 1.5], [52, 8, 2],
-  [57, 26, 1.5], [63, 5, 2], [69, 17, 2.5], [76, 10, 1.5], [82, 24, 2], [88, 7, 2], [93, 18, 1.5],
-  [97, 31, 2], [3, 30, 1.5],
-];
-
-function Kashta() {
-  const project = projectById.kashta;
-  return (
-    <World id="kashta">
-      <div className="w-sky" aria-hidden="true">
-        {stars.map(([x, y, r], index) => (
-          <i key={index} style={{ left: `${x}%`, top: `${y}%`, width: r, height: r }} />
-        ))}
-      </div>
-      <Head project={project} line="The score is code, not AI. Llama explains a ranking it never computes." />
-      <p className="w-motto" lang="ar">
-        {project.arabicTagline}
-      </p>
-      <Reveal className="w-demo" delay={0.07}>
-        <KashtaScoreDemo compact />
-      </Reveal>
-      <Proof project={project} />
-      <Links project={project} />
-      <div className="w-dune" aria-hidden="true" />
-    </World>
-  );
-}
-
-/* ---------- Amanah: the lost-property counter ---------- */
-
-function Amanah() {
-  const project = projectById.amanah;
-  const ownership = project.screens.find((shot) => shot.src.includes("ownership")) ?? project.cover;
-  return (
-    <World id="amanah">
-      <Head project={project} line="One match, two different views." />
-      <Reveal className="w-tag-wrap" delay={0.05}>
-        <div className="w-tag">
-          <p lang="ar">{project.arabicTagline}</p>
-          <dl>
-            <div>
-              <dt>Item</dt>
-              <dd>Umbrella</dd>
-            </div>
-            <div>
-              <dt>Found</dt>
-              <dd>Reported, never posted</dd>
-            </div>
-            <div>
-              <dt>Match</dt>
-              <dd>Suggested by Gemini</dd>
-            </div>
-            <div>
-              <dt>Hand-over</dt>
-              <dd>When staff approve</dd>
-            </div>
-          </dl>
-        </div>
-      </Reveal>
-      <div className="w-counter">
-        <Reveal className="w-demo" delay={0.07}>
-          <AmanahClaimDemo compact />
-        </Reveal>
-        <figure className="w-monitor" aria-hidden="true">
-          <Image src={ownership.src} alt="" width={ownership.width} height={ownership.height} sizes="30vw" />
-        </figure>
-      </div>
-      <div className="w-cabinet">
-        <Proof project={project} />
-        <Links project={project} />
-      </div>
-    </World>
-  );
-}
-
-/* ---------- Gthrz: the party invite with a tear-off stub ---------- */
-
-function Gthrz() {
-  const project = projectById.gthrz;
-  const shots = [gthrzShots.details, gthrzShots.plannerSuggestions];
-  return (
-    <World id="gthrz">
-      <Head project={project} line="The host decides who sees the address, and when." />
-      <Reveal className="w-invite" delay={0.07}>
-        <div className="w-demo">
-          <GthrzStatesDemo compact />
-        </div>
-        <p className="w-stub">
-          <span>Only guests see this</span>
-          <span className="w-stub-small">Address, pin and guest list stay with the host until they say so.</span>
-        </p>
-      </Reveal>
-      <div className="w-phones" aria-hidden="true">
-        {shots.map((shot) => (
-          <div key={shot.src} className="vb-capture" data-ui="">
-            <GthrzImg shot={shot} sizes="(max-width: 899px) 45vw, 220px" decorative />
-          </div>
-        ))}
-      </div>
-      <Proof project={project} />
-      <Links project={project} />
-    </World>
-  );
-}
-
 /* ---------- The experiment: a plain sheet, a smaller entry ---------- */
 
 function Experiment() {
@@ -390,11 +279,11 @@ export function Covers() {
       <TypingSeam />
       <Seet />
       <ReceiptSeam />
-      <Kashta />
+      <KashtaWorld project={projectById.kashta} />
       <LanternSeam />
-      <Amanah />
+      <AmanahWorld project={projectById.amanah} />
       <TagSeam />
-      <Gthrz />
+      <GthrzWorld project={projectById.gthrz} />
       <StubSeam />
       <Experiment />
     </section>
