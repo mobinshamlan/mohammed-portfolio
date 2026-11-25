@@ -35,7 +35,7 @@ export function Redirect({ to, label }: { to: string; label: string }) {
         This page moved.{" "}
         <Link
           href={to}
-          style={{ color: "#e9a24a", textUnderlineOffset: "0.2em" }}
+          style={{ color: "#86a9f5", textUnderlineOffset: "0.2em" }}
         >
           Open {label}
         </Link>

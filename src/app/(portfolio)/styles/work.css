@@ -105,3 +105,19 @@
     translate: none;
   }
 }
+
+@media (min-width: 900px) {
+  .vb-proj-screen[data-phone-only] {
+    display: none;
+  }
+}
+
+/* Phones: name and decision, then my part and the links, then the demo and the real screen. */
+@media (max-width: 899px) {
+  .vb .vb-proj[data-layout] .vb-proj-head {
+    order: -2;
+  }
+  .vb .vb-proj[data-layout] .vb-proj-foot {
+    order: -1;
+  }
+}

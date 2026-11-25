@@ -10,7 +10,7 @@
   gap: 2rem;
   padding: clamp(1.5rem, 3.5vw, 3rem) var(--gutter) clamp(2.5rem, 5vw, 4rem);
   background:
-    radial-gradient(60rem 30rem at 85% 0%, color-mix(in srgb, var(--ember) 9%, transparent), transparent 70%),
+    radial-gradient(56rem 34rem at 82% 30%, rgba(95, 137, 179, 0.22), transparent 70%),
     var(--dusk);
   scroll-margin-top: 5rem;
 }
@@ -70,8 +70,8 @@
   flex: 1 1 auto;
   height: 2px;
   margin-top: 0.15em;
-  background: currentColor;
-  opacity: 0.55;
+  background: var(--ribbon);
+  opacity: 0.8;
 }
 
 .vb-open-lead {
@@ -120,7 +120,7 @@
   background: var(--ok);
 }
 
-/* The portrait: cropped to the face and shoulders, with a thin ember offset. */
+/* The portrait: cropped to the face and shoulders, on the backdrop's own blue. */
 .vb-open-portrait {
   grid-area: photo;
   display: grid;
@@ -135,8 +135,8 @@
   aspect-ratio: 4 / 5;
   overflow: hidden;
   border-radius: 1.25rem;
-  background: #2d4f86;
-  box-shadow: 0.9rem 0.9rem 0 -0.1rem color-mix(in srgb, var(--ember) 80%, transparent);
+  background: #4a6c9c;
+  box-shadow: 0 0 0 1px rgba(134, 169, 245, 0.25), 0 2rem 4rem -1.5rem rgba(0, 0, 0, 0.6);
 }
 
 .vb-open-img {
@@ -266,8 +266,8 @@
       "lead lead"
       "leadar leadar"
       "actions actions"
-      "status status"
-      "work work";
+      "work work"
+      "status status";
     gap: 1rem;
     padding-top: 1.5rem;
   }
@@ -309,7 +309,6 @@
   .vb-open-frame {
     aspect-ratio: 1;
     border-radius: 0.9rem;
-    box-shadow: 0.35rem 0.35rem 0 -0.05rem color-mix(in srgb, var(--ember) 80%, transparent);
   }
   .vb-open-img {
     transform: scale(2.3);
@@ -335,6 +334,18 @@
   .vb-open-work-list > li {
     flex: 0 0 9.5rem;
     scroll-snap-align: start;
+  }
+  /* Names first, so the choice is readable before the pictures. */
+  .vb-open-tile-text {
+    order: -1;
+    border-top: 0;
+    border-bottom: 1px solid color-mix(in srgb, var(--field-ink) 18%, transparent);
+  }
+  .vb-open-tile-shot {
+    height: 4.5rem;
+  }
+  .vb-open-work-label {
+    display: none;
   }
 }
 

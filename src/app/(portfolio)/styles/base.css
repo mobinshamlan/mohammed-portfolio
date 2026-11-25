@@ -3,22 +3,28 @@
    brings its own flat field colour, rising over the last as a dune. */
 
 .vb {
-  /* The night, hour by hour. */
-  --dusk: #221719;
-  --dusk-2: #2e2022;
-  --dusk-3: #44302f;
-  --nightfall: #111421;
-  --night: #0b0e14;
-  --predawn: #121b2b;
-  --dawn: #f1d9b3;
-  --dawn-ink: #2a1a0e;
-  --dawn-muted: #644630;
-  --night-2: #131823;
-  --night-3: #1c2231;
-  --sand: #efe6d3;
-  --sand-2: #b9b0a0;
-  --ember: #e9a24a;
-  --ember-ink: #1a1206;
+  /* Colours taken from the graduation portrait: the navy of the studio
+     backdrop for every ground, cream for the ink, and the blue of the
+     hood as the one accent. Names are roles, kept from the first version:
+     dusk = the raised ground of the opening, night = the base ground,
+     dawn = the footer, sand = ink, ember = the accent. */
+  --dusk: #111c36;
+  --dusk-2: #1a2848;
+  --dusk-3: #2b3d66;
+  --nightfall: #0d1527;
+  --night: #0a0f1d;
+  --predawn: #0f1930;
+  --dawn: #16223f;
+  --dawn-ink: #f2ecdf;
+  --dawn-muted: #aeb8cc;
+  --night-2: #101a2f;
+  --night-3: #1b2742;
+  --sand: #f2ecdf;
+  --sand-2: #aeb8cc;
+  --ember: #86a9f5;
+  --ember-ink: #08122b;
+  /* The ribbon red, used sparingly. */
+  --ribbon: #e0574e;
   --danger: #ff8a7a;
   --ok: #8fd3a5;
 
@@ -533,6 +539,12 @@ html:has(.vb) {
   font-weight: 500;
 }
 
+@media (min-width: 900px) {
+  .vb-jump-icon {
+    display: none;
+  }
+}
+
 .vb-jump-open kbd {
   font-family: var(--text);
   font-size: 0.8125rem;
@@ -619,9 +631,47 @@ html:has(.vb) {
   padding: 0.75rem 0.9rem;
 }
 
-@media (min-width: 900px) {
+.vb-jump-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.vb-jump-close {
+  min-height: 2.75rem;
+  padding: 0 0.9rem;
+  border: 0;
+  border-radius: 999px;
+  background: color-mix(in srgb, currentColor 12%, transparent);
+  color: inherit;
+  font: inherit;
+  font-size: var(--step-small);
+  cursor: pointer;
+}
+
+/* Phones: the opener is a compact "وين؟" beside Menu; the keyboard hints step aside. */
+.vb-jump-open {
+  display: inline-flex;
+}
+
+@media (max-width: 899px) {
   .vb-jump-open {
-    display: inline-flex;
+    padding: 0 0.8rem;
+  }
+  .vb-jump-open {
+    justify-content: center;
+    min-width: 2.75rem;
+    padding: 0;
+  }
+  .vb-jump-open :is(.vb-jump-text, .vb-jump-ar, kbd) {
+    display: none;
+  }
+  .vb-nav .vb-wordmark {
+    font-size: 0.95rem;
+  }
+  .vb-jump-foot {
+    display: none;
   }
 }
 

@@ -131,8 +131,13 @@ export function Jumper() {
         className="vb-jump-open"
         onClick={open}
         aria-haspopup="dialog"
+        aria-label="Jump to a project or section"
       >
-        <span lang="ar">وين؟</span> Jump to
+        <svg className="vb-jump-icon" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false">
+          <circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" strokeWidth="2" />
+          <path d="M15.5 15.5 21 21" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+        </svg>
+        <span lang="ar" className="vb-jump-ar">وين؟</span> <span className="vb-jump-text">Jump to</span>
         <kbd aria-hidden="true">⌘K</kbd>
       </button>
       <dialog
@@ -154,9 +159,14 @@ export function Jumper() {
         }}
       >
         <div className="vb-jump-body">
-          <label htmlFor={`${listId}-q`} className="vb-jump-label">
-            Where to tonight? <span lang="ar">وين الليلة؟</span>
-          </label>
+          <div className="vb-jump-head">
+            <label htmlFor={`${listId}-q`} className="vb-jump-label">
+              Where to? <span lang="ar">وين تبي تروح؟</span>
+            </label>
+            <button type="button" className="vb-jump-close" onClick={close}>
+              Close
+            </button>
+          </div>
           <input
             ref={input}
             id={`${listId}-q`}

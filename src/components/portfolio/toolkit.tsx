@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState, type CSSProperties } from "react";
+import { useState, useSyncExternalStore, type CSSProperties } from "react";
 import { projectById, type ProjectId } from "@/lib/projects";
 import { studied, testsChecked, toolkit, toolkitProjects } from "@/lib/toolkit";
 import { useHydrated } from "@/lib/use-hydrated";
@@ -13,6 +13,28 @@ type Selection = ProjectId | "all";
 
 function swatch(id: ProjectId) {
   return { "--swatch": projectById[id].field } as CSSProperties;
+}
+
+const phone = "(max-width: 699px)";
+
+function subscribePhone(onChange: () => void) {
+  const query = window.matchMedia(phone);
+  query.addEventListener("change", onChange);
+  return () => query.removeEventListener("change", onChange);
+}
+
+/** True on phone widths once hydrated; false on the server, so the first render lists everything. */
+function usePhone() {
+  return useSyncExternalStore(
+    subscribePhone,
+    () => window.matchMedia(phone).matches,
+    () => false,
+  );
+}
+
+/** Keeps the whole list for "all"; otherwise only the selected project's entries. */
+function only<T extends { project: ProjectId }>(selected: Selection, items: T[]) {
+  return selected === "all" ? items : items.filter((item) => item.project === selected);
 }
 
 /** A state for CSS: on when the selection uses it, off when it does not, absent for "all". */
@@ -28,6 +50,8 @@ export function Toolkit() {
   // The project filter needs JavaScript; without it every job and project is still listed.
   const hydrated = useHydrated();
   const [selected, setSelected] = useState<Selection>("all");
+  // On phones the full list is long, so each job's notes fold behind a disclosure.
+  const fold = usePhone() && selected === "all";
   const project = selected === "all" ? null : projectById[selected];
   const used = project
     ? new Set(
@@ -37,12 +61,14 @@ export function Toolkit() {
       ).size
     : 0;
   const total = toolkit.reduce((sum, job) => sum + job.tools.length, 0);
+  // A selected project shows only the jobs it used.
+  const jobs = project ? toolkit.filter((job) => job.projects.includes(project.id)) : toolkit;
 
   return (
     <section id="skills" className="vb-tools" data-sel={selected} aria-labelledby="skills-title">
       <div className="vb-tools-head">
         <Reveal>
-          <ChapterMark n={3} en="What I work with" ar="أدواتي" />
+          <ChapterMark n={4} en="What I work with" ar="أدواتي" />
           <h2 id="skills-title" className="vb-section-head">
             What I work with.
           </h2>
@@ -94,92 +120,97 @@ export function Toolkit() {
         ) : null}
       </div>
 
-      <ol className="vb-tools-grid">
-        {toolkit.map((job, index) => (
-          <li
-            key={job.id}
-            className="vb-tools-job"
-            data-wide={job.wide ? "true" : undefined}
-            data-lit={lit(selected, job.projects)}
-          >
-            <p className="vb-tools-n" aria-hidden="true">
-              {String(index + 1).padStart(2, "0")}
-            </p>
-            <h3 id={`tools-${job.id}`} className="vb-tools-title">
-              {job.title}
-            </h3>
-            <p className="vb-tools-line">{job.line}</p>
-
-            <ul className="vb-tools-names" aria-label="Tools">
-              {job.tools.map((tool) => (
-                <li key={tool.name} className="vb-tools-name" data-lit={lit(selected, tool.projects)}>
-                  {tool.name}
+      <ol className="vb-tools-grid" data-filtered={project ? "true" : undefined}>
+        {jobs.map((job) => {
+          const notes = job.notes ? only(selected, job.notes) : [];
+          const counts = only(selected, job.testCounts);
+          const where = project ? [project.id] : job.projects;
+          const noteList = (
+            <ul className="vb-tools-notes">
+              {notes.map((note) => (
+                <li key={note.project} className="vb-tools-how" style={swatch(note.project)}>
+                  <a href={`#${note.project}`} className="vb-tools-proj">
+                    <span className="vb-tools-swatch" aria-hidden="true" />
+                    {projectById[note.project].name}
+                  </a>
+                  <span className="vb-tools-how-text">{note.text}</span>
                 </li>
               ))}
             </ul>
+          );
 
-            {job.notes ? (
-              <ul className="vb-tools-notes">
-                {job.notes.map((note) => (
-                  <li
-                    key={note.project}
-                    className="vb-tools-how"
-                    style={swatch(note.project)}
-                    data-lit={lit(selected, [note.project])}
-                  >
-                    <a href={`#${note.project}`} className="vb-tools-proj">
-                      <span className="vb-tools-swatch" aria-hidden="true" />
-                      {projectById[note.project].name}
-                    </a>
-                    <span className="vb-tools-how-text">{note.text}</span>
+          return (
+            <li key={job.id} className="vb-tools-job" data-wide={job.wide && !project ? "true" : undefined}>
+              <p className="vb-tools-n" aria-hidden="true">
+                {String(toolkit.indexOf(job) + 1).padStart(2, "0")}
+              </p>
+              <h3 id={`tools-${job.id}`} className="vb-tools-title">
+                {job.title}
+              </h3>
+              <p className="vb-tools-line">{job.line}</p>
+
+              <ul className="vb-tools-names" aria-label="Tools">
+                {job.tools.map((tool) => (
+                  <li key={tool.name} className="vb-tools-name" data-lit={lit(selected, tool.projects)}>
+                    {tool.name}
                   </li>
                 ))}
               </ul>
-            ) : null}
 
-            {job.testCounts.length > 0 ? (
-              <>
-                <ul className="vb-tools-counts">
-                  {job.testCounts.map((count) => (
-                    <li
-                      key={count.project}
-                      className="vb-tools-count"
-                      style={swatch(count.project)}
-                      data-lit={lit(selected, [count.project])}
-                    >
-                      <span className="vb-tools-count-n">{count.value}</span>
-                      <a href={`#${count.project}`} className="vb-tools-proj">
-                        <span className="vb-tools-swatch" aria-hidden="true" />
-                        {projectById[count.project].name}
-                      </a>
-                    </li>
+              {notes.length > 0 && fold ? (
+                <Collapsible
+                  className="vb-tools-fold"
+                  openAbove={700}
+                  summary={
+                    <span className="vb-tools-fold-summary">
+                      <span className="vb-tools-fold-swatches" aria-hidden="true">
+                        {notes.map((note) => (
+                          <span key={note.project} className="vb-tools-swatch" style={swatch(note.project)} />
+                        ))}
+                      </span>
+                      How {notes.map((note) => projectById[note.project].name).join(", ")} used them
+                    </span>
+                  }
+                >
+                  {noteList}
+                </Collapsible>
+              ) : notes.length > 0 ? (
+                noteList
+              ) : null}
+
+              {counts.length > 0 ? (
+                <>
+                  <ul className="vb-tools-counts">
+                    {counts.map((count) => (
+                      <li key={count.project} className="vb-tools-count" style={swatch(count.project)}>
+                        <span className="vb-tools-count-n">{count.value}</span>
+                        <a href={`#${count.project}`} className="vb-tools-proj">
+                          <span className="vb-tools-swatch" aria-hidden="true" />
+                          {projectById[count.project].name}
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                  <p className="vb-tools-small">
+                    Passing tests in each public repository, counted on {testsChecked}.
+                  </p>
+                </>
+              ) : null}
+
+              {job.notes || job.testCounts.length > 0 ? null : (
+                <p className="vb-tools-where">
+                  <span className="vb-sr">Used in: </span>
+                  {where.map((id) => (
+                    <a key={id} href={`#${id}`} className="vb-tools-proj" style={swatch(id)}>
+                      <span className="vb-tools-swatch" aria-hidden="true" />
+                      {projectById[id].name}
+                    </a>
                   ))}
-                </ul>
-                <p className="vb-tools-small">
-                  Passing tests in each public repository, counted on {testsChecked}.
                 </p>
-              </>
-            ) : null}
-
-            {job.notes || job.testCounts.length > 0 ? null : (
-              <p className="vb-tools-where">
-                <span className="vb-sr">Used in: </span>
-                {job.projects.map((id) => (
-                  <a
-                    key={id}
-                    href={`#${id}`}
-                    className="vb-tools-proj"
-                    style={swatch(id)}
-                    data-lit={lit(selected, [id])}
-                  >
-                    <span className="vb-tools-swatch" aria-hidden="true" />
-                    {projectById[id].name}
-                  </a>
-                ))}
-              </p>
-            )}
-          </li>
-        ))}
+              )}
+            </li>
+          );
+        })}
       </ol>
 
       <Collapsible

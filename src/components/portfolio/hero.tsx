@@ -1,7 +1,7 @@
 import Image from "next/image";
-import Link from "next/link";
 import { contact } from "@/lib/contact";
 import { graduation } from "@/lib/portrait";
+import { JumpLink } from "./jump-link";
 import { fieldStyle, projects } from "@/lib/projects";
 
 /** The six products, in the order the Work chapter shows them. */
@@ -39,15 +39,15 @@ export function Hero() {
         </p>
 
         <div className="vb-open-actions" data-rise="3">
-          <Link href="#work" className="vb-btn">
+          <JumpLink to="work" className="vb-btn">
             See the six products
-          </Link>
-          <Link href="#about" className="vb-link">
+          </JumpLink>
+          <JumpLink to="about" className="vb-link">
             My story
-          </Link>
-          <Link href="#contact" className="vb-link">
+          </JumpLink>
+          <JumpLink to="contact" className="vb-link">
             Email me
-          </Link>
+          </JumpLink>
         </div>
 
         <p className="vb-open-status" data-rise="3">
@@ -79,7 +79,7 @@ export function Hero() {
         <ol className="vb-open-work-list">
           {work.map((project) => (
             <li key={project.id} style={fieldStyle(project)}>
-              <Link href={`#${project.id}`} className="vb-open-tile">
+              <JumpLink to={project.id} className="vb-open-tile">
                 <span className="vb-open-tile-shot" aria-hidden="true">
                   <Image
                     src={(project.coverPhone ?? project.cover).src}
@@ -96,7 +96,7 @@ export function Hero() {
                   </span>
                   <span className="vb-open-tile-kind">{project.kind}</span>
                 </span>
-              </Link>
+              </JumpLink>
             </li>
           ))}
         </ol>

@@ -26,7 +26,7 @@ export function focusSection(id: string) {
   }
   const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   target.scrollIntoView({ behavior: reduced ? "auto" : "smooth", block: "start" });
-  const heading = target.querySelector<HTMLElement>("h1, h2") ?? target;
+  const heading = target.querySelector<HTMLElement>("h1, h2, h3") ?? target;
   heading.tabIndex = -1;
   heading.focus({ preventScroll: true });
   return true;
@@ -49,6 +49,15 @@ export function Nav({
   const pathname = appPath(usePathname());
   const onHome = pathname === "/";
   const onProject = pathname.startsWith("/projects/");
+
+  // Arriving from another page at /#section: focus lands on that section's heading.
+  useEffect(() => {
+    const id = window.location.hash.slice(1);
+    if (onHome && id && document.getElementById(id)) {
+      const timer = window.setTimeout(() => focusSection(id), 300);
+      return () => window.clearTimeout(timer);
+    }
+  }, [onHome]);
 
   useEffect(() => {
     if (!onHome) {
@@ -86,6 +95,9 @@ export function Nav({
   }
 
   function onHashClick(event: MouseEvent<HTMLAnchorElement>, id: string) {
+    if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || event.button !== 0) {
+      return;
+    }
     if (!onHome) {
       closeMenu();
       return;
@@ -98,7 +110,7 @@ export function Nav({
     closeMenu();
     if (document.getElementById(id)) {
       event.preventDefault();
-      window.history.replaceState(null, "", `#${id}`);
+      window.history.pushState(null, "", `#${id}`);
       if (wasOpen) {
         window.setTimeout(() => focusSection(id), 50);
       } else {

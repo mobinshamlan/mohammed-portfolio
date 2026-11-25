@@ -70,7 +70,7 @@ export function Certs() {
   return (
     <section id="certificates" className="vb-certs" aria-labelledby="certs-title">
       <div className="vb-certs-side">
-        <ChapterMark n={4} en="Certificates" ar="الشهادات" />
+        <ChapterMark n={3} en="Certificates" ar="الشهادات" />
         <Reveal>
           <h2 id="certs-title" className="vb-section-head">
             Beyond the degree.

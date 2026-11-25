@@ -201,8 +201,23 @@
   aspect-ratio: 4 / 5;
 }
 
+/* The graduation photo opens the page as the portrait, so here it is only a keepsake. */
+.vb-story-grad {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  margin-top: 0.5rem;
+}
+
 .vb-story-grad img {
-  aspect-ratio: 4 / 5;
+  width: 4.5rem;
+  flex: none;
+  aspect-ratio: 1;
+  border-radius: 0.4rem;
+}
+
+.vb-story-grad figcaption {
+  margin-top: 0;
 }
 
 /* ---------- Home, then Brighton ---------- */
@@ -297,11 +312,17 @@
   background: var(--ember) !important;
 }
 
-.vb-story-years .vb-reveal {
+.vb-story-year {
   display: flex;
   flex-direction: column;
   gap: 0.45rem;
   max-width: 46ch;
+}
+
+/* A milestone with the document that proves it. */
+.vb-story-proved {
+  display: grid;
+  gap: 1.25rem;
 }
 
 .vb-story-years h4 {
@@ -313,17 +334,15 @@
   letter-spacing: -0.015em;
 }
 
-/* Certificates that open in the viewer. */
-.vb-story-doc {
+/* Certificates shown as the artifacts themselves; each opens in the viewer. */
+.vb-story-artifact {
   display: flex;
-  align-items: center;
-  gap: 1rem;
-  width: fit-content;
-  max-width: 100%;
-  margin-top: 0.5rem;
-  padding: 0.65rem;
+  flex-direction: column;
+  gap: 0.85rem;
+  width: 100%;
+  padding: 0.75rem 0.75rem 1rem;
   border: 0;
-  border-radius: 0.5rem;
+  border-radius: 0.6rem;
   background: var(--night-3);
   color: var(--sand);
   cursor: pointer;
@@ -332,20 +351,34 @@
   transition: background-color var(--t-hover) ease;
 }
 
-.vb-story-doc:hover {
+.vb-story-artifact:hover {
   background: #242b3d;
 }
 
-.vb-story-doc-img {
+.vb-story-artifact-img {
   display: block;
-  width: 3.5rem;
-  flex: none;
   overflow: hidden;
-  border-radius: 0.2rem;
+  border-radius: 0.3rem;
+  box-shadow: 0 0.75rem 2rem -1rem rgb(0 0 0 / 0.7);
 }
 
-.vb-story-doc-wide {
-  width: 5.5rem;
+.vb-story-artifact-img img {
+  display: block;
+  width: 100%;
+  height: auto;
+  transition: transform var(--t-ui) ease;
+}
+
+.vb-story-artifact:hover .vb-story-artifact-img img {
+  transform: scale(1.02);
+}
+
+.vb-story-artifact-eid {
+  max-width: 28rem;
+}
+
+.vb-story-artifact-degree {
+  max-width: 17rem;
 }
 
 .vb-story-doc-text {
@@ -457,26 +490,37 @@
   }
 
   .vb-story-london {
-    grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
-    grid-template-areas:
-      "head years"
-      "photo years";
-    column-gap: clamp(2.5rem, 5vw, 6rem);
-    align-items: start;
+    gap: clamp(3rem, 5vw, 4.5rem);
   }
 
   .vb-story-london-head {
-    grid-area: head;
+    display: grid;
+    grid-template-columns: minmax(0, 6fr) minmax(0, 5fr);
+    column-gap: clamp(2.5rem, 5vw, 6rem);
+    align-items: end;
   }
 
-  .vb-story-grad {
-    grid-area: photo;
-    max-width: 26rem;
+  .vb-story-london-head .vb-story-when {
+    grid-column: 1 / -1;
+  }
+
+  .vb-story-fund {
+    padding-bottom: 1rem;
   }
 
   .vb-story-years {
-    grid-area: years;
-    padding-top: 0.5rem;
+    gap: 2.75rem;
+  }
+
+  .vb-story-years > li::before {
+    bottom: -2.75rem;
+  }
+
+  /* The milestone on the left, its document beside it. */
+  .vb-story-proved {
+    grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+    column-gap: clamp(2.5rem, 5vw, 6rem);
+    align-items: start;
   }
 
   .vb-story-end {
@@ -493,7 +537,13 @@
 }
 
 @media (max-width: 899px) {
-  .vb-story-grad {
-    width: min(100%, 24rem);
+  .vb-story-artifact-degree {
+    max-width: 14rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vb-story-artifact-img img {
+    transition: none;
   }
 }

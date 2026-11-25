@@ -125,7 +125,6 @@
   gap: 0.85rem;
   padding: 1.5rem 0 0.5rem;
   border-top: 1px solid var(--tools-rule);
-  transition: opacity var(--t-ui) ease;
 }
 
 .vb-tools-job[data-wide="true"] {
@@ -203,7 +202,6 @@
   gap: 0 1rem;
   padding: 0.25rem 0 0.75rem;
   border-top: 1px solid var(--tools-rule);
-  transition: opacity var(--t-ui) ease;
 }
 
 .vb-tools-how-text {
@@ -228,7 +226,6 @@
   display: grid;
   padding-top: 0.75rem;
   border-top: 3px solid var(--swatch);
-  transition: opacity var(--t-ui) ease;
 }
 
 .vb-tools-count-n {
@@ -245,27 +242,61 @@
   font-size: 0.875rem;
 }
 
-/* ---------- Filter states ---------- */
-
-.vb-tools-job[data-lit="off"],
-.vb-tools-name[data-lit="off"],
-.vb-tools-how[data-lit="off"],
-.vb-tools-count[data-lit="off"],
-.vb-tools-proj[data-lit="off"] {
-  opacity: var(--tools-dim);
+/* On phones, the notes fold behind one line that keeps the projects' swatches. */
+.vb-tools-fold {
+  margin-top: 0.25rem;
+  border-top: 1px solid var(--tools-rule);
 }
 
-/* A dimmed job's parts stay as they are, so they are not dimmed twice. */
-.vb-tools-job[data-lit="off"] [data-lit="off"] {
-  opacity: 1;
+.vb-tools-fold > .vb-details-summary {
+  font-family: var(--text);
+  font-size: var(--step-small);
+  font-weight: 500;
+  color: var(--sand-2);
+}
+
+.vb-tools-fold-summary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.vb-tools-fold-swatches {
+  display: inline-flex;
+  gap: 0.25rem;
+}
+
+.vb-tools-fold > .vb-details-body {
+  padding-top: 0.25rem;
+}
+
+.vb-tools-fold .vb-tools-notes {
+  margin: 0;
+}
+
+/* ---------- Filter states ---------- */
+
+/* Only the selected project's jobs are listed; within them its tools are marked. */
+.vb-tools-name[data-lit="off"] {
+  opacity: var(--tools-dim);
 }
 
 .vb-tools-name[data-lit="on"] {
   color: var(--ember);
 }
 
-.vb-tools-job[data-lit="on"]:not([data-wide="true"]) {
+.vb-tools-grid[data-filtered="true"] .vb-tools-job {
   border-top-color: var(--ember);
+}
+
+@media (max-width: 699px) {
+  .vb-tools-job {
+    gap: 0.65rem;
+    padding-top: 1.25rem;
+  }
+  .vb-tools-job[data-wide="true"] {
+    padding: 1.25rem;
+  }
 }
 
 /* ---------- The rest ---------- */
@@ -313,6 +344,16 @@
   .vb-tools-job[data-wide="true"] {
     grid-column: 1 / -1;
   }
+  /* A few jobs pack into balanced columns, so short ones leave no tall gaps. */
+  .vb-tools-grid[data-filtered="true"] {
+    display: block;
+    columns: 2;
+    column-gap: clamp(1.5rem, 3vw, 2.5rem);
+  }
+  .vb-tools-grid[data-filtered="true"] .vb-tools-job {
+    break-inside: avoid;
+    margin-bottom: 1.5rem;
+  }
   .vb-tools-rest-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -341,7 +382,10 @@
   .vb-tools-job[data-wide="true"] {
     grid-column: span 2;
   }
-  .vb-tools-how {
+  .vb-tools-grid[data-filtered="true"] {
+    columns: 3;
+  }
+  .vb-tools-job[data-wide="true"] .vb-tools-how {
     grid-template-columns: 7.5rem minmax(0, 1fr);
     align-items: baseline;
   }
@@ -352,10 +396,7 @@
 
 @media (prefers-reduced-motion: reduce) {
   .vb-tools-pick,
-  .vb-tools-job,
-  .vb-tools-name,
-  .vb-tools-how,
-  .vb-tools-count {
+  .vb-tools-name {
     transition: none;
   }
 }

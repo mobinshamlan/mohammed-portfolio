@@ -109,9 +109,19 @@ function Foot({ project }: { project: Project }) {
 }
 
 /** One real screen from the live product, with a caption saying what it shows. */
-function Screen({ shot, caption, sizes }: { shot: Project["screens"][number]; caption: string; sizes: string }) {
+function Screen({
+  shot,
+  caption,
+  sizes,
+  phoneOnly = false,
+}: {
+  shot: Project["screens"][number];
+  caption: string;
+  sizes: string;
+  phoneOnly?: boolean;
+}) {
   return (
-    <figure className="vb-proj-screen">
+    <figure className="vb-proj-screen" data-phone-only={phoneOnly ? "true" : undefined}>
       <div className="vb-phone vb-phone-sm" data-ui="">
         <Image src={shot.src} alt={shot.alt} width={shot.width} height={shot.height} sizes={sizes} className="vb-phone-img" />
       </div>
@@ -197,6 +207,14 @@ function Tammeni() {
           <Phone key={shot.src} shot={shot} sizes="(max-width: 899px) 42vw, 250px" />
         ))}
       </div>
+      {phones[0] ? (
+        <Screen
+          phoneOnly
+          shot={phones[0]}
+          sizes="60vw"
+          caption="The live demo, step 4 of 11: a parent chooses whether attendance news comes right away or after the school day."
+        />
+      ) : null}
       <Foot project={project} />
     </Section>
   );

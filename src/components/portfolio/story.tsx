@@ -88,35 +88,23 @@ export function Story() {
           </p>
         </div>
 
-        <figure className="vb-story-photo vb-story-grad">
-          <Image
-            src={graduation.src}
-            alt={graduation.alt}
-            width={graduation.width}
-            height={graduation.height}
-            sizes="(max-width: 899px) 92vw, 30vw"
-            style={{ objectPosition: graduation.position }}
-          />
-          <figcaption>Graduation, London, 2026.</figcaption>
-        </figure>
-
         <ol className="vb-story-years">
           <li>
-            <Reveal>
+            <Reveal className="vb-story-year">
               <p className="vb-story-when">2022–2023</p>
               <h4>Kaplan International College London</h4>
               <p>Foundation Certificate for Science and Engineering.</p>
             </Reveal>
           </li>
           <li>
-            <Reveal>
+            <Reveal className="vb-story-year">
               <p className="vb-story-when">2023–2026</p>
               <h4>Queen Mary University of London</h4>
               <p>BSc (Hons) Computer Science, Upper Second-Class Honours (2:1).</p>
             </Reveal>
           </li>
-          <li>
-            <Reveal>
+          <li className="vb-story-proved">
+            <Reveal className="vb-story-year">
               <p className="vb-story-when">2026 · Volunteering</p>
               <h4>With the Saudi community in London</h4>
               <p>
@@ -128,52 +116,75 @@ export function Story() {
                 Volunteered at the Language Intelligence Conference 2026 at the
                 Saudi Cultural Bureau in London.
               </p>
-              {eid?.image ? (
-                <DocumentViewer
-                  triggerClassName="vb-story-doc"
-                  src={eid.image.src}
-                  width={eid.image.width}
-                  height={eid.image.height}
-                  alt={`Certificate: ${eid.name}, ${eid.organisation}`}
-                  title="Volunteer certificate"
-                  subtitle={eid.organisation}
-                  href={eid.href ?? eid.image.src}
-                >
-                  <span className="vb-story-doc-img vb-story-doc-wide" aria-hidden="true">
-                    <Image src={eid.image.src} alt="" width={eid.image.width} height={eid.image.height} sizes="8rem" />
-                  </span>
-                  <span className="vb-story-doc-text">
-                    <span className="vb-story-doc-title">Eid al-Fitr 2026 thank-you certificate</span>
-                    <span className="vb-story-doc-cta">View the certificate</span>
-                  </span>
-                </DocumentViewer>
-              ) : null}
             </Reveal>
-          </li>
-          <li className="vb-story-milestone">
-            <Reveal>
-              <p className="vb-story-when">July 2026</p>
-              <h4>Graduated</h4>
-              <p>Degree awarded on 9 July 2026.</p>
+            {eid?.image ? (
               <DocumentViewer
-                triggerClassName="vb-story-doc"
-                src={degree.src}
-                width={degree.width}
-                height={degree.height}
-                alt={degree.alt}
-                title="Degree certificate"
-                subtitle="BSc Computer Science (Hons), Queen Mary University of London"
-                href={degree.src}
+                triggerClassName="vb-story-artifact vb-story-artifact-eid"
+                src={eid.image.src}
+                width={eid.image.width}
+                height={eid.image.height}
+                alt={`Certificate: ${eid.name}, ${eid.organisation}`}
+                title="Volunteer certificate"
+                subtitle={eid.organisation}
+                href={eid.href ?? eid.image.src}
               >
-                <span className="vb-story-doc-img" aria-hidden="true">
-                  <Image src={degree.src} alt="" width={degree.width} height={degree.height} sizes="5rem" />
+                <span className="vb-story-artifact-img" aria-hidden="true">
+                  <Image
+                    src={eid.image.src}
+                    alt=""
+                    width={eid.image.width}
+                    height={eid.image.height}
+                    sizes="(max-width: 899px) 92vw, 28rem"
+                  />
                 </span>
                 <span className="vb-story-doc-text">
-                  <span className="vb-story-doc-title">Degree certificate</span>
+                  <span className="vb-story-doc-title">Eid al-Fitr 2026 thank-you certificate</span>
                   <span className="vb-story-doc-cta">View the certificate</span>
                 </span>
               </DocumentViewer>
+            ) : null}
+          </li>
+          <li className="vb-story-proved vb-story-milestone">
+            <Reveal className="vb-story-year">
+              <p className="vb-story-when">July 2026</p>
+              <h4>Graduated</h4>
+              <p>Degree awarded on 9 July 2026.</p>
+              <figure className="vb-story-photo vb-story-grad">
+                <Image
+                  src={graduation.src}
+                  alt={graduation.alt}
+                  width={graduation.width}
+                  height={graduation.height}
+                  sizes="7rem"
+                  style={{ objectPosition: "50% 22%" }}
+                />
+                <figcaption>Graduation day, London, 2026.</figcaption>
+              </figure>
             </Reveal>
+            <DocumentViewer
+              triggerClassName="vb-story-artifact vb-story-artifact-degree"
+              src={degree.src}
+              width={degree.width}
+              height={degree.height}
+              alt={degree.alt}
+              title="Degree certificate"
+              subtitle="BSc Computer Science (Hons), Queen Mary University of London"
+              href={degree.src}
+            >
+              <span className="vb-story-artifact-img" aria-hidden="true">
+                <Image
+                  src={degree.src}
+                  alt=""
+                  width={degree.width}
+                  height={degree.height}
+                  sizes="(max-width: 899px) 60vw, 17rem"
+                />
+              </span>
+              <span className="vb-story-doc-text">
+                <span className="vb-story-doc-title">Degree certificate, Queen Mary University of London</span>
+                <span className="vb-story-doc-cta">View the certificate</span>
+              </span>
+            </DocumentViewer>
           </li>
         </ol>
       </article>

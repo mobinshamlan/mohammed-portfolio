@@ -725,7 +725,7 @@ span.vb-mu-disc {
 }
 
 .vb-mu-disc[data-tone="rose"] {
-  background: #3a2430;
+  background: #3a1d28;
 }
 
 .vb-mu-disc[data-tone="paper"] {
@@ -734,7 +734,7 @@ span.vb-mu-disc {
 }
 
 .vb-mu-disc[data-tone="beige"] {
-  background: #4a3a26;
+  background: #243a6b;
 }
 
 .vb-mu-disc::after {

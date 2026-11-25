@@ -27,8 +27,8 @@ export default function HomePage() {
         <Hero />
         <Covers />
         <Story />
-        <Toolkit />
         <Certs />
+        <Toolkit />
         <Contact />
       </main>
       <Footer />
