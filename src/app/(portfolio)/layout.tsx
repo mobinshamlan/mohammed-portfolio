@@ -4,6 +4,7 @@ import "./styles/home.css";
 import "./styles/case.css";
 import "./styles/demos.css";
 import "./styles/sadu.css";
+import "./styles/journey.css";
 
 // The portfolio: one display face and one text face, both Arabic and Latin.
 const display = Alexandria({
