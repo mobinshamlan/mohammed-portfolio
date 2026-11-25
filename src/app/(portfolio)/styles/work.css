@@ -209,3 +209,22 @@
     font-size: var(--step-small);
   }
 }
+
+/* Phones: the guest-state demo carries Gthrz; the case study's link sits as a text link beside the others. */
+@media (max-width: 899px) {
+  .vb-proj[data-layout="fan"] .vb-proj-fan {
+    display: none;
+  }
+  .vb-proj-actions {
+    gap: 0.25rem 1.25rem;
+  }
+  .vb .vb-proj-actions .vb-btn-field {
+    min-height: 2.75rem;
+    padding: 0;
+    background: none;
+    color: var(--field-ink);
+    font-weight: 700;
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+  }
+}

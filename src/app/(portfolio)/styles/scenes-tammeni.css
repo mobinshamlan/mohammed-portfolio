@@ -267,3 +267,14 @@
     display: none;
   }
 }
+
+/* An exercise-book page behind the chapter: ruled lines and a margin, fading toward the text. */
+.vb-proj[data-id="tammeni"] .vb-proj-scene::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(to right, transparent calc(var(--gutter) - 1.25rem), rgba(214, 120, 110, 0.22) calc(var(--gutter) - 1.25rem), rgba(214, 120, 110, 0.22) calc(var(--gutter) - 1.1rem), transparent calc(var(--gutter) - 1.1rem)),
+    repeating-linear-gradient(to bottom, transparent 0 2.35rem, rgba(242, 236, 223, 0.06) 2.35rem 2.4rem);
+  mask-image: linear-gradient(to bottom, #000 0%, rgba(0, 0, 0, 0.55) 70%, transparent 100%);
+}

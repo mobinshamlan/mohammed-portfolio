@@ -17,8 +17,8 @@ export function Story() {
         <SectionTitle id="about-title" en="Where I come from." ar="من وين أنا" />
         <Reveal delay={0.08}>
           <p className="vb-lead">
-            Raised in Saudi Arabia, trained in London, back home building for
-            the life I know: family, school, the desert, the ranch.
+            What each place gave me, and why I now build for family, school, the
+            desert and the ranch.
           </p>
         </Reveal>
       </header>
