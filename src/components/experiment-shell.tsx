@@ -19,8 +19,8 @@ export function ExperimentShell({
   return (
     <div className={`experiment ${display.variable} ${className}`}>
       {showBackLink ? (
-        <Link href="/" className="experiment-back">
-          Back to Experiences
+        <Link href="/experiment" className="experiment-back">
+          Back to the experiment
         </Link>
       ) : null}
       {children}

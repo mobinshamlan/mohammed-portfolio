@@ -27,7 +27,7 @@ const versions: Version[] = [
     href: "/version-a",
     kicker: "Version A",
     title: "The first draft.",
-    blurb: "Built from a single, simple prompt.",
+    blurb: "Built from a single, simple prompt, and kept exactly as it came out.",
     cta: "Open Version A",
     desktop: {
       src: publicUrl("/images/landing/a-desktop.jpg"),
@@ -42,21 +42,21 @@ const versions: Version[] = [
   },
   {
     side: "b",
-    href: "/version-b",
+    href: "/",
     kicker: "Version B",
-    title: "The creative evolution.",
+    title: "The portfolio you came from.",
     blurb:
-      "Built through structured prompts, intentional design and rounds of refinement.",
+      "Built through structured prompts, a design direction and rounds of refinement. It is now the site itself.",
     cta: "Open Version B",
     desktop: {
       src: publicUrl("/images/landing/b-desktop.jpg"),
       width: 1440,
-      height: 7894,
+      height: 7200,
     },
     mobile: {
       src: publicUrl("/images/landing/b-mobile.jpg"),
       width: 780,
-      height: 17302,
+      height: 17200,
     },
   },
 ];
@@ -259,17 +259,20 @@ const milestones = [
     text: "Projects as an index and a stage, not a list.",
   },
   {
-    title: "A case study",
-    text: "Gthrz told as a scroll story, using its own screenshots.",
+    title: "Case studies",
+    text: "Each product told with its own screens, the decision that shaped it, and working links.",
   },
-  { title: "The cover", text: "A portrait that hands off into the work." },
+  {
+    title: "A redesign",
+    text: "A desert-night identity, Arabic names set right to left, and six products added as they were built.",
+  },
   {
     title: "The route",
-    text: "Education as a journey from Brighton to London to Riyadh.",
+    text: "Education as a journey from Saudi Arabia to Brighton, London and back home.",
   },
   {
     title: "The details",
-    text: "Skills in context, certificates as documents, a closing screen.",
+    text: "Skills with evidence, certificates as documents, a contact form with real states.",
   },
 ];
 
@@ -360,7 +363,7 @@ export function Landing() {
   // back button never finds it still raised.
   if (pathname !== seenPath) {
     setSeenPath(pathname);
-    if (appPath(pathname) !== "/" && leaving) {
+    if (appPath(pathname) !== "/experiment" && leaving) {
       setLeaving(null);
     }
   }
@@ -455,17 +458,18 @@ export function Landing() {
       <main className="vl-main">
         <header className="vl-head">
           <p className="vl-eyebrow">
-            Mohammed Bin Shamlan
-            <span>Portfolio experiment / 2026</span>
+            <Link href="/">Mohammed Bin Shamlan</Link>
+            <span>Prompt experiment / 2026</span>
           </p>
           <h1 className="vl-title">
-            <span>Two versions.</span>
-            <span>One evolution.</span>
+            <span>One brief.</span>
+            <span>Two prompts.</span>
           </h1>
           <p className="vl-intro">
-            The same person, built twice. Version A came from one simple prompt.
-            Version B came from structured prompts, intentional design and
-            rounds of refinement. Pick one, or open both.
+            The same portfolio, built twice. Version A came from one simple
+            prompt and is kept as it was. Version B came from structured
+            prompts, a design direction and rounds of refinement, and became
+            the site you arrived from. Open either, or compare both.
           </p>
         </header>
 
@@ -501,8 +505,10 @@ export function Landing() {
         </nav>
 
         <footer className="vl-foot">
-          <p>Mohammed Bin Shamlan</p>
-          <p>Portfolio experiment / 2026</p>
+          <p>
+            <Link href="/">Mohammed Bin Shamlan</Link>
+          </p>
+          <p>Prompt experiment / 2026</p>
         </footer>
       </main>
 

@@ -16,12 +16,12 @@ const sans = Plus_Jakarta_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "Two versions. One evolution.",
+  title: "Prompt experiment: one brief, two prompts",
   description:
-    "One portfolio, built twice: Version A from a single simple prompt, Version B through structured prompts, intentional design and iteration.",
+    "The same portfolio built twice: Version A from one simple prompt, Version B through structured prompts, design direction and iteration.",
 };
 
-export default function HomePage() {
+export default function ExperimentPage() {
   return (
     <div className={`vl ${display.variable} ${sans.variable}`}>
       <Landing />
