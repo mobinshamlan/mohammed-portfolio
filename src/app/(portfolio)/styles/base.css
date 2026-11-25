@@ -4,6 +4,20 @@
    Each project brings its own flat field colour, rising over the last as a dune. */
 
 .vb {
+  /* Al Sadu: shared colours for every section. Undyed white wool, black goat
+     hair, madder red and natural camel. Bands take their roles from these
+     unless a section sets its own (see sadu.css). */
+  --sadu-red: #9e2a2b;
+  --sadu-red-hi: #d0493d;
+  --sadu-ink: #1c1613;
+  --sadu-ink-2: #2a211c;
+  --sadu-ink-3: #3a2e27;
+  --sadu-wool: #f2eadb;
+  --sadu-wool-2: #e5d8c1;
+  --sadu-wool-muted: #5e4c3f;
+  --sadu-sand: #c8a27a;
+  --sadu-sand-2: #a9805a;
+
   /* The night, hour by hour. */
   --dusk: #221719;
   --dusk-2: #2e2022;

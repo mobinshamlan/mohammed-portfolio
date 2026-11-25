@@ -66,6 +66,28 @@ export function MotionRoot() {
     requestAnimationFrame(() => {
       root.dataset.loaded = "true";
     });
+    // Without scroll-driven animations, Sadu bands below the fold weave in once on entry.
+    if (CSS.supports("animation-timeline: view()") || matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      return;
+    }
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            (entry.target as HTMLElement).dataset.weave = "in";
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { rootMargin: "0px 0px -10% 0px" },
+    );
+    root.querySelectorAll<HTMLElement>(".sadu").forEach((band) => {
+      if (band.getBoundingClientRect().top > window.innerHeight) {
+        band.dataset.weave = "wait";
+        observer.observe(band);
+      }
+    });
+    return () => observer.disconnect();
   }, []);
   return null;
 }

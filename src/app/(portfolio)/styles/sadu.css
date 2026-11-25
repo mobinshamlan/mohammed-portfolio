@@ -1,0 +1,77 @@
+/* Al Sadu bands. A band is a stack of woven rows (see sadu.tsx); each row is
+   its own layer, so the weave-in moves only transforms. */
+
+.sadu {
+  /* Roles: a section may override any of these. */
+  --sb-ground: var(--sadu-red);
+  --sb-motif: var(--sadu-ink);
+  --sb-light: var(--sadu-wool);
+  --sb-accent: var(--sadu-red);
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+/* The maker's band: black on red with white teeth. */
+.sadu[data-variant="maker"],
+.sadu[data-variant="seam"] {
+  --sb-ground: var(--sadu-red);
+  --sb-accent: var(--sadu-red);
+}
+
+.sadu-row {
+  flex: none;
+  /* Wider than the band so the rows can travel without showing an edge. */
+  width: calc(100% + 4rem);
+  margin-left: -2rem;
+}
+
+.sadu-row svg {
+  display: block;
+}
+
+/* Weave-in: alternate rows arrive from opposite sides, like passes of the weft.
+   Scroll-driven where supported; elsewhere MotionRoot sets data-weave. */
+@keyframes sadu-weave-l {
+  from {
+    transform: translateX(-2rem);
+  }
+}
+
+@keyframes sadu-weave-r {
+  from {
+    transform: translateX(2rem);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    .vb[data-motion="on"] .sadu-row {
+      animation: sadu-weave-l linear both;
+      animation-timeline: view();
+      animation-range: entry 0% cover 35%;
+    }
+    .vb[data-motion="on"] .sadu-row[data-dir="r"] {
+      animation-name: sadu-weave-r;
+    }
+  }
+
+  .vb[data-motion="on"] .sadu[data-weave="wait"] .sadu-row {
+    transform: translateX(-2rem);
+  }
+  .vb[data-motion="on"] .sadu[data-weave="wait"] .sadu-row[data-dir="r"] {
+    transform: translateX(2rem);
+  }
+  .vb[data-motion="on"] .sadu[data-weave="in"] .sadu-row {
+    transform: none;
+    transition: transform 900ms var(--ease-expo);
+  }
+}
+
+/* A small swatch of a band, for indexes. */
+.sadu-swatch {
+  display: block;
+  overflow: hidden;
+}
