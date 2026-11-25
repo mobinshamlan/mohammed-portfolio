@@ -1357,3 +1357,107 @@
     text-align: left;
   }
 }
+
+/* ---------- Connected: rounded turns, the thread, drift and stagger ---------- */
+
+/* The night rises over the hero, and the neighbouring fields rise over the
+   night, with the same rounded shoulders as the homepage fields, so each
+   colour change reads as a turn in the thread rather than a cut. */
+.vb-case {
+  --edge: clamp(1.25rem, 4vw, 4rem);
+}
+
+.vb-case-hero {
+  padding-bottom: calc(clamp(3rem, 7vw, 6rem) + var(--edge));
+}
+
+.vb-case-hero + .vb-case-section {
+  margin-top: calc(var(--edge) * -1);
+  border-radius: var(--edge) var(--edge) 0 0;
+  background: var(--night);
+}
+
+/* The problem keeps its 76rem measure but its night spans the page. */
+.vb-case-hero + .vb-case-problem {
+  max-width: none;
+  padding-right: max(var(--gutter), calc(100% - 76rem + var(--gutter)));
+}
+
+.vb-case-under {
+  padding-bottom: calc(clamp(4rem, 9vw, 8rem) + var(--edge));
+}
+
+.vb-case-next {
+  margin-top: calc(var(--edge) * -1);
+}
+
+.vb-case-next-link {
+  border-radius: var(--edge) var(--edge) 0 0;
+}
+
+.vb-case-next-link + .vb-case-next-link {
+  margin-top: calc(var(--edge) * -1);
+}
+
+.vb-case-next-link:first-child {
+  padding-bottom: calc(clamp(2.5rem, 6vw, 4.5rem) + var(--edge));
+}
+
+@media (min-width: 900px) {
+  .vb-case-next-link:first-child {
+    padding-bottom: clamp(2.5rem, 6vw, 4.5rem);
+    border-radius: var(--edge) 0 0 0;
+  }
+  .vb-case-next-link + .vb-case-next-link {
+    margin-top: 0;
+    border-radius: 0 var(--edge) 0 0;
+  }
+}
+
+/* Light parallax on the screenshots: they drift a little slower than the
+   page. Scroll-driven where supported; elsewhere they simply stay still. */
+@keyframes vb-case-drift {
+  from {
+    translate: 0 var(--drift);
+  }
+  to {
+    translate: 0 calc(var(--drift) * -1);
+  }
+}
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .vb[data-motion="on"] .vb-case :is(.vb-screens .vb-screen > *, .vb-gp-phones > *) {
+      --drift: 1.25rem;
+      animation: vb-case-drift linear both;
+      animation-timeline: view();
+      animation-range: cover;
+    }
+    .vb[data-motion="on"] .vb-case :is(.vb-screens .vb-screen:nth-child(even) > *, .vb-gp-phones > :nth-child(2)) {
+      --drift: 2.25rem;
+    }
+  }
+}
+
+/* Lists that arrive as lists: the flow's steps and the decision's four
+   answers follow each other in, a beat apart. Transform only. */
+.vb[data-motion="on"] .vb-reveal[data-wait="true"] :is(.vb-flow-step, .vb-decision > div) {
+  transform: translateY(14px);
+}
+
+.vb[data-motion="on"] .vb-reveal[data-in="true"] :is(.vb-flow-step, .vb-decision > div) {
+  transform: none;
+  transition: transform var(--t-reveal) var(--ease-expo);
+}
+
+.vb[data-motion="on"] .vb-reveal[data-in="true"] :is(.vb-flow-step, .vb-decision > div):nth-child(2) {
+  transition-delay: 0.08s;
+}
+
+.vb[data-motion="on"] .vb-reveal[data-in="true"] :is(.vb-flow-step, .vb-decision > div):nth-child(3) {
+  transition-delay: 0.16s;
+}
+
+.vb[data-motion="on"] .vb-reveal[data-in="true"] :is(.vb-flow-step, .vb-decision > div):nth-child(n + 4) {
+  transition-delay: 0.24s;
+}
