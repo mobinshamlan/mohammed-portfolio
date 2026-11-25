@@ -431,9 +431,10 @@ export const projects: Project[] = [
     id: "seet",
     name: "Seet",
     arabic: "صيت",
-    statusChip: "Landing page live · in development",
+    statusChip: "Landing page live · app runs locally",
     dates: "Nov 2026",
-    contribution: "Solo: the WhatsApp webhook, the Claude tool loop, the booking trigger and the dashboard.",
+    contribution:
+      "Solo: built the WhatsApp webhook, the Claude tool loop, the booking trigger and the dashboard, all running locally on demo data.",
     proof: {
       title: "A booking's four states, and who may move it",
       moments: [
@@ -454,13 +455,13 @@ export const projects: Project[] = [
       tradeoff:
         "The model is less chatty and less 'helpful' than it could be: it cannot quote a price or a date on its own and cannot close a deal. Every number goes through a tool the server runs.",
       shipped:
-        "Booking rules in a Postgres trigger under a per-workspace lock, a held slot with a deposit link, and a state that only the payment callback can move to confirmed.",
+        "Built and running locally on demo data: booking rules in a Postgres trigger under a per-workspace lock, a held slot with a deposit link, and a state that only the payment callback can move to confirmed.",
       changed:
-        "A second hold on the same slot is refused by the Postgres trigger under a per-workspace lock, not by the prompt. The dashboard shows holds and confirmations as two different things.",
+        "On the demo data, a second hold on the same slot is refused by the Postgres trigger under a per-workspace lock, not by the prompt. The dashboard shows holds and confirmations as two different things.",
     },
     tagline: "An AI secretary for an influencer's ads WhatsApp number.",
     arabicTagline: "صيت يرد على المعلنين عنك",
-    status: "In development",
+    status: "In development, running locally on demo data",
     year: "2026",
     kind: "WhatsApp agent · bookings",
     role: "Developer",
@@ -471,7 +472,7 @@ export const projects: Project[] = [
     light: true,
     problem:
       "Brands message an influencer's ads number all day: prices, free dates, deposits. Replies are slow, slots get promised twice, and a booking is 'confirmed' before any money arrives.",
-    what: "Seet answers brands on WhatsApp in Saudi dialect with the real packages and free days from the database, holds a slot, sends a deposit link, and confirms only after payment. The influencer and their managers get a private dashboard: Today, Calendar, Inbox, Brands, Money and Settings. Working name.",
+    what: "Seet is built to answer brands on WhatsApp in Saudi dialect with the real packages and free days from the database, holds a slot, sends a deposit link, and confirms only after payment. The influencer and their managers get a private dashboard: Today, Calendar, Inbox, Brands, Money and Settings. All of this is built and running locally on fictional demo data, with an in-app simulator in place of WhatsApp. Only the landing page is deployed; there is no real WhatsApp number or live payments yet. Working name.",
     how: [
       {
         actor: "Brand",
@@ -491,7 +492,7 @@ export const projects: Project[] = [
       {
         actor: "Brand",
         action: "Pays the deposit through the link.",
-        note: "A Moyasar-style payment flow; a bilingual quote PDF goes with it.",
+        note: "A simulated Moyasar-style payment flow, run locally; a bilingual quote PDF goes with it.",
       },
       {
         actor: "Payment callback",
@@ -513,7 +514,7 @@ export const projects: Project[] = [
       "WhatsApp Cloud API",
     ],
     links: [{ label: "Live landing page", href: "https://seet-puce.vercel.app" }],
-    linkNote: "Private repository.",
+    linkNote: "Private repository. Only the landing page is deployed; the app runs locally on demo data.",
     cover: {
       ...browser,
       src: publicUrl("/images/projects/seet/desktop.jpg"),

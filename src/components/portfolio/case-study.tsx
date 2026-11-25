@@ -99,7 +99,10 @@ function CaseOpening({ project }: { project: Project }) {
             { time: "Confirmed", label: "Payment callback only" },
           ]}
         />
-        <p className="vb-open-sub">Simulated booking with made-up prices. The app is in development.</p>
+        <p className="vb-open-sub">
+          Built and running locally on demo data, with an in-app simulator. Only the landing page is live: no
+          real WhatsApp number or payments yet.
+        </p>
         <p className="vb-open-links">
           <Link href="#decision-title" className="vb-link">
             Step through the chat
