@@ -320,6 +320,10 @@ html:has(.vb) {
   .vb-nav-links {
     display: flex;
   }
+  .vb-nav-links a,
+  .vb-nav-back {
+    white-space: nowrap;
+  }
   .vb-nav-back {
     display: inline;
   }
@@ -493,6 +497,7 @@ html:has(.vb) {
 .vb-jump-open {
   display: none;
   align-items: center;
+  white-space: nowrap;
   gap: 0.5rem;
   min-height: 2.75rem;
   padding: 0 0.9rem;
@@ -594,6 +599,18 @@ html:has(.vb) {
 @media (min-width: 900px) {
   .vb-jump-open {
     display: inline-flex;
+  }
+}
+
+/* 900–1199: the links, Jump to and GitHub share one row with the name, so the
+   Arabic name and the shortcut hint step aside and the links close up. */
+@media (min-width: 900px) and (max-width: 1199px) {
+  .vb-wordmark span[lang="ar"],
+  .vb-jump-open kbd {
+    display: none;
+  }
+  .vb-nav-links {
+    gap: 1.25rem;
   }
 }
 
