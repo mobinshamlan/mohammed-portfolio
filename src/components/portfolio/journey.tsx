@@ -485,8 +485,3 @@ export function RouteStory() {
     </div>
   );
 }
-
-/** The road now lives inside About as one story; nothing renders here. */
-export function Journey() {
-  return null;
-}

@@ -1,11 +1,9 @@
 import Link from "next/link";
 import { contact } from "@/lib/contact";
-import { SaduBand } from "./sadu";
 
 export function Footer() {
   return (
     <footer className="vb-footer">
-      <SaduBand variant="maker" className="vb-footer-band" />
       <div className="vb-footer-body">
         <p className="vb-footer-name">
           Mohammed Bin&nbsp;Shamlan <span lang="ar">محمد بن شملان</span>
@@ -41,9 +39,9 @@ export function Footer() {
             <li>Saudi Arabia, 2026</li>
           </ul>
           <p className="vb-footer-credit">
-            Built with Next.js and set in Alexandria and Readex Pro. The woven bands are drawn for
-            this site from the geometry of Al Sadu, the Bedouin weaving of Saudi Arabia. Product
-            screenshots are from the live demos.
+            Built with Next.js and set in IBM Plex Sans and IBM Plex Sans Arabic. Each project is shown
+            in its own product&rsquo;s colours; screenshots are from the live demos, and every demo is
+            labelled as a simulation.
           </p>
         </div>
       </div>

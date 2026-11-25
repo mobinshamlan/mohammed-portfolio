@@ -1,870 +1,281 @@
-/* Portfolio home: hero, covers, about, journey, skills, certificates, contact. */
+/* Portfolio home: the hero, then his own sections after the work (journey,
+   skills, certificates, contact). The product worlds are in work.css. */
 
-/* ---------- Hero: the maker, standing on his own band ---------- */
+/* ---------- Hero: about him, on charcoal ---------- */
 
 .vb-hero {
-  --hero-ground: var(--sadu-wool);
-  --hero-ink: var(--sadu-ink);
-  --hero-muted: var(--sadu-wool-muted);
-  background: var(--hero-ground);
-  color: var(--hero-ink);
+  background: var(--house);
+  color: var(--paper);
 }
 
 .vb-hero-inner {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 36%);
+  grid-template-columns: minmax(0, 1fr);
   grid-template-areas:
-    "title portrait"
-    "copy copy";
-  column-gap: 1rem;
-  row-gap: 1.25rem;
-  padding: 1.25rem var(--gutter) 1.75rem;
+    "portrait"
+    "copy"
+    "shelf";
+  row-gap: 1.5rem;
+  padding: 0 var(--gutter) 2.5rem;
 }
 
-.vb-hero-title {
-  grid-area: title;
-  align-self: end;
-  display: flex;
-  flex-direction: column;
-  gap: 0.6rem;
-}
-
-.vb-hero-name {
-  font-size: clamp(2rem, 9.2vw - 0.1rem, 2.6rem);
-  font-weight: 800;
-  line-height: 0.98;
-  letter-spacing: -0.03em;
-}
-
-.vb-hero-arabic {
-  color: var(--sadu-red);
-  font-size: 0.5em;
-  font-weight: 700;
-  line-height: 1.3;
-  text-align: left;
-}
-
-.vb-hero-title .vb-hero-arabic {
-  font-size: clamp(1.2rem, 5vw, 1.5rem);
-}
-
+/* The graduation photograph, cropped from the cap to the diploma, framed as a
+   print on the charcoal. */
 .vb-hero-portrait {
   grid-area: portrait;
   position: relative;
-  margin: 0;
-  background: var(--sadu-ink);
+  margin: 0 calc(var(--gutter) * -1);
+  overflow: hidden;
+  background: #2b3756;
 }
 
 .vb-hero-portrait img {
   width: 100%;
-  aspect-ratio: 3 / 4;
+  height: 13.5rem;
   object-fit: cover;
-  object-position: 50% 18%;
+  object-position: 50% 24%;
 }
 
-.vb-hero .vb-hero-selvedge {
-  display: none;
+.vb-hero-portrait figcaption {
+  position: absolute;
+  right: 0.75rem;
+  bottom: 0.75rem;
+  max-width: calc(100% - 1.5rem);
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  background: rgb(22 24 29 / 0.82);
+  color: var(--paper);
+  font-size: 0.8125rem;
+  line-height: 1.4;
 }
 
 .vb-hero-copy {
   grid-area: copy;
   display: grid;
   gap: 1rem;
-  max-width: 40rem;
+  max-width: 44rem;
+}
+
+.vb-hero-title {
+  display: grid;
+  gap: 0.15em;
+  font-size: clamp(2.05rem, 8.6vw, 3.4rem);
+  font-weight: 700;
+  line-height: 1.02;
+  letter-spacing: -0.03em;
+}
+
+.vb-hero-arabic {
+  justify-self: start;
+  color: #c9cfdc;
+  font-weight: 600;
+  line-height: 1.35;
 }
 
 .vb-hero-role {
-  font-family: var(--display);
-  font-size: clamp(1.2rem, 1rem + 1vw, 1.9rem);
-  font-weight: 700;
-  line-height: 1.25;
-  letter-spacing: -0.015em;
+  max-width: 30ch;
+  font-size: clamp(1.15rem, 1rem + 0.9vw, 1.6rem);
+  line-height: 1.35;
   text-wrap: balance;
-}
-
-.vb-hero-now {
-  display: grid;
-  gap: 0.35rem;
-  margin: 0;
-}
-
-.vb-hero-now > div {
-  display: grid;
-  grid-template-columns: 3.5rem minmax(0, 1fr);
-  gap: 0.75rem;
-  align-items: baseline;
-}
-
-.vb-hero-now dt {
-  color: var(--sadu-red);
-  font-family: var(--display);
-  font-size: var(--step-small);
-  font-weight: 700;
-}
-
-.vb-hero-now dd {
-  margin: 0;
-  line-height: 1.4;
 }
 
 .vb-hero-status {
   display: flex;
-  align-items: center;
+  align-items: baseline;
   gap: 0.6rem;
   font-weight: 500;
 }
 
-/* A single woven seed: the stepped diamond of the band, in red. */
+/* The one place the diploma ribbon's red appears. */
 .vb-hero-dot {
   flex: none;
-  width: 0.7rem;
-  height: 0.7rem;
-  background: var(--sadu-red);
-  clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 50%);
+  width: 0.6rem;
+  height: 0.6rem;
+  border-radius: 50%;
+  background: #e0412f;
+  transform: translateY(-0.05rem);
 }
 
 .vb-hero-actions {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.75rem;
+  align-items: center;
+  gap: 0.75rem 1.75rem;
   margin-top: 0.25rem;
 }
 
-.vb-hero-outcome,
-.vb-hero-proof {
+.vb .vb-hero-contact {
+  display: inline-flex;
+  min-height: 2.75rem;
+  align-items: center;
+  font-weight: 500;
+  text-decoration: underline;
+  text-underline-offset: 0.25em;
+}
+
+.vb-hero-outcome {
   max-width: 60ch;
-  color: var(--hero-muted);
+  color: var(--paper-2);
   font-size: var(--step-small);
-  line-height: 1.5;
 }
 
-.vb-hero-proof-link {
-  color: var(--hero-ink);
-}
-
-.vb-hero :focus-visible {
-  outline-color: var(--sadu-ink);
-}
-
-.vb-hero-band {
-  --sb-light: var(--sadu-wool);
-}
-
-@media (min-width: 600px) and (max-width: 899px) {
-  .vb-hero-inner {
-    grid-template-columns: minmax(0, 1fr) minmax(0, 30%);
-  }
-  .vb-hero-name {
-    font-size: clamp(2.6rem, 7vw, 3.6rem);
-  }
-}
-
-@media (min-width: 900px) {
-  .vb-hero-inner {
-    grid-template-columns: minmax(0, 7fr) minmax(0, 4fr);
-    grid-template-areas:
-      "title portrait"
-      "copy portrait";
-    grid-template-rows: auto 1fr;
-    column-gap: clamp(2rem, 5vw, 6rem);
-    row-gap: clamp(1.5rem, 3vw, 2.5rem);
-    min-height: calc(100svh - var(--nav-h) - 4.25rem);
-    padding: clamp(2rem, 5vw, 4.5rem) var(--gutter) 0;
-  }
-  .vb-hero-title {
-    align-self: start;
-    gap: 1rem;
-  }
-  .vb-hero-name {
-    font-size: clamp(3.5rem, 0.6rem + 6.6vw, 8rem);
-    line-height: 0.92;
-  }
-  .vb-hero-title .vb-hero-arabic {
-    font-size: clamp(1.75rem, 0.8rem + 2vw, 3rem);
-  }
-  .vb-hero-copy {
-    align-self: start;
-    gap: 1.25rem;
-    padding-bottom: clamp(2rem, 4vw, 3.5rem);
-  }
-  /* The portrait runs from the top of the hero down to the band, with the
-     maker's weave as its selvedge. */
-  .vb-hero-portrait {
-    grid-row: 1 / span 2;
-    align-self: stretch;
-    min-height: 26rem;
-    padding-left: 2.125rem;
-  }
-  .vb-hero .vb-hero-selvedge {
-    display: flex;
-    position: absolute;
-    inset: 0 auto 0 0;
-  }
-  .vb-hero-portrait img {
-    position: absolute;
-    inset: 0 0 0 2.125rem;
-    width: calc(100% - 2.125rem);
-    height: 100%;
-    aspect-ratio: auto;
-    object-position: 50% 22%;
-  }
-  .vb-hero-now > div {
-    grid-template-columns: 4rem minmax(0, 1fr);
-  }
-}
-
-/* ---------- Selected work: one section per project ---------- */
-
-.vb-work {
-  display: flex;
-  flex-direction: column;
-  scroll-margin-top: 0;
-}
-
-/* The work opens on the goat-hair ground: what it is, then the sampler,
-   one strip of each project's weave in its own colours. */
-.vb-work-head {
+.vb-hero-now {
   display: grid;
-  gap: 2rem;
-  padding: clamp(2.5rem, 6vw, 5rem) var(--gutter) clamp(3rem, 6vw, 5.5rem);
-  background: var(--sadu-ink);
-  color: var(--sadu-wool);
+  gap: 0.4rem;
+  margin: 0;
+  font-size: var(--step-small);
 }
 
-.vb-work-head .vb-section-head {
-  font-size: clamp(2rem, 1.2rem + 2.6vw, 3.6rem);
-}
-
-.vb-work-intro {
+.vb-hero-now > div {
   display: grid;
-  gap: 1.25rem;
-  align-content: start;
+  grid-template-columns: 5.5rem minmax(0, 1fr);
+  gap: 0.75rem;
+  align-items: baseline;
 }
 
-.vb-work-lead {
-  color: var(--sand-2);
+.vb-hero-now dt {
+  color: var(--paper-2);
 }
 
-.vb-sampler-list {
+.vb-hero-now dd {
+  margin: 0;
+  line-height: 1.45;
+}
+
+/* The shelf: one flat tab per product, in its own colours. */
+.vb-shelf {
+  grid-area: shelf;
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 0.5rem;
+  gap: 0.6rem;
+}
+
+.vb-shelf-title {
+  color: var(--paper-2);
+  font-size: var(--step-small);
+}
+
+.vb-shelf ul {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.4rem;
   margin: 0;
   padding: 0;
   list-style: none;
 }
 
-.vb-sample {
+.vb-shelf li {
   background: var(--field);
   color: var(--field-ink);
-}
-
-.vb .vb-sample-link {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  text-decoration: none;
-}
-
-.vb-sample-text {
-  display: grid;
-  gap: 0.2rem;
-  padding: 0.75rem 0.85rem 0.9rem;
-}
-
-.vb-sample-name {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  gap: 0 0.5rem;
-  font-family: var(--display);
-  font-size: 1.25rem;
-  font-weight: 800;
-  line-height: 1.15;
-  letter-spacing: -0.02em;
-}
-
-.vb-sample-name span[lang="ar"] {
-  color: var(--accent);
-  font-size: 0.85em;
-  font-weight: 700;
-}
-
-.vb-sample-kind,
-.vb-sample-dates {
-  color: var(--field-muted);
-  font-size: 0.875rem;
-  line-height: 1.35;
-}
-
-.vb-sample-dates {
-  color: var(--field-ink);
-  font-variant-numeric: tabular-nums;
-}
-
-.vb-sample-link:hover .vb-sample-name {
-  text-decoration: underline;
-  text-decoration-thickness: 2px;
-  text-underline-offset: 0.15em;
-}
-
-/* The strip lifts a little on hover, like a sample pulled from the pile. */
-.vb-sample {
   transition: transform var(--t-hover) var(--ease-out);
 }
 
-.vb-sample:hover {
-  transform: translateY(-3px);
+/* Gthrz's tab carries its lilac, as its world does. */
+.vb-shelf li[data-id="gthrz"] {
+  color: #cbbcff;
 }
 
-.vb .vb-sample-link:focus-visible {
-  outline: 3px solid var(--sadu-wool);
-  outline-offset: 3px;
-}
-
-@media (max-width: 599px) {
-  .vb-sample-kind {
-    display: none;
-  }
-}
-
-@media (min-width: 900px) {
-  .vb-work-head {
-    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
-    align-items: end;
-    column-gap: clamp(2rem, 5vw, 5rem);
-  }
-  .vb-sampler-list {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 0.75rem;
-  }
-  .vb-sample-name {
-    font-size: 1.4rem;
-  }
-}
-
-.vb-about-grid > * {
-  min-width: 0;
-}
-
-/* Shared parts. Each project sits on its own field; the parts keep one voice. */
-.vb-proj {
-  position: relative;
-  background: var(--field);
-  color: var(--field-ink);
-}
-
-.vb-proj-inner {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  gap: 2rem;
-  padding: clamp(3.5rem, 7vw, 7rem) var(--gutter);
-}
-
-.vb-proj-inner > * {
-  min-width: 0;
-}
-
-.vb-proj-head {
-  display: grid;
-  gap: 0.9rem;
-  align-content: start;
-}
-
-.vb-proj-kind,
-.vb-proj-label {
-  color: var(--field-muted);
-  font-size: var(--step-small);
-  line-height: 1.4;
-}
-
-.vb-proj-name {
-  font-size: clamp(3rem, 1.4rem + 5vw, 6.5rem);
-  font-weight: 800;
-  line-height: 0.92;
-  letter-spacing: -0.04em;
-}
-
-.vb-proj-name a {
-  text-decoration: none;
-}
-
-.vb-proj-name a:hover {
-  text-decoration: underline;
-  text-decoration-thickness: 0.06em;
-  text-underline-offset: 0.08em;
-}
-
-.vb-proj-name span[lang="ar"] {
-  display: block;
-  width: fit-content;
-  margin-top: 0.2em;
-  font-size: 0.58em;
-  font-weight: 700;
-  line-height: 1.25;
-  letter-spacing: 0;
-  color: var(--accent);
-}
-
-.vb-proj-tagline {
-  max-width: 32ch;
-  font-size: var(--step-lead);
-  line-height: 1.35;
-  text-wrap: pretty;
-}
-
-/* The decision, in one line: the reason the section looks the way it does. */
-.vb-proj-hook {
-  max-width: 40ch;
-  font-family: var(--display);
-  font-size: clamp(1.05rem, 0.95rem + 0.4vw, 1.3rem);
-  font-weight: 700;
-  line-height: 1.4;
-  letter-spacing: -0.01em;
-  text-wrap: pretty;
-}
-
-.vb-proj-foot {
-  display: grid;
-  gap: 0.75rem;
-  align-content: start;
-}
-
-.vb-proj-meta {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 0.5rem 0.9rem;
-  font-size: var(--step-small);
-}
-
-.vb-proj-part {
-  max-width: 48ch;
-  color: var(--field-muted);
-  font-size: var(--step-small);
-  line-height: 1.5;
-}
-
-.vb-proj-actions {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 0.5rem 1.5rem;
-  margin-top: 0.5rem;
-}
-
-.vb-proj-links {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 0 1.25rem;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  font-size: var(--step-small);
-}
-
-.vb-proj-linknote {
-  color: var(--field-muted);
-}
-
-.vb-proj-art {
-  position: relative;
-  align-self: center;
-}
-
-/* Product artifacts drawn in the field's ink. */
-.vb-proj .vb-art {
-  background: color-mix(in srgb, var(--field-ink) 90%, var(--field));
-  color: var(--field);
-}
-
-.vb-proj .vb-art-label,
-.vb-proj .vb-art-en,
-.vb-proj .vb-art-note {
-  color: color-mix(in srgb, var(--field) 75%, var(--field-ink));
-}
-
-.vb-proj .vb-art-chat li {
-  background: color-mix(in srgb, var(--field) 14%, transparent);
-}
-
-.vb-proj .vb-art-chat li[data-who="brand"] {
-  background: color-mix(in srgb, var(--field) 20%, transparent);
-}
-
-/* Translations inside the bubbles read at 4.5:1 or more. */
-.vb-proj .vb-art-chat .vb-art-en {
-  color: var(--field);
-}
-
-.vb-proj .vb-art-chat li[data-who="system"] {
-  background: color-mix(in srgb, var(--ok) 22%, transparent);
-}
-
-.vb-proj .vb-art-state span {
-  background: color-mix(in srgb, var(--field) 14%, transparent);
-}
-
-.vb-proj .vb-art-state span[data-on="true"] {
-  background: var(--field);
-  color: var(--field-ink);
-}
-
-.vb-proj .vb-art .vb-btn {
-  background: var(--field);
-  color: var(--field-ink);
-}
-
-.vb-proj .vb-art .vb-btn-quiet {
-  background: color-mix(in srgb, var(--field) 18%, transparent);
-  color: var(--field);
-}
-
-/* The working demo is each section's centrepiece; a little more room than a caption card. */
-.vb-proj-demo {
-  min-width: 0;
-}
-
-.vb-proj-demo .vb-demo {
-  padding: clamp(1.1rem, 2vw, 1.6rem);
-  box-shadow: 0 1.5rem 3rem -1.75rem color-mix(in srgb, var(--field-ink) 60%, transparent);
-}
-
-/* Tammeni: two alert-settings screens beside the family's schedule. */
-.vb-proj-phones {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 15.5rem));
-  justify-content: center;
-  align-items: start;
-  gap: clamp(0.75rem, 2vw, 1.5rem);
-}
-
-.vb-proj-phones .vb-phone:nth-child(2) {
-  margin-top: 3rem;
-}
-
-/* Seet: the held → deposit → confirmed line under the masthead. */
-.vb-proj-states .vb-dayline {
-  --hour-now: var(--field-ink);
-  --hour-now-ink: var(--field);
-}
-
-.vb-proj-states .vb-dayline-time {
-  font-size: 1.15rem;
-}
-
-.vb-proj-states .vb-dayline-label {
-  opacity: 1;
-}
-
-/* Kashta: one real night, scored by the app's own rules. */
-.vb-proj[data-layout="score"] {
-  background:
-    radial-gradient(ellipse 60% 70% at 62% 115%, color-mix(in srgb, var(--accent) 22%, transparent), transparent 70%),
-    var(--field);
-}
-
-/* Amanah: the same claim from each side of the desk, beside the live site. */
-.vb-proj[data-layout="views"] .vb-window {
-  box-shadow: 0 1.5rem 3rem -1.5rem color-mix(in srgb, var(--field-ink) 45%, transparent);
-}
-
-/* Gthrz: a phone app, so phones lead. */
-.vb-proj[data-layout="fan"] {
-  background:
-    radial-gradient(ellipse 50% 60% at 25% 50%, color-mix(in srgb, var(--accent) 18%, transparent), transparent 70%),
-    var(--field);
-}
-
-.vb-proj-fan {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 1rem 0;
-}
-
-.vb-proj-fan .vb-capture {
-  flex: none;
-  width: clamp(7.5rem, 26vw, 15rem);
-}
-
-.vb-proj-fan .vb-capture img {
-  filter: drop-shadow(0 1.25rem 1.5rem rgb(0 0 0 / 0.5));
-}
-
-.vb-proj-fan .vb-capture:nth-child(1) {
-  transform: rotate(-6deg) translateY(1.5rem);
-  margin-right: -2.5rem;
-}
-
-.vb-proj-fan .vb-capture:nth-child(2) {
-  z-index: 1;
-}
-
-.vb-proj-fan .vb-capture:nth-child(3) {
-  transform: rotate(6deg) translateY(1.5rem);
-  margin-left: -2.5rem;
-}
-
-/* The Prompt Experiment: a smaller, secondary entry at the end of the work. */
-.vb-exp {
-  display: grid;
-  gap: 1.75rem;
-  align-items: center;
-  padding: clamp(3rem, 6vw, 5rem) var(--gutter);
-  border-top: 1px solid color-mix(in srgb, var(--sand) 14%, transparent);
-}
-
-.vb-exp-copy {
-  display: grid;
-  gap: 0.6rem;
-  justify-items: start;
-}
-
-.vb-exp .vb-proj-kind {
-  color: var(--sand-2);
-}
-
-.vb-exp-name {
-  font-size: clamp(1.9rem, 1.3rem + 2vw, 3rem);
-  font-weight: 800;
-  letter-spacing: -0.03em;
-}
-
-.vb-exp-name a {
-  text-decoration: none;
-}
-
-.vb-exp-name a:hover {
-  text-decoration: underline;
-}
-
-.vb-exp-tagline {
-  max-width: 36ch;
-  color: var(--sand-2);
-  font-size: var(--step-body);
-}
-
-.vb-exp-pair {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 1rem;
-  text-decoration: none;
-}
-
-.vb-exp-shot {
-  display: grid;
-  gap: 0.5rem;
-}
-
-.vb-exp-shot img {
-  width: 100%;
-  aspect-ratio: 4 / 3;
-  object-fit: cover;
-  object-position: top;
-  border-radius: 0.5rem;
-  background: var(--field);
-  transition: transform var(--t-ui) var(--ease-out);
-}
-
-.vb-exp-pair:hover img {
+.vb-shelf li:hover {
   transform: translateY(-4px);
 }
 
-.vb-exp-label {
-  color: var(--sand-2);
-  font-size: var(--step-small);
+.vb .vb-shelf a {
+  display: grid;
+  align-content: end;
+  min-height: 3.75rem;
+  padding: 0.55rem 0.65rem 0.6rem;
+  text-decoration: none;
 }
 
-/* Phones: one column, the product's picture right after its name. */
-@media (max-width: 899px) {
-  .vb-proj-inner {
-    gap: 1.5rem;
+.vb .vb-shelf a:focus-visible {
+  outline: 3px solid var(--paper);
+  outline-offset: 2px;
+}
+
+.vb-shelf-name {
+  font-size: 1rem;
+  font-weight: 650;
+  line-height: 1.2;
+}
+
+.vb-shelf-subject {
+  font-size: 0.8125rem;
+  line-height: 1.3;
+  opacity: 0.86;
+}
+
+.vb-shelf a:hover .vb-shelf-name {
+  text-decoration: underline;
+}
+
+@media (min-width: 600px) and (max-width: 899px) {
+  .vb-hero-portrait img {
+    height: 22rem;
   }
-  .vb-proj-foot {
-    order: 2;
-  }
-  .vb-proj[data-layout="score"] .vb-proj-art {
-    display: none;
-  }
-  /* The demo is the picture on phones; the screenshots wait in the case study. */
-  .vb-proj-links,
-  .vb-proj-part,
-  .vb-proj[data-layout="views"] .vb-proj-art,
-  .vb-proj[data-layout="fan"] .vb-proj-art,
-  .vb-exp-pair {
-    display: none;
-  }
-  /* The top of each capture carries the screen; the rest is cropped on phones. */
-  .vb-proj-fan .vb-capture img {
-    height: 100%;
-    object-fit: cover;
-    object-position: top;
-  }
-  /* A bare capture has no frame to end on, so the crop fades out. */
-  .vb-proj-fan .vb-capture {
-    mask-image: linear-gradient(#000 80%, transparent);
-  }
-  .vb-proj-fan .vb-capture:nth-child(1) {
-    margin-right: -1.5rem;
-  }
-  .vb-proj-fan .vb-capture:nth-child(3) {
-    margin-left: -1.5rem;
+  .vb-shelf ul {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
   }
 }
 
-/* Wide: each project composed from its own subject; no two neighbours alike. */
 @media (min-width: 900px) {
-  .vb-proj-inner {
-    column-gap: clamp(2rem, 5vw, 6rem);
-    row-gap: 2rem;
-  }
-
-  /* Naqah: the call on the left, the story on the right. */
-  .vb-proj[data-layout="stage"] .vb-proj-inner {
-    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
-    grid-template-areas: "art head" "art foot";
-  }
-  .vb-proj[data-layout="stage"] .vb-proj-head {
-    grid-area: head;
-    align-self: end;
-  }
-
-  /* Tammeni: name, then the family's schedule; the real screens to the right, actions under them. */
-  .vb-proj[data-layout="schedule"] .vb-proj-inner {
-    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
-    grid-template-areas: "head art" "demo art" "demo foot";
-    grid-template-rows: auto auto 1fr;
-  }
-  .vb-proj[data-layout="schedule"] .vb-proj-art {
-    align-self: start;
-  }
-
-  /* Seet: a masthead, then the booking line beside the chat. */
-  .vb-proj[data-layout="masthead"] .vb-proj-inner {
-    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
-    grid-template-areas: "head head" "states art" "foot art";
+  .vb-hero-inner {
+    grid-template-columns: minmax(0, 58fr) minmax(0, 42fr);
+    grid-template-areas:
+      "copy portrait"
+      "shelf portrait";
+    grid-template-rows: 1fr auto;
+    column-gap: clamp(2rem, 5vw, 5.5rem);
     row-gap: 2.5rem;
+    min-height: calc(100svh - var(--nav-h));
+    padding: 0 0 0 var(--gutter);
   }
-  .vb-proj[data-layout="masthead"] .vb-proj-head {
-    grid-template-columns: auto minmax(0, 38rem);
-    grid-template-areas: "name kind" "name tagline" "name hook";
-    justify-content: space-between;
-    align-content: end;
-    column-gap: clamp(2rem, 6vw, 8rem);
-    padding-bottom: 2.5rem;
-    border-bottom: 2px solid var(--field-ink);
-  }
-  .vb-proj[data-layout="masthead"] .vb-proj-name {
-    grid-area: name;
-    align-self: end;
-    font-size: clamp(5rem, 2rem + 8vw, 11rem);
-  }
-  .vb-proj[data-layout="masthead"] .vb-proj-kind {
-    grid-area: kind;
-  }
-  .vb-proj[data-layout="masthead"] .vb-proj-tagline {
-    grid-area: tagline;
-  }
-  .vb-proj[data-layout="masthead"] .vb-proj-hook {
-    grid-area: hook;
-  }
-  .vb-proj[data-layout="masthead"] .vb-proj-states {
-    grid-area: states;
-  }
-  .vb-proj[data-layout="masthead"] .vb-proj-art {
-    align-self: start;
-  }
-
-  /* Kashta: story, the live score, the app on a phone. */
-  .vb-proj[data-layout="score"] .vb-proj-inner {
-    grid-template-columns: minmax(0, 4fr) minmax(0, 5fr);
-    grid-template-areas: "head demo" "foot demo";
-  }
-  .vb-proj[data-layout="score"] .vb-proj-art {
-    display: none;
-  }
-  .vb-proj[data-layout="score"] .vb-proj-demo {
+  .vb-hero-copy {
     align-self: center;
+    gap: 1.4rem;
+    padding-top: clamp(2.5rem, 5vw, 4.5rem);
   }
-
-  /* Amanah: a centred head, the claim from both sides beside the live site. */
-  .vb-proj[data-layout="views"] .vb-proj-inner {
-    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
-    grid-template-areas: "head head" "demo art" "foot foot";
-    column-gap: clamp(1.5rem, 3vw, 3.5rem);
-    row-gap: clamp(2rem, 4vw, 3.5rem);
+  .vb-hero-title {
+    font-size: clamp(3rem, 0.6rem + 4.3vw, 5.5rem);
   }
-  .vb-proj[data-layout="views"] .vb-proj-head,
-  .vb-proj[data-layout="views"] .vb-proj-foot {
-    justify-items: center;
-    text-align: center;
+  .vb-hero-name {
+    white-space: nowrap;
   }
-  .vb-proj[data-layout="views"] .vb-proj-name span[lang="ar"] {
-    margin-inline: auto;
+  .vb-hero-portrait {
+    grid-row: 1 / span 2;
+    margin: 0;
   }
-  .vb-proj[data-layout="views"] .vb-proj-hook {
-    border-top: 0;
-    padding-top: 0;
-    margin-top: 0;
+  .vb-hero-portrait img {
+    position: absolute;
+    inset: 0;
+    height: 100%;
+    object-position: 50% 30%;
   }
-  .vb-proj[data-layout="views"] .vb-proj-meta,
-  .vb-proj[data-layout="views"] .vb-proj-actions {
-    justify-content: center;
+  .vb-hero-portrait figcaption {
+    right: auto;
+    left: 1rem;
+    bottom: 1rem;
   }
-
-  /* Gthrz: phones fanned on the left, a guest's view state by state on the right. */
-  .vb-proj[data-layout="fan"] .vb-proj-inner {
-    grid-template-columns: minmax(0, 6fr) minmax(0, 5fr);
-    grid-template-areas: "art head" "art demo" "art foot";
+  .vb-shelf {
+    padding-bottom: clamp(1.5rem, 3vw, 2.5rem);
   }
-
-  .vb-proj-head {
-    grid-area: head;
+  .vb-shelf ul {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
   }
-  .vb-proj-foot {
-    grid-area: foot;
+  .vb .vb-shelf a {
+    min-height: 4.25rem;
+    padding: 0.7rem 0.75rem;
   }
-  .vb-proj-art {
-    grid-area: art;
+  .vb-hero-now {
+    font-size: var(--step-body);
   }
-  .vb-proj-demo {
-    grid-area: demo;
-  }
-
-  .vb-exp {
-    grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
-    column-gap: clamp(2rem, 5vw, 6rem);
+  .vb-hero-now > div {
+    grid-template-columns: 6.5rem minmax(0, 1fr);
   }
 }
 
-/* Room for Tammeni's editor beside its grid. */
-@media (min-width: 1400px) {
-  .vb-proj[data-layout="schedule"] .vb-demo-tammeni {
-    grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
-    column-gap: 1.5rem;
-    align-items: start;
-  }
-  .vb-proj[data-layout="schedule"] .vb-demo-tammeni > :not(.vb-demo-grid, .vb-demo-editor) {
-    grid-column: 1 / -1;
-  }
-  .vb-proj[data-layout="schedule"] .vb-demo-grid :is(tbody th, thead td) {
-    width: 6.5rem;
-  }
-  .vb-proj[data-layout="schedule"] .vb-demo-grid button {
-    padding-inline: 0.6rem;
-  }
-}
-
-/* Room for the app itself beside Kashta's score. */
-@media (min-width: 1200px) {
-  .vb-proj[data-layout="score"] .vb-proj-inner {
-    grid-template-columns: minmax(0, 4fr) minmax(0, 5fr) minmax(0, 2.5fr);
-    grid-template-areas: "head demo art" "foot demo art";
-  }
-  .vb-proj[data-layout="score"] .vb-proj-art {
-    display: block;
+/* The name stays on one line only when the column can hold it. */
+@media (min-width: 900px) and (max-width: 1099px) {
+  .vb-hero-name {
+    white-space: normal;
   }
 }
 
@@ -982,85 +393,6 @@
   scroll-margin-top: 4rem;
 }
 
-.vb-about-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 2rem 1.25rem;
-}
-
-.vb-about-copy {
-  grid-column: 1 / -1;
-  display: flex;
-  flex-direction: column;
-  gap: 1.25rem;
-}
-
-.vb-about-body {
-  display: flex;
-  max-width: var(--measure);
-  flex-direction: column;
-  gap: 1rem;
-}
-
-.vb-about-photo {
-  margin: 0;
-}
-
-.vb-about-img {
-  width: 100%;
-  height: auto;
-  aspect-ratio: 4 / 5;
-  object-fit: cover;
-  border-radius: 0.5rem;
-}
-
-.vb-about-photo figcaption {
-  margin-top: 0.6rem;
-  color: var(--sand-2);
-  font-size: var(--step-small);
-}
-
-.vb-about-grad {
-  margin-top: 3rem;
-}
-
-.vb-about-music {
-  margin-top: clamp(4rem, 8vw, 7rem);
-}
-
-.vb-about-music-title {
-  font-size: var(--step-lead);
-  font-weight: 700;
-}
-
-.vb-certs-summary,
-.vb-skills-summary {
-  font-size: var(--step-body);
-}
-
-.vb-skills-groups .vb-details-body {
-  display: grid;
-  gap: 2rem;
-}
-
-@media (min-width: 900px) {
-  .vb-about-grid {
-    grid-template-columns: 6fr 3fr 3.4fr;
-    column-gap: clamp(1.5rem, 3vw, 3rem);
-    align-items: start;
-  }
-  .vb-about-copy {
-    grid-column: 1;
-    padding-right: 1rem;
-  }
-  .vb-about-child {
-    margin-top: 4rem;
-  }
-  .vb-about-grad {
-    margin-top: 0;
-  }
-}
-
 /* The music shelf: records you can spin. */
 .vb-mu-shelf {
   display: grid;
@@ -1154,149 +486,6 @@ span.vb-mu-disc {
   border-radius: 50%;
 }
 
-/* ---------- Journey ---------- */
-
-.vb-journey {
-  padding: clamp(4rem, 8vw, 8rem) var(--gutter);
-  background: var(--night-2);
-  scroll-margin-top: 4rem;
-}
-
-.vb-journey-head {
-  display: grid;
-  gap: 1.25rem;
-  margin-bottom: clamp(3rem, 6vw, 5rem);
-}
-
-.vb-chapters {
-  display: grid;
-  gap: clamp(3rem, 6vw, 5rem);
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.vb-chapter {
-  display: grid;
-  gap: 1rem;
-}
-
-.vb-chapter-place {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  gap: 0.5rem 1rem;
-}
-
-.vb-chapter-city {
-  font-family: var(--display);
-  font-size: clamp(2.6rem, 1.4rem + 5vw, 5.5rem);
-  font-weight: 800;
-  line-height: 0.95;
-  letter-spacing: -0.04em;
-  color: var(--sand-2);
-}
-
-.vb-chapter[data-now="true"] .vb-chapter-city {
-  color: var(--ember);
-}
-
-.vb-chapter-arabic {
-  font-size: clamp(1.3rem, 1rem + 1.5vw, 2rem);
-  font-weight: 500;
-  color: var(--sand-2);
-}
-
-.vb-chapter-copy {
-  display: flex;
-  max-width: 56ch;
-  flex-direction: column;
-  gap: 0.5rem;
-}
-
-.vb-chapter-years {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  color: var(--sand-2);
-  font-size: var(--step-small);
-  font-variant-numeric: tabular-nums;
-}
-
-.vb-chapter-now {
-  padding: 0.1rem 0.6rem;
-  border-radius: 999px;
-  background: var(--ember);
-  color: var(--ember-ink);
-  font-weight: 500;
-}
-
-.vb-chapter-title {
-  font-size: var(--step-lead);
-  font-weight: 700;
-  line-height: 1.15;
-}
-
-.vb-award {
-  margin-top: 1rem;
-}
-
-.vb-award-trigger {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  padding: 0.75rem;
-  border: 0;
-  border-radius: 0.5rem;
-  background: var(--night-3);
-  color: var(--sand);
-  cursor: pointer;
-  text-align: left;
-  transition: background-color var(--t-hover) ease;
-}
-
-.vb-award-trigger:hover {
-  background: #242b3d;
-}
-
-.vb-award-doc {
-  display: block;
-  width: 4.5rem;
-  flex: none;
-  overflow: hidden;
-  border-radius: 0.2rem;
-}
-
-.vb-award-text {
-  display: flex;
-  flex-direction: column;
-  gap: 0.2rem;
-}
-
-.vb-award-title {
-  font-weight: 500;
-}
-
-.vb-award-cta {
-  color: var(--ember);
-  font-size: var(--step-small);
-  text-decoration: underline;
-}
-
-@media (min-width: 900px) {
-  .vb-chapter {
-    grid-template-columns: 5fr 7fr;
-    column-gap: 3rem;
-    align-items: start;
-  }
-  .vb-chapter-place {
-    flex-direction: column;
-    gap: 0.25rem;
-    position: sticky;
-    top: 5rem;
-  }
-}
-
 /* ---------- Skills ---------- */
 
 .vb-skills {
@@ -1306,99 +495,11 @@ span.vb-mu-disc {
   scroll-margin-top: 4rem;
 }
 
-.vb-skills-side {
-  display: flex;
-  flex-direction: column;
-  gap: 1.25rem;
-}
-
-.vb-skills-switch {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  margin-top: 0.5rem;
-}
-
-.vb-skills-pick {
-  min-height: 2.75rem;
-  padding: 0 1rem;
-  border: 0;
-  border-radius: 999px;
-  background: var(--night-3);
-  color: var(--sand);
-  cursor: pointer;
-  font-size: var(--step-small);
-  font-weight: 500;
-  transition: background-color var(--t-hover) ease, color var(--t-hover) ease;
-}
-
-.vb-skills-pick:hover {
-  background: #262e42;
-}
-
-.vb-skills-pick[aria-pressed="true"] {
-  background: var(--ember);
-  color: var(--ember-ink);
-}
-
-.vb-skills-note {
-  min-height: 3rem;
-  color: var(--sand-2);
-  font-size: var(--step-small);
-}
-
-
-
-.vb-skills-label {
-  margin-bottom: 0.6rem;
-  color: var(--sand-2);
-  font-size: var(--step-body);
-  font-weight: 700;
-  letter-spacing: 0;
-}
-
-.vb-skills-words {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.4rem 1.1rem;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.vb-skills-word {
-  font-family: var(--display);
-  font-size: clamp(1.25rem, 1rem + 1vw, 1.8rem);
-  font-weight: 500;
-  color: color-mix(in srgb, var(--sand) 55%, var(--night));
-  transition: color var(--t-ui) ease;
-}
-
-.vb-skills-word[data-lit="true"] {
-  color: var(--sand);
-  font-weight: 700;
-}
-
-.vb-skills-word[data-learning="true"] {
-  color: color-mix(in srgb, var(--ember) 70%, var(--night));
-}
-
-.vb-skills-word[data-learning="true"]::after {
-  content: " · learning";
-  font-family: var(--text);
-  font-size: 0.8125rem;
-  font-weight: 400;
-}
-
 @media (min-width: 900px) {
   .vb-skills {
     grid-template-columns: 5fr 7fr;
     column-gap: clamp(2rem, 5vw, 5rem);
     align-items: start;
-  }
-  .vb-skills-side {
-    position: sticky;
-    top: 5rem;
   }
 }
 
@@ -1412,109 +513,11 @@ span.vb-mu-disc {
   scroll-margin-top: 4rem;
 }
 
-.vb-certs-side {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-}
-
-.vb-certs-list {
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.vb-certs-row {
-  display: flex;
-  width: 100%;
-  flex-direction: column;
-  gap: 0.15rem;
-  padding: 0.85rem 1rem;
-  border: 0;
-  border-radius: 0.5rem;
-  background: transparent;
-  color: var(--sand);
-  cursor: pointer;
-  text-align: left;
-  transition: background-color var(--t-hover) ease;
-}
-
-a.vb-certs-row,
-a.vb-certs-sheet {
-  text-decoration: none;
-}
-
-div.vb-certs-row {
-  cursor: default;
-}
-
-.vb-certs-row:hover,
-.vb-certs-list li[data-active="true"] .vb-certs-row {
-  background: var(--night-3);
-}
-
-.vb-certs-name {
-  font-weight: 500;
-}
-
-.vb-certs-meta,
-.vb-certs-note {
-  color: var(--sand-2);
-  font-size: var(--step-small);
-}
-
-.vb-certs-aside {
-  max-width: 48ch;
-  margin-top: 1.25rem;
-  color: var(--sand-2);
-  font-size: var(--step-small);
-}
-
-.vb-certs-stage {
-  display: none;
-}
-
-.vb-certs-sheet {
-  display: block;
-  width: 100%;
-  padding: 0;
-  border: 0;
-  background: transparent;
-  cursor: pointer;
-  text-align: left;
-}
-
-.vb-certs-sheet img {
-  width: 100%;
-  height: auto;
-  border-radius: 0.4rem;
-  transition: transform var(--t-ui) var(--ease-out);
-}
-
-.vb-certs-sheet:hover img {
-  transform: scale(1.015);
-}
-
-.vb-certs-sheet-cap {
-  display: block;
-  margin-top: 0.75rem;
-  color: var(--sand-2);
-  font-size: var(--step-small);
-}
-
 @media (min-width: 900px) {
   .vb-certs {
     grid-template-columns: 5fr 7fr;
     column-gap: clamp(2rem, 5vw, 5rem);
     align-items: start;
-  }
-  .vb-certs-stage {
-    display: block;
-    position: sticky;
-    top: 5.5rem;
   }
 }
 
@@ -1897,15 +900,6 @@ div.vb-certs-row {
 }
 
 @media (max-width: 899px) {
-  .vb-chapters {
-    gap: 2.25rem;
-  }
-  .vb-about-grid {
-    gap: 1.5rem 1rem;
-  }
-  .vb-about-grad {
-    margin-top: 1.5rem;
-  }
   .vb-contact {
     gap: 2rem;
   }
@@ -1916,26 +910,12 @@ div.vb-certs-row {
 
 /* ---------- Phone: a shorter home ---------- */
 
-
 @media (max-width: 899px) {
   .vb-about,
-  .vb-journey,
   .vb-skills,
   .vb-certs,
   .vb-contact {
     padding-block: 3rem;
-  }
-  .vb-proj-inner {
-    gap: 1.25rem;
-    padding-block: 2rem;
-  }
-  .vb-work-head {
-    gap: 1rem;
-    padding-block: 2.5rem 2rem;
-  }
-  .vb-exp {
-    gap: 1.25rem;
-    padding-block: 2.5rem;
   }
 
   /* One row of controls: play, back, next and the count. */
@@ -1954,321 +934,53 @@ div.vb-certs-row {
       padding-inline: 0.7rem;
     }
   }
-  .vb-proj .vb-art-state {
-    gap: 0.3rem;
-  }
-  .vb-proj .vb-art-state span {
-    padding-inline: 0.5rem;
-    font-size: 0.8125rem;
-  }
-  /* Tammeni: the schedule demo stands in for the screens that set it. */
-  .vb-proj[data-layout="schedule"] .vb-proj-phones {
-    display: none;
-  }
-  .vb-proj-head {
-    gap: 0.7rem;
-  }
-
-  /* Gthrz: name, then the phones, then the guest's view. */
-  .vb-proj[data-layout="fan"] .vb-proj-head {
-    order: -1;
-  }
-  .vb-proj[data-layout="fan"] .vb-proj-demo {
-    order: 1;
-  }
-
-  /* Phone crops keep each capture's header and title. */
-  .vb-proj-fan .vb-capture {
-    aspect-ratio: 440 / 560;
-  }
-
-  /* Skills: the project switch only lights words inside the list, so it waits for the list. */
-  .vb-skills:has(.vb-skills-groups:not([open])) :is(.vb-skills-switch, .vb-skills-note) {
-    display: none;
-  }
   .vb-skills {
     gap: 1.5rem;
   }
 
-  /* Journey and about: smaller place names, closer chapters. */
-  .vb-journey-head {
-    margin-bottom: 2rem;
+  .vb-footer-body {
+    padding-top: 2rem;
   }
-  .vb-chapters {
-    gap: 1.5rem;
-  }
-  .vb-chapter {
-    gap: 0.5rem;
-  }
-  .vb-chapter-city {
-    font-size: 1.85rem;
-  }
-  .vb-chapter-arabic {
-    font-size: 1.2rem;
-  }
-  .vb-award {
-    margin-top: 0.5rem;
-  }
-  .vb-award-doc {
-    width: 3.25rem;
-  }
-  .vb-about-img {
-    aspect-ratio: 1;
-  }
-  .vb-about-grad {
-    margin-top: 0;
-  }
-  .vb-about-music {
-    margin-top: 2rem;
-  }
-
-  .vb-footer {
-    padding-top: 3rem;
+  .vb-footer-name span[lang="ar"] {
+    display: block;
+    margin: 0.2rem 0 0;
   }
   .vb-footer-grid {
-    gap: 1rem;
-    margin-top: 1.75rem;
+    gap: 0.5rem;
+    margin-top: 1rem;
+  }
+  .vb-footer-grid ul {
+    gap: 0 1.25rem;
   }
 }
 
-/* ---------- Woven seams: every project opens on its own band ---------- */
+/* ---------- His sections: one charcoal house ---------- */
 
-/* A short tab of the same weave marks the decision, where a rule would be. */
-.vb-proj-tab {
-  width: 7.5rem;
-  margin-top: 0.4rem;
-}
-
-/* ---------- Each product's own world ---------- */
-
-/* The demo card takes its colours from the product: inside .vb-art the field
-   pair is redefined, so the shared card rules draw it in these colours. */
-
-/* Naqah: saddle leather on sand, stitched round the edge. */
-.vb-proj[data-id="naqah"] .vb-art {
-  outline: 2px dashed color-mix(in srgb, var(--field) 45%, transparent);
-  outline-offset: -0.55rem;
-}
-
-/* Tammeni: a page from the school notebook, ruled in green. */
-.vb-proj[data-id="tammeni"] .vb-demo {
-  background-image: repeating-linear-gradient(
-    to bottom,
-    transparent 0 1.95rem,
-    color-mix(in srgb, var(--field) 12%, transparent) 1.95rem 2rem
-  );
-}
-
-/* Seet: the chat app's own dark green, with the gold of the brand on its buttons. */
-.vb-proj[data-id="seet"] .vb-art {
-  --field: #e9edef;
-  --field-ink: #0b141a;
-  border-radius: 1rem;
-}
-
-.vb-proj[data-id="seet"] .vb-art-chat li {
-  background: #202c33;
-}
-
-.vb-proj[data-id="seet"] .vb-art-chat li[data-who="brand"] {
-  background: #005c4b;
-}
-
-.vb-proj[data-id="seet"] .vb-art .vb-btn,
-.vb-proj[data-id="seet"] .vb-art-state span[data-on="true"] {
-  background: #dba946;
-  color: #0b141a;
-}
-
-/* The decision arrives as a message bubble. */
-.vb-proj[data-id="seet"] .vb-proj-hook {
-  position: relative;
-  align-self: start;
-  width: fit-content;
-  padding: 0.7rem 1rem;
-  border-radius: 0 0.9rem 0.9rem 0.9rem;
-  background: #fffdf6;
-  color: #0b141a;
-}
-
-.vb-proj[data-id="seet"] .vb-proj-hook::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  right: 100%;
-  width: 0.7rem;
-  height: 0.8rem;
-  background: inherit;
-  clip-path: polygon(0 0, 100% 0, 100% 100%);
-}
-
-.vb-proj[data-id="seet"] .vb-proj-tab {
-  display: none;
-}
-
-/* Kashta: the planner's night, the card drawn as the app draws its own. */
-.vb-proj[data-id="kashta"] .vb-art {
-  --field: #f3ece0;
-  --field-ink: #0c1121;
-}
-
-.vb-proj[data-id="kashta"] .vb-demo {
-  --demo-accent: #f0945a;
-  --demo-accent-ink: #1a0e05;
-}
-
-/* Amanah: the name and the decision are written on a lost-property tag. */
-.vb-proj[data-id="amanah"] .vb-proj-head {
-  position: relative;
-  justify-self: center;
-  max-width: 40rem;
-  padding: clamp(1.5rem, 3vw, 2.25rem) clamp(1.25rem, 3vw, 2.5rem) clamp(1.5rem, 3vw, 2.25rem)
-    clamp(3rem, 5vw, 4.5rem);
-  background: #fffdf8;
-  clip-path: polygon(1.75rem 0, 100% 0, 100% 100%, 1.75rem 100%, 0 calc(100% - 1.75rem), 0 1.75rem);
-}
-
-/* The punched hole the string goes through. */
-.vb-proj[data-id="amanah"] .vb-proj-head::before {
-  content: "";
-  position: absolute;
-  left: 1rem;
-  top: 50%;
-  width: 1.35rem;
-  height: 1.35rem;
-  margin-top: -0.675rem;
-  border: 4px solid var(--accent);
-  border-radius: 50%;
-  background: var(--field);
-}
-
-/* Gthrz: the event is an invitation, torn along its perforated edge. */
-.vb-proj[data-id="gthrz"] .vb-art {
-  --field: #f3eee6;
-  --field-ink: #1f1733;
-  border-radius: 0.75rem;
-  -webkit-mask: radial-gradient(circle at 0 50%, transparent 0.6rem, #000 0.65rem) 0 0 / 51% 100% no-repeat,
-    radial-gradient(circle at 100% 50%, transparent 0.6rem, #000 0.65rem) 100% 0 / 51% 100% no-repeat;
-  mask: radial-gradient(circle at 0 50%, transparent 0.6rem, #000 0.65rem) 0 0 / 51% 100% no-repeat,
-    radial-gradient(circle at 100% 50%, transparent 0.6rem, #000 0.65rem) 100% 0 / 51% 100% no-repeat;
-}
-
-.vb-proj[data-id="gthrz"] .vb-demo {
-  --demo-accent: #a993ff;
-  --demo-accent-ink: #141216;
-  --demo-surface: color-mix(in srgb, var(--field) 9%, transparent);
-  --demo-muted: color-mix(in srgb, var(--field) 85%, var(--field-ink));
-}
-
-/* Amanah's views sit a step lighter than the card, with the notes and the
-   answer buttons kept at 4.5:1 or more. */
-.vb-proj[data-id="amanah"] .vb-demo {
-  --demo-surface: color-mix(in srgb, var(--field) 8%, transparent);
-  --demo-muted: color-mix(in srgb, var(--field) 88%, var(--field-ink));
-}
-
-.vb-proj[data-id="amanah"] .vb-art .vb-btn-quiet {
-  background: color-mix(in srgb, var(--field) 10%, transparent);
-}
-
-.vb-proj-band,
-.vb-exp-band {
-  position: relative;
-}
-
-@media (max-width: 899px) {
-  .vb-work-head {
-    padding-block: 2.5rem 2.25rem;
-  }
-}
-
-/* Light parallax: product pictures drift a little slower than the page.
-   Scroll-driven where supported; elsewhere they simply stay still. */
-@keyframes vb-drift-y {
-  from {
-    translate: 0 var(--drift);
-  }
-  to {
-    translate: 0 calc(var(--drift) * -1);
-  }
-}
-
-@supports (animation-timeline: view()) {
-  @media (prefers-reduced-motion: no-preference) {
-    .vb[data-motion="on"] :is(
-        .vb-proj-phones .vb-phone,
-        .vb-proj[data-layout="score"] .vb-proj-art,
-        .vb-proj[data-layout="views"] .vb-proj-art,
-        .vb-proj-fan .vb-capture,
-        .vb-exp-shot,
-        .vb-about-photo
-      ) {
-      --drift: 1.5rem;
-      animation: vb-drift-y linear both;
-      animation-timeline: view();
-      animation-range: cover;
-    }
-    .vb[data-motion="on"] .vb-proj-phones .vb-phone:nth-child(2),
-    .vb[data-motion="on"] .vb-proj-fan .vb-capture:nth-child(2),
-    .vb[data-motion="on"] .vb-exp-shot:nth-child(2),
-    .vb[data-motion="on"] .vb-about-grad {
-      --drift: 2.75rem;
-    }
-  }
-}
-
-/* ---------- Contact ---------- */
-
+/* About, skills and certificates share the ground; a one-step lighter band
+   holds skills, and contact closes on the ground again. */
+.vb-about,
 .vb-contact {
-  background: var(--sadu-ink-2);
+  background: var(--house);
 }
 
-/* Phones: Seet's chat carries the booking states. */
+.vb-skills {
+  background: var(--house-2);
+}
+
+.vb-certs {
+  background: var(--house);
+}
+
+/* Phones: closer sections. */
 @media (max-width: 899px) {
-  .vb-proj-inner {
-    gap: 1rem;
-  }
-  .vb-proj[data-layout="masthead"] .vb-proj-states {
-    display: none;
-  }
-  .vb-work-lead {
-    display: none;
-  }
-  .vb-proj-kind {
-    display: none;
-  }
-  .vb-proj .vb-proj-head {
-    gap: 0.55rem;
-  }
-  .vb .vb-proj .vb-proj-inner {
-    padding-top: 1.5rem;
-  }
-  /* Status and the case study share a row; the months are in the sampler above. */
-  .vb-proj-foot {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: space-between;
-    gap: 0.75rem;
-  }
-  .vb-proj-meta > span:not(.vb-chip) {
-    display: none;
-  }
-  .vb-proj-actions {
-    margin-top: 0;
-  }
-  .vb-proj-hook {
-    margin-top: 0;
-    padding-top: 0.6rem;
-  }
+
   .vb-about,
-  .vb-journey,
   .vb-skills,
   .vb-certs,
   .vb-contact {
     padding-top: 2.25rem;
   }
-  .vb-journey,
+  
   .vb-skills,
   .vb-certs {
     padding-bottom: 2.25rem;

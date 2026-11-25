@@ -26,7 +26,7 @@ export function Redirect({ to, label }: { to: string; label: string }) {
         padding: "2rem",
         background: "#0b0e14",
         color: "#efe6d3",
-        fontFamily: "var(--font-vb-text), system-ui, sans-serif",
+        fontFamily: "var(--font-plex), system-ui, sans-serif",
         textAlign: "center",
       }}
     >

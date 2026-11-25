@@ -1,44 +1,40 @@
 /* Portfolio: tokens, frame, navigation, buttons, footer, dialogs.
-   Woven like a Sadu tent: white wool at the front, black goat hair behind,
-   madder red for what to do next. Each project brings its own field colours
-   and its own band, and woven bands join one section to the next. */
+   His own sections sit on a quiet charcoal with soft paper ink and one studio
+   blue taken from the graduation photograph. Each project brings its own
+   world (see work.css); nothing decorative repeats between them. */
 
 .vb {
-  /* Al Sadu: shared colours for every section. Undyed white wool, black goat
-     hair, madder red and natural camel. Bands take their roles from these
-     unless a section sets its own (see sadu.css). */
-  --sadu-red: #9e2a2b;
-  --sadu-red-hi: #d0493d;
-  --sadu-ink: #1c1613;
-  --sadu-ink-2: #2a211c;
-  --sadu-ink-3: #3a2e27;
-  --sadu-wool: #f2eadb;
-  --sadu-wool-2: #e5d8c1;
-  --sadu-wool-muted: #5e4c3f;
-  --sadu-sand: #c8a27a;
-  --sadu-sand-2: #a9805a;
+  /* The house: charcoal, paper ink, studio blue. */
+  --house: #16181d;
+  --house-2: #1e2127;
+  --house-3: #2a2e36;
+  --paper: #f2eee6;
+  --paper-2: #bdb8af;
+  --studio: #5b74b8;
+  --studio-hi: #9db0e4;
 
-  /* Older names, kept so every rule reads from the Sadu colours. */
-  --dusk: var(--sadu-ink);
-  --dusk-2: var(--sadu-ink-2);
-  --dusk-3: var(--sadu-ink-3);
-  --nightfall: var(--sadu-ink-2);
-  --night: var(--sadu-ink);
-  --predawn: var(--sadu-ink-2);
-  --dawn: var(--sadu-wool);
-  --dawn-ink: var(--sadu-ink);
-  --dawn-muted: var(--sadu-wool-muted);
-  --night-2: var(--sadu-ink-2);
-  --night-3: var(--sadu-ink-3);
-  --sand: var(--sadu-wool);
-  --sand-2: #cbbda7;
-  --ember: var(--sadu-sand);
-  --ember-ink: var(--sadu-ink);
+  /* Role names read by every rule, the case pages included. */
+  --dusk: var(--house);
+  --dusk-2: var(--house-2);
+  --dusk-3: var(--house-3);
+  --nightfall: var(--house-2);
+  --night: var(--house);
+  --predawn: var(--house-2);
+  --dawn: var(--paper);
+  --dawn-ink: var(--house);
+  --dawn-muted: #565049;
+  --night-2: var(--house-2);
+  --night-3: var(--house-3);
+  --sand: var(--paper);
+  --sand-2: var(--paper-2);
+  --ember: var(--studio-hi);
+  --ember-ink: var(--house);
   --danger: #ff8a7a;
   --ok: #8fd3a5;
 
-  --display: var(--font-vb-display), "Alexandria", "IBM Plex Sans Arabic", "Segoe UI", sans-serif;
-  --text: var(--font-vb-text), "Readex Pro", "IBM Plex Sans Arabic", "Segoe UI", sans-serif;
+  /* One family in both scripts: IBM Plex Sans for Latin, IBM Plex Sans Arabic for Arabic. */
+  --text: var(--font-plex), var(--font-plex-arabic), "Segoe UI", system-ui, sans-serif;
+  --display: var(--text);
 
   /* Side space; on very wide screens it grows so content stays within 100rem. */
   --gutter: max(clamp(1rem, 4vw, 3.5rem), calc((100vw - 100rem) / 2));
@@ -72,7 +68,7 @@
 }
 
 html:has(.vb) {
-  background: #1c1613;
+  background: #16181d;
   scroll-padding-top: 5rem;
 }
 
@@ -137,7 +133,7 @@ html:has(.vb) {
 .vb [lang="ar"] {
   direction: rtl;
   unicode-bidi: isolate;
-  font-family: var(--display);
+  font-family: var(--font-plex-arabic), var(--text);
   letter-spacing: 0;
 }
 
@@ -369,8 +365,8 @@ html:has(.vb) {
   padding: 0 1.4rem;
   border: 0;
   border-radius: 999px;
-  background: var(--sadu-red);
-  color: var(--sadu-wool);
+  background: var(--paper);
+  color: var(--house);
   cursor: pointer;
   font-family: var(--text);
   font-size: var(--step-body);
@@ -382,7 +378,7 @@ html:has(.vb) {
 }
 
 .vb .vb-btn:hover {
-  background: #b5332f;
+  background: #fffaf1;
 }
 
 .vb-btn:active {
@@ -640,35 +636,30 @@ html:has(.vb) {
   }
 }
 
-/* ---------- Footer: the back wall of the tent ---------- */
+/* ---------- Footer ---------- */
 
 .vb-footer {
-  background: var(--sadu-ink);
-  color: var(--sadu-wool);
-}
-
-.vb-footer-band {
-  --sb-ground: var(--sadu-red);
-  --sb-motif: var(--sadu-ink);
-  --sb-light: var(--sadu-wool);
+  background: var(--house);
+  color: var(--paper);
 }
 
 .vb-footer-body {
-  padding: clamp(2rem, 5vw, 4rem) var(--gutter) 2rem;
+  padding: clamp(2.5rem, 5vw, 4rem) var(--gutter) 2rem;
+  border-top: 1px solid var(--house-3);
 }
 
 .vb-footer-name {
   font-family: var(--display);
   font-size: clamp(1.4rem, 1rem + 1.5vw, 2.2rem);
-  font-weight: 800;
-  line-height: 1.1;
+  font-weight: 700;
+  line-height: 1.15;
   letter-spacing: -0.02em;
 }
 
 .vb-footer-name span[lang="ar"] {
   margin-left: 0.6rem;
-  font-weight: 700;
-  color: var(--sadu-sand);
+  font-weight: 600;
+  color: var(--paper-2);
 }
 
 .vb-footer-grid {
@@ -688,8 +679,9 @@ html:has(.vb) {
 }
 
 .vb-footer-grid a {
-  display: inline-block;
-  padding: 0.6rem 0;
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
   text-decoration: none;
 }
 
@@ -697,18 +689,18 @@ html:has(.vb) {
   text-decoration: underline;
 }
 
+.vb-footer-grid li:not(:has(a)) {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
+  color: var(--paper-2);
+}
+
 .vb-footer-credit {
   max-width: 70ch;
   color: var(--sand-2);
   font-size: var(--step-small);
   line-height: 1.5;
-}
-
-.vb-footer-credit a {
-  display: inline;
-  padding: 0;
-  color: var(--sadu-wool);
-  text-decoration: underline;
 }
 
 @media (min-width: 900px) {
@@ -775,20 +767,6 @@ html:has(.vb) {
 }
 
 .vb-dialog-foot a {
-  text-decoration: underline;
-}
-
-.vb-dialog-step {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-}
-
-.vb-dialog-step button {
-  padding: 0.35rem 0;
-  border: 0;
-  background: none;
-  cursor: pointer;
   text-decoration: underline;
 }
 

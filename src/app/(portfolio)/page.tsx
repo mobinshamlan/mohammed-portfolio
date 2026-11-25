@@ -5,10 +5,8 @@ import { Contact } from "@/components/portfolio/contact";
 import { Covers } from "@/components/portfolio/covers";
 import { Footer } from "@/components/portfolio/footer";
 import { Hero } from "@/components/portfolio/hero";
-import { Journey } from "@/components/portfolio/journey";
 import { Nav } from "@/components/portfolio/nav";
 import { MotionRoot } from "@/components/portfolio/reveal";
-import { SaduBand } from "@/components/portfolio/sadu";
 import { Skills } from "@/components/portfolio/skills";
 
 export const metadata: Metadata = {
@@ -28,15 +26,9 @@ export default function HomePage() {
       <main>
         <Hero />
         <Covers />
-        {/* Woven seams between the personal sections; the sections draw no bands of their own. */}
-        <SaduBand variant="seam" className="vb-seam" />
-        <Journey />
         <About />
-        <SaduBand variant="seam" className="vb-seam" />
         <Skills />
-        <SaduBand variant="seam" className="vb-seam" />
         <Certs />
-        <SaduBand variant="seam" className="vb-seam" />
         <Contact />
       </main>
       <Footer />

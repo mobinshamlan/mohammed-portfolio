@@ -1,27 +1,26 @@
-import { Alexandria, Readex_Pro } from "next/font/google";
+import { IBM_Plex_Sans, IBM_Plex_Sans_Arabic } from "next/font/google";
 import "./styles/base.css";
 import "./styles/home.css";
 import "./styles/case.css";
 import "./styles/demos.css";
-import "./styles/sadu.css";
 import "./styles/journey.css";
 import "./styles/credentials.css";
 
-// The portfolio: one display face and one text face, both Arabic and Latin.
-const display = Alexandria({
-  subsets: ["arabic", "latin"],
-  weight: ["700", "800"],
-  variable: "--font-vb-display",
+// The portfolio is set in one family across both scripts.
+const plex = IBM_Plex_Sans({
+  subsets: ["latin"],
+  weight: "variable",
+  variable: "--font-plex",
   display: "swap",
 });
 
-const text = Readex_Pro({
-  subsets: ["arabic", "latin"],
-  weight: ["400"],
-  variable: "--font-vb-text",
+const plexArabic = IBM_Plex_Sans_Arabic({
+  subsets: ["arabic"],
+  weight: ["400", "600"],
+  variable: "--font-plex-arabic",
   display: "swap",
 });
 
 export default function PortfolioLayout({ children }: LayoutProps<"/">) {
-  return <div className={`vb ${display.variable} ${text.variable}`}>{children}</div>;
+  return <div className={`vb ${plex.variable} ${plexArabic.variable}`}>{children}</div>;
 }
