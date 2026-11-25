@@ -2,52 +2,34 @@ import Image from "next/image";
 import { contact } from "@/lib/contact";
 import { graduation } from "@/lib/portrait";
 import { JumpLink } from "./jump-link";
-import { fieldStyle, projects } from "@/lib/projects";
-
-/** The six products, in the order the Work chapter shows them. */
-const work = projects.filter((project) => project.id !== "experiment");
-
-/** Where each product stands and my role, in a few words, from projects.ts. */
-const glance: Record<string, string> = {
-  naqah: "Live MVP · lead of 3",
-  tammeni: "Live demo · team of 3",
-  seet: "Runs locally · solo",
-  kashta: "Live · solo",
-  amanah: "Live MVP · solo",
-  gthrz: "Open source · solo",
-};
 
 /**
- * The opening is about the person: the name in both scripts on one shared
- * rule, a portrait, one sentence on what he builds, and the way into the work.
+ * The opening is about the person: the name, one line on what he builds, the
+ * way into the work, and the portrait melting into the night behind it.
  */
 export function Hero() {
   return (
     <section id="home" className="vb-open" aria-labelledby="hero-title">
       <div className="vb-open-copy">
         <h1 id="hero-title" className="vb-open-name" data-rise="1">
-          <span className="vb-open-en">
-            <span>Mohammed</span> <span>Bin&nbsp;Shamlan</span>
-          </span>
-          <span className="vb-open-ar" lang="ar" dir="rtl">
-            محمد بن شملان
-          </span>
+          <span>Mohammed</span> <span>Bin&nbsp;Shamlan</span>
         </h1>
 
         <p className="vb-open-lead" data-rise="2">
-          Software developer in Riyadh and a Queen Mary University of London computer science graduate. I build Arabic-first AI for everyday Saudi life: a ranch that phones its owner, school news by call, a planner for a night in the desert.
+          I build Arabic-first AI products for everyday Saudi life.
+        </p>
+
+        <p className="vb-open-meta" data-rise="2">
+          Software developer in Riyadh · Computer Science, Queen Mary University of London, 2026
         </p>
 
         <div className="vb-open-actions" data-rise="3">
           <JumpLink to="work" className="vb-btn">
-            See the six products
+            See my work
           </JumpLink>
-          <JumpLink to="about" className="vb-link">
-            My story
-          </JumpLink>
-          <JumpLink to="contact" className="vb-link">
+          <a href={`mailto:${contact.email}`} className="vb-link">
             Email me
-          </JumpLink>
+          </a>
         </div>
 
         <p className="vb-open-status" data-rise="3">
@@ -57,45 +39,17 @@ export function Hero() {
       </div>
 
       <figure className="vb-open-portrait" data-rise="2">
-        <span className="vb-open-frame">
-          <Image
-            src={graduation.src}
-            alt={graduation.alt}
-            width={graduation.width}
-            height={graduation.height}
-            sizes="(max-width: 899px) 40vw, 30vw"
-            priority
-            className="vb-open-img"
-          />
-        </span>
-        <figcaption>
-          Graduation day, July 2026.{" "}
-          <span lang="ar">لندن ← الرياض</span>
-        </figcaption>
+        <span className="vb-open-glow" aria-hidden="true" />
+        <Image
+          src={graduation.src}
+          alt={graduation.alt}
+          width={graduation.width}
+          height={graduation.height}
+          sizes="(max-width: 899px) 90vw, 40vw"
+          priority
+          className="vb-open-img"
+        />
       </figure>
-
-      <nav className="vb-open-work" aria-label="The six products">
-        <ol className="vb-open-work-list">
-          {work.map((project) => (
-            <li key={project.id} style={fieldStyle(project)}>
-              <JumpLink to={project.id} className="vb-open-tile">
-                <span className="vb-open-swatch" aria-hidden="true" />
-                <span className="vb-open-tile-text">
-                  <span className="vb-open-tile-name">
-                    {project.name}{" "}
-                    {project.arabic ? (
-                      <span className="vb-open-tile-ar" lang="ar">
-                        {project.arabic}
-                      </span>
-                    ) : null}
-                  </span>
-                  <span className="vb-open-tile-glance">{glance[project.id]}</span>
-                </span>
-              </JumpLink>
-            </li>
-          ))}
-        </ol>
-      </nav>
     </section>
   );
 }

@@ -4,17 +4,17 @@ import type { ReactNode } from "react";
 import { gthrzShots } from "@/lib/gthrz";
 import { publicUrl } from "@/lib/site";
 import { fieldStyle, projectById, type Project, type ProjectId } from "@/lib/projects";
-import { SeetChat } from "./artifacts";
-import { CallDemo } from "./call-demo";
-import { AmanahClaimDemo } from "./demos/amanah-claim";
-import { GthrzStatesDemo } from "./demos/gthrz-states";
-import { KashtaScoreDemo } from "./demos/kashta-score";
-import { TammeniScheduleDemo } from "./demos/tammeni-schedule";
 import { DeviceFrame } from "./device-frame";
 import { DocumentViewer } from "./document-viewer";
 import { GthrzImg } from "./gthrz-img";
 import { Reveal } from "./reveal";
-import { SectionTitle } from "./section-title";
+import { NaqahProof } from "./proof/naqah-proof";
+import { TammeniProof } from "./proof/tammeni-proof";
+import { SeetProof } from "./proof/seet-proof";
+import { KashtaProof } from "./proof/kashta-proof";
+import { AmanahProof } from "./proof/amanah-proof";
+import { GthrzProof } from "./proof/gthrz-proof";
+
 import { NaqahScene } from "./scenes/naqah-scene";
 import { TammeniScene } from "./scenes/tammeni-scene";
 import { SeetScene } from "./scenes/seet-scene";
@@ -204,7 +204,7 @@ function Naqah() {
     <Section id="naqah" scene={<NaqahScene />} layout="stage">
       <Head project={project} />
       <div className="vb-proj-art">
-        <CallDemo compact id="naqah-demo" />
+        <NaqahProof />
       </div>
       {project.coverPhone ? (
         <Screen
@@ -227,7 +227,7 @@ function Tammeni() {
     <Section id="tammeni" scene={<TammeniScene />} layout="schedule">
       <Head project={project} />
       <div className="vb-proj-demo">
-        <TammeniScheduleDemo compact />
+        <TammeniProof />
       </div>
       <div className="vb-proj-art vb-proj-phones" aria-hidden="true">
         {phones.map((shot) => (
@@ -262,7 +262,7 @@ function Seet() {
     <Section id="seet" scene={<SeetScene />} layout="masthead">
       <Head project={project} />
       <div className="vb-proj-art">
-        <SeetChat compact />
+        <SeetProof />
       </div>
       <figure className="vb-proj-screen vb-proj-screen-wide">
         <DocumentViewer
@@ -296,7 +296,7 @@ function Kashta() {
     <Section id="kashta" scene={<KashtaScene />} layout="score">
       <Head project={project} />
       <div className="vb-proj-demo">
-        <KashtaScoreDemo compact />
+        <KashtaProof />
       </div>
       {project.coverPhone ? (
         <div className="vb-proj-art" aria-hidden="true">
@@ -317,7 +317,7 @@ function Amanah() {
     <Section id="amanah" scene={<AmanahScene />} layout="views">
       <Head project={project} />
       <div className="vb-proj-demo">
-        <AmanahClaimDemo compact />
+        <AmanahProof />
       </div>
       <div className="vb-proj-art">
         <DeviceFrame
@@ -347,7 +347,7 @@ function Gthrz() {
         ))}
       </div>
       <div className="vb-proj-demo">
-        <GthrzStatesDemo compact />
+        <GthrzProof />
       </div>
       <Foot project={project} idea="The host decides who sees the address, and when." />
     </Section>
@@ -357,17 +357,9 @@ function Gthrz() {
 export function Covers() {
   return (
     <section id="work" className="vb-work" aria-labelledby="work-title">
-      <div className="vb-work-head">
-        <div className="vb-work-intro">
-          <SectionTitle id="work-title" en="Six products." ar="أعمالي" />
-          <Reveal delay={0.1}>
-            <p className="vb-lead vb-work-lead">
-              A ranch, a school, an ads inbox, a desert night, a lost umbrella and a private party.
-              Each one: try the idea, see the real screen, and what I built.
-            </p>
-          </Reveal>
-        </div>
-      </div>
+      <h2 id="work-title" className="vb-sr">
+        Work
+      </h2>
       <Naqah />
       <Tammeni />
       <Seet />

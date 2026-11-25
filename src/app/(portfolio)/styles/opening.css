@@ -1,16 +1,12 @@
-/* ---------- Opening: the name in two scripts, a portrait, the way into the work ---------- */
+/* ---------- Opening: the name, one line, the way in, and the portrait in the night ---------- */
 
 .vb-open {
+  position: relative;
   display: grid;
   grid-template-columns: minmax(0, 1fr);
-  grid-template-areas:
-    "photo"
-    "copy"
-    "work";
-  gap: 2rem;
-  padding: clamp(1.5rem, 3.5vw, 3rem) var(--gutter) clamp(2.5rem, 5vw, 4rem);
+  overflow: hidden;
   background:
-    radial-gradient(56rem 34rem at 82% 30%, rgba(95, 137, 179, 0.22), transparent 70%),
+    radial-gradient(48rem 36rem at 78% 55%, rgba(77, 115, 188, 0.28), transparent 70%),
     var(--dusk);
   scroll-margin-top: 5rem;
 }
@@ -20,56 +16,43 @@
 }
 
 .vb-open-copy {
-  grid-area: copy;
+  position: relative;
+  z-index: 1;
   display: flex;
   flex-direction: column;
   gap: 1.25rem;
-  container-type: inline-size;
+  padding: clamp(2rem, 6vw, 5rem) var(--gutter);
 }
 
-/* English and Arabic share the block: the Latin name on two lines,
-   the Arabic name on a rule beneath it, set from the right edge. */
 .vb-open-name {
-  display: grid;
-  gap: 0.2em;
   margin: 0;
   font-family: var(--display);
   font-weight: 800;
-  font-size: clamp(3rem, 14cqi, 7.5rem);
-  line-height: 0.92;
-  letter-spacing: -0.045em;
+  font-size: clamp(3.25rem, 1.2rem + 7.2vw, 8rem);
+  line-height: 0.9;
+  letter-spacing: -0.04em;
 }
 
-.vb-open-en > span {
+.vb-open-name > span {
   display: block;
 }
 
-.vb-open-ar {
-  display: flex;
-  align-items: center;
-  gap: 0.35em;
-  font-size: 0.5em;
-  font-weight: 700;
-  line-height: 1.5;
-  letter-spacing: 0;
-  color: var(--ember);
-}
-
-/* In right-to-left flow ::after sits to the left of the name: the shared rule. */
-.vb-open-ar::after {
-  content: "";
-  flex: 1 1 auto;
-  height: 2px;
-  margin-top: 0.15em;
-  background: var(--ribbon);
-  opacity: 0.8;
-}
-
 .vb-open-lead {
-  max-width: 38ch;
-  font-size: var(--step-lead);
-  line-height: 1.35;
-  text-wrap: pretty;
+  max-width: 22ch;
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: clamp(1.35rem, 1rem + 1.4vw, 2.1rem);
+  line-height: 1.2;
+  letter-spacing: -0.015em;
+  color: var(--ember);
+  text-wrap: balance;
+}
+
+.vb-open-meta {
+  max-width: 44ch;
+  color: var(--sand-2);
+  font-size: var(--step-small);
+  line-height: 1.5;
 }
 
 .vb-open-actions {
@@ -77,13 +60,13 @@
   flex-wrap: wrap;
   align-items: center;
   gap: 0.75rem 1.5rem;
-  margin-top: 0.25rem;
+  margin-top: 0.5rem;
 }
 
 .vb-open-actions .vb-link {
-  min-height: 2.75rem;
   display: inline-flex;
   align-items: center;
+  min-height: 2.75rem;
 }
 
 .vb-open-status {
@@ -100,206 +83,94 @@
   height: 0.6rem;
   border-radius: 50%;
   background: var(--ok);
+  box-shadow: 0 0 0 0.25rem rgba(143, 211, 165, 0.15);
 }
 
-/* The portrait: cropped to the face and shoulders, on the backdrop's own blue. */
+/* The portrait has no frame: its own blue backdrop fades into the page,
+   lit from behind by the hood's blue. */
 .vb-open-portrait {
-  grid-area: photo;
-  display: grid;
-  gap: 0.75rem;
-  margin: 0;
-  align-self: start;
-}
-
-.vb-open-frame {
   position: relative;
-  display: block;
-  aspect-ratio: 4 / 5;
-  overflow: hidden;
-  border-radius: 1.25rem;
-  background: #4a6c9c;
-  box-shadow: 0 0 0 1px rgba(134, 169, 245, 0.25), 0 2rem 4rem -1.5rem rgba(0, 0, 0, 0.6);
+  margin: 0;
+  pointer-events: none;
 }
 
 .vb-open-img {
+  position: relative;
   display: block;
   width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transform: scale(1.75);
-  transform-origin: 50% 27%;
+  height: auto;
+  /* One soft oval around the figure: the studio backdrop's edges dissolve into the night. */
+  mask-image: radial-gradient(ellipse 50% 56% at 50% 42%, #000 42%, transparent 100%);
+  filter: saturate(1.05) contrast(1.03);
 }
 
-.vb-open-portrait figcaption {
-  color: var(--sand-2);
-  font-size: 0.875rem;
-  line-height: 1.45;
+.vb-open-glow {
+  position: absolute;
+  inset: 8% 10% 20%;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(134, 169, 245, 0.45), transparent);
+  filter: blur(2.5rem);
 }
 
-.vb-open-portrait figcaption span {
-  display: block;
-  margin-top: 0.15rem;
-  color: var(--ember);
+@media (prefers-reduced-motion: no-preference) {
+  .vb[data-motion="on"] .vb-open-glow {
+    animation: vb-open-breathe 7s var(--ease-soft) infinite alternate;
+  }
+  .vb[data-motion="on"] .vb-open-img {
+    animation: vb-open-in 1.4s var(--ease-expo) both;
+  }
 }
 
-/* The six products as one line of links, each with its field colour. */
-.vb-open-work {
-  grid-area: work;
-  border-top: 1px solid color-mix(in srgb, var(--sand) 14%, transparent);
-  padding-top: 1rem;
+@keyframes vb-open-breathe {
+  from {
+    opacity: 0.65;
+    transform: scale(0.94);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1.04);
+  }
 }
 
-.vb-open-work-list {
-  display: grid;
-  grid-template-columns: repeat(6, minmax(0, 1fr));
-  gap: 0.5rem;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.vb .vb-open-tile {
-  display: flex;
-  align-items: flex-start;
-  gap: 0.6rem;
-  min-height: 2.75rem;
-  padding: 0.35rem 0.5rem;
-  border-radius: 0.6rem;
-  color: var(--sand);
-  text-decoration: none;
-  transition: background-color var(--t-hover) ease;
-}
-
-.vb .vb-open-tile:hover {
-  background: color-mix(in srgb, var(--sand) 8%, transparent);
-}
-
-.vb-open-swatch {
-  flex: none;
-  width: 0.9rem;
-  height: 0.9rem;
-  border-radius: 0.25rem;
-  background: var(--field);
-  box-shadow: 0 0 0 1px color-mix(in srgb, var(--sand) 25%, transparent);
-}
-
-.vb-open-tile-name {
-  font-family: var(--display);
-  font-weight: 700;
-  font-size: 1.05rem;
-}
-
-.vb-open-tile-text {
-  display: grid;
-  min-width: 0;
-}
-
-.vb-open-tile-glance {
-  color: var(--sand-2);
-  font-size: 0.8125rem;
-  line-height: 1.35;
-}
-
-.vb-open-swatch {
-  margin-top: 0.3rem;
-}
-
-.vb-open-tile-ar {
-  margin-inline-start: 0.4rem;
-  color: var(--sand-2);
-  font-size: 0.95rem;
+@keyframes vb-open-in {
+  from {
+    opacity: 0;
+    transform: translateY(2rem) scale(1.03);
+  }
 }
 
 @media (min-width: 900px) {
   .vb-open {
-    grid-template-columns: minmax(0, 8fr) minmax(0, 4fr);
-    grid-template-areas:
-      "copy photo"
-      "work work";
-    column-gap: clamp(2rem, 6vw, 6.5rem);
-    row-gap: clamp(1.75rem, 3vw, 2.5rem);
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
     align-items: center;
     min-height: calc(100svh - var(--nav-h));
-    align-content: center;
-  }
-  .vb-open-portrait {
-    align-self: center;
-    max-width: 22rem;
-    justify-self: end;
-    width: 100%;
-  }
-}
-
-/* Phones: the portrait and its caption, the name, one sentence, the actions, then the six products. */
-@media (max-width: 899px) {
-  .vb-open {
-    grid-template-columns: 4.5rem minmax(0, 1fr);
-    grid-template-areas:
-      "name name"
-      "lead lead"
-      "photo photo"
-      "actions actions"
-      "work work"
-      "status status";
-    gap: 0.85rem;
-    padding-top: 1rem;
-    padding-bottom: 2rem;
   }
   .vb-open-copy {
-    display: contents;
-  }
-  .vb-open-name {
-    grid-area: name;
-    font-size: clamp(2.6rem, 15vw, 4.5rem);
-  }
-  .vb-open-lead {
-    grid-area: lead;
-    font-size: 1.1rem;
-  }
-  .vb-open-actions {
-    grid-area: actions;
-    gap: 0.5rem 1.25rem;
-  }
-  /* Phones keep the work and the email; the story is one tap down the page. */
-  .vb-open-actions .vb-link:nth-child(2) {
-    display: none;
-  }
-  .vb-open-status {
-    grid-area: status;
+    padding-right: 0;
   }
   .vb-open-portrait {
-    grid-template-columns: 4.5rem minmax(0, 1fr);
-    align-items: center;
-    gap: 0.9rem;
-  }
-  .vb-open-frame {
-    aspect-ratio: 1;
-    border-radius: 0.9rem;
-  }
-  .vb-open-img {
-    transform: scale(2.3);
-    transform-origin: 50% 27%;
-  }
-  .vb-open-portrait figcaption {
-    font-size: 0.875rem;
-  }
-  .vb-open-work-list {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 0 0.75rem;
-  }
-  .vb-open-tile-ar {
-    display: none;
-  }
-  .vb .vb-open-tile {
-    padding-inline: 0.25rem;
-  }
-  .vb-open-tile-name {
-    font-size: 0.95rem;
+    align-self: end;
+    width: min(100%, 34rem);
+    justify-self: end;
+    margin-right: var(--gutter);
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .vb .vb-open-tile {
-    transition: none;
+/* Phones: the portrait first, melting into the page, the name rising over its foot. */
+@media (max-width: 899px) {
+  .vb-open-portrait {
+    order: -1;
+    width: min(78%, 22rem);
+    justify-self: center;
+    margin-top: 0.5rem;
+  }
+  .vb-open-copy {
+    margin-top: -4.5rem;
+    gap: 1rem;
+    padding-top: 0;
+    padding-bottom: 2.5rem;
+  }
+  .vb-open-name {
+    font-size: clamp(2.9rem, 15vw, 4.5rem);
   }
 }
