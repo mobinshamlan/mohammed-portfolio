@@ -5,10 +5,9 @@ import { useRef, useState } from "react";
 import { artists } from "@/lib/music";
 import { useHydrated } from "@/lib/use-hydrated";
 
-const COLUMNS = 6;
 const tones = ["paper", "rose", "ink", "beige"] as const;
 
-/** The artists as a shelf of records. Pick one to set it spinning. */
+/** The artists as a strip of records. Pick one to set it spinning. */
 export function MusicShelf() {
   const [playing, setPlaying] = useState<number | null>(null);
   const [focus, setFocus] = useState(0);
@@ -25,8 +24,8 @@ export function MusicShelf() {
     const moves: Record<string, number> = {
       ArrowRight: index + 1,
       ArrowLeft: index - 1,
-      ArrowDown: index + COLUMNS,
-      ArrowUp: index - COLUMNS,
+      ArrowDown: index + 1,
+      ArrowUp: index - 1,
       Home: 0,
       End: artists.length - 1,
     };
@@ -62,7 +61,7 @@ export function MusicShelf() {
                 onKeyDown={(event) => onKeyDown(event, index)}
               >
                 {artist.image ? (
-                  <Image src={artist.image.src} alt="" fill sizes="120px" className="vb-mu-photo" />
+                  <Image src={artist.image.src} alt="" fill sizes="88px" className="vb-mu-photo" />
                 ) : null}
                 <span className="vb-mu-sheen" aria-hidden="true" />
                 <span className="vb-mu-name">{artist.name}</span>
@@ -74,7 +73,7 @@ export function MusicShelf() {
                 data-photo={artist.image ? "true" : undefined}
               >
                 {artist.image ? (
-                  <Image src={artist.image.src} alt="" fill sizes="120px" className="vb-mu-photo" />
+                  <Image src={artist.image.src} alt="" fill sizes="88px" className="vb-mu-photo" />
                 ) : null}
                 <span className="vb-mu-sheen" aria-hidden="true" />
                 <span className="vb-mu-name">{artist.name}</span>
