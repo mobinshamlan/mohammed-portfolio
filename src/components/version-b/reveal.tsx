@@ -1,10 +1,12 @@
 "use client";
 
-import { motion, useReducedMotion } from "motion/react";
-import type { ReactNode } from "react";
+import { useEffect, useRef, type ReactNode } from "react";
 
-const ease = [0.16, 1, 0.3, 1] as const;
-
+/**
+ * Content is visible in the static HTML. Once JavaScript runs, the root gets
+ * data-motion="on" (see MotionRoot) and elements that have not yet entered the
+ * viewport start hidden; they rise when they enter. Reduced motion: no move.
+ */
 export function Reveal({
   children,
   className,
@@ -14,41 +16,56 @@ export function Reveal({
   className?: string;
   delay?: number;
 }) {
-  const reduceMotion = useReducedMotion();
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const node = ref.current;
+    if (!node) {
+      return;
+    }
+    const rect = node.getBoundingClientRect();
+    if (rect.top < window.innerHeight * 0.95) {
+      node.dataset.in = "true";
+      return;
+    }
+    node.dataset.wait = "true";
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            node.dataset.in = "true";
+            observer.disconnect();
+          }
+        });
+      },
+      { rootMargin: "0px 0px -8% 0px" },
+    );
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, []);
 
   return (
-    <motion.div
+    <div
+      ref={ref}
       className={`vb-reveal${className ? ` ${className}` : ""}`}
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.2 }}
-      transition={
-        reduceMotion ? { duration: 0 } : { duration: 0.7, delay, ease }
-      }
+      style={delay ? { transitionDelay: `${delay}s` } : undefined}
     >
       {children}
-    </motion.div>
+    </div>
   );
 }
 
-export function ImageReveal({
-  children,
-  className,
-}: {
-  children: ReactNode;
-  className?: string;
-}) {
-  const reduceMotion = useReducedMotion();
-
-  return (
-    <motion.div
-      className={`vb-image-reveal${className ? ` ${className}` : ""}`}
-      initial={{ opacity: 0, y: 16 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.2 }}
-      transition={reduceMotion ? { duration: 0 } : { duration: 0.7, ease }}
-    >
-      {children}
-    </motion.div>
-  );
+/** Marks the page as motion-capable after mount, so no-JS visitors see everything. */
+export function MotionRoot() {
+  useEffect(() => {
+    const root = document.querySelector<HTMLElement>(".vb");
+    if (!root) {
+      return;
+    }
+    root.dataset.motion = "on";
+    requestAnimationFrame(() => {
+      root.dataset.loaded = "true";
+    });
+  }, []);
+  return null;
 }

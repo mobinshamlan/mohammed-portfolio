@@ -10,8 +10,8 @@ import { publicUrl } from "@/lib/site";
 export const portrait = {
   src: publicUrl("/images/graduation/graduation.jpg"),
   alt: "Mohammed in graduation gown and cap, holding a rolled certificate.",
-  width: 2848,
-  height: 4288,
+  width: 930,
+  height: 1400,
   position: "50% 0%",
   duotone: true,
 } as const;
@@ -20,8 +20,8 @@ export const portrait = {
 export const graduation = {
   src: publicUrl("/images/graduation/graduation.jpg"),
   alt: "Mohammed Bin Shamlan in graduation dress, holding a diploma.",
-  width: 2848,
-  height: 4288,
+  width: 930,
+  height: 1400,
   position: "50% 20%",
 } as const;
 
@@ -30,7 +30,7 @@ export const childhood = {
   src: publicUrl("/images/childhood/childhood.jpg"),
   alt: "Mohammed as a child, wearing a white thobe and a red-and-white shemagh with a black agal.",
   width: 900,
-  height: 1125,
+  height: 1124,
 } as const;
 
 /**

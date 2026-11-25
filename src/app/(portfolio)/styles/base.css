@@ -1,0 +1,750 @@
+/* Version B: tokens, frame, navigation, buttons, footer, dialogs.
+   One ground (night), one ink (moonlit sand), one accent (ember).
+   Each project brings its own flat field colour on its cover. */
+
+.vb {
+  --night: #0b0e14;
+  --night-2: #131823;
+  --night-3: #1c2231;
+  --sand: #efe6d3;
+  --sand-2: #b9b0a0;
+  --ember: #e9a24a;
+  --ember-ink: #1a1206;
+  --danger: #ff8a7a;
+  --ok: #8fd3a5;
+
+  --display: var(--font-vb-display), "Alexandria", "IBM Plex Sans Arabic", "Segoe UI", sans-serif;
+  --text: var(--font-vb-text), "Readex Pro", "IBM Plex Sans Arabic", "Segoe UI", sans-serif;
+
+  --gutter: clamp(1rem, 4vw, 3.5rem);
+  --measure: 62ch;
+  --nav-h: 4.25rem;
+
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-soft: cubic-bezier(0.33, 1, 0.68, 1);
+  --t-hover: 180ms;
+  --t-ui: 240ms;
+  --t-reveal: 800ms;
+
+  --step-small: 0.9375rem;
+  --step-body: clamp(1.0625rem, 1rem + 0.3vw, 1.2rem);
+  --step-lead: clamp(1.25rem, 1.05rem + 0.9vw, 1.75rem);
+  --step-head: clamp(2rem, 1.3rem + 3.4vw, 4.25rem);
+  --step-display: clamp(3rem, 1.5rem + 8vw, 8.5rem);
+
+  min-height: 100dvh;
+  background: var(--night);
+  color: var(--sand);
+  font-family: var(--text);
+  font-size: var(--step-body);
+  line-height: 1.55;
+  overflow-x: clip;
+  color-scheme: dark;
+  -webkit-font-smoothing: antialiased;
+}
+
+html:has(.vb) {
+  background: #0b0e14;
+  scroll-padding-top: 5rem;
+}
+
+.vb *,
+.vb *::before,
+.vb *::after {
+  box-sizing: border-box;
+}
+
+.vb ::selection {
+  background: var(--ember);
+  color: var(--ember-ink);
+}
+
+.vb :focus-visible {
+  outline: 2px solid var(--ember);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+.vb img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+.vb p {
+  margin: 0;
+}
+
+.vb h1,
+.vb h2,
+.vb h3 {
+  margin: 0;
+  font-family: var(--display);
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  line-height: 0.98;
+  text-wrap: balance;
+}
+
+:where(.vb) a {
+  color: inherit;
+  text-underline-offset: 0.18em;
+  text-decoration-thickness: 1px;
+}
+
+.vb button {
+  font: inherit;
+  color: inherit;
+}
+
+/* Arabic runs. */
+.vb [lang="ar"] {
+  direction: rtl;
+  unicode-bidi: isolate;
+  font-family: var(--display);
+  letter-spacing: 0;
+}
+
+.vb-skip {
+  position: absolute;
+  left: var(--gutter);
+  top: 0.75rem;
+  z-index: 60;
+  padding: 0.6rem 0.9rem;
+  background: var(--ember);
+  color: var(--ember-ink);
+  font-weight: 500;
+  text-decoration: none;
+  transform: translateY(-200%);
+}
+
+.vb-skip:focus {
+  transform: none;
+}
+
+/* ---------- Navigation ---------- */
+
+.vb-nav {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  display: flex;
+  min-height: var(--nav-h);
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0 var(--gutter);
+  background: var(--night);
+  color: var(--sand);
+}
+
+.vb-nav[data-tone="light"] {
+  background: var(--field, var(--night));
+  color: var(--field-ink, var(--sand));
+}
+
+.vb-brand {
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem;
+  min-width: 0;
+}
+
+.vb-wordmark {
+  display: inline-block;
+  padding: 0.5rem 0;
+  font-family: var(--display);
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.vb-wordmark span[lang="ar"] {
+  margin-left: 0.75rem;
+  font-weight: 500;
+  opacity: 0.75;
+}
+
+.vb-nav-links {
+  display: none;
+  align-items: center;
+  gap: 1.75rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: var(--step-small);
+}
+
+.vb-nav-links a {
+  display: inline-block;
+  padding: 0.6rem 0;
+  text-decoration: none;
+  opacity: 0.8;
+  transition: opacity var(--t-hover) ease;
+}
+
+.vb-nav-links a:hover,
+.vb-nav-links a[aria-current="page"] {
+  opacity: 1;
+  text-decoration: underline;
+}
+
+.vb-nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.vb-nav-back {
+  display: none;
+  padding: 0.6rem 0;
+  font-size: var(--step-small);
+  opacity: 0.7;
+  text-decoration: none;
+}
+
+.vb-nav-back:hover {
+  opacity: 1;
+  text-decoration: underline;
+}
+
+.vb-menu-toggle {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
+  padding: 0 0.9rem;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  font-size: var(--step-small);
+  font-weight: 500;
+  background: color-mix(in srgb, currentColor 12%, transparent);
+}
+
+.vb-menu {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  width: 100vw;
+  max-width: none;
+  height: 100dvh;
+  max-height: none;
+  margin: 0;
+  padding: 0 var(--gutter) 2rem;
+  border: 0;
+  background: var(--night);
+  color: var(--sand);
+}
+
+.vb-menu[open] {
+  display: flex;
+  flex-direction: column;
+}
+
+.vb-menu::backdrop {
+  background: transparent;
+}
+
+.vb-menu-head {
+  display: flex;
+  min-height: var(--nav-h);
+  align-items: center;
+  justify-content: space-between;
+}
+
+.vb-menu-list {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.75rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.vb-menu-list a {
+  display: block;
+  font-family: var(--display);
+  font-size: clamp(2.4rem, 11vw, 3.6rem);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  text-decoration: none;
+}
+
+.vb-menu-list a[aria-current="page"] {
+  color: var(--ember);
+}
+
+.vb-menu-foot {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+  font-size: var(--step-small);
+}
+
+@media (max-width: 599px) {
+  .vb-wordmark span[lang="ar"] {
+    display: none;
+  }
+}
+
+@media (min-width: 900px) {
+  .vb-nav-links {
+    display: flex;
+  }
+  .vb-nav-back {
+    display: inline;
+  }
+  .vb-menu-toggle {
+    display: none;
+  }
+}
+
+/* ---------- Buttons and links ---------- */
+
+.vb .vb-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 3rem;
+  padding: 0 1.4rem;
+  border: 0;
+  border-radius: 999px;
+  background: var(--ember);
+  color: var(--ember-ink);
+  cursor: pointer;
+  font-family: var(--text);
+  font-size: var(--step-body);
+  font-weight: 500;
+  text-decoration: none;
+  transition:
+    transform var(--t-hover) var(--ease-out),
+    background-color var(--t-hover) ease;
+}
+
+.vb .vb-btn:hover {
+  background: #f3b161;
+}
+
+.vb-btn:active {
+  transform: scale(0.97);
+}
+
+.vb .vb-btn-quiet {
+  background: color-mix(in srgb, currentColor 12%, transparent);
+  color: inherit;
+}
+
+.vb .vb-btn-quiet:hover {
+  background: color-mix(in srgb, currentColor 20%, transparent);
+}
+
+.vb .vb-btn-field {
+  background: var(--field-ink);
+  color: var(--field);
+}
+
+.vb .vb-btn-field:hover {
+  background: color-mix(in srgb, var(--field-ink) 85%, var(--field));
+}
+
+.vb .vb-link {
+  display: inline-flex;
+  min-height: 2.75rem;
+  align-items: center;
+  gap: 0.35rem;
+  font-weight: 500;
+  text-decoration: underline;
+  text-underline-offset: 0.22em;
+}
+
+.vb-link:hover {
+  text-decoration-thickness: 2px;
+}
+
+/* ---------- Section frame ---------- */
+
+.vb-section {
+  padding: clamp(5rem, 12vw, 11rem) var(--gutter);
+  scroll-margin-top: 4rem;
+}
+
+.vb-section-head {
+  max-width: 24ch;
+  font-size: var(--step-head);
+}
+
+.vb-lead {
+  max-width: var(--measure);
+  font-size: var(--step-lead);
+  line-height: 1.35;
+  text-wrap: pretty;
+}
+
+.vb-muted {
+  color: var(--sand-2);
+}
+
+/* Entrances exist only once JavaScript has marked the page as motion-capable.
+   Static HTML shows everything. */
+.vb[data-motion="on"] .vb-reveal[data-wait="true"] {
+  opacity: 0;
+  transform: translateY(22px);
+}
+
+.vb[data-motion="on"] .vb-reveal[data-in="true"] {
+  opacity: 1;
+  transform: none;
+  transition:
+    opacity var(--t-reveal) var(--ease-expo),
+    transform var(--t-reveal) var(--ease-expo);
+}
+
+.vb[data-motion="on"]:not([data-loaded="true"]) [data-rise] {
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.vb[data-motion="on"][data-loaded="true"] [data-rise] {
+  opacity: 1;
+  transform: none;
+  transition:
+    opacity 0.9s var(--ease-expo),
+    transform 0.9s var(--ease-expo);
+}
+
+.vb[data-motion="on"] [data-rise="2"] { transition-delay: 0.1s; }
+.vb[data-motion="on"] [data-rise="3"] { transition-delay: 0.18s; }
+.vb[data-motion="on"] [data-rise="4"] { transition-delay: 0.26s; }
+.vb[data-motion="on"] [data-rise="5"] { transition-delay: 0.34s; }
+.vb[data-motion="on"] [data-rise="6"] { transition-delay: 0.45s; }
+
+.vb[data-motion="on"]:not([data-loaded="true"]) [data-open] {
+  clip-path: inset(0 0 100% 0);
+}
+
+.vb[data-motion="on"][data-loaded="true"] [data-open] {
+  clip-path: inset(0 0 0 0);
+  transition: clip-path 1.3s var(--ease-expo);
+}
+
+/* Status chip next to a project's first action. */
+.vb-chip {
+  display: inline-flex;
+  align-items: center;
+  min-height: 1.9rem;
+  padding: 0.15rem 0.7rem;
+  border-radius: 999px;
+  background: color-mix(in srgb, currentColor 14%, transparent);
+  font-size: var(--step-small);
+  font-weight: 500;
+  line-height: 1.3;
+}
+
+/* Collapsible personal sections. */
+.vb-details-summary {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  min-height: 2.75rem;
+  cursor: pointer;
+  font-family: var(--display);
+  font-size: var(--step-lead);
+  font-weight: 700;
+  list-style: none;
+}
+
+.vb-details-summary::-webkit-details-marker {
+  display: none;
+}
+
+.vb-details-summary::before {
+  content: "";
+  width: 0.55rem;
+  height: 0.55rem;
+  flex: none;
+  border-right: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  transform: rotate(-45deg);
+  transition: transform var(--t-ui) var(--ease-out);
+}
+
+.vb-details[open] > .vb-details-summary::before {
+  transform: rotate(45deg);
+}
+
+.vb-details-body {
+  padding-top: 1.25rem;
+}
+
+/* Jump to: Cmd/Ctrl+K or "/" */
+.vb-jump-open {
+  display: none;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 2.75rem;
+  padding: 0 0.9rem;
+  border: 0;
+  border-radius: 999px;
+  background: color-mix(in srgb, currentColor 12%, transparent);
+  color: inherit;
+  cursor: pointer;
+  font-size: var(--step-small);
+  font-weight: 500;
+}
+
+.vb-jump-open kbd {
+  font-family: var(--text);
+  font-size: 0.8125rem;
+  opacity: 0.7;
+}
+
+.vb-jump {
+  width: min(94vw, 34rem);
+  margin: 10vh auto;
+  padding: 0;
+  border: 0;
+  border-radius: 0.75rem;
+  background: var(--night-2);
+  color: var(--sand);
+}
+
+.vb-jump::backdrop {
+  background: rgba(4, 6, 10, 0.7);
+}
+
+.vb-jump-body {
+  display: grid;
+  gap: 0.75rem;
+  padding: 1.25rem;
+}
+
+.vb-jump-label {
+  font-family: var(--display);
+  font-weight: 700;
+}
+
+.vb-jump-input {
+  width: 100%;
+  padding: 0.8rem 0.9rem;
+  border: 1px solid var(--night-3);
+  border-radius: 0.4rem;
+  background: var(--night);
+  color: var(--sand);
+  font: inherit;
+}
+
+.vb-jump-input:focus-visible {
+  outline: 2px solid var(--ember);
+  outline-offset: 0;
+}
+
+.vb-jump-list {
+  display: grid;
+  gap: 0.15rem;
+  max-height: 50vh;
+  margin: 0;
+  padding: 0;
+  overflow-y: auto;
+  list-style: none;
+}
+
+.vb-jump-item {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.25rem 1rem;
+  min-height: 2.75rem;
+  padding: 0.6rem 0.8rem;
+  border-radius: 0.4rem;
+  cursor: pointer;
+}
+
+.vb-jump-item[aria-selected="true"] {
+  background: var(--ember);
+  color: var(--ember-ink);
+}
+
+.vb-jump-name {
+  font-weight: 500;
+}
+
+.vb-jump-hint,
+.vb-jump-foot,
+.vb-jump-empty {
+  font-size: var(--step-small);
+  opacity: 0.8;
+}
+
+@media (min-width: 900px) {
+  .vb-jump-open {
+    display: inline-flex;
+  }
+}
+
+/* ---------- Footer ---------- */
+
+.vb-footer {
+  padding: clamp(4rem, 8vw, 7rem) var(--gutter) 2rem;
+  background: var(--night-2);
+  color: var(--sand);
+}
+
+.vb-footer-name {
+  font-family: var(--display);
+  max-width: 9ch;
+  font-size: clamp(2.6rem, 1rem + 9vw, 8.5rem);
+  font-weight: 800;
+  line-height: 0.9;
+  letter-spacing: -0.04em;
+  text-wrap: balance;
+}
+
+.vb-footer-arabic {
+  margin-top: 0.75rem;
+  font-size: clamp(1.4rem, 1rem + 2vw, 3rem);
+  font-weight: 500;
+  color: var(--sand-2);
+  text-align: left;
+}
+
+.vb-footer-grid {
+  display: grid;
+  gap: 2rem;
+  margin-top: 3rem;
+  font-size: var(--step-small);
+}
+
+.vb-footer-grid ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 1.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.vb-footer-grid a {
+  display: inline-block;
+  padding: 0.6rem 0;
+  text-decoration: none;
+}
+
+.vb-footer-grid a:hover {
+  text-decoration: underline;
+}
+
+.vb-footer-credit {
+  max-width: 70ch;
+  color: var(--sand-2);
+  font-size: var(--step-small);
+  line-height: 1.5;
+}
+
+.vb-footer-credit a {
+  text-decoration: underline;
+}
+
+@media (min-width: 900px) {
+  .vb-footer-grid {
+    grid-template-columns: 1fr 1fr 1.4fr;
+    align-items: start;
+  }
+}
+
+/* ---------- Dialogs ---------- */
+
+.vb-dialog {
+  width: min(96vw, 1040px);
+  max-height: 94dvh;
+  padding: 0;
+  border: 0;
+  border-radius: 0.75rem;
+  background: var(--night-2);
+  color: var(--sand);
+}
+
+.vb-dialog::backdrop {
+  background: rgba(4, 6, 10, 0.78);
+}
+
+.vb-dialog-body {
+  display: flex;
+  max-height: 94dvh;
+  flex-direction: column;
+}
+
+.vb-dialog-head,
+.vb-dialog-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem 1.25rem;
+}
+
+.vb-dialog-head h3 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  letter-spacing: 0;
+  line-height: 1.3;
+}
+
+.vb-dialog-head p {
+  color: var(--sand-2);
+  font-size: var(--step-small);
+}
+
+.vb-dialog-img {
+  width: 100%;
+  height: auto;
+  max-height: 70dvh;
+  object-fit: contain;
+  background: #000;
+}
+
+.vb-dialog-foot {
+  font-size: var(--step-small);
+}
+
+.vb-dialog-foot a {
+  text-decoration: underline;
+}
+
+.vb-dialog-step {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.vb-dialog-step button {
+  padding: 0.35rem 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vb *,
+  .vb *::before,
+  .vb *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .vb-reveal,
+  .vb-image-reveal {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}

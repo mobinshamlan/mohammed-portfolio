@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { certificates, type Certificate } from "@/lib/certificates";
 import { publicUrl } from "@/lib/site";
+import { Collapsible } from "./collapsible";
 import { Reveal } from "./reveal";
 
 const previewable = certificates.filter((item) => item.image);
@@ -15,14 +16,13 @@ function meta(item: Certificate) {
 }
 
 export function VersionBCerts() {
-  const [hover, setHover] = useState<string | null>(null);
+  const [hover, setHover] = useState<string | null>(previewable[0]?.id ?? null);
   const [openId, setOpenId] = useState<string | null>(null);
-  const [slide, setSlide] = useState(0);
   const dialog = useRef<HTMLDialogElement>(null);
-  const rail = useRef<HTMLDivElement>(null);
 
   const openIndex = previewable.findIndex((item) => item.id === openId);
   const current = openIndex >= 0 ? previewable[openIndex] : null;
+  const shown = previewable.find((item) => item.id === hover) ?? previewable[0];
 
   useEffect(() => {
     const node = dialog.current;
@@ -44,34 +44,9 @@ export function VersionBCerts() {
     };
   }, [openId]);
 
-  // Keep the "1 of N" counter in step with the swipe row on phones.
-  useEffect(() => {
-    const track = rail.current;
-    if (!track) {
-      return;
-    }
-    const slides = Array.from(
-      track.querySelectorAll<HTMLElement>("[data-slide]"),
-    );
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setSlide(slides.indexOf(entry.target as HTMLElement));
-          }
-        });
-      },
-      { root: track, threshold: 0.6 },
-    );
-    slides.forEach((node) => observer.observe(node));
-    return () => observer.disconnect();
-  }, []);
-
   function step(direction: 1 | -1) {
     const next =
-      previewable[
-        (openIndex + direction + previewable.length) % previewable.length
-      ];
+      previewable[(openIndex + direction + previewable.length) % previewable.length];
     setOpenId(next.id);
   }
 
@@ -85,128 +60,65 @@ export function VersionBCerts() {
   }
 
   return (
-    <section id="certifications" className="vb-cf" aria-labelledby="cf-title">
-      <div className="vb-cf-side">
+    <section id="certificates" className="vb-certs" aria-labelledby="certs-title">
+      <div className="vb-certs-side">
         <Reveal>
-          <p className="vb-kicker">05 / Certifications</p>
-          <h2 id="cf-title" className="vb-cf-title">
-            Beyond the classroom.
+          <h2 id="certs-title" className="vb-section-head">
+            Beyond the degree.
           </h2>
         </Reveal>
-
-        <ol className="vb-cf-index">
+        <Collapsible summary={<span className="vb-certs-summary">All five certificates</span>}>
+        <ul className="vb-certs-list">
           {certificates.map((item) => (
-            <li key={item.id} data-active={hover === item.id}>
-              {item.image ? (
-                <button
-                  type="button"
-                  className="vb-cf-row"
-                  onMouseEnter={() => setHover(item.id)}
-                  onMouseLeave={() => setHover(null)}
-                  onFocus={() => setHover(item.id)}
-                  onBlur={() => setHover(null)}
-                  onClick={() => setOpenId(item.id)}
-                >
-                  <span className="vb-cf-num">{item.id}</span>
-                  <span className="vb-cf-text">
-                    <span className="vb-cf-name">{item.name}</span>
-                    <span className="vb-cf-meta">{meta(item)}</span>
-                    {item.note ? (
-                      <span className="vb-cf-note">{item.note}</span>
-                    ) : null}
-                  </span>
-                  <span className="vb-cf-open" aria-hidden="true">
-                    View
-                  </span>
-                </button>
-              ) : (
-                <div className="vb-cf-row vb-cf-row-static">
-                  <span className="vb-cf-num">{item.id}</span>
-                  <span className="vb-cf-text">
-                    <span className="vb-cf-name">{item.name}</span>
-                    <span className="vb-cf-meta">{meta(item)}</span>
-                    {item.note ? (
-                      <span className="vb-cf-note">{item.note}</span>
-                    ) : null}
-                  </span>
-                </div>
-              )}
-            </li>
-          ))}
-        </ol>
-        <p className="vb-cf-aside">
-          Separately, I volunteered at the Language Intelligence Conference
-          2026, held at the Saudi Cultural Bureau in London. There is no
-          certificate for this.
-        </p>
-      </div>
-
-      <div className="vb-cf-stage" data-hover={hover ? "true" : undefined}>
-        {previewable.map((item, index) => (
-          <button
-            key={item.id}
-            type="button"
-            className={`vb-cf-sheet vb-cf-s${index + 1}`}
-            data-active={hover === item.id}
-            aria-label={`Open certificate: ${item.name}`}
-            onMouseEnter={() => setHover(item.id)}
-            onMouseLeave={() => setHover(null)}
-            onFocus={() => setHover(item.id)}
-            onBlur={() => setHover(null)}
-            onClick={() => setOpenId(item.id)}
-          >
-            {item.image ? (
-              <Image
-                src={item.image.src}
-                alt=""
-                width={item.image.width}
-                height={item.image.height}
-                sizes="(max-width: 900px) 0px, 440px"
-              />
-            ) : null}
-          </button>
-        ))}
-      </div>
-
-      <div className="vb-cf-phone">
-        <div ref={rail} className="vb-cf-rail">
-          {previewable.map((item) => (
-            <figure key={item.id} data-slide="" className="vb-cf-slide">
+            <li key={item.id} data-active={hover === item.id ? "true" : undefined}>
               <button
                 type="button"
-                className="vb-cf-slide-open"
-                aria-label={`Open certificate: ${item.name}`}
+                className="vb-certs-row"
+                onMouseEnter={() => setHover(item.id)}
+                onFocus={() => setHover(item.id)}
                 onClick={() => setOpenId(item.id)}
               >
-                {item.image ? (
-                  <Image
-                    src={item.image.src}
-                    alt=""
-                    width={item.image.width}
-                    height={item.image.height}
-                    sizes="(max-width: 900px) 82vw, 0px"
-                  />
+                <span className="vb-certs-name">{item.name}</span>
+                <span className="vb-certs-meta">{meta(item)}</span>
+                {item.note ? (
+                  <span className="vb-certs-note">{item.note}</span>
                 ) : null}
               </button>
-              <figcaption>
-                <span className="vb-cf-name">{item.name}</span>
-                <span className="vb-cf-meta">{meta(item)}</span>
-                {item.note ? (
-                  <span className="vb-cf-note">{item.note}</span>
-                ) : null}
-              </figcaption>
-            </figure>
+            </li>
           ))}
-        </div>
-        <p className="vb-cf-count" aria-hidden="true">
-          {slide + 1} of {previewable.length}
+        </ul>
+        </Collapsible>
+        <p className="vb-certs-aside">
+          I also volunteered at the Language Intelligence Conference 2026 at the
+          Saudi Cultural Bureau in London. No certificate for that one.
         </p>
+      </div>
+
+      <div className="vb-certs-stage">
+        {shown?.image ? (
+          <button
+            type="button"
+            className="vb-certs-sheet"
+            aria-label={`Open certificate: ${shown.name}`}
+            onClick={() => setOpenId(shown.id)}
+          >
+            <Image
+              key={shown.id}
+              src={shown.image.src}
+              alt=""
+              width={shown.image.width}
+              height={shown.image.height}
+              sizes="(max-width: 900px) 92vw, 46vw"
+            />
+            <span className="vb-certs-sheet-cap">{shown.name}</span>
+          </button>
+        ) : null}
       </div>
 
       <dialog
         ref={dialog}
-        className="vb-cf-dialog"
-        aria-labelledby="cf-dialog-title"
+        className="vb-dialog"
+        aria-labelledby="certs-dialog-title"
         onClose={() => setOpenId(null)}
         onKeyDown={onKeyDown}
         onClick={(event) => {
@@ -216,15 +128,15 @@ export function VersionBCerts() {
         }}
       >
         {current && current.image ? (
-          <div className="vb-cf-dialog-body">
-            <header className="vb-cf-dialog-head">
+          <div className="vb-dialog-body">
+            <header className="vb-dialog-head">
               <div>
-                <h3 id="cf-dialog-title">{current.name}</h3>
+                <h3 id="certs-dialog-title">{current.name}</h3>
                 <p>{meta(current)}</p>
               </div>
               <button
                 type="button"
-                className="vb-cf-close"
+                className="vb-btn vb-btn-quiet"
                 onClick={() => setOpenId(null)}
               >
                 Close
@@ -237,10 +149,10 @@ export function VersionBCerts() {
               width={current.image.width}
               height={current.image.height}
               sizes="(max-width: 900px) 94vw, 1000px"
-              className="vb-cf-full"
+              className="vb-dialog-img"
             />
-            <footer className="vb-cf-dialog-foot">
-              <div className="vb-cf-step">
+            <footer className="vb-dialog-foot">
+              <div className="vb-dialog-step">
                 <button type="button" onClick={() => step(-1)}>
                   Previous
                 </button>

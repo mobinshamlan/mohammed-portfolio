@@ -69,7 +69,7 @@ export function DocumentViewer({
 
       <dialog
         ref={dialog}
-        className="vb-doc-dialog"
+        className="vb-dialog"
         aria-label={title}
         onClose={() => {
           setOpen(false);
@@ -81,15 +81,15 @@ export function DocumentViewer({
           }
         }}
       >
-        <div className="vb-doc-body">
-          <header className="vb-doc-head">
+        <div className="vb-dialog-body">
+          <header className="vb-dialog-head">
             <div>
               <h3>{title}</h3>
               <p>{subtitle}</p>
             </div>
             <button
               type="button"
-              className="vb-doc-close"
+              className="vb-btn vb-btn-quiet"
               onClick={() => setOpen(false)}
             >
               Close
@@ -102,10 +102,10 @@ export function DocumentViewer({
               width={width}
               height={height}
               sizes="(max-width: 899px) 94vw, 900px"
-              className="vb-doc-full"
+              className="vb-dialog-img"
             />
           ) : null}
-          <footer className="vb-doc-foot">
+          <footer className="vb-dialog-foot">
             <a href={publicUrl(href)} target="_blank" rel="noreferrer">
               Open the image in a new tab
             </a>

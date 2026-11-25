@@ -52,8 +52,8 @@ export const certificates: Certificate[] = [
     href: publicUrl("/certificates/qmul-information-literacy.pdf"),
     image: {
       src: publicUrl("/images/certificates/qmul-information-literacy.jpg"),
-      width: 1800,
-      height: 1272,
+      width: 1400,
+      height: 989,
     },
   },
   {

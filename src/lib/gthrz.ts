@@ -15,49 +15,49 @@ const phone = { width: 455, height: 952 } as const;
 
 export const gthrzShots = {
   welcome: {
-    src: publicUrl("/images/Gthrz_photos/welcome.png"),
+    src: publicUrl("/images/projects/gthrz/welcome.jpg"),
     alt: "Gthrz welcome screen with Get started and Log in.",
     caption: "Welcome",
     ...phone,
   },
   home: {
-    src: publicUrl("/images/Gthrz_photos/home.png"),
+    src: publicUrl("/images/projects/gthrz/home.jpg"),
     alt: "Gthrz home screen with upcoming events and create controls.",
     caption: "Home",
     ...phone,
   },
   discover: {
-    src: publicUrl("/images/Gthrz_photos/discover.png"),
+    src: publicUrl("/images/projects/gthrz/discover.jpg"),
     alt: "Gthrz Discover screen browsing public events.",
     caption: "Discover",
     ...phone,
   },
   events: {
-    src: publicUrl("/images/Gthrz_photos/events.png"),
+    src: publicUrl("/images/projects/gthrz/events.jpg"),
     alt: "Gthrz Events screen showing hosted and pending gatherings.",
     caption: "Events",
     ...phone,
   },
   details: {
-    src: publicUrl("/images/Gthrz_photos/event-details.png"),
+    src: publicUrl("/images/projects/gthrz/event-details.jpg"),
     alt: "Gthrz event details with delayed location reveal, capacity, and RSVP approval.",
     caption: "Event details",
     ...phone,
   },
   detailsMore: {
-    src: publicUrl("/images/Gthrz_photos/event-details2.png"),
+    src: publicUrl("/images/projects/gthrz/event-details2.jpg"),
     alt: "Gthrz event details continued, with lineup and guest claims.",
     caption: "Guest planning",
     ...phone,
   },
   create: {
-    src: publicUrl("/images/Gthrz_photos/create-event.png"),
+    src: publicUrl("/images/projects/gthrz/create-event.jpg"),
     alt: "Gthrz new event form for title, time, and category.",
     caption: "Create event",
     ...phone,
   },
   privacy: {
-    src: publicUrl("/images/Gthrz_photos/create-event-settings.png"),
+    src: publicUrl("/images/projects/gthrz/create-event-settings.jpg"),
     alt: "Gthrz privacy settings for location reveal, guest names, and photos.",
     caption: "Privacy controls",
     ...phone,
@@ -87,7 +87,7 @@ export const gthrzShots = {
     variant: "card",
   },
   profile: {
-    src: publicUrl("/images/Gthrz_photos/Profile.png"),
+    src: publicUrl("/images/projects/gthrz/Profile.jpg"),
     alt: "Gthrz profile with saved events and events created.",
     caption: "Profile",
     ...phone,
