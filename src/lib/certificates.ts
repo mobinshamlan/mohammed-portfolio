@@ -13,24 +13,35 @@ export type Certificate = {
   completed: string | null;
   /** One short line about the contribution the certificate recognises. */
   note?: string;
-  /** The original PDF. */
-  href: string | null;
-  /** A page-one preview rendered from the PDF. Leave null for text-only entries. */
-  image: CertificateImage | null;
+  /** The original PDF, or the image when there is no PDF. */
+  href: string;
+  /** A page-one preview rendered from the PDF. */
+  image: CertificateImage;
+  /** The top of the preview at card size (560×350). */
+  thumb: string;
 };
 
+/** Volunteering that has no certificate. */
+export type VolunteerNote = {
+  name: string;
+  place: string;
+  note: string;
+};
+
+/** Most relevant to the work first, which is also newest first. */
 export const certificates: Certificate[] = [
   {
-    id: "01",
-    name: "Entrepreneurship & Innovation: Web Development Job Simulation",
-    organisation: "Moreton Bay Regional Council / Forage",
-    completed: "April 2024",
-    href: publicUrl("/certificates/moreton-bay-web-development.pdf"),
+    id: "04",
+    name: "UX/UI",
+    organisation: "Satr / Tuwaiq Academy",
+    completed: "February 2026",
+    href: publicUrl("/certificates/satr-ux-ui.pdf"),
     image: {
-      src: publicUrl("/images/certificates/moreton-bay-web-development.jpg"),
+      src: publicUrl("/images/certificates/satr-ux-ui.jpg"),
       width: 1800,
       height: 1271,
     },
+    thumb: publicUrl("/images/certificates/satr-ux-ui-thumb.jpg"),
   },
   {
     id: "02",
@@ -43,6 +54,20 @@ export const certificates: Certificate[] = [
       width: 1800,
       height: 1271,
     },
+    thumb: publicUrl("/images/certificates/accenture-developer-technology-thumb.jpg"),
+  },
+  {
+    id: "01",
+    name: "Entrepreneurship & Innovation: Web Development Job Simulation",
+    organisation: "Moreton Bay Regional Council / Forage",
+    completed: "April 2024",
+    href: publicUrl("/certificates/moreton-bay-web-development.pdf"),
+    image: {
+      src: publicUrl("/images/certificates/moreton-bay-web-development.jpg"),
+      width: 1800,
+      height: 1271,
+    },
+    thumb: publicUrl("/images/certificates/moreton-bay-web-development-thumb.jpg"),
   },
   {
     id: "03",
@@ -55,20 +80,12 @@ export const certificates: Certificate[] = [
       width: 1400,
       height: 989,
     },
+    thumb: publicUrl("/images/certificates/qmul-information-literacy-thumb.jpg"),
   },
-  {
-    id: "04",
-    name: "UX/UI",
-    organisation: "Satr / Tuwaiq Academy",
-    completed: "February 2026",
-    href: publicUrl("/certificates/satr-ux-ui.pdf"),
-    image: {
-      src: publicUrl("/images/certificates/satr-ux-ui.jpg"),
-      width: 1800,
-      height: 1271,
-    },
-  },
-  {
+];
+
+export const volunteering: { certificate: Certificate; notes: VolunteerNote[] } = {
+  certificate: {
     id: "05",
     name: "Volunteer Appreciation — London Saudi Club 45",
     organisation: "Eid al-Fitr 2026 · Saudi Cultural Bureau, UK",
@@ -80,5 +97,13 @@ export const certificates: Certificate[] = [
       width: 1206,
       height: 833,
     },
+    thumb: publicUrl("/images/certificates/london-saudi-club-45-eid-thumb.jpg"),
   },
-];
+  notes: [
+    {
+      name: "Language Intelligence Conference 2026",
+      place: "Saudi Cultural Bureau in London",
+      note: "No certificate for that one.",
+    },
+  ],
+};

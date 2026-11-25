@@ -115,7 +115,7 @@ export function DocumentViewer({
           ) : null}
           <footer className="vb-dialog-foot">
             <a href={publicUrl(href)} target="_blank" rel="noreferrer">
-              Open the image in a new tab
+              {href.endsWith(".pdf") ? "Open the original PDF" : "Open the image in a new tab"}
             </a>
           </footer>
         </div>
