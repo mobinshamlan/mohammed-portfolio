@@ -657,6 +657,8 @@ html:has(.vb) {
 }
 
 .vb-footer-credit a {
+  display: inline;
+  padding: 0;
   text-decoration: underline;
 }
 
