@@ -107,7 +107,8 @@ export function CallDemo({ compact = false, id }: { compact?: boolean; id?: stri
           The daily call, in fifteen seconds
         </p>
         <p className="vb-call-sub">
-          Simulated transcript with made-up names and numbers.{" "}
+          <span className="vb-demo-tag">Simulated</span>
+          Transcript with made-up names and numbers.{" "}
           {reduced ? "Reduced motion is on: step with Next, or the arrow keys." : "Arrow keys step, Space plays."}
         </p>
       </div>

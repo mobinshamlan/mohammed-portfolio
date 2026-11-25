@@ -11,8 +11,9 @@ import { TammeniScheduleDemo } from "./demos/tammeni-schedule";
 
 /**
  * Product artifacts that sit beside each project's decision: small, honest
- * pieces of the product itself. Simulations are labelled as such. Before
- * hydration each one renders its complete, read-only content.
+ * pieces of the product itself, most of them a short demo to try (see ./demos).
+ * Simulations are labelled as such. Before hydration each one renders its
+ * complete, read-only content.
  */
 
 /* ---------- Naqah: the facts a call leaves behind ---------- */
@@ -111,14 +112,16 @@ export function SeetChat({ compact = false }: { compact?: boolean }) {
   const state = [...shown].reverse().find((m) => m.state)?.state ?? "Enquiry";
   const done = visible >= last;
   return (
-    <div className={`vb-art vb-art-seet ${compact ? "vb-art-compact" : ""}`} data-ui="">
-      <p className="vb-art-label">
-        Simulated WhatsApp thread with made-up prices{hydrated ? ". Step through it." : "."}
+    <div className={`vb-art vb-demo vb-art-seet ${compact ? "vb-art-compact" : ""}`} data-ui="">
+      <p className="vb-demo-hint">
+        <span className="vb-demo-tag">Simulated</span>
+        {hydrated ? "Press Next to take the booking to confirmed." : "A WhatsApp booking with made-up prices."}
       </p>
       <div className="vb-art-state">
         {["Enquiry", "Held", "Deposit", "Confirmed"].map((s) => (
           <span key={s} data-on={s === state ? "true" : undefined}>
             {s}
+            {s === state ? <span className="vb-art-sr"> (now)</span> : null}
           </span>
         ))}
       </div>
