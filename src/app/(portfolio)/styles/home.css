@@ -2383,6 +2383,17 @@ div.vb-certs-row {
   }
 }
 
+/* The experiment is a slim coda on the same night as About: Gthrz hands over
+   sooner, and no crest room is kept under it, since About's crest is night on night. */
+@media (min-width: 900px) {
+  .vb-proj[data-id="gthrz"] .vb-proj-inner {
+    padding-bottom: calc(clamp(2.5rem, 4vw, 4rem) + var(--edge));
+  }
+  .vb-exp {
+    padding-block: clamp(2rem, 4vw, 3.5rem) clamp(1rem, 2vw, 2rem);
+  }
+}
+
 /* As a field comes into view its crest settles, as if walking up the dune. */
 @keyframes vb-crest {
   from {
