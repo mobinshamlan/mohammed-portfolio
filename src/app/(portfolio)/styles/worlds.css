@@ -38,7 +38,7 @@
 :is(.pw-kashta, .pw-amanah, .pw-gthrz) [lang="ar"] {
   direction: rtl;
   unicode-bidi: isolate;
-  font-family: var(--font-plex-arabic, var(--font-plex-arabic, "IBM Plex Sans Arabic")), "Segoe UI", sans-serif;
+  font-family: var(--font-plex-arabic, "IBM Plex Sans Arabic"), "Segoe UI", sans-serif;
   letter-spacing: 0;
 }
 
