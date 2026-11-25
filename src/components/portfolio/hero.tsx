@@ -80,8 +80,8 @@ export function Hero() {
       <div className="vb-hero-copy">
         <NightMark part="sunset" className="vb-hero-hour" />
         <h1 id="hero-title" className="vb-hero-title" data-rise="1">
-          <span className="vb-hero-name">Mohammed Bin&nbsp;Shamlan</span> builds Arabic-first AI for
-          real Saudi life.
+          <span className="vb-hero-name">Mohammed Bin&nbsp;Shamlan</span>{" "}
+          <span className="vb-hero-claim">builds Arabic-first AI for real Saudi life.</span>
         </h1>
         <p className="vb-hero-role" data-rise="2">
           Software developer in Saudi Arabia.

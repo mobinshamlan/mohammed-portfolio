@@ -25,15 +25,25 @@
 }
 
 .vb-hero-title {
-  max-width: 21ch;
   font-size: clamp(2rem, 1rem + 2.8vw, 4rem);
   font-weight: 800;
   line-height: 1;
   letter-spacing: -0.035em;
 }
 
-.vb-hero-name {
+/* The name holds the first line; the claim takes the second at the size that fits it. */
+.vb-hero-name,
+.vb-hero-claim {
   display: block;
+}
+
+.vb-hero-claim {
+  margin-top: 0.12em;
+  font-size: 0.76em;
+  font-weight: 700;
+  line-height: 1.12;
+  letter-spacing: -0.025em;
+  text-wrap: balance;
 }
 
 .vb-hero-role {
@@ -280,6 +290,16 @@
     column-gap: clamp(2rem, 5vw, 5rem);
     row-gap: 1rem;
     align-items: center;
+  }
+  .vb-hero-copy {
+    container-type: inline-size;
+  }
+  /* Sized from the copy column, so each part stays on its own line from 900 to 1920. */
+  .vb-hero-title {
+    font-size: min(4rem, 7.8cqi);
+  }
+  .vb-hero-claim {
+    font-size: 5.25cqi;
   }
   .vb-hero-visual {
     grid-column: 2;
@@ -2121,8 +2141,7 @@ div.vb-certs-row {
     order: 2;
   }
   .vb-hero-title {
-    max-width: none;
-    font-size: clamp(1.6rem, 0.5rem + 5vw, 2.4rem);
+    font-size: clamp(1.25rem, 8vw - 0.2rem, 2.4rem);
   }
   /* Tonight's sunset on one line. */
   .vb-hero-hour {
