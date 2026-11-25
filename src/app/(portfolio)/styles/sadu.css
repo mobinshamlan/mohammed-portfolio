@@ -2,23 +2,64 @@
    its own layer, so the weave-in moves only transforms. */
 
 .sadu {
-  /* Roles: a section may override any of these. */
-  --sb-ground: var(--sadu-red);
-  --sb-motif: var(--sadu-ink);
-  --sb-light: var(--sadu-wool);
-  --sb-accent: var(--sadu-red);
   display: flex;
   flex-direction: column;
   width: 100%;
   overflow: hidden;
   pointer-events: none;
+  /* Behind the rows, so a rounding gap never shows the page through. */
+  background: var(--sb-motif, var(--sadu-ink));
 }
 
-/* The maker's band: black on red with white teeth. */
-.sadu[data-variant="maker"],
-.sadu[data-variant="seam"] {
-  --sb-ground: var(--sadu-red);
-  --sb-accent: var(--sadu-red);
+/* Each project's band in its own colours. Set on the section, so its other
+   woven details (the sampler strip, the case page) share them. */
+[data-id="naqah"] {
+  --sb-ground: #e3c697;
+  --sb-motif: #4a2a14;
+  --sb-light: #f7ead2;
+  --sb-accent: #9e2a2b;
+}
+
+[data-id="tammeni"] {
+  --sb-ground: #0f3d33;
+  --sb-motif: #1d6a54;
+  --sb-light: #f1ead9;
+  --sb-accent: #d9b35a;
+}
+
+[data-id="seet"] {
+  --sb-ground: #dba946;
+  --sb-motif: #075e54;
+  --sb-light: #fff8e6;
+  --sb-accent: #075e54;
+}
+
+[data-id="kashta"] {
+  --sb-ground: #151b2e;
+  --sb-motif: #2b3557;
+  --sb-light: #f3ece0;
+  --sb-accent: #f0945a;
+}
+
+[data-id="amanah"] {
+  --sb-ground: #f1ead9;
+  --sb-motif: #0e3b2e;
+  --sb-light: #ffffff;
+  --sb-accent: #b88a2c;
+}
+
+[data-id="gthrz"] {
+  --sb-ground: #141216;
+  --sb-motif: #3b2a5e;
+  --sb-light: #f3eee6;
+  --sb-accent: #8b6cf0;
+}
+
+[data-id="experiment"] {
+  --sb-ground: #ded9d0;
+  --sb-motif: #4e2428;
+  --sb-light: #f6f2ea;
+  --sb-accent: #9e2a2b;
 }
 
 .sadu-row {
@@ -30,6 +71,19 @@
 
 .sadu-row svg {
   display: block;
+}
+
+/* Running down an edge: rows become columns and travel up and down. */
+.sadu[data-orient="down"] {
+  flex-direction: row;
+  width: auto;
+  height: 100%;
+}
+
+.sadu[data-orient="down"] .sadu-row {
+  width: auto;
+  height: calc(100% + 4rem);
+  margin: -2rem 0 0;
 }
 
 /* Weave-in: alternate rows arrive from opposite sides, like passes of the weft.
@@ -46,6 +100,18 @@
   }
 }
 
+@keyframes sadu-weave-u {
+  from {
+    transform: translateY(-2rem);
+  }
+}
+
+@keyframes sadu-weave-d {
+  from {
+    transform: translateY(2rem);
+  }
+}
+
 @media (prefers-reduced-motion: no-preference) {
   @supports (animation-timeline: view()) {
     .vb[data-motion="on"] .sadu-row {
@@ -55,6 +121,12 @@
     }
     .vb[data-motion="on"] .sadu-row[data-dir="r"] {
       animation-name: sadu-weave-r;
+    }
+    .vb[data-motion="on"] .sadu[data-orient="down"] .sadu-row {
+      animation-name: sadu-weave-u;
+    }
+    .vb[data-motion="on"] .sadu[data-orient="down"] .sadu-row[data-dir="r"] {
+      animation-name: sadu-weave-d;
     }
   }
 
@@ -68,10 +140,4 @@
     transform: none;
     transition: transform 900ms var(--ease-expo);
   }
-}
-
-/* A small swatch of a band, for indexes. */
-.sadu-swatch {
-  display: block;
-  overflow: hidden;
 }
