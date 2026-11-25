@@ -2138,6 +2138,15 @@ div.vb-certs-row {
   .vb-hero-evidence-link strong {
     font-size: 1rem;
   }
+  /* Every entry on two lines, name over number and tag, so the rows line up. */
+  .vb .vb-hero-evidence-link {
+    display: grid;
+    grid-template-columns: auto auto;
+    justify-content: start;
+  }
+  .vb-hero-evidence-link b {
+    grid-column: 1 / -1;
+  }
   .vb-hero-actions {
     flex-wrap: nowrap;
     margin-top: 0;
@@ -2256,6 +2265,11 @@ div.vb-certs-row {
   }
   .vb-call-count {
     white-space: nowrap;
+  }
+  @media (max-width: 374px) {
+    .vb-call-controls .vb-btn {
+      padding-inline: 0.7rem;
+    }
   }
   .vb-proj .vb-art-state {
     gap: 0.3rem;
