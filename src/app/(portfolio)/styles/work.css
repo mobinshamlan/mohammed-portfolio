@@ -250,6 +250,8 @@
 /* ---------- Naqah: the ranch at sunset ---------- */
 
 .vb-world[data-id="naqah"] {
+  /* The dune under the links only needs room for the call that ends on the line. */
+  --pad-bottom: clamp(3.25rem, 1rem + 5vw, 6.5rem);
   --pill: #8a4b1e;
   --pill-ink: #fbefdd;
 }
@@ -441,6 +443,27 @@
   margin-top: 0.25rem;
   color: #3f5a50;
   font-size: 0.875rem;
+}
+
+/* The text sits beside the book on wide screens; on phones it is one tap away. */
+.w-sms-more .vb-details-summary {
+  font-family: inherit;
+  font-size: 1.0625rem;
+  font-weight: 600;
+}
+
+.w-sms-more .vb-details-body {
+  padding-top: 0.5rem;
+}
+
+@media (min-width: 900px) {
+  .w-sms-more[open] > .vb-details-summary {
+    display: none;
+  }
+
+  .w-sms-more .vb-details-body {
+    padding-top: 0;
+  }
 }
 
 .w-slim {
@@ -906,9 +929,6 @@
     margin-left: -8%;
     transform: translateY(-46%);
   }
-  .w-chalk {
-    order: -1;
-  }
   .w-chalk p {
     font-size: 1.9rem;
   }
@@ -936,14 +956,16 @@
     padding: 0.45rem 0.8rem;
     font-size: 0.8125rem;
   }
+  /* Clear of Seet's links above and Kashta's first line below. */
   .w-receipt {
     right: var(--gutter);
-    top: -3.5rem;
+    top: -2.6rem;
     width: 12.5rem;
     padding: 0.8rem 1rem 1.5rem;
     font-size: 0.8125rem;
   }
-  .w-receipt-note {
+  .w-receipt-note,
+  .w-receipt dl > div:nth-child(2) {
     display: none;
   }
   .w-seam-lantern svg {

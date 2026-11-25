@@ -4,6 +4,7 @@ import type { ReactNode } from "react";
 import { fieldStyle, projectById, type ProjectId } from "@/lib/projects";
 import { SeetChat } from "./artifacts";
 import { CallDemo } from "./call-demo";
+import { Collapsible } from "./collapsible";
 import { TammeniScheduleDemo } from "./demos/tammeni-schedule";
 import { AmanahWorld } from "./worlds/amanah-world";
 import { GthrzWorld } from "./worlds/gthrz-world";
@@ -94,17 +95,19 @@ function Tammeni() {
         <TammeniScheduleDemo compact />
       </Reveal>
       <Reveal className="w-aside" delay={0.1}>
-        <figure className="w-sms">
-          <p className="w-sms-from">
-            <span>Lulwa · Tammeni</span>
-            <span>7:42 am</span>
-          </p>
-          <p lang="ar">صباح الخير، ريم وصلت المدرسة وسُجّل حضورها الساعة ٧:٣٠.</p>
-          <p className="w-sms-en">Good morning, Reem arrived and was marked present at 7:30.</p>
-          <figcaption>
-            <span className="vb-demo-tag">Simulated</span>A text for an attendance rule. Fictional names.
-          </figcaption>
-        </figure>
+        <Collapsible className="w-sms-more" summary="The text a parent gets">
+          <figure className="w-sms">
+            <p className="w-sms-from">
+              <span>Lulwa · Tammeni</span>
+              <span>7:42 am</span>
+            </p>
+            <p lang="ar">صباح الخير، ريم وصلت المدرسة وسُجّل حضورها الساعة ٧:٣٠.</p>
+            <p className="w-sms-en">Good morning, Reem arrived and was marked present at 7:30.</p>
+            <figcaption>
+              <span className="vb-demo-tag">Simulated</span>A text for an attendance rule. Fictional names.
+            </figcaption>
+          </figure>
+        </Collapsible>
         {phone ? (
           <div className="w-slim" aria-hidden="true">
             <Image src={phone.src} alt="" width={phone.width} height={phone.height} sizes="180px" />

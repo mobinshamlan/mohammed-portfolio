@@ -679,3 +679,23 @@
     transform: none;
   }
 }
+
+/* Phones: each world keeps just enough room for the object on its top line. */
+@media (max-width: 899px) {
+  .pw-kashta {
+    --pad-top: 6.25rem;
+    --pad-bottom: 3.5rem;
+  }
+
+  .pw-amanah {
+    --pad-top: 4.5rem;
+  }
+
+  .pw-amanah .pw-amanah-cabinet {
+    padding-block: 2.5rem 3rem;
+  }
+
+  .pw-gthrz {
+    --pad-top: 4.25rem;
+  }
+}
