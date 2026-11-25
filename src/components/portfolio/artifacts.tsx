@@ -6,6 +6,7 @@ import { gthrzVisibility } from "@/lib/gthrz";
 import type { ProjectId } from "@/lib/projects";
 import { useHydrated } from "@/lib/use-hydrated";
 import { KashtaScoreDemo } from "./demos/kashta-score";
+import { TammeniScheduleDemo } from "./demos/tammeni-schedule";
 
 /**
  * Product artifacts that sit beside each project's decision: small, honest
@@ -55,104 +56,6 @@ export function NaqahFacts({ compact = false }: { compact?: boolean }) {
           <strong>{owner.time}</strong> {owner.text}
         </p>
       ) : null}
-    </div>
-  );
-}
-
-/* ---------- Tammeni: per-child, per-topic schedules ---------- */
-
-type Timing = "right away" | "daily" | "weekly" | "off";
-type Channel = "call" | "text";
-const timings: Timing[] = ["right away", "daily", "weekly", "off"];
-const topics = ["Attendance", "Grades", "Exams"] as const;
-const children = ["Reem", "Nawaf"] as const;
-type Cell = { timing: Timing; channel: Channel };
-
-const initial: Record<string, Cell> = {
-  "Reem:Attendance": { timing: "right away", channel: "text" },
-  "Reem:Grades": { timing: "weekly", channel: "call" },
-  "Reem:Exams": { timing: "daily", channel: "call" },
-  "Nawaf:Attendance": { timing: "off", channel: "text" },
-  "Nawaf:Grades": { timing: "weekly", channel: "text" },
-  "Nawaf:Exams": { timing: "daily", channel: "call" },
-};
-
-export function TammeniSchedule() {
-  const hydrated = useHydrated();
-  const [cells, setCells] = useState(initial);
-  function set(key: string, patch: Partial<Cell>) {
-    setCells((c) => ({ ...c, [key]: { ...c[key], ...patch } }));
-  }
-  const calls = Object.values(cells).filter((c) => c.timing !== "off" && c.channel === "call").length;
-  const texts = Object.values(cells).filter((c) => c.timing !== "off" && c.channel === "text").length;
-  return (
-    <div className="vb-art vb-art-tammeni" data-ui="">
-      <p className="vb-art-label">
-        The schedule grid, recreated. Fictional children from the demo
-        {hydrated ? "; change any cell." : "."}
-      </p>
-      <table className="vb-art-table">
-        <thead>
-          <tr>
-            <th scope="col">Topic</th>
-            {children.map((child) => (
-              <th key={child} scope="col">
-                {child}
-              </th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {topics.map((topic) => (
-            <tr key={topic}>
-              <th scope="row">{topic}</th>
-              {children.map((child) => {
-                const key = `${child}:${topic}`;
-                const cell = cells[key];
-                if (!hydrated) {
-                  return (
-                    <td key={key}>
-                      {cell.timing === "off" ? "off" : `${cell.timing}, by ${cell.channel}`}
-                    </td>
-                  );
-                }
-                return (
-                  <td key={key}>
-                    <label className="vb-art-sr" htmlFor={`${key}-t`}>
-                      {child}, {topic}: when
-                    </label>
-                    <select
-                      id={`${key}-t`}
-                      value={cell.timing}
-                      onChange={(e) => set(key, { timing: e.target.value as Timing })}
-                    >
-                      {timings.map((t) => (
-                        <option key={t} value={t}>
-                          {t}
-                        </option>
-                      ))}
-                    </select>
-                    <button
-                      type="button"
-                      className="vb-art-toggle"
-                      aria-pressed={cell.channel === "call"}
-                      disabled={cell.timing === "off"}
-                      onClick={() => set(key, { channel: cell.channel === "call" ? "text" : "call" })}
-                      aria-label={`${child}, ${topic}: by ${cell.channel}. Switch channel`}
-                    >
-                      {cell.channel === "call" ? "Call" : "Text"}
-                    </button>
-                  </td>
-                );
-              })}
-            </tr>
-          ))}
-        </tbody>
-      </table>
-      <p className="vb-art-sum" aria-live="polite">
-        This family gets {calls} kind{calls === 1 ? "" : "s"} of news by call and {texts} by text.
-        Each cell is one row per parent, child and topic under row-level security.
-      </p>
     </div>
   );
 }
@@ -354,7 +257,7 @@ export function DecisionArtifact({ id }: { id: ProjectId }) {
     case "naqah":
       return <NaqahFacts />;
     case "tammeni":
-      return <TammeniSchedule />;
+      return <TammeniScheduleDemo />;
     case "seet":
       return <SeetChat />;
     case "kashta":

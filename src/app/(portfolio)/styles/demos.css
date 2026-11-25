@@ -201,3 +201,168 @@
   color: var(--demo-muted);
   font-size: var(--step-small);
 }
+
+/* ---------- Tammeni: the family's grid and one rule's editor ---------- */
+
+.vb-demo-grid {
+  border-collapse: separate;
+  border-spacing: 0.35rem;
+  margin: -0.35rem;
+  width: calc(100% + 0.7rem);
+  font-size: var(--step-small);
+  table-layout: fixed;
+}
+
+.vb-demo-grid th {
+  padding: 0 0.2rem;
+  font-weight: 500;
+  text-align: left;
+}
+
+.vb-demo-grid thead th {
+  color: var(--demo-muted);
+}
+
+.vb-demo-grid tbody th {
+  width: 6.5rem;
+  font-family: var(--display);
+  font-weight: 700;
+}
+
+.vb-demo-grid thead td {
+  width: 6.5rem;
+  background: none;
+}
+
+.vb-demo-grid td {
+  padding: 0;
+  border-radius: 0.5rem;
+  background: var(--demo-surface);
+}
+
+.vb-demo-grid td:not(:has(button)) {
+  padding: 0.6rem 0.7rem;
+}
+
+.vb-demo-grid td[data-off="true"] {
+  color: var(--demo-muted);
+}
+
+.vb-demo-grid button {
+  width: 100%;
+  min-height: 2.75rem;
+  padding: 0.4rem 0.7rem;
+  border: 2px solid transparent;
+  border-radius: 0.5rem;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  font: inherit;
+  text-align: left;
+}
+
+.vb-demo-grid button:hover {
+  border-color: var(--demo-line);
+}
+
+.vb-demo-grid button[aria-pressed="true"] {
+  border-color: var(--demo-accent);
+  background: color-mix(in srgb, var(--demo-accent) 14%, transparent);
+  font-weight: 500;
+}
+
+.vb-demo-editor {
+  display: grid;
+  gap: 0.6rem;
+}
+
+.vb-demo-editor fieldset {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.vb-demo-editor legend {
+  float: left;
+  width: 100%;
+  margin-bottom: 0.3rem;
+  color: var(--demo-muted);
+  font-size: var(--step-small);
+}
+
+.vb-demo-pill {
+  position: relative;
+  cursor: pointer;
+}
+
+.vb-demo-pill input {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  margin: 0;
+  cursor: inherit;
+}
+
+.vb-demo-pill span {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
+  padding: 0 1rem;
+  border: 1px solid var(--demo-line);
+  border-radius: 999px;
+  font-size: var(--step-small);
+  font-weight: 500;
+}
+
+.vb-demo-pill input:checked + span {
+  border-color: var(--demo-accent);
+  background: var(--demo-accent);
+  color: var(--demo-accent-ink);
+}
+
+.vb-demo-pill input:focus-visible + span {
+  outline: 2px solid var(--ember);
+  outline-offset: 3px;
+}
+
+.vb-demo-pill[data-disabled="true"] {
+  cursor: default;
+}
+
+.vb-demo-pill[data-disabled="true"] span {
+  opacity: 0.45;
+}
+
+.vb-demo-result {
+  padding: 0.7rem 0.9rem;
+  border-radius: 0.5rem;
+  background: var(--demo-surface);
+  font-family: var(--display);
+  font-weight: 700;
+}
+
+@media (max-width: 599px) {
+  .vb-demo-steps {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .vb-demo-grid tbody th,
+  .vb-demo-grid thead td {
+    width: 5.5rem;
+  }
+}
+
+/* Motion only for people who have not asked for less. */
+@media (prefers-reduced-motion: no-preference) {
+  .vb-demo-grid button,
+  .vb-demo-pill span,
+  .vb-demo-steps button {
+    transition:
+      background-color var(--t-hover) ease,
+      border-color var(--t-hover) ease;
+  }
+}
