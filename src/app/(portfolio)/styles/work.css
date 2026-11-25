@@ -932,7 +932,9 @@
   letter-spacing: -0.03em;
 }
 
-.vb-exp-name a {
+.vb .vb-exp-name a {
+  display: inline-block;
+  padding-block: 0.25rem;
   text-decoration: none;
 }
 
@@ -1199,6 +1201,23 @@
       animation-timeline: view();
       animation-range: cover;
     }
+    /* The receipt prints downward as it reaches the night. */
+    .vb[data-motion="on"] .w-seam .w-receipt {
+      animation:
+        w-drift linear both,
+        w-print linear both;
+      animation-timeline: view(), view();
+      animation-range: cover, entry 10% entry 90%;
+    }
+  }
+}
+
+@keyframes w-print {
+  from {
+    transform: translateY(-1.5rem) rotate(3deg) scaleY(0.6);
+  }
+  to {
+    transform: rotate(3deg);
   }
 }
 
