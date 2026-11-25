@@ -1,21 +1,32 @@
-# Mohammed Bin Shamlan — portfolio experiment
+# Mohammed Bin Shamlan — portfolio
 
-Next.js, TypeScript, and Tailwind CSS. Shared portfolio content lives in `data/portfolio.ts`.
+Live at https://mobinshamlan.github.io/mohammed-portfolio/
+
+Next.js 16 (static export), React 19 and TypeScript. The portfolio is styled with plain CSS in `src/app/(portfolio)/styles/`; Tailwind CSS is used only by the `/version-a` baseline.
 
 ```bash
 npm install
-npm run dev
+npm run dev     # http://localhost:3000/mohammed-portfolio/
+npm run lint
+npm run build   # writes the static site to out/
 ```
 
-Open http://localhost:3000.
+Pushing to `main` deploys to GitHub Pages (`.github/workflows/pages.yml`).
 
 ## Routes
 
-- `/` — experience selection. Visitors choose Version A or Version B.
-- `/version-a` — the weak-prompt baseline. This is the original portfolio, kept as it was.
-- `/version-b` — strong-prompt portfolio: hero, selected work, about, education, skills, and contact.
-- `/version-b/projects/gthrz` — Gthrz case study.
-- `/comparison` — reserved for a later comparison. It does not contain results.
+- `/` — the portfolio: hero with the Naqah call example, a section for each project, the Work Line index, about, journey, skills, certificates and contact. Press ⌘K or `/` to jump to a project.
+- `/projects/naqah`, `/projects/tammeni`, `/projects/seet`, `/projects/kashta`, `/projects/amanah`, `/projects/gthrz` — case studies.
+- `/experiment` — the prompt experiment: one brief, two prompts. Choose Version A or Version B.
+- `/version-a` — the weak-prompt baseline, kept exactly as it was.
+- `/version-b/` and `/version-b/projects/<slug>/` — old links; each is a small page that forwards to the new path.
+
+## Where things are
+
+- Project content, statuses and evidence: `src/lib/projects.ts`.
+- Portfolio components: `src/components/portfolio/`.
+- Product screenshots in `public/images/projects/` are captures of the live demos.
+- `data/portfolio.ts` holds the Version A content only.
 
 ## Version A prompt
 

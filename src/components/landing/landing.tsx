@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useRef, useState, type CSSProperties } from "react";
@@ -27,36 +26,36 @@ const versions: Version[] = [
     href: "/version-a",
     kicker: "Version A",
     title: "The first draft.",
-    blurb: "Built from a single, simple prompt.",
+    blurb: "Built from a single, simple prompt, and kept exactly as it came out.",
     cta: "Open Version A",
     desktop: {
       src: publicUrl("/images/landing/a-desktop.jpg"),
-      width: 1440,
-      height: 3848,
+      width: 800,
+      height: 2137,
     },
     mobile: {
       src: publicUrl("/images/landing/a-mobile.jpg"),
-      width: 780,
-      height: 8516,
+      width: 300,
+      height: 3275,
     },
   },
   {
     side: "b",
-    href: "/version-b",
+    href: "/",
     kicker: "Version B",
-    title: "The creative evolution.",
+    title: "The portfolio you came from.",
     blurb:
-      "Built through structured prompts, intentional design and rounds of refinement.",
+      "Built through structured prompts, a design direction and rounds of refinement. It is now the site itself.",
     cta: "Open Version B",
     desktop: {
       src: publicUrl("/images/landing/b-desktop.jpg"),
-      width: 1440,
-      height: 7894,
+      width: 800,
+      height: 3333,
     },
     mobile: {
       src: publicUrl("/images/landing/b-mobile.jpg"),
-      width: 780,
-      height: 17302,
+      width: 300,
+      height: 4615,
     },
   },
 ];
@@ -182,9 +181,11 @@ function Showcase({
       className={`vl-cell vl-cell-${side}`}
       data-hover={hovered === side}
     >
+      {/* No prefetching: this page stays light, and each version loads on click. */}
       <Link
         ref={window}
         href={version.href}
+        prefetch={false}
         className={`vl-win vl-win-${side}`}
         tabIndex={-1}
         aria-hidden="true"
@@ -197,26 +198,18 @@ function Showcase({
           <span className="vl-win-url">{version.href}</span>
         </span>
         <span className="vl-win-view">
-          <Image
-            src={version.desktop.src}
-            alt=""
-            width={version.desktop.width}
-            height={version.desktop.height}
-            sizes="(max-width: 759px) 0px, 780px"
-            quality={74}
-            priority
-            className="vl-shot vl-shot-desktop"
-          />
-          <Image
-            src={version.mobile.src}
-            alt=""
-            width={version.mobile.width}
-            height={version.mobile.height}
-            sizes="(max-width: 759px) 56vw, 0px"
-            quality={70}
-            priority
-            className="vl-shot vl-shot-mobile"
-          />
+          {/* One picture per version: the browser downloads only the variant it shows. */}
+          <picture>
+            <source media="(max-width: 759px)" srcSet={version.mobile.src} />
+            <img
+              src={version.desktop.src}
+              alt=""
+              width={version.desktop.width}
+              height={version.desktop.height}
+              className="vl-shot"
+              decoding="async"
+            />
+          </picture>
         </span>
       </Link>
 
@@ -226,6 +219,7 @@ function Showcase({
         <p className="vl-label-blurb">{version.blurb}</p>
         <Link
           href={version.href}
+          prefetch={false}
           className="vl-cta"
           onFocus={() => {
             onHover(side);
@@ -259,29 +253,40 @@ const milestones = [
     text: "Projects as an index and a stage, not a list.",
   },
   {
-    title: "A case study",
-    text: "Gthrz told as a scroll story, using its own screenshots.",
+    title: "Case studies",
+    text: "Each product told with its own screens, the decision that shaped it, and working links.",
   },
-  { title: "The cover", text: "A portrait that hands off into the work." },
+  {
+    title: "A redesign",
+    text: "A desert-night identity, Arabic names set right to left, and six products added as they were built.",
+  },
   {
     title: "The route",
-    text: "Education as a journey from Brighton to London to Riyadh.",
+    text: "Education as a journey from Saudi Arabia to Brighton, London and back home.",
   },
   {
     title: "The details",
-    text: "Skills in context, certificates as documents, a closing screen.",
+    text: "Skills with evidence, certificates as documents, a contact form with real states.",
   },
 ];
 
 function Evolution() {
   const root = useRef<HTMLElement>(null);
-  const [seen, setSeen] = useState(false);
+  // null until hydration: the milestones show by default and animate only once JS can reveal them.
+  const [seen, setSeen] = useState<boolean | null>(null);
 
   useEffect(() => {
     const node = root.current;
     if (!node) {
       return;
     }
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      return;
+    }
+    if (node.getBoundingClientRect().top < window.innerHeight) {
+      return;
+    }
+    setSeen(false);
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
@@ -299,7 +304,7 @@ function Evolution() {
     <section
       ref={root}
       className="vl-ev"
-      data-seen={seen}
+      data-seen={seen === null ? undefined : seen}
       aria-labelledby="ev-title"
     >
       <div className="vl-ev-head">
@@ -360,7 +365,7 @@ export function Landing() {
   // back button never finds it still raised.
   if (pathname !== seenPath) {
     setSeenPath(pathname);
-    if (appPath(pathname) !== "/" && leaving) {
+    if (appPath(pathname) !== "/experiment" && leaving) {
       setLeaving(null);
     }
   }
@@ -418,11 +423,7 @@ export function Landing() {
       return;
     }
     const view = node.querySelector<HTMLElement>(".vl-win-view");
-    const shot = node.querySelector<HTMLElement>(
-      window.matchMedia("(max-width: 759px)").matches
-        ? ".vl-shot-mobile"
-        : ".vl-shot-desktop",
-    );
+    const shot = node.querySelector<HTMLElement>(".vl-shot");
     if (!view || !shot) {
       return;
     }
@@ -452,21 +453,41 @@ export function Landing() {
 
   return (
     <>
-      <main className="vl-main">
+      <a href="#experiment" className="vl-skip">
+        Skip to the experiment
+      </a>
+      <main id="experiment" className="vl-main" tabIndex={-1}>
         <header className="vl-head">
           <p className="vl-eyebrow">
-            Mohammed Bin Shamlan
-            <span>Portfolio experiment / 2026</span>
+            <Link href="/" prefetch={false}>
+              Mohammed Bin Shamlan
+            </Link>
+            <span>Prompt experiment / 2026</span>
           </p>
           <h1 className="vl-title">
-            <span>Two versions.</span>
-            <span>One evolution.</span>
+            <span>One brief.</span>
+            <span>Two prompts.</span>
           </h1>
-          <p className="vl-intro">
-            The same person, built twice. Version A came from one simple prompt.
-            Version B came from structured prompts, intentional design and
-            rounds of refinement. Pick one, or open both.
-          </p>
+          <div className="vl-lede">
+            <p className="vl-intro">
+              The same portfolio, built twice. Version A came from one simple
+              prompt and is kept as it was. Version B came from structured
+              prompts, a design direction and rounds of refinement, and became
+              the site you arrived from. Open either, or compare both.
+            </p>
+            <p className="vl-open">
+              {versions.map((version) => (
+                <Link
+                  key={version.side}
+                  href={version.href}
+                  prefetch={false}
+                  className={`vl-cta vl-open-${version.side}`}
+                >
+                  {version.cta}
+                </Link>
+              ))}
+            </p>
+          </div>
         </header>
 
         <div className="vl-stage" data-hover={hovered ?? undefined}>
@@ -488,7 +509,11 @@ export function Landing() {
           <ul>
             {versions.map((version) => (
               <li key={version.side}>
-                <Link href={version.href} className="vl-end-row">
+                <Link
+                  href={version.href}
+                  prefetch={false}
+                  className="vl-end-row"
+                >
                   <span className="vl-end-name">{version.kicker}</span>
                   <span className="vl-end-title">{version.title}</span>
                   <span className="vl-end-arrow" aria-hidden="true">
@@ -501,8 +526,12 @@ export function Landing() {
         </nav>
 
         <footer className="vl-foot">
-          <p>Mohammed Bin Shamlan</p>
-          <p>Portfolio experiment / 2026</p>
+          <p>
+            <Link href="/" prefetch={false}>
+              Mohammed Bin Shamlan
+            </Link>
+          </p>
+          <p>Prompt experiment / 2026</p>
         </footer>
       </main>
 

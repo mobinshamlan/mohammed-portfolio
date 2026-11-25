@@ -2,8 +2,9 @@
 export const BASE_PATH = "/mohammed-portfolio";
 
 /**
- * Prefix a public-folder or downloaded file URL. Do not use this on next/link
- * hrefs or next/image src — those already receive basePath from Next.js.
+ * Prefix a public-folder or downloaded file URL, including next/image src
+ * (unoptimized images do not receive basePath). Do not use it on next/link
+ * hrefs, which already do.
  */
 export function publicUrl(path: string) {
   if (!path || /^https?:\/\//.test(path) || path.startsWith("mailto:")) {

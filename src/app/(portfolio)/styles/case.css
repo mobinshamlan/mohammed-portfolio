@@ -1,0 +1,1698 @@
+/* Portfolio case studies: hero in the project's field, then the night. */
+
+.vb-case {
+  min-height: 60vh;
+}
+
+.vb-case-hero {
+  display: grid;
+  gap: 2.5rem;
+  padding: clamp(2.5rem, 6vw, 5rem) var(--gutter) clamp(3rem, 7vw, 6rem);
+  background: var(--field);
+  color: var(--field-ink);
+}
+
+.vb-case-hero > *,
+.vb-screens > *,
+.vb-gp > *,
+.vb-gl > * {
+  min-width: 0;
+}
+
+.vb-case-hero-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  align-self: center;
+}
+
+.vb-crumbs {
+  margin-top: 0.5rem;
+  color: var(--field-muted);
+  font-size: var(--step-small);
+}
+
+.vb-crumbs a {
+  display: inline-block;
+  padding: 0.6rem 0;
+}
+
+.vb-crumbs a {
+  text-decoration: underline;
+}
+
+.vb-case-name {
+  font-size: clamp(3.6rem, 2rem + 6vw, 7rem);
+  font-weight: 800;
+  line-height: 0.9;
+  letter-spacing: -0.04em;
+}
+
+.vb-case-name span[lang="ar"] {
+  display: block;
+  margin-top: 0.18em;
+  font-size: 0.6em;
+  font-weight: 700;
+  line-height: 1.25;
+  color: var(--accent);
+}
+
+.vb-case-tagline {
+  max-width: 32ch;
+  font-size: var(--step-lead);
+  line-height: 1.35;
+  text-wrap: pretty;
+}
+
+.vb-case-arabic {
+  font-size: clamp(1.2rem, 1rem + 1vw, 1.6rem);
+  font-weight: 500;
+  color: var(--field-muted);
+}
+
+.vb-case-facts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
+  gap: 0.9rem 1.5rem;
+  max-width: 40rem;
+  margin: 0.5rem 0 0;
+}
+
+.vb-case-facts dt {
+  color: var(--field-muted);
+  font-size: var(--step-small);
+}
+
+.vb-case-facts dd {
+  margin: 0.1rem 0 0;
+  font-weight: 500;
+}
+
+.vb-case-fact-wide {
+  grid-column: 1 / -1;
+}
+
+.vb-case-links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.vb-case-linknote {
+  width: 100%;
+  color: var(--field-muted);
+  font-size: var(--step-small);
+}
+
+.vb-case-hero-art {
+  align-self: center;
+  min-width: 0;
+}
+
+.vb-case-hero-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+/* The cover as one crop: on phones a legible slice of the phone capture. */
+.vb-case-shot picture {
+  display: block;
+}
+
+@media (max-width: 899px) {
+  .vb-case-hero {
+    gap: 1.75rem;
+    padding-top: 1.5rem;
+  }
+  .vb-case-name {
+    font-size: clamp(3rem, 1.6rem + 7vw, 4.5rem);
+  }
+  .vb-case-name span[lang="ar"] {
+    display: inline-block;
+    margin-top: 0;
+    margin-left: 0.45em;
+  }
+  .vb-case-hero-copy {
+    gap: 0.9rem;
+  }
+  .vb-case-open {
+    gap: 0.6rem;
+    padding: 0.9rem 1rem 0.3rem;
+  }
+  .vb-open-links {
+    column-gap: 1rem;
+  }
+  .vb-case-shot .vb-window-img {
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    object-position: 50% 0;
+  }
+  .vb-case-shot[data-crop="kashta"] .vb-window-img {
+    object-position: 50% 70%;
+  }
+  .vb-case-hero-art .vb-case-phones .vb-capture:not(:nth-child(2)) {
+    display: none;
+  }
+  .vb-case-hero-art .vb-case-phones {
+    display: block;
+    max-width: 17rem;
+    max-height: 22rem;
+    overflow: hidden;
+    mask-image: linear-gradient(#000 80%, transparent);
+  }
+  .vb-case-hero-art .vb-case-phones .vb-capture {
+    width: 100%;
+    margin: 0;
+    transform: none;
+  }
+}
+
+/* ---------- Case openings: what each case leads with ---------- */
+
+.vb-case-open {
+  display: grid;
+  gap: 0.9rem;
+  max-width: 38rem;
+  padding: 1.1rem 1.25rem 0.6rem;
+  border-radius: 0.75rem;
+  background: color-mix(in srgb, var(--field-ink) 7%, transparent);
+}
+
+.vb-open-title {
+  font-size: clamp(1.2rem, 1.05rem + 0.6vw, 1.5rem);
+  line-height: 1.2;
+  letter-spacing: -0.015em;
+}
+
+.vb-open-kashta .vb-open-title strong {
+  color: var(--accent);
+  font-size: 1.6em;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.vb-open-sub {
+  color: color-mix(in srgb, var(--field-ink) 80%, var(--field));
+  font-size: var(--step-small);
+  line-height: 1.45;
+}
+
+.vb-open-factors {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 0.4rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.vb-open-factors li {
+  display: grid;
+  gap: 0.1rem;
+  padding: 0.5rem 0.55rem;
+  border-radius: 0.5rem;
+  background: color-mix(in srgb, var(--field-ink) 8%, transparent);
+  font-size: 0.8125rem;
+  line-height: 1.3;
+}
+
+.vb-open-factors span,
+.vb-open-factors em {
+  overflow-wrap: anywhere;
+  color: var(--field-muted);
+  font-style: normal;
+}
+
+.vb-open-factors strong {
+  font-family: var(--display);
+  font-size: 1.25rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.vb-open-line {
+  --hour-now: var(--field-ink);
+  --hour-now-ink: var(--field);
+  font-size: var(--step-small);
+}
+
+.vb-open-line .vb-dayline-time {
+  font-weight: 700;
+}
+
+.vb-open-line .vb-dayline-label {
+  opacity: 1;
+}
+
+.vb-open-views {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+
+.vb-open-views > div {
+  padding: 0.7rem 0.8rem;
+  border-radius: 0.5rem;
+  background: color-mix(in srgb, var(--field-ink) 8%, transparent);
+}
+
+.vb-open-views > div + div {
+  background: var(--field-ink);
+  color: var(--field);
+}
+
+.vb-open-views h3 {
+  margin-bottom: 0.4rem;
+  font-size: var(--step-small);
+  letter-spacing: 0;
+}
+
+.vb-open-views ul {
+  display: grid;
+  gap: 0.35rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 0.875rem;
+  line-height: 1.4;
+}
+
+.vb-open-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 1.25rem;
+}
+
+.vb-open-factors abbr {
+  text-decoration: none;
+}
+
+@media (min-width: 900px) {
+  .vb-case-phones .vb-capture:nth-child(2) {
+    transform: translateY(-1.5rem);
+  }
+}
+
+.vb-case-phones {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.8rem;
+  align-items: end;
+  max-width: 44rem;
+  margin: 0 auto;
+}
+
+@media (min-width: 900px) {
+  .vb-case-hero {
+    grid-template-columns: 5fr 7fr;
+    grid-template-areas: "copy art" "meta meta";
+    column-gap: clamp(2rem, 5vw, 5rem);
+    row-gap: clamp(2.5rem, 5vw, 4rem);
+    align-items: center;
+  }
+  .vb-case-hero-meta {
+    display: grid;
+    grid-template-columns: 5fr 7fr;
+    column-gap: clamp(2rem, 5vw, 5rem);
+    align-items: start;
+  }
+  .vb-case-hero-meta > .vb-case-arabic,
+  .vb-case-hero-meta > .vb-crumbs {
+    grid-column: 1;
+  }
+  .vb-case-hero-meta > .vb-case-links {
+    grid-column: 1;
+    margin-top: 0;
+  }
+  .vb-case-hero-meta > .vb-case-facts {
+    grid-column: 2;
+    grid-row: 1 / span 3;
+    margin: 0;
+  }
+  .vb-case-hero-copy {
+    grid-area: copy;
+  }
+  .vb-case-hero-art {
+    grid-area: art;
+  }
+  .vb-case-hero-meta {
+    grid-area: meta;
+  }
+}
+
+/* ---------- Body sections ---------- */
+
+.vb-case-section {
+  padding: clamp(4rem, 9vw, 8rem) var(--gutter);
+}
+
+.vb-case-h2 {
+  margin-bottom: 1.25rem;
+  font-size: clamp(1.6rem, 1.2rem + 1.6vw, 2.6rem);
+  font-weight: 700;
+}
+
+.vb-case-problem {
+  display: grid;
+  gap: 2.5rem;
+  max-width: 76rem;
+}
+
+.vb-case-statement {
+  max-width: 40ch;
+  font-size: clamp(1.25rem, 1rem + 1vw, 1.85rem);
+  font-weight: 500;
+  line-height: 1.3;
+  text-wrap: pretty;
+}
+
+.vb-case-text {
+  max-width: var(--measure);
+  text-wrap: pretty;
+}
+
+@media (min-width: 900px) {
+  .vb-case-problem {
+    grid-template-columns: 1fr 1fr;
+    column-gap: clamp(2rem, 5vw, 5rem);
+  }
+  .vb-case-problem > :first-child {
+    grid-column: 1 / -1;
+  }
+}
+
+/* How it works: a flow of actors and actions. */
+.vb-case-how {
+  background: var(--night-2);
+}
+
+.vb-flow {
+  display: grid;
+  gap: 0.3rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: none;
+}
+
+.vb-flow-step {
+  position: relative;
+  display: grid;
+  gap: 0.35rem;
+  padding: 1.1rem 1.2rem 1.2rem;
+  border-radius: 0.5rem;
+  background: var(--night-3);
+}
+
+.vb-flow-actor {
+  font-family: var(--display);
+  font-size: var(--step-small);
+  font-weight: 700;
+  color: var(--ember);
+}
+
+.vb-flow-action {
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+.vb-flow-note {
+  color: var(--sand-2);
+  font-size: var(--step-small);
+  line-height: 1.45;
+}
+
+@media (min-width: 900px) {
+  /* The relay reads left to right as one row of blocks, the way an evening passes. */
+  .vb-flow {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 0.3rem;
+    align-items: stretch;
+  }
+  .vb-flow-step {
+    border-radius: 0;
+  }
+  .vb-flow-step:first-child {
+    border-radius: 0.5rem 0 0 0.5rem;
+  }
+  .vb-flow-step:last-child {
+    border-radius: 0 0.5rem 0.5rem 0;
+  }
+}
+
+@media (max-width: 899px) {
+  .vb-flow {
+    gap: 0.3rem;
+  }
+}
+
+/* What changes at each step: a time, a state, who can see it. On phones it sits on the actor's line. */
+.vb-flow[data-view] .vb-flow-step {
+  grid-template-columns: auto minmax(0, 1fr);
+  column-gap: 0.75rem;
+  padding: 0.85rem 1.1rem 0.95rem;
+}
+
+.vb-flow[data-view] :is(.vb-flow-action, .vb-flow-note) {
+  grid-column: 1 / -1;
+}
+
+.vb-flow-cues {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.3rem;
+  min-width: 0;
+}
+
+.vb-flow-cue {
+  padding: 0.1rem 0.5rem;
+  border-radius: 0.3rem;
+  background: color-mix(in srgb, var(--sand) 12%, transparent);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  line-height: 1.4;
+  font-variant-numeric: tabular-nums;
+}
+
+.vb-flow-cue[data-tone="off"] {
+  background: none;
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--sand-2) 35%, transparent);
+  color: var(--sand-2);
+  font-weight: 500;
+}
+
+.vb-flow-cue[data-tone="held"] {
+  background: var(--ember);
+  color: var(--ember-ink);
+}
+
+.vb-flow-cue[data-tone="done"] {
+  background: var(--ok);
+  color: var(--night);
+}
+
+.vb-flow-cue[data-empty] {
+  display: none;
+}
+
+.vb-flow-lane {
+  color: var(--sand-2);
+  font-weight: 500;
+}
+
+.vb-flow-cue[data-tone] .vb-flow-lane {
+  color: inherit;
+}
+
+/* Naqah: the evening's clock, not a badge. */
+.vb-flow[data-view="timetable"] .vb-flow-cue {
+  padding: 0;
+  background: none;
+  color: var(--ember);
+  font-family: var(--display);
+  font-size: var(--step-small);
+  font-weight: 700;
+}
+
+/* Kashta: the forecast's seven nights, then the same nights ranked, then the best one picked. */
+.vb-nights {
+  display: inline-flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 1rem;
+}
+
+.vb-nights i {
+  width: 5px;
+  height: 60%;
+  border-radius: 1px;
+  background: color-mix(in srgb, var(--sand) 45%, transparent);
+}
+
+.vb-nights[data-stage="3"] i,
+.vb-nights[data-stage="4"] i {
+  height: calc(var(--rank) / 7 * 100%);
+}
+
+.vb-nights[data-stage="4"] i:first-child {
+  background: var(--ember);
+}
+
+.vb-flow + .vb-flow-caption {
+  margin-top: 0.75rem;
+  color: var(--sand-2);
+  font-size: var(--step-small);
+}
+
+@media (max-width: 899px) {
+  /* Amanah on phones: the parties who can see a step; the hidden ones stay for screen readers. */
+  .vb-flow[data-view="views"] .vb-flow-cue[data-tone="off"] {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+}
+
+@media (min-width: 900px) {
+  /* The cues run across the top of the row as one band, step by step. */
+  .vb-flow[data-view] .vb-flow-step {
+    grid-template-columns: minmax(0, 1fr);
+    align-content: start;
+    overflow: clip;
+    padding: 0 1.2rem 1.2rem;
+  }
+  .vb-flow[data-view] .vb-flow-cues {
+    display: grid;
+    order: -1;
+    justify-content: stretch;
+    gap: 2px;
+    margin: 0 -1.2rem 0.75rem;
+  }
+  .vb-flow[data-view] .vb-flow-cue {
+    padding: 0.55rem 1.2rem;
+    border-radius: 0;
+    box-shadow: none;
+  }
+  .vb-flow[data-view] .vb-flow-cue[data-tone="off"] {
+    background: var(--night-2);
+  }
+  .vb-flow[data-view="views"] .vb-flow-cue:not([data-tone]) {
+    background: color-mix(in srgb, var(--sand) 22%, transparent);
+  }
+  /* A reading shared by both children fills both lanes, so the rows stay level. */
+  .vb-flow[data-lanes="2"] .vb-flow-cues {
+    grid-template-rows: repeat(2, minmax(2.25rem, auto));
+  }
+  .vb-flow-cue[data-all] {
+    display: flex;
+    align-self: stretch;
+    align-items: center;
+    gap: 0.3em;
+    grid-row: span 2;
+  }
+  .vb-flow-cue[data-empty] {
+    display: block;
+    background: var(--night-2);
+  }
+  .vb-flow-cue[data-empty]::before {
+    content: "\00a0";
+  }
+  .vb-flow[data-view="nights"] .vb-flow-cues {
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    padding-right: 1.2rem;
+    background: color-mix(in srgb, var(--sand) 12%, transparent);
+  }
+  .vb-flow[data-view="nights"] .vb-flow-cue {
+    background: none;
+  }
+
+  /* Naqah: one evening read down the clock. */
+  .vb-flow[data-view="timetable"] {
+    grid-template-columns: max-content 7rem minmax(0, 1.2fr) minmax(0, 1fr);
+    column-gap: 1.5rem;
+  }
+  .vb-flow[data-view="timetable"] .vb-flow-step {
+    grid-column: 1 / -1;
+    grid-template-columns: subgrid;
+    align-items: baseline;
+    padding: 1.1rem 1.5rem;
+  }
+  .vb-flow[data-view="timetable"] .vb-flow-step:first-child {
+    border-radius: 0.5rem 0.5rem 0 0;
+  }
+  .vb-flow[data-view="timetable"] .vb-flow-step:last-child {
+    border-radius: 0 0 0.5rem 0.5rem;
+  }
+  .vb-flow[data-view="timetable"] .vb-flow-cues {
+    display: block;
+    margin: 0;
+  }
+  .vb-flow[data-view="timetable"] .vb-flow-cue {
+    padding: 0;
+    font-size: var(--step-lead);
+    white-space: nowrap;
+  }
+  .vb-flow[data-view="timetable"] :is(.vb-flow-action, .vb-flow-note) {
+    grid-column: auto;
+  }
+}
+
+/* Screens */
+.vb-screens {
+  display: grid;
+  gap: 2.5rem 1.5rem;
+}
+
+.vb-screen-phone {
+  max-width: 18rem;
+}
+
+.vb-screens .vb-frame-cap {
+  color: var(--sand-2);
+}
+
+.vb-screens .vb-phone .vb-frame-cap {
+  display: block;
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 0.6rem 0.9rem;
+  background: rgba(8, 10, 16, 0.78);
+  color: var(--sand);
+}
+
+.vb-screens-phones {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+@media (min-width: 900px) {
+  .vb-screens {
+    grid-template-columns: repeat(12, 1fr);
+    align-items: end;
+  }
+  .vb-screen-browser {
+    grid-column: span 8;
+  }
+  .vb-screen-phone {
+    grid-column: span 4;
+    justify-self: center;
+  }
+  .vb-screen-phone:only-child {
+    grid-column: 1 / -1;
+    justify-self: start;
+    display: grid;
+    grid-template-columns: 18rem 1fr;
+    gap: 2rem;
+    align-items: center;
+    max-width: none;
+  }
+  .vb-screen-phone:only-child .vb-phone {
+    width: 18rem;
+  }
+  .vb-screens-phones {
+    grid-template-columns: repeat(5, 1fr);
+    align-items: start;
+  }
+  .vb-screens-phones .vb-screen-phone {
+    grid-column: auto;
+  }
+}
+
+/* Decisions and stack */
+.vb-case-under {
+  display: grid;
+  gap: 3rem;
+  background: var(--night-2);
+}
+
+.vb-decisions {
+  display: grid;
+  gap: 0.9rem;
+  max-width: var(--measure);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.vb-decisions li {
+  position: relative;
+  padding-left: 1.5rem;
+  line-height: 1.5;
+}
+
+.vb-decisions li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.65em;
+  width: 0.6rem;
+  height: 0.6rem;
+  border-radius: 50%;
+  background: var(--ember);
+}
+
+.vb-stack {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.vb-stack li {
+  padding: 0.45rem 0.9rem;
+  border-radius: 999px;
+  background: var(--night-3);
+  font-size: var(--step-small);
+  font-weight: 500;
+}
+
+@media (min-width: 900px) {
+  .vb-case-under {
+    grid-template-columns: 7fr 5fr;
+    column-gap: clamp(2rem, 5vw, 5rem);
+  }
+}
+
+/* Previous and next */
+.vb-case-next {
+  display: grid;
+  gap: 0;
+}
+
+.vb-case-next-link {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: clamp(2.5rem, 6vw, 4.5rem) var(--gutter);
+  background: var(--field);
+  color: var(--field-ink);
+  text-decoration: none;
+  transition: filter var(--t-hover) ease;
+}
+
+.vb-case-next-link:hover {
+  filter: brightness(1.06);
+}
+
+.vb-case-next-link span:first-child {
+  color: var(--field-muted);
+  font-size: var(--step-small);
+}
+
+.vb-case-next-link strong {
+  font-family: var(--display);
+  font-size: clamp(2.2rem, 1.5rem + 3.5vw, 4.5rem);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.035em;
+}
+
+.vb-case-next-link strong span[lang="ar"] {
+  margin-left: 0.4em;
+  font-size: 0.6em;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.vb-case-next-link em {
+  max-width: 48ch;
+  font-style: normal;
+  color: var(--field-muted);
+}
+
+@media (min-width: 900px) {
+  .vb-case-next {
+    grid-template-columns: 1fr 1fr;
+  }
+  .vb-case-next-link:last-child {
+    text-align: right;
+    align-items: flex-end;
+  }
+}
+
+/* ---------- Gthrz: privacy and planner ---------- */
+
+.vb-gp,
+.vb-gl {
+  display: grid;
+  gap: 2.5rem;
+  padding: clamp(4rem, 9vw, 8rem) var(--gutter);
+}
+
+.vb-gp {
+  background: var(--night-2);
+}
+
+.vb-gp-copy,
+.vb-gl-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-self: center;
+}
+
+.vb-gs-title,
+.vb-gl-title {
+  font-size: clamp(1.6rem, 1.2rem + 1.6vw, 2.6rem);
+  font-weight: 700;
+}
+
+.vb-gs-body,
+.vb-gl-body {
+  max-width: 44ch;
+  font-size: var(--step-lead);
+  line-height: 1.35;
+}
+
+.vb-gp-tabs,
+.vb-gl-steps {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.vb-gp-tab,
+.vb-gl-step {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 2.75rem;
+  padding: 0 1.1rem;
+  border: 0;
+  border-radius: 999px;
+  background: var(--night-3);
+  color: var(--sand);
+  cursor: pointer;
+  font-size: var(--step-small);
+  font-weight: 500;
+}
+
+/* Without JavaScript: every privacy note listed, every planner screen shown. */
+.vb-gp-list {
+  display: grid;
+  gap: 0.75rem;
+  margin: 0.5rem 0 0;
+}
+
+.vb-gp-list dt {
+  font-weight: 500;
+}
+
+.vb-gp-list dd {
+  margin: 0.1rem 0 0;
+  color: var(--sand-2);
+}
+
+.vb-gl-static {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.75rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.vb-gl-static li {
+  display: grid;
+  gap: 0.5rem;
+  color: var(--sand-2);
+  font-size: var(--step-small);
+}
+
+.vb-gp-tab[aria-selected="true"],
+.vb-gl-step[aria-pressed="true"] {
+  background: var(--ember);
+  color: var(--ember-ink);
+}
+
+.vb-gl-num {
+  display: none;
+}
+
+.vb-gp-note {
+  min-height: 3rem;
+  color: var(--sand-2);
+}
+
+.vb-gp-phones {
+  display: grid;
+  grid-template-columns: 3fr 2fr;
+  gap: 1rem;
+  align-items: end;
+  max-width: 36rem;
+}
+
+.vb-gp-main {
+  position: relative;
+}
+
+.vb-gp-main img,
+.vb-gp-side img {
+  display: block;
+  width: 100%;
+  height: auto;
+  filter: drop-shadow(0 1rem 1.25rem rgb(0 0 0 / 0.45));
+}
+
+.vb-gp-hl {
+  position: absolute;
+  left: 4%;
+  right: 4%;
+  border: 3px solid var(--ember); /* taste-skill-ignore: highlight marker on the screenshot */
+  border-radius: 0.6rem;
+  transition:
+    top var(--t-ui) var(--ease-out),
+    height var(--t-ui) var(--ease-out);
+}
+
+.vb-gp-side {
+  margin: 0;
+}
+
+.vb-gp-side figcaption {
+  margin-top: 0.6rem;
+  color: var(--sand-2);
+  font-size: var(--step-small);
+}
+
+.vb-gl-stack {
+  position: relative;
+  display: grid;
+  width: calc(100% - 2.4rem);
+  max-width: 32rem;
+  aspect-ratio: 446 / 400;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+.vb-gl-card {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: auto;
+  transform: translate(calc(var(--d) * 1.1rem), calc(var(--d) * 1.2rem))
+    scale(calc(1 - var(--d) * 0.04));
+  transition: transform 400ms var(--ease-out), opacity 400ms ease;
+}
+
+.vb-gl-card[data-dist="0"] {
+  z-index: 3;
+}
+
+.vb-gl-card[data-dist="1"] {
+  z-index: 2;
+  opacity: 0.7;
+}
+
+.vb-gl-card[data-dist="2"] {
+  z-index: 1;
+  opacity: 0.4;
+}
+
+@media (min-width: 900px) {
+  .vb-gl-card {
+    transform: translate(calc(var(--d) * 2.5rem), calc(var(--d) * 1.5rem))
+      scale(calc(1 - var(--d) * 0.04));
+  }
+  .vb-gp,
+  .vb-gl {
+    grid-template-columns: 5fr 7fr;
+    column-gap: clamp(2rem, 5vw, 5rem);
+    align-items: center;
+  }
+  .vb-gl-stack {
+    justify-self: center;
+  }
+}
+
+/* The one decision that shaped the product: a statement, then three plain blocks. */
+.vb-decision {
+  display: grid;
+  gap: 2rem;
+  margin: 0;
+}
+
+.vb-decision dt {
+  margin-bottom: 0.4rem;
+  font-family: var(--display);
+  font-size: var(--step-small);
+  font-weight: 700;
+  color: var(--ember);
+}
+
+.vb-decision dd {
+  margin: 0;
+  max-width: 52ch;
+  line-height: 1.5;
+  text-wrap: pretty;
+}
+
+.vb-decision-constraint dd {
+  max-width: 24ch;
+  font-family: var(--display);
+  font-size: clamp(1.4rem, 1.1rem + 1.3vw, 2.2rem);
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+
+/* The proof figure: states on the line of moments, with notes. */
+.vb-case-proof {
+  background: var(--night-2);
+}
+
+.vb-proof {
+  display: grid;
+  gap: 2rem;
+  margin: 0;
+}
+
+.vb-proof-line {
+  --accent: var(--ember);
+  --hour-now-ink: var(--ember-ink);
+}
+
+.vb-proof-line .vb-dayline-time {
+  font-size: var(--step-body);
+}
+
+.vb-proof-notes {
+  display: grid;
+  gap: 0.75rem;
+  max-width: var(--measure);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  color: var(--sand-2);
+}
+
+.vb-proof-notes li {
+  position: relative;
+  padding-left: 1.4rem;
+}
+
+.vb-proof-notes li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.65em;
+  width: 0.55rem;
+  height: 0.55rem;
+  border-radius: 50%;
+  background: var(--ember);
+}
+
+/* Numbers read from the public repository, each with its source. */
+/* A sourced product result, when the owner supplies one, leads the proof. */
+.vb-outcome {
+  max-width: 40ch;
+  margin-bottom: 2rem;
+  color: var(--sand);
+  font-family: var(--display);
+  font-size: clamp(1.3rem, 1rem + 1vw, 1.8rem);
+  font-weight: 700;
+  line-height: 1.3;
+  text-wrap: pretty;
+}
+
+.vb-evidence {
+  display: grid;
+  gap: 1rem;
+  max-width: 52rem;
+  margin-top: 3rem;
+}
+
+.vb-evidence-title {
+  color: var(--sand-2);
+  font-family: var(--text);
+  font-size: var(--step-small);
+  font-weight: 400;
+  letter-spacing: 0;
+}
+
+.vb-evidence-list {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  margin: 0;
+}
+
+.vb-evidence-row {
+  display: grid;
+  grid-column: 1 / -1;
+  grid-template-columns: subgrid;
+  gap: 0.25rem 1.5rem;
+  align-items: baseline;
+  padding: 0.9rem 0;
+  border-top: 1px solid color-mix(in srgb, var(--sand) 14%, transparent);
+}
+
+.vb-evidence-row dt {
+  font-family: var(--display);
+  font-size: clamp(1.4rem, 1.1rem + 1vw, 1.9rem);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.1;
+  color: var(--sand);
+}
+
+.vb-evidence-row dd {
+  margin: 0;
+  color: var(--sand-2);
+  text-wrap: pretty;
+}
+
+.vb .vb-evidence-source {
+  color: var(--sand);
+  white-space: nowrap;
+  text-decoration: underline;
+  text-decoration-color: var(--ember);
+  text-underline-offset: 0.22em;
+}
+
+@media (max-width: 599px) {
+  .vb-evidence-list,
+  .vb-evidence-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+.vb-case-demo .vb-case-text {
+  margin-bottom: 1.5rem;
+}
+
+.vb-case-demo .vb-call {
+  background: var(--night-2);
+  color: var(--sand);
+  --accent: var(--ember);
+}
+
+.vb-case-demo .vb-call .vb-btn-field {
+  background: var(--ember);
+  color: var(--ember-ink);
+}
+
+.vb-case-demo .vb-call-line {
+  background: var(--night-3);
+}
+
+.vb-case-demo .vb-call-line[data-who="worker"] {
+  background: #263048;
+}
+
+.vb-case-demo .vb-call-facts {
+  background: var(--night-3);
+}
+
+.vb-decision-pair {
+  display: grid;
+  gap: 2.5rem;
+}
+
+.vb-decision-pair > * {
+  min-width: 0;
+}
+
+@media (min-width: 900px) {
+  .vb-decision-pair {
+    grid-template-columns: 5fr 7fr;
+    column-gap: clamp(2rem, 5vw, 5rem);
+    align-items: start;
+  }
+  .vb-decision-artifact {
+    position: sticky;
+    top: 5rem;
+  }
+  /* When the demo opened the case, the decision reads across in two columns. */
+  .vb-decision-pair[data-solo="true"] {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .vb-decision-pair[data-solo="true"] .vb-decision {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: clamp(2rem, 5vw, 5rem);
+  }
+  .vb-decision-pair[data-solo="true"] .vb-decision-constraint {
+    grid-column: 1 / -1;
+  }
+}
+
+/* Who may move a booking, read beside the chat that moves it. */
+.vb-decision-proof {
+  display: grid;
+  gap: 1rem;
+  margin-top: 2.5rem;
+  padding-top: 2rem;
+  border-top: 1px solid color-mix(in srgb, var(--sand) 16%, transparent);
+}
+
+.vb-decision-proof-title {
+  font-size: var(--step-body);
+  font-weight: 700;
+  color: var(--sand);
+}
+
+/* The case's own demo, opening it on the project's field. */
+.vb-case-hero-demo {
+  min-width: 0;
+}
+
+/* A screenshot standing behind a dune at night, instead of in a browser window. */
+.vb-plate {
+  display: grid;
+  gap: 0.75rem;
+  margin: 0;
+}
+
+.vb-plate-sky {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  border-radius: 0.75rem 0.75rem 0 0;
+}
+
+.vb-plate-img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.vb-plate-sky::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: clamp(1.75rem, 5vw, 4rem);
+  background: var(--plate-ground, var(--night));
+  mask: var(--crest-3) 0 0 / 100% 100% no-repeat;
+}
+
+.vb-screen:nth-child(even) .vb-plate-sky::after {
+  mask-image: var(--crest-1);
+}
+
+.vb-plate-where {
+  display: block;
+  margin-bottom: 0.15rem;
+  color: var(--ember);
+  font-size: var(--step-small);
+  font-weight: 600;
+}
+
+/* ---------- Artifacts beside the decisions ---------- */
+
+.vb-art {
+  display: grid;
+  gap: 0.9rem;
+  padding: 1.25rem;
+  border-radius: 0.75rem;
+  background: var(--night-2);
+}
+
+.vb-art-label,
+.vb-art-en,
+.vb-art-note {
+  color: var(--sand-2);
+  font-size: var(--step-small);
+}
+
+.vb-art-h {
+  font-family: var(--display);
+  font-weight: 700;
+}
+
+.vb-art-h span[lang="ar"] {
+  margin-right: 0.5rem;
+}
+
+.vb-art-sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.vb-art-lines,
+.vb-art-facts,
+.vb-art-chat {
+  display: grid;
+  gap: 0.6rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.vb-art-lines li {
+  display: grid;
+  gap: 0.15rem;
+  padding: 0.6rem 0.8rem;
+  border-radius: 0.6rem;
+  background: var(--night-3);
+}
+
+.vb-art-lines span[lang="ar"],
+.vb-art-url {
+  font-size: var(--step-small);
+  text-align: right;
+  unicode-bidi: isolate;
+}
+
+.vb-art-chat span[lang="ar"] {
+  display: block;
+  font-size: 1.05rem;
+  font-weight: 500;
+  text-align: right;
+}
+
+.vb-art-facts li {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  font-size: var(--step-small);
+}
+
+.vb-art-facts li[data-flag="true"] strong {
+  color: var(--ember);
+}
+
+.vb-art-naqah-grid {
+  display: grid;
+  gap: 1rem;
+}
+
+.vb-art-owner {
+  font-size: var(--step-small);
+}
+
+.vb-art-owner strong {
+  font-family: var(--display);
+  margin-right: 0.3rem;
+}
+
+.vb-art-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--step-small);
+}
+
+.vb-art-table th,
+.vb-art-table td {
+  padding: 0.5rem 0.4rem;
+  text-align: left;
+  vertical-align: top;
+}
+
+.vb-art-table thead th {
+  color: var(--sand-2);
+  font-weight: 500;
+}
+
+.vb-art-table tbody th {
+  font-family: var(--display);
+  font-weight: 700;
+}
+
+.vb-art-table tbody tr {
+  background: var(--night-3);
+}
+
+.vb-art-table tbody tr:nth-child(even) {
+  background: color-mix(in srgb, var(--night-3) 60%, var(--night-2));
+}
+
+.vb-art-table td[data-on="true"] {
+  color: var(--ok);
+  font-weight: 500;
+}
+
+.vb-art-table select {
+  width: 100%;
+  min-height: 2.75rem;
+  margin-bottom: 0.35rem;
+  padding: 0.35rem 0.4rem;
+  border: 1px solid var(--night);
+  border-radius: 0.35rem;
+  background: var(--night);
+  color: var(--sand);
+  font: inherit;
+  font-size: var(--step-small);
+}
+
+.vb-art-toggle {
+  min-height: 2.75rem;
+  padding: 0 0.7rem;
+  border: 0;
+  border-radius: 999px;
+  background: var(--night);
+  color: var(--sand);
+  cursor: pointer;
+  font-size: var(--step-small);
+  font-weight: 500;
+}
+
+.vb-art-toggle[aria-pressed="true"] {
+  background: var(--ember);
+  color: var(--ember-ink);
+}
+
+.vb-art-toggle:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+
+.vb-art-sum {
+  font-size: var(--step-small);
+  line-height: 1.5;
+}
+
+.vb-art-state {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.vb-art-state span {
+  padding: 0.2rem 0.7rem;
+  border-radius: 999px;
+  background: var(--night-3);
+  font-size: var(--step-small);
+}
+
+.vb-art-state span[data-on="true"] {
+  background: var(--ember);
+  color: var(--ember-ink);
+  font-weight: 500;
+}
+
+.vb-art-chat li {
+  display: grid;
+  gap: 0.15rem;
+  max-width: 88%;
+  padding: 0.6rem 0.8rem;
+  border-radius: 0.75rem;
+  background: var(--night-3);
+}
+
+.vb-art-chat li[data-who="brand"] {
+  justify-self: end;
+  background: #263048;
+}
+
+.vb-art-chat li[data-who="system"] {
+  max-width: none;
+  background: color-mix(in srgb, var(--ok) 18%, var(--night-2));
+}
+
+.vb-art-controls,
+.vb-art-options {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.vb-art-score td:nth-child(3) {
+  color: var(--sand-2);
+}
+
+@media (min-width: 600px) {
+  .vb-art-naqah-grid {
+    grid-template-columns: 3fr 2fr;
+  }
+}
+
+/* Wide tables become labelled rows on phones. */
+@media (max-width: 599px) {
+  .vb-art-score thead,
+  .vb-art-gthrz thead {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+  }
+  .vb-art-score tr,
+  .vb-art-gthrz tr {
+    display: grid;
+    gap: 0.2rem;
+    padding: 0.6rem 0.6rem;
+    margin-bottom: 0.5rem;
+    border-radius: 0.4rem;
+  }
+  .vb-art-score th,
+  .vb-art-score td,
+  .vb-art-gthrz th,
+  .vb-art-gthrz td {
+    padding: 0;
+  }
+  .vb-art-score td::before,
+  .vb-art-gthrz td::before {
+    content: attr(data-label) ": ";
+    color: var(--sand-2);
+  }
+}
+
+/* Screens: each project composes its gallery differently. */
+@media (min-width: 900px) {
+  .vb-screens[data-layout="tammeni"] .vb-screen-browser {
+    grid-column: span 12;
+  }
+  .vb-screens[data-layout="tammeni"] .vb-screen-phone {
+    grid-column: span 3;
+  }
+  .vb-screens[data-layout="tammeni"] .vb-screen-browser:last-child {
+    grid-column: span 6;
+  }
+  .vb-screens[data-layout="kashta"] .vb-screen-browser {
+    grid-column: span 6;
+  }
+  .vb-screens[data-layout="kashta"] .vb-screen-browser:first-child {
+    grid-column: span 12;
+  }
+  .vb-screens[data-layout="kashta"] .vb-screen-phone {
+    grid-column: span 12;
+    justify-self: center;
+  }
+  .vb-screens[data-layout="amanah"] .vb-screen-browser {
+    grid-column: span 6;
+  }
+  .vb-screens[data-layout="amanah"] .vb-screen-browser:first-child {
+    grid-column: span 12;
+  }
+  .vb-screens[data-layout="naqah"] .vb-screen-browser:first-child {
+    grid-column: span 12;
+  }
+  .vb-screens[data-layout="naqah"] .vb-screen-browser:nth-child(2) {
+    grid-column: span 8;
+  }
+}
+
+@media (max-width: 599px) {
+  .vb-proof-line {
+    grid-auto-flow: row;
+    grid-auto-columns: auto;
+  }
+  .vb-proof-line .vb-dayline-moment:first-child {
+    border-radius: 0.5rem 0.5rem 0 0;
+  }
+  .vb-proof-line .vb-dayline-moment:last-child {
+    border-radius: 0 0 0.5rem 0.5rem;
+  }
+}
+
+/* ---------- Over the dune: the night rises over the hero, the next projects over the night ---------- */
+
+.vb-case-hero {
+  padding-bottom: calc(clamp(3rem, 7vw, 6rem) + var(--edge));
+}
+
+.vb-case-hero + .vb-case-section {
+  position: relative;
+  background: var(--night);
+}
+
+.vb-case-hero + .vb-case-section::before,
+.vb-case-next::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: calc(100% - 1px);
+  height: var(--edge);
+  background: var(--crest-fill, var(--night));
+  mask: var(--crest-2) 0 0 / 100% 100% no-repeat;
+  pointer-events: none;
+}
+
+/* The problem keeps its 76rem measure but its night spans the page. */
+.vb-case-hero + .vb-case-problem {
+  max-width: none;
+  padding-right: max(var(--gutter), calc(100% - 76rem + var(--gutter)));
+}
+
+.vb-case-under {
+  padding-bottom: calc(clamp(4rem, 9vw, 8rem) + var(--edge));
+}
+
+/* The next projects rise as one dune in the first one's colour; the second sits beside it. */
+.vb-case-next {
+  position: relative;
+  --crest-fill: var(--first-field);
+}
+
+.vb-case-next::before {
+  mask-image: var(--crest-4);
+}
+
+/* Room under each for the crest of the one below it, and for the sunrise. */
+.vb-case-next-link {
+  padding-bottom: calc(clamp(2.5rem, 6vw, 4.5rem) + var(--edge));
+}
+
+/* Light parallax on the screenshots: they drift a little slower than the
+   page. Scroll-driven where supported; elsewhere they simply stay still. */
+@keyframes vb-case-drift {
+  from {
+    translate: 0 var(--drift);
+  }
+  to {
+    translate: 0 calc(var(--drift) * -1);
+  }
+}
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .vb[data-motion="on"] .vb-case :is(.vb-screens .vb-screen > *, .vb-gp-phones > *) {
+      --drift: 1.25rem;
+      animation: vb-case-drift linear both;
+      animation-timeline: view();
+      animation-range: cover;
+    }
+    .vb[data-motion="on"] .vb-case :is(.vb-screens .vb-screen:nth-child(even) > *, .vb-gp-phones > :nth-child(2)) {
+      --drift: 2.25rem;
+    }
+  }
+}
+
+/* Lists that arrive as lists: the flow's steps and the decision's four
+   answers follow each other in, a beat apart. Transform only. */
+.vb[data-motion="on"] .vb-reveal[data-wait="true"] :is(.vb-flow-step, .vb-decision > div) {
+  transform: translateY(14px);
+}
+
+.vb[data-motion="on"] .vb-reveal[data-in="true"] :is(.vb-flow-step, .vb-decision > div) {
+  transform: none;
+  transition: transform var(--t-reveal) var(--ease-expo);
+}
+
+.vb[data-motion="on"] .vb-reveal[data-in="true"] :is(.vb-flow-step, .vb-decision > div):nth-child(2) {
+  transition-delay: 0.08s;
+}
+
+.vb[data-motion="on"] .vb-reveal[data-in="true"] :is(.vb-flow-step, .vb-decision > div):nth-child(3) {
+  transition-delay: 0.16s;
+}
+
+.vb[data-motion="on"] .vb-reveal[data-in="true"] :is(.vb-flow-step, .vb-decision > div):nth-child(n + 4) {
+  transition-delay: 0.24s;
+}
+
+.vb-case-hour {
+  margin-bottom: 1.25rem;
+}

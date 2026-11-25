@@ -1,27 +1,13 @@
 import { publicUrl } from "@/lib/site";
 
-/**
- * The homepage portrait. To swap in a different photo, change `src` (and the
- * crop in `position`). Set `duotone` to false to show the photo in its own
- * colours, which suits a casual portrait that already fits the palette.
- *
- * Paths go through publicUrl because unoptimized next/image does not add basePath.
- */
-export const portrait = {
-  src: publicUrl("/images/graduation/graduation.jpg"),
-  alt: "Mohammed in graduation gown and cap, holding a rolled certificate.",
-  width: 2848,
-  height: 4288,
-  position: "50% 0%",
-  duotone: true,
-} as const;
+/* Paths go through publicUrl because unoptimized next/image does not add basePath. */
 
 /** The graduation photograph used as the centrepiece of the Education chapter. */
 export const graduation = {
   src: publicUrl("/images/graduation/graduation.jpg"),
   alt: "Mohammed Bin Shamlan in graduation dress, holding a diploma.",
-  width: 2848,
-  height: 4288,
+  width: 930,
+  height: 1400,
   position: "50% 20%",
 } as const;
 
@@ -30,7 +16,7 @@ export const childhood = {
   src: publicUrl("/images/childhood/childhood.jpg"),
   alt: "Mohammed as a child, wearing a white thobe and a red-and-white shemagh with a black agal.",
   width: 900,
-  height: 1125,
+  height: 1124,
 } as const;
 
 /**

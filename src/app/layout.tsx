@@ -1,32 +1,21 @@
 import type { Metadata } from "next";
-import { Schibsted_Grotesk, Source_Serif_4 } from "next/font/google";
 import "./globals.css";
 
-const grotesk = Schibsted_Grotesk({
-  subsets: ["latin"],
-  variable: "--font-grotesk",
-  display: "swap",
-});
-
-const sourceSerif = Source_Serif_4({
-  subsets: ["latin"],
-  variable: "--font-source",
-  display: "swap",
-});
+// Each area loads only its own faces: the portfolio in src/app/(portfolio)/layout.tsx,
+// the experiment in src/app/experiment/page.tsx, Version A in src/app/version-a/layout.tsx.
 
 export const metadata: Metadata = {
-  title: "Portfolio experiment",
+  title: {
+    default: "Mohammed Bin Shamlan",
+    template: "%s — Mohammed Bin Shamlan",
+  },
   description:
-    "An exploration of how different prompts shape the same personal portfolio.",
+    "Software developer in Saudi Arabia building Arabic-first AI products for real Saudi life: Naqah, Tammeni, Seet, Kashta, Amanah and Gthrz.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html
-      lang="en"
-      data-scroll-behavior="smooth"
-      className={`${grotesk.variable} ${sourceSerif.variable} h-full antialiased`}
-    >
+    <html lang="en" data-scroll-behavior="smooth" className="h-full antialiased">
       <body className="min-h-full">{children}</body>
     </html>
   );

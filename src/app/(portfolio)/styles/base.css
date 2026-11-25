@@ -1,0 +1,1016 @@
+/* Portfolio: tokens, frame, navigation, buttons, footer, dialogs.
+   One night in Riyadh, from sunset to sunrise: the ground moves from dusk
+   through night to dawn, the ink is moonlit sand, the accent is ember.
+   Each project brings its own flat field colour, rising over the last as a dune. */
+
+.vb {
+  /* The night, hour by hour. */
+  --dusk: #221719;
+  --dusk-2: #2e2022;
+  --dusk-3: #44302f;
+  --nightfall: #111421;
+  --night: #0b0e14;
+  --predawn: #121b2b;
+  --dawn: #f1d9b3;
+  --dawn-ink: #2a1a0e;
+  --dawn-muted: #644630;
+  --night-2: #131823;
+  --night-3: #1c2231;
+  --sand: #efe6d3;
+  --sand-2: #b9b0a0;
+  --ember: #e9a24a;
+  --ember-ink: #1a1206;
+  --danger: #ff8a7a;
+  --ok: #8fd3a5;
+
+  --display: var(--font-vb-display), "Alexandria", "IBM Plex Sans Arabic", "Segoe UI", sans-serif;
+  --text: var(--font-vb-text), "Readex Pro", "IBM Plex Sans Arabic", "Segoe UI", sans-serif;
+
+  /* Side space; on very wide screens it grows so content stays within 100rem. */
+  --gutter: max(clamp(1rem, 4vw, 3.5rem), calc((100vw - 100rem) / 2));
+  --measure: 62ch;
+  --nav-h: 4.25rem;
+
+  /* Dune crests: a long windward slope, a sharp crest, a short slip face. */
+  --edge: clamp(1.25rem, 5vw, 4.5rem);
+  --crest-1: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 100' preserveAspectRatio='none'%3E%3Cpath d='M0 100V74C220 66 470 40 690 12Q712 7 726 12C770 34 820 54 920 62C1030 70 1120 66 1200 62V100Z'/%3E%3C/svg%3E");
+  --crest-2: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 100' preserveAspectRatio='none'%3E%3Cpath d='M0 100V60C90 52 170 34 228 22Q240 20 250 26C290 52 360 70 520 74C760 78 940 52 1060 20Q1076 16 1088 22C1130 46 1170 58 1200 62V100Z'/%3E%3C/svg%3E");
+  --crest-3: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 100' preserveAspectRatio='none'%3E%3Cpath d='M0 100V40C30 44 70 52 140 60C330 80 560 76 760 52C860 40 920 26 960 14Q974 10 986 16C1040 44 1120 62 1200 66V100Z'/%3E%3C/svg%3E");
+  --crest-4: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 100' preserveAspectRatio='none'%3E%3Cpath d='M0 100V62C80 66 170 70 280 62C380 54 430 34 474 12Q488 7 510 12C730 40 980 66 1200 74V100Z'/%3E%3C/svg%3E");
+
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-soft: cubic-bezier(0.33, 1, 0.68, 1);
+  --t-hover: 180ms;
+  --t-ui: 240ms;
+  --t-reveal: 800ms;
+
+  --step-small: 0.9375rem;
+  --step-body: clamp(1.0625rem, 1rem + 0.3vw, 1.2rem);
+  --step-lead: clamp(1.25rem, 1.05rem + 0.9vw, 1.75rem);
+  --step-head: clamp(2rem, 1.3rem + 3.4vw, 4.25rem);
+  --step-display: clamp(3rem, 1.5rem + 8vw, 8.5rem);
+
+  min-height: 100dvh;
+  background: var(--night);
+  color: var(--sand);
+  font-family: var(--text);
+  font-size: var(--step-body);
+  line-height: 1.55;
+  overflow-x: clip;
+  color-scheme: dark;
+  -webkit-font-smoothing: antialiased;
+}
+
+html:has(.vb) {
+  background: #0b0e14;
+  scroll-padding-top: 5rem;
+}
+
+.vb *,
+.vb *::before,
+.vb *::after {
+  box-sizing: border-box;
+}
+
+.vb ::selection {
+  background: var(--ember);
+  color: var(--ember-ink);
+}
+
+.vb :focus-visible {
+  outline: 2px solid var(--ember);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+.vb img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+.vb p {
+  margin: 0;
+}
+
+/* Zero specificity beyond the element, so component classes can set spacing. */
+:where(.vb) :where(h1, h2, h3) {
+  margin: 0;
+  font-family: var(--display);
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  line-height: 0.98;
+  text-wrap: balance;
+}
+
+.vb-sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+:where(.vb) a {
+  color: inherit;
+  text-underline-offset: 0.18em;
+  text-decoration-thickness: 1px;
+}
+
+.vb button {
+  font: inherit;
+  color: inherit;
+}
+
+/* Arabic runs. */
+.vb [lang="ar"] {
+  direction: rtl;
+  unicode-bidi: isolate;
+  font-family: var(--display);
+  letter-spacing: 0;
+}
+
+.vb-skip {
+  position: absolute;
+  left: var(--gutter);
+  top: 0.75rem;
+  z-index: 60;
+  padding: 0.6rem 0.9rem;
+  background: var(--ember);
+  color: var(--ember-ink);
+  font-weight: 500;
+  text-decoration: none;
+  transform: translateY(-200%);
+}
+
+.vb-skip:focus {
+  transform: none;
+}
+
+/* ---------- Navigation ---------- */
+
+.vb-nav {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  display: flex;
+  min-height: var(--nav-h);
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0 var(--gutter);
+  background: var(--night);
+  color: var(--sand);
+}
+
+.vb-nav[data-tone="light"] {
+  background: var(--field, var(--night));
+  color: var(--field-ink, var(--sand));
+}
+
+.vb-brand {
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem;
+  min-width: 0;
+}
+
+.vb-wordmark {
+  display: inline-block;
+  padding: 0.5rem 0;
+  font-family: var(--display);
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.vb-wordmark span[lang="ar"] {
+  margin-left: 0.75rem;
+  font-weight: 500;
+  opacity: 0.75;
+}
+
+.vb-nav-links {
+  display: none;
+  align-items: center;
+  gap: 1.75rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: var(--step-small);
+}
+
+.vb-nav-links a {
+  display: inline-block;
+  padding: 0.6rem 0;
+  text-decoration: none;
+  opacity: 0.8;
+  transition: opacity var(--t-hover) ease;
+}
+
+.vb-nav-links a:hover,
+.vb-nav-links a[aria-current="page"] {
+  opacity: 1;
+  text-decoration: underline;
+}
+
+.vb-nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.vb-nav-back {
+  display: none;
+  padding: 0.6rem 0;
+  font-size: var(--step-small);
+  opacity: 0.7;
+  text-decoration: none;
+}
+
+.vb-nav-back:hover {
+  opacity: 1;
+  text-decoration: underline;
+}
+
+.vb-menu-toggle {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
+  padding: 0 0.9rem;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  font-size: var(--step-small);
+  font-weight: 500;
+  background: color-mix(in srgb, currentColor 12%, transparent);
+}
+
+.vb-menu {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  width: 100vw;
+  max-width: none;
+  height: 100dvh;
+  max-height: none;
+  margin: 0;
+  padding: 0 var(--gutter) 2rem;
+  border: 0;
+  background: var(--night);
+  color: var(--sand);
+}
+
+.vb-menu[open] {
+  display: flex;
+  flex-direction: column;
+}
+
+.vb-menu::backdrop {
+  background: transparent;
+}
+
+.vb-menu-head {
+  display: flex;
+  min-height: var(--nav-h);
+  align-items: center;
+  justify-content: space-between;
+}
+
+.vb-menu-list {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.75rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.vb-menu-list a {
+  display: block;
+  font-family: var(--display);
+  font-size: clamp(2.4rem, 11vw, 3.6rem);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  text-decoration: none;
+}
+
+.vb-menu-list a[aria-current="page"] {
+  color: var(--ember);
+}
+
+.vb-menu-foot {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+  font-size: var(--step-small);
+}
+
+@media (max-width: 599px) {
+  .vb-wordmark span[lang="ar"] {
+    display: none;
+  }
+}
+
+/* Before hydration the phone gets plain links; the Menu button needs JavaScript. */
+@media (max-width: 899px) {
+  .vb-nav:not([data-hydrated]) .vb-nav-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 1rem;
+  }
+  .vb-nav:not([data-hydrated]) .vb-menu-toggle {
+    display: none;
+  }
+}
+
+@media (min-width: 900px) {
+  .vb-nav-links {
+    display: flex;
+  }
+  .vb-nav-links a,
+  .vb-nav-back {
+    white-space: nowrap;
+  }
+  .vb-nav-back {
+    display: inline;
+  }
+  .vb-menu-toggle {
+    display: none;
+  }
+}
+
+/* ---------- Buttons and links ---------- */
+
+.vb .vb-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 3rem;
+  padding: 0 1.4rem;
+  border: 0;
+  border-radius: 999px;
+  background: var(--ember);
+  color: var(--ember-ink);
+  cursor: pointer;
+  font-family: var(--text);
+  font-size: var(--step-body);
+  font-weight: 500;
+  text-decoration: none;
+  transition:
+    transform var(--t-hover) var(--ease-out),
+    background-color var(--t-hover) ease;
+}
+
+.vb .vb-btn:hover {
+  background: #f3b161;
+}
+
+.vb-btn:active {
+  transform: scale(0.97);
+}
+
+.vb .vb-btn-quiet {
+  background: color-mix(in srgb, currentColor 12%, transparent);
+  color: inherit;
+}
+
+.vb .vb-btn-quiet:hover {
+  background: color-mix(in srgb, currentColor 20%, transparent);
+}
+
+.vb .vb-btn-field {
+  background: var(--field-ink);
+  color: var(--field);
+}
+
+.vb .vb-btn-field:hover {
+  background: color-mix(in srgb, var(--field-ink) 85%, var(--field));
+}
+
+.vb .vb-link {
+  display: inline-flex;
+  min-height: 2.75rem;
+  align-items: center;
+  gap: 0.35rem;
+  font-weight: 500;
+  text-decoration: underline;
+  text-underline-offset: 0.22em;
+}
+
+.vb-link:hover {
+  text-decoration-thickness: 2px;
+}
+
+/* ---------- Section frame ---------- */
+
+.vb-section-head {
+  max-width: 24ch;
+  font-size: var(--step-head);
+}
+
+.vb-lead {
+  max-width: var(--measure);
+  font-size: var(--step-lead);
+  line-height: 1.35;
+  text-wrap: pretty;
+}
+
+/* A part of tonight: the moon at its height, the Arabic name, the English name and its time. */
+.vb-hour {
+  --alt: 0.5;
+  display: grid;
+  grid-template-columns: auto minmax(0, auto);
+  grid-template-areas: "sky ar" "sky en";
+  column-gap: 0.8rem;
+  align-items: center;
+  justify-content: start;
+  width: fit-content;
+  max-width: 100%;
+}
+
+.vb-hour[data-part="sunset"] {
+  --alt: 0.05;
+}
+
+.vb-hour[data-part="nightfall"] {
+  --alt: 0.45;
+}
+
+.vb-hour[data-part="midnight"] {
+  --alt: 1;
+}
+
+.vb-hour[data-part="lastThird"] {
+  --alt: 0.7;
+}
+
+.vb-hour[data-part="dawn"] {
+  --alt: 0.2;
+}
+
+.vb-hour-sky {
+  grid-area: sky;
+  position: relative;
+  width: 2.5rem;
+  height: 3rem;
+  overflow: hidden;
+}
+
+/* A short dune line under the moon. */
+.vb-hour-sky::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 0.7rem;
+  background: var(--hour-dune, color-mix(in srgb, currentColor 28%, transparent));
+  mask: var(--crest-1) 0 0 / 100% 100% no-repeat;
+}
+
+.vb-hour-moon,
+.vb-hour-sun {
+  position: absolute;
+  left: 50%;
+  bottom: calc(0.2rem + var(--alt) * var(--rise, 1.1rem));
+  translate: -50% 0;
+}
+
+.vb-hour-moon {
+  width: var(--moon-size, 1.6rem);
+  height: var(--moon-size, 1.6rem);
+}
+
+/* A larger sky for the marks set at display size. */
+@media (min-width: 900px) {
+  :is(.vb-midnight-hour, .vb-footer-hour) .vb-hour-sky {
+    --moon-size: 2.6rem;
+    --rise: 1.6rem;
+    width: 3.75rem;
+    height: 4.75rem;
+  }
+
+  :is(.vb-midnight-hour, .vb-footer-hour) .vb-hour-sky::after {
+    height: 1rem;
+  }
+
+  .vb-footer-hour .vb-hour-sun {
+    width: 2.8rem;
+    height: 2.8rem;
+    bottom: -0.4rem;
+  }
+}
+
+.vb-hour-sun {
+  bottom: -0.2rem;
+  width: 1.7rem;
+  height: 1.7rem;
+  border-radius: 50%;
+  background: var(--ember);
+}
+
+.vb-hour-ar {
+  grid-area: ar;
+  justify-self: start;
+  color: var(--hour-ink, var(--ember));
+  font-size: 1.45rem;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.vb-hour-en {
+  grid-area: en;
+  color: var(--hour-muted, var(--sand-2));
+  font-size: var(--step-small);
+  line-height: 1.35;
+}
+
+@media (max-width: 899px) {
+  .vb-hour-sky {
+    height: 2.6rem;
+  }
+  .vb-hour-ar {
+    font-size: 1.25rem;
+  }
+}
+
+.vb-hour-en time {
+  color: var(--hour-time, var(--sand));
+  font-variant-numeric: tabular-nums;
+}
+
+.vb-moon-dark {
+  fill: var(--moon-dark, var(--night-3));
+}
+
+.vb-moon-lit {
+  fill: var(--moon-lit, var(--sand));
+}
+
+/* The moon climbs to its height as the mark comes into view. */
+@keyframes vb-climb {
+  from {
+    transform: translateY(1.1rem);
+  }
+}
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .vb[data-motion="on"] :is(.vb-hour-moon, .vb-hour-sun) {
+      animation: vb-climb linear both;
+      animation-timeline: view();
+      animation-range: entry 0% cover 45%;
+    }
+  }
+}
+
+.vb-muted {
+  color: var(--sand-2);
+}
+
+/* Entrances exist only once JavaScript has marked the page as motion-capable.
+   Static HTML shows everything. Waiting content only sits lower; it is never
+   transparent, so contrast checks, find-in-page and screen readers always see it. */
+.vb[data-motion="on"] .vb-reveal[data-wait="true"] {
+  transform: translateY(22px);
+}
+
+.vb[data-motion="on"] .vb-reveal[data-in="true"] {
+  transform: none;
+  transition: transform var(--t-reveal) var(--ease-expo);
+}
+
+.vb[data-motion="on"]:not([data-loaded="true"]) [data-rise] {
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.vb[data-motion="on"][data-loaded="true"] [data-rise] {
+  opacity: 1;
+  transform: none;
+  transition:
+    opacity 0.9s var(--ease-expo),
+    transform 0.9s var(--ease-expo);
+}
+
+.vb[data-motion="on"] [data-rise="2"] { transition-delay: 0.1s; }
+.vb[data-motion="on"] [data-rise="3"] { transition-delay: 0.18s; }
+.vb[data-motion="on"] [data-rise="4"] { transition-delay: 0.26s; }
+.vb[data-motion="on"] [data-rise="5"] { transition-delay: 0.34s; }
+.vb[data-motion="on"] [data-rise="6"] { transition-delay: 0.45s; }
+
+/* Status chip next to a project's first action. */
+.vb-chip {
+  display: inline-flex;
+  align-items: center;
+  min-height: 1.9rem;
+  padding: 0.15rem 0.7rem;
+  border-radius: 999px;
+  background: color-mix(in srgb, currentColor 14%, transparent);
+  font-size: var(--step-small);
+  font-weight: 500;
+  line-height: 1.3;
+}
+
+/* Collapsible personal sections. */
+.vb-details-summary {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  min-height: 2.75rem;
+  cursor: pointer;
+  font-family: var(--display);
+  font-size: var(--step-lead);
+  font-weight: 700;
+  list-style: none;
+}
+
+.vb-details-summary::-webkit-details-marker {
+  display: none;
+}
+
+.vb-details-summary::before {
+  content: "";
+  width: 0.55rem;
+  height: 0.55rem;
+  flex: none;
+  border-right: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  transform: rotate(-45deg);
+  transition: transform var(--t-ui) var(--ease-out);
+}
+
+.vb-details[open] > .vb-details-summary::before {
+  transform: rotate(45deg);
+}
+
+.vb-details-body {
+  padding-top: 1.25rem;
+}
+
+/* Jump to: Cmd/Ctrl+K or "/" */
+.vb-jump-open {
+  display: none;
+  align-items: center;
+  white-space: nowrap;
+  gap: 0.5rem;
+  min-height: 2.75rem;
+  padding: 0 0.9rem;
+  border: 0;
+  border-radius: 999px;
+  background: color-mix(in srgb, currentColor 12%, transparent);
+  color: inherit;
+  cursor: pointer;
+  font-size: var(--step-small);
+  font-weight: 500;
+}
+
+.vb-jump-open kbd {
+  font-family: var(--text);
+  font-size: 0.8125rem;
+}
+
+.vb-jump {
+  width: min(94vw, 34rem);
+  margin: 10vh auto;
+  padding: 0;
+  border: 0;
+  border-radius: 0.75rem;
+  background: var(--night-2);
+  color: var(--sand);
+}
+
+.vb-jump::backdrop {
+  background: rgba(4, 6, 10, 0.7);
+}
+
+.vb-jump-body {
+  display: grid;
+  gap: 0.75rem;
+  padding: 1.25rem;
+}
+
+.vb-jump-label {
+  font-family: var(--display);
+  font-weight: 700;
+}
+
+.vb-jump-input {
+  width: 100%;
+  padding: 0.8rem 0.9rem;
+  border: 1px solid var(--night-3);
+  border-radius: 0.4rem;
+  background: var(--night);
+  color: var(--sand);
+  font: inherit;
+}
+
+.vb-jump-input:focus-visible {
+  outline: 2px solid var(--ember);
+  outline-offset: 0;
+}
+
+.vb-jump-list {
+  display: grid;
+  gap: 0.15rem;
+  max-height: 50vh;
+  margin: 0;
+  padding: 0;
+  overflow-y: auto;
+  list-style: none;
+}
+
+.vb-jump-item {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.25rem 1rem;
+  min-height: 2.75rem;
+  padding: 0.6rem 0.8rem;
+  border-radius: 0.4rem;
+  cursor: pointer;
+}
+
+.vb-jump-item[aria-selected="true"] {
+  background: var(--ember);
+  color: var(--ember-ink);
+}
+
+.vb-jump-name {
+  font-weight: 500;
+}
+
+.vb-jump-hint,
+.vb-jump-foot,
+.vb-jump-empty {
+  font-size: var(--step-small);
+  opacity: 0.8;
+}
+
+.vb-jump-empty:not(:empty) {
+  padding: 0.75rem 0.9rem;
+}
+
+@media (min-width: 900px) {
+  .vb-jump-open {
+    display: inline-flex;
+  }
+}
+
+/* 900–1199: the links, Jump to and GitHub share one row with the name, so the
+   Arabic name and the shortcut hint step aside and the links close up. */
+@media (min-width: 900px) and (max-width: 1199px) {
+  .vb-wordmark span[lang="ar"],
+  .vb-jump-open kbd {
+    display: none;
+  }
+  .vb-nav-links {
+    gap: 1.25rem;
+  }
+}
+
+/* ---------- Footer: sunrise ---------- */
+
+.vb-footer {
+  --crest-fill: var(--dawn);
+  --hour-ink: var(--dawn-ink);
+  --hour-muted: var(--dawn-muted);
+  --hour-time: var(--dawn-ink);
+  --hour-dune: color-mix(in srgb, var(--dawn-ink) 30%, transparent);
+  position: relative;
+  isolation: isolate;
+  padding: clamp(2.5rem, 6vw, 5rem) var(--gutter) 2rem;
+  background: var(--dawn);
+  color: var(--dawn-ink);
+}
+
+/* The footer rises over the night as the last dune, with the sun just behind it. */
+.vb-footer::before {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  left: 0;
+  right: 0;
+  bottom: calc(100% - 1px);
+  height: var(--edge);
+  background: var(--dawn);
+  mask: var(--crest-3) 0 0 / 100% 100% no-repeat;
+}
+
+.vb-footer-sun {
+  position: absolute;
+  z-index: 0;
+  right: 21%;
+  bottom: calc(100% + var(--edge) * -0.2);
+  width: clamp(4rem, 9vw, 8rem);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: var(--ember);
+}
+
+.vb-footer-hour .vb-hour-ar {
+  font-size: clamp(2.4rem, 1rem + 5vw, 5.5rem);
+  line-height: 1.2;
+}
+
+.vb-footer-hour .vb-hour-sky {
+  align-self: end;
+  margin-bottom: 1rem;
+}
+
+.vb-footer-name {
+  margin-top: clamp(1.5rem, 4vw, 3rem);
+  font-family: var(--display);
+  font-size: clamp(1.4rem, 1rem + 1.5vw, 2.2rem);
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+.vb-footer-name span[lang="ar"] {
+  margin-left: 0.6rem;
+  font-weight: 700;
+  color: var(--dawn-muted);
+}
+
+.vb-footer-grid {
+  display: grid;
+  gap: 2rem;
+  margin-top: 2rem;
+  font-size: var(--step-small);
+}
+
+.vb-footer-grid ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 1.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.vb-footer-grid a {
+  display: inline-block;
+  padding: 0.6rem 0;
+  text-decoration: none;
+}
+
+.vb-footer-grid a:hover {
+  text-decoration: underline;
+}
+
+.vb-footer-credit {
+  max-width: 70ch;
+  color: var(--dawn-muted);
+  font-size: var(--step-small);
+  line-height: 1.5;
+}
+
+.vb-footer-credit a {
+  display: inline;
+  padding: 0;
+  color: var(--dawn-ink);
+  text-decoration: underline;
+}
+
+.vb-footer :focus-visible {
+  outline-color: var(--dawn-ink);
+}
+
+@media (max-width: 899px) {
+  .vb-footer {
+    padding-top: 1.75rem;
+  }
+  .vb-footer-hour .vb-hour-ar {
+    font-size: 2.2rem;
+  }
+  .vb-footer-name {
+    margin-top: 1rem;
+  }
+  .vb-footer-grid {
+    gap: 0.75rem;
+    margin-top: 1rem;
+  }
+}
+
+@media (min-width: 900px) {
+  .vb-footer-grid {
+    grid-template-columns: 1fr 1fr 1.4fr;
+    align-items: start;
+  }
+}
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .vb[data-motion="on"] .vb-footer-sun {
+      animation: vb-sunrise linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 100%;
+    }
+  }
+}
+
+@keyframes vb-sunrise {
+  from {
+    transform: translateY(70%);
+  }
+}
+
+/* ---------- Dialogs ---------- */
+
+.vb-dialog {
+  width: min(96vw, 1040px);
+  max-height: 94dvh;
+  padding: 0;
+  border: 0;
+  border-radius: 0.75rem;
+  background: var(--night-2);
+  color: var(--sand);
+}
+
+.vb-dialog::backdrop {
+  background: rgba(4, 6, 10, 0.78);
+}
+
+.vb-dialog-body {
+  display: flex;
+  max-height: 94dvh;
+  flex-direction: column;
+}
+
+.vb-dialog-head,
+.vb-dialog-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem 1.25rem;
+}
+
+.vb-dialog-head h3 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  letter-spacing: 0;
+  line-height: 1.3;
+}
+
+.vb-dialog-head p {
+  color: var(--sand-2);
+  font-size: var(--step-small);
+}
+
+.vb-dialog-img {
+  width: 100%;
+  height: auto;
+  max-height: 70dvh;
+  object-fit: contain;
+  background: #000;
+}
+
+.vb-dialog-foot {
+  font-size: var(--step-small);
+}
+
+.vb-dialog-foot a {
+  text-decoration: underline;
+}
+
+.vb-dialog-step {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.vb-dialog-step button {
+  padding: 0.35rem 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vb *,
+  .vb *::before,
+  .vb *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .vb-reveal {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
