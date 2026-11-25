@@ -8,7 +8,7 @@ export const contact = {
     label: "github.com/mobinshamlan",
     href: "https://github.com/mobinshamlan",
   },
-  status: "Open to opportunities in Software Engineering & AI",
+  status: "Looking for a first role in software or AI engineering, in Saudi Arabia",
   /**
    * The CV download. Leave `href` null until an approved PDF is in
    * public/cv/; the hero then shows the button as unavailable instead of a

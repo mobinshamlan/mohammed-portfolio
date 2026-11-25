@@ -7,6 +7,16 @@ import { fieldStyle, projects } from "@/lib/projects";
 /** The six products, in the order the Work chapter shows them. */
 const work = projects.filter((project) => project.id !== "experiment");
 
+/** Where each product stands and my role, in a few words, from projects.ts. */
+const glance: Record<string, string> = {
+  naqah: "Live MVP · lead of 3",
+  tammeni: "Live demo · team of 3",
+  seet: "Runs locally · solo",
+  kashta: "Live · solo",
+  amanah: "Live MVP · solo",
+  gthrz: "Open source · solo",
+};
+
 /**
  * The opening is about the person: the name in both scripts on one shared
  * rule, a portrait, one sentence on what he builds, and the way into the work.
@@ -25,8 +35,7 @@ export function Hero() {
         </h1>
 
         <p className="vb-open-lead" data-rise="2">
-          Software developer in Riyadh. I build Arabic-first AI for everyday Saudi life: a ranch
-          that phones its owner, school news by call, a planner for a night in the desert.
+          Software developer in Riyadh and a Queen Mary University of London computer science graduate. I build Arabic-first AI for everyday Saudi life: a ranch that phones its owner, school news by call, a planner for a night in the desert.
         </p>
 
         <div className="vb-open-actions" data-rise="3">
@@ -60,7 +69,7 @@ export function Hero() {
           />
         </span>
         <figcaption>
-          Graduation, Queen Mary University of London, July 2026.{" "}
+          Graduation day, July 2026.{" "}
           <span lang="ar">لندن ← الرياض</span>
         </figcaption>
       </figure>
@@ -71,12 +80,17 @@ export function Hero() {
             <li key={project.id} style={fieldStyle(project)}>
               <JumpLink to={project.id} className="vb-open-tile">
                 <span className="vb-open-swatch" aria-hidden="true" />
-                <span className="vb-open-tile-name">{project.name}</span>
-                {project.arabic ? (
-                  <span className="vb-open-tile-ar" lang="ar">
-                    {project.arabic}
+                <span className="vb-open-tile-text">
+                  <span className="vb-open-tile-name">
+                    {project.name}{" "}
+                    {project.arabic ? (
+                      <span className="vb-open-tile-ar" lang="ar">
+                        {project.arabic}
+                      </span>
+                    ) : null}
                   </span>
-                ) : null}
+                  <span className="vb-open-tile-glance">{glance[project.id]}</span>
+                </span>
               </JumpLink>
             </li>
           ))}

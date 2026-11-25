@@ -160,7 +160,7 @@
 
 .vb .vb-open-tile {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 0.6rem;
   min-height: 2.75rem;
   padding: 0.35rem 0.5rem;
@@ -189,8 +189,23 @@
   font-size: 1.05rem;
 }
 
+.vb-open-tile-text {
+  display: grid;
+  min-width: 0;
+}
+
+.vb-open-tile-glance {
+  color: var(--sand-2);
+  font-size: 0.8125rem;
+  line-height: 1.35;
+}
+
+.vb-open-swatch {
+  margin-top: 0.3rem;
+}
+
 .vb-open-tile-ar {
-  margin-inline-start: auto;
+  margin-inline-start: 0.4rem;
   color: var(--sand-2);
   font-size: 0.95rem;
 }
@@ -269,8 +284,8 @@
     font-size: 0.875rem;
   }
   .vb-open-work-list {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 0 0.5rem;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0 0.75rem;
   }
   .vb-open-tile-ar {
     display: none;
