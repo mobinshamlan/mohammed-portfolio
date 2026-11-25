@@ -1336,6 +1336,11 @@
   transition: transform var(--t-ui) var(--ease-out);
 }
 
+/* Before the page is interactive the records are shown, not offered as buttons. */
+span.vb-mu-disc {
+  cursor: default;
+}
+
 .vb-mu-disc[data-tone="rose"] {
   background: #3a2430;
 }

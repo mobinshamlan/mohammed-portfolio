@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useRef, useState } from "react";
 import { artists } from "@/lib/music";
+import { useHydrated } from "@/lib/use-hydrated";
 
 const COLUMNS = 6;
 const tones = ["paper", "rose", "ink", "beige"] as const;
@@ -12,6 +13,7 @@ export function MusicShelf() {
   const [playing, setPlaying] = useState<number | null>(null);
   const [focus, setFocus] = useState(0);
   const discs = useRef<(HTMLButtonElement | null)[]>([]);
+  const hydrated = useHydrated();
 
   function move(to: number) {
     const next = Math.max(0, Math.min(artists.length - 1, to));
@@ -43,33 +45,41 @@ export function MusicShelf() {
             className="vb-mu-slot"
             style={{ "--i": index } as React.CSSProperties}
           >
-            <button
-              ref={(node) => {
-                discs.current[index] = node;
-              }}
-              type="button"
-              className="vb-mu-disc"
-              data-tone={tones[index % tones.length]}
-              data-photo={artist.image ? "true" : undefined}
-              data-playing={playing === index}
-              aria-pressed={playing === index}
-              tabIndex={focus === index ? 0 : -1}
-              onFocus={() => setFocus(index)}
-              onClick={() => setPlaying(playing === index ? null : index)}
-              onKeyDown={(event) => onKeyDown(event, index)}
-            >
-              {artist.image ? (
-                <Image
-                  src={artist.image.src}
-                  alt=""
-                  fill
-                  sizes="120px"
-                  className="vb-mu-photo"
-                />
-              ) : null}
-              <span className="vb-mu-sheen" aria-hidden="true" />
-              <span className="vb-mu-name">{artist.name}</span>
-            </button>
+            {hydrated ? (
+              <button
+                ref={(node) => {
+                  discs.current[index] = node;
+                }}
+                type="button"
+                className="vb-mu-disc"
+                data-tone={tones[index % tones.length]}
+                data-photo={artist.image ? "true" : undefined}
+                data-playing={playing === index}
+                aria-pressed={playing === index}
+                tabIndex={focus === index ? 0 : -1}
+                onFocus={() => setFocus(index)}
+                onClick={() => setPlaying(playing === index ? null : index)}
+                onKeyDown={(event) => onKeyDown(event, index)}
+              >
+                {artist.image ? (
+                  <Image src={artist.image.src} alt="" fill sizes="120px" className="vb-mu-photo" />
+                ) : null}
+                <span className="vb-mu-sheen" aria-hidden="true" />
+                <span className="vb-mu-name">{artist.name}</span>
+              </button>
+            ) : (
+              <span
+                className="vb-mu-disc"
+                data-tone={tones[index % tones.length]}
+                data-photo={artist.image ? "true" : undefined}
+              >
+                {artist.image ? (
+                  <Image src={artist.image.src} alt="" fill sizes="120px" className="vb-mu-photo" />
+                ) : null}
+                <span className="vb-mu-sheen" aria-hidden="true" />
+                <span className="vb-mu-name">{artist.name}</span>
+              </span>
+            )}
           </li>
         ))}
       </ul>
