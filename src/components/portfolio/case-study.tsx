@@ -10,7 +10,6 @@ import { DeviceFrame } from "./device-frame";
 import { Footer } from "./footer";
 import { Nav } from "./nav";
 import { MotionRoot, Reveal } from "./reveal";
-import { SaduBand, type SaduVariant } from "./sadu";
 
 /** One reading on a step: a time, a state, or who can see it. `off` dims it; `all` covers every lane. */
 type Cue = { text: string; tone?: "off" | "held" | "done"; all?: boolean };
@@ -253,6 +252,7 @@ function CaseOpening({ project }: { project: Project }) {
     const live = evidenceLink(project, /live/i);
     return (
       <section className="vb-case-open vb-open-kashta" aria-labelledby="open-title">
+        <KashtaGauge score={Math.round(total)} />
         <h2 id="open-title" className="vb-open-title">
           One real night, scored by code: <strong>{Math.round(total)}</strong>
         </h2>
@@ -287,15 +287,7 @@ function CaseOpening({ project }: { project: Project }) {
         <h2 id="open-title" className="vb-open-title">
           A slot is held first. Only the deposit confirms it.
         </h2>
-        <DayLine
-          className="vb-open-line"
-          label="One booking, simulated with made-up prices"
-          moments={[
-            { time: "Held", label: "Tuesday, for two hours" },
-            { time: "Deposit", label: "2,250 SAR link sent" },
-            { time: "Confirmed", label: "Payment callback only" },
-          ]}
-        />
+        <SeetReceipt />
         <p className="vb-open-sub">
           Built and running locally on demo data, with an in-app simulator. Only the landing page is live: no
           real WhatsApp number or payments yet.
@@ -345,16 +337,170 @@ function CaseOpening({ project }: { project: Project }) {
   return null;
 }
 
+/** Seet's booking as the thermal receipt the chat would print: held first, confirmed only by the callback. */
+function SeetReceipt() {
+  return (
+    <div className="vb-receipt" role="group" aria-label="One booking, simulated with made-up prices">
+      <p className="vb-receipt-head">
+        <span>Booking</span>
+        <strong>Held</strong>
+      </p>
+      <dl className="vb-receipt-rows">
+        <div>
+          <dt>Snap story</dt>
+          <dd>4,500 SAR</dd>
+        </div>
+        <div>
+          <dt>Tuesday</dt>
+          <dd>held 2 hours</dd>
+        </div>
+        <div>
+          <dt>Deposit link</dt>
+          <dd>2,250 SAR</dd>
+        </div>
+      </dl>
+      <p className="vb-receipt-foot">Not confirmed until the payment callback. Simulated, made-up prices.</p>
+    </div>
+  );
+}
+
+/** Kashta's score as a half dial; the number itself is in the heading beside it. */
+function KashtaGauge({ score }: { score: number }) {
+  return (
+    <svg
+      className="vb-gauge"
+      viewBox="0 0 120 68"
+      aria-hidden="true"
+      style={{ "--angle": `${-90 + score * 1.8}deg` } as CSSProperties}
+    >
+      <path className="vb-gauge-track" d="M10 62 A50 50 0 0 1 110 62" pathLength={100} />
+      <path
+        className="vb-gauge-fill"
+        d="M10 62 A50 50 0 0 1 110 62"
+        pathLength={100}
+        strokeDasharray={`${score} 100`}
+      />
+      <g className="vb-gauge-needle">
+        <line x1="60" y1="62" x2="60" y2="22" />
+      </g>
+      <circle cx="60" cy="62" r="4" />
+    </svg>
+  );
+}
+
+/** Kashta's sky: a few stars set by hand, and the dune the night ends on. */
+const stars = [
+  [6, 18], [14, 62], [21, 9], [29, 40], [37, 22], [44, 70], [51, 12], [57, 48],
+  [63, 30], [69, 8], [74, 58], [80, 24], [86, 44], [91, 14], [95, 66], [98, 34],
+] as const;
+
+function NightSky() {
+  return (
+    <span className="vb-sky" aria-hidden="true">
+      {stars.map(([x, y]) => (
+        <i key={`${x}-${y}`} style={{ left: `${x}%`, top: `${y}%` }} />
+      ))}
+    </span>
+  );
+}
+
+/** The product's own object, set in its hero. Decoration only: every word on it is also in the text. */
+function HeroObject({ id }: { id: ProjectId }) {
+  if (id === "naqah") {
+    return (
+      <span className="vb-obj vb-obj-call" aria-hidden="true">
+        <span className="vb-obj-call-who">Naqah is calling</span>
+        <span className="vb-obj-call-ar" lang="ar">
+          ناقة تتصل
+        </span>
+        <span className="vb-obj-call-keys">
+          <i data-key="decline" />
+          <i data-key="answer" />
+        </span>
+      </span>
+    );
+  }
+  if (id === "amanah") {
+    return (
+      <span className="vb-obj vb-obj-tag" aria-hidden="true">
+        <span className="vb-obj-tag-card">
+          <span className="vb-obj-tag-hole" />
+          <span className="vb-obj-tag-motto" lang="ar">
+            كل مفقود أمانة
+          </span>
+          <span className="vb-obj-tag-rows">
+            <b>Item</b> Umbrella
+            <b>Found</b> Logged, never posted
+            <b>Match</b> Suggested by Gemini
+            <b>Hand-over</b> When staff approve
+          </span>
+        </span>
+      </span>
+    );
+  }
+  if (id === "gthrz") {
+    return (
+      <span className="vb-obj vb-obj-ticket" aria-hidden="true">
+        <span className="vb-obj-ticket-main">
+          <b>You&rsquo;re invited</b>
+          Address after approval
+        </span>
+        <span className="vb-obj-ticket-stub">Guests only</span>
+      </span>
+    );
+  }
+  return null;
+}
+
+/** The small object a product hands over at the seam: the next world, peeking in. */
+function SeamObject({ id }: { id: ProjectId }) {
+  const objects: Partial<Record<ProjectId, ReactNode>> = {
+    naqah: (
+      <>
+        <i data-key="answer" />
+        Naqah is calling
+      </>
+    ),
+    tammeni: <i />,
+    seet: <>Held</>,
+    kashta: (
+      <svg viewBox="0 0 120 68">
+        <path d="M10 62 A50 50 0 0 1 110 62" pathLength={100} strokeDasharray="99 100" />
+        <text x="60" y="60" textAnchor="middle">
+          99
+        </text>
+      </svg>
+    ),
+    amanah: (
+      <>
+        <i />
+        <span lang="ar">أمانة</span>
+      </>
+    ),
+    gthrz: <>Guests only</>,
+    experiment: <i />,
+  };
+  return (
+    <span className="vb-seam" data-object={id} aria-hidden="true">
+      {objects[id]}
+    </span>
+  );
+}
+
 /** The cover as one legible crop: the phone capture on phones, the window on wide screens. */
 function CoverShot({ project }: { project: Project }) {
   const { cover, coverPhone } = project;
   const label = project.links[0]?.href.replace("https://", "");
+  // Screenshots of a whole scene stand on the field without a browser around them.
+  const plate = arrangementOf(project).plates;
   return (
-    <figure className="vb-window vb-case-shot" data-ui="" data-crop={project.id}>
-      <span className="vb-window-bar" aria-hidden="true">
-        <span className="vb-window-dots" />
-        {label ? <span className="vb-window-url">{label}</span> : null}
-      </span>
+    <figure className="vb-window vb-case-shot" data-ui="" data-crop={project.id} data-plate={plate ? "true" : undefined}>
+      {plate ? null : (
+        <span className="vb-window-bar" aria-hidden="true">
+          <span className="vb-window-dots" />
+          {label ? <span className="vb-window-url">{label}</span> : null}
+        </span>
+      )}
       <picture>
         {coverPhone ? <source media="(max-width: 899px)" srcSet={coverPhone.src} /> : null}
         <img
@@ -418,7 +564,11 @@ export function CaseHero({
         <p className="vb-case-tagline">{project.tagline}</p>
         {opening ?? links}
       </div>
-      <div className="vb-case-hero-art">{art ?? <CoverShot project={project} />}</div>
+      {project.id === "kashta" ? <NightSky /> : null}
+      <div className="vb-case-hero-art">
+        {art ?? <CoverShot project={project} />}
+        <HeroObject id={project.id} />
+      </div>
       <div className="vb-case-hero-meta">
         {project.arabicTagline ? (
           <p className="vb-case-arabic" lang="ar">
@@ -703,8 +853,8 @@ export function CaseBody({
           data-id={previous.id}
           style={fieldStyle(previous)}
         >
-          <SaduBand variant={previous.id as SaduVariant} size="s" className="vb-case-next-band" />
-          <span>Previous</span>
+          <SeamObject id={previous.id} />
+          <span className="vb-case-next-dir">Previous</span>
           <strong>
             {previous.name}{previous.arabic ? <span lang="ar">{previous.arabic}</span> : null}
           </strong>
@@ -717,8 +867,8 @@ export function CaseBody({
           data-id={next.id}
           style={fieldStyle(next)}
         >
-          <SaduBand variant={next.id as SaduVariant} size="s" className="vb-case-next-band" />
-          <span>Next</span>
+          <SeamObject id={next.id} />
+          <span className="vb-case-next-dir">Next</span>
           <strong>
             {next.name}{next.arabic ? <span lang="ar">{next.arabic}</span> : null}
           </strong>
@@ -762,7 +912,6 @@ export function CasePage({
       />
       <main id="case" className="vb-case" data-id={project.id}>
         <CaseHero project={project} art={heroArt} />
-        <SaduBand variant={project.id as SaduVariant} className="vb-case-band" />
         <CaseBody project={project} before={before} lead={lead} coverShown={!heroArt}>
           {children}
         </CaseBody>
