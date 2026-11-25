@@ -63,7 +63,7 @@ export const gthrzShots = {
     ...phone,
   },
   plannerStart: {
-    src: publicUrl("/images/Gthrz_photos/ai-planner-start.png"),
+    src: publicUrl("/images/projects/gthrz/ai-planner-start.jpg"),
     alt: "Gthrz Smart Planner prompt to generate an event plan.",
     caption: "Smart Planner",
     width: 446,
@@ -71,7 +71,7 @@ export const gthrzShots = {
     variant: "card",
   },
   plannerPrompt: {
-    src: publicUrl("/images/Gthrz_photos/ai-planner-prompt.png"),
+    src: publicUrl("/images/projects/gthrz/ai-planner-prompt.jpg"),
     alt: "Gthrz Smart Planner with a written event description.",
     caption: "Planner prompt",
     width: 446,
@@ -79,7 +79,7 @@ export const gthrzShots = {
     variant: "card",
   },
   plannerSuggestions: {
-    src: publicUrl("/images/Gthrz_photos/ai-planner-suggestions.png"),
+    src: publicUrl("/images/projects/gthrz/ai-planner-suggestions.jpg"),
     alt: "Gthrz Smart Planner suggestions applied to an event draft.",
     caption: "Planner suggestions",
     width: 446,

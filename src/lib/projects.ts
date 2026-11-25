@@ -914,7 +914,7 @@ export const projects: Project[] = [
     stack: ["React Native", "Expo", "TypeScript", "Supabase", "PostgreSQL"],
     links: [{ label: "Source on GitHub", href: "https://github.com/mobinshamlan/Gthrz" }],
     cover: {
-      src: publicUrl("/images/Gthrz_photos/home.png"),
+      src: publicUrl("/images/projects/gthrz/home.jpg"),
       alt: "Gthrz home screen with upcoming events and create controls.",
       width: 455,
       height: 952,
@@ -1015,10 +1015,5 @@ export const photoCredits = [
     file: "alula-night-sky.jpg",
     text: "Night sky between the mountains of AlUla, Saudi Press Agency, CC BY-SA 4.0, via Wikimedia Commons",
     href: "https://commons.wikimedia.org/wiki/File:%D8%A7%D9%84%D8%B3%D9%85%D8%A7%D8%A1_%D9%85%D9%86_%D8%A8%D9%8A%D9%86_%D8%AC%D8%A8%D8%A7%D9%84_%D8%A7%D9%84%D8%B9%D9%84%D8%A7.jpg",
-  },
-  {
-    file: "thumamah.jpg",
-    text: "Thumamah desert in Saudi Arabia, Ismael Cacharro, CC BY-SA 4.0, via Wikimedia Commons",
-    href: "https://commons.wikimedia.org/wiki/File:Thumamah_Dessert_in_Saudi_Arabia.JPG",
   },
 ];
