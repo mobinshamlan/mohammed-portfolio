@@ -1407,12 +1407,6 @@ td[data-on="true"] .vb-ladder-dot {
   border-radius: 50%;
 }
 
-.vb-mu-note {
-  margin-top: 1rem;
-  color: var(--sand-2);
-  font-size: var(--step-small);
-}
-
 /* ---------- Journey ---------- */
 
 .vb-journey {
@@ -2162,8 +2156,7 @@ div.vb-certs-row {
   gap: 0.6rem;
 }
 
-.vb-call-count,
-.vb-call-note {
+.vb-call-count {
   font-size: var(--step-small);
   opacity: 0.8;
 }

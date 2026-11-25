@@ -393,11 +393,6 @@ html:has(.vb) {
 
 /* ---------- Section frame ---------- */
 
-.vb-section {
-  padding: clamp(4rem, 8vw, 8rem) var(--gutter);
-  scroll-margin-top: 4rem;
-}
-
 .vb-section-head {
   max-width: 24ch;
   font-size: var(--step-head);
@@ -444,15 +439,6 @@ html:has(.vb) {
 .vb[data-motion="on"] [data-rise="4"] { transition-delay: 0.26s; }
 .vb[data-motion="on"] [data-rise="5"] { transition-delay: 0.34s; }
 .vb[data-motion="on"] [data-rise="6"] { transition-delay: 0.45s; }
-
-.vb[data-motion="on"]:not([data-loaded="true"]) [data-open] {
-  clip-path: inset(0 0 100% 0);
-}
-
-.vb[data-motion="on"][data-loaded="true"] [data-open] {
-  clip-path: inset(0 0 0 0);
-  transition: clip-path 1.3s var(--ease-expo);
-}
 
 /* Status chip next to a project's first action. */
 .vb-chip {
@@ -763,8 +749,7 @@ html:has(.vb) {
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
-  .vb-reveal,
-  .vb-image-reveal {
+  .vb-reveal {
     opacity: 1 !important;
     transform: none !important;
   }
