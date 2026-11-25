@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { contact } from "@/lib/contact";
 import { callScript } from "@/lib/naqah-call";
-import { EVIDENCE_CHECKED, projects } from "@/lib/projects";
+import { projects } from "@/lib/projects";
 import { Horizon, Moon, NightMark } from "./sky";
 
 /** The horizon at sunset: tonight's moon in the sky, the sun going down behind the far dune. */
@@ -65,43 +65,14 @@ function HeroArtifact() {
   );
 }
 
-/** Each live project's passing test count: linked to a passing CI run where one exists, else to the tests. */
-const testCounts = projects.flatMap((project) => {
+/** Each live project's passing tests: a passing CI run where one exists, else the tests themselves. */
+const testSources = projects.flatMap((project) => {
   const tests = project.proof.evidence?.find((item) => item.kind === "tests");
   if (!tests) return [];
-  return [
-    {
-      id: project.id,
-      name: project.name,
-      value: tests.value,
-      href: tests.run?.href ?? tests.source.href,
-      how: tests.run ? `CI ${tests.run.date.replace(/ \d{4}$/, "")}` : "local",
-    },
-  ];
+  return [{ id: project.id, name: project.name, href: tests.run?.href ?? tests.source.href }];
 });
 
 const naqahOutcome = projects.find((project) => project.id === "naqah")?.proof.outcome;
-
-/** The checked numbers beside the opening's visual, each linked to where it can be checked. */
-function HeroEvidence() {
-  return (
-    <div className="vb-hero-evidence">
-      <p className="vb-hero-evidence-head">
-        Tests passing in the public repos. CI links a passing GitHub run; local was counted on a
-        fresh clone, {EVIDENCE_CHECKED}.
-      </p>
-      <ul className="vb-hero-evidence-list">
-        {testCounts.map((item) => (
-          <li key={item.id}>
-            <a href={item.href} className="vb-hero-evidence-link" target="_blank" rel="noreferrer">
-              <b>{item.name}</b> <strong>{item.value}</strong> <span>{item.how}</span>
-            </a>
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
-}
 
 export function Hero() {
   return (
@@ -125,18 +96,6 @@ export function Hero() {
             , {naqahOutcome.date}.
           </p>
         ) : null}
-        <p className="vb-hero-proof" data-rise="3">
-          Lead contributor on Naqah, an investor MVP:{" "}
-          <a
-            href="https://github.com/justAbdulaziz10/Naqah/commits/main"
-            className="vb-hero-proof-link"
-            target="_blank"
-            rel="noreferrer"
-          >
-            128 of its 209 commits
-          </a>
-          , 5&ndash;13 November 2026.
-        </p>
         <div className="vb-hero-actions" data-rise="4">
           <Link href="#work" className="vb-btn">
             View work
@@ -145,6 +104,28 @@ export function Hero() {
             Get in touch
           </Link>
         </div>
+        {/* One compact, sourced line; the counts and check dates live on each case page. */}
+        <p className="vb-hero-proof" data-rise="5">
+          Lead contributor on Naqah ·{" "}
+          <a
+            href="https://github.com/justAbdulaziz10/Naqah/commits/main"
+            className="vb-hero-proof-link"
+            target="_blank"
+            rel="noreferrer"
+          >
+            128 of 209 commits
+          </a>{" "}
+          · tests passing in {testSources.length} public repos:{" "}
+          {testSources.map((item, index) => (
+            <span key={item.id}>
+              {index > 0 ? ", " : null}
+              <a href={item.href} className="vb-hero-proof-link" target="_blank" rel="noreferrer">
+                {item.name}
+                <span className="vb-sr"> tests</span>
+              </a>
+            </span>
+          ))}
+        </p>
         <p className="vb-hero-status" data-rise="5">
           <span className="vb-hero-dot" aria-hidden="true" />
           {contact.status}
@@ -153,7 +134,6 @@ export function Hero() {
 
       <div className="vb-hero-visual" data-rise="3">
         <HeroArtifact />
-        <HeroEvidence />
       </div>
 
       <HeroSky />

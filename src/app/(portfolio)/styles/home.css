@@ -55,10 +55,10 @@
 }
 
 .vb-hero-proof {
-  max-width: 44ch;
+  max-width: 52ch;
   color: var(--sand-2);
-  font-size: var(--step-body);
-  line-height: 1.5;
+  font-size: var(--step-small);
+  line-height: 1.6;
   text-wrap: pretty;
 }
 
@@ -81,71 +81,6 @@
 
 .vb-hero-proof-link:hover {
   text-decoration-thickness: 2px;
-}
-
-/* Checked numbers under the call: one entry per repository. */
-.vb-hero-evidence {
-  display: grid;
-  gap: 0.35rem;
-  padding-inline: var(--hero-card-pad);
-}
-
-.vb-hero-evidence-head {
-  color: var(--sand-2);
-  font-size: var(--step-small);
-}
-
-.vb-hero-evidence-list {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, max-content));
-  gap: 0 2rem;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.vb .vb-hero-evidence-link {
-  display: inline-flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  gap: 0 0.45rem;
-  min-height: 2rem;
-  padding-block: 0.25rem;
-  color: var(--sand-2);
-  text-decoration: none;
-}
-
-/* The name and number carry the underline; the CI or local tag stays plain. */
-.vb-hero-evidence-link b,
-.vb-hero-evidence-link strong {
-  text-decoration: underline;
-  text-decoration-color: color-mix(in srgb, var(--sand-2) 45%, transparent);
-  text-underline-offset: 0.25em;
-}
-
-.vb-hero-evidence-link b {
-  font-weight: inherit;
-}
-
-.vb-hero-evidence-link strong {
-  color: var(--sand);
-  font-family: var(--display);
-  font-size: 1.15rem;
-  font-weight: 700;
-  font-variant-numeric: tabular-nums;
-}
-
-.vb-hero-evidence-link span {
-  font-size: 0.8125rem;
-}
-
-.vb .vb-hero-evidence-link:hover {
-  color: var(--sand);
-}
-
-.vb-hero-evidence-link:hover b,
-.vb-hero-evidence-link:hover strong {
-  text-decoration-color: var(--ember);
 }
 
 .vb-hero-actions {
@@ -2205,28 +2140,7 @@ div.vb-certs-row {
     line-height: 1.5;
   }
   .vb-hero-proof {
-    font-size: var(--step-small);
-  }
-  .vb-hero-evidence {
-    gap: 0;
-  }
-  .vb-hero-evidence-head {
-    font-size: 0.8125rem;
-  }
-  .vb-hero-evidence-list {
-    gap: 0 1.25rem;
-  }
-  .vb-hero-evidence-link strong {
-    font-size: 1rem;
-  }
-  /* Every entry on two lines, name over number and tag, so the rows line up. */
-  .vb .vb-hero-evidence-link {
-    display: grid;
-    grid-template-columns: auto auto;
-    justify-content: start;
-  }
-  .vb-hero-evidence-link b {
-    grid-column: 1 / -1;
+    order: 1;
   }
   .vb-hero-actions {
     flex-wrap: nowrap;
@@ -2274,9 +2188,6 @@ div.vb-certs-row {
   .vb-hero-moon {
     left: auto;
     right: 38%;
-  }
-  .vb-hero-evidence-head {
-    display: none;
   }
   .vb-hero-sun {
     right: 12%;
