@@ -2156,6 +2156,19 @@ div.vb-certs-row {
 .vb-proj[data-id="gthrz"] .vb-demo {
   --demo-accent: #a993ff;
   --demo-accent-ink: #141216;
+  --demo-surface: color-mix(in srgb, var(--field) 9%, transparent);
+  --demo-muted: color-mix(in srgb, var(--field) 85%, var(--field-ink));
+}
+
+/* Amanah's views sit a step lighter than the card, with the notes and the
+   answer buttons kept at 4.5:1 or more. */
+.vb-proj[data-id="amanah"] .vb-demo {
+  --demo-surface: color-mix(in srgb, var(--field) 8%, transparent);
+  --demo-muted: color-mix(in srgb, var(--field) 88%, var(--field-ink));
+}
+
+.vb-proj[data-id="amanah"] .vb-art .vb-btn-quiet {
+  background: color-mix(in srgb, var(--field) 10%, transparent);
 }
 
 .vb-proj-band,
