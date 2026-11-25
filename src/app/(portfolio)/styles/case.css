@@ -1,4 +1,5 @@
-/* Portfolio case studies: hero in the project's field, then the night. */
+/* Portfolio case studies: hero in the project's field, its band, then the
+   body on the darkest tone of the same product. */
 
 .vb-case {
   min-height: 60vh;
@@ -785,7 +786,7 @@
   filter: brightness(1.06);
 }
 
-.vb-case-next-link span:first-child {
+.vb-case-next-link > span:first-of-type {
   color: var(--field-muted);
   font-size: var(--step-small);
 }
@@ -1250,7 +1251,7 @@
   min-width: 0;
 }
 
-/* A screenshot standing behind a dune at night, instead of in a browser window. */
+/* A screenshot set straight on the page, instead of in a browser window. */
 .vb-plate {
   display: grid;
   gap: 0.75rem;
@@ -1268,21 +1269,6 @@
   display: block;
   width: 100%;
   height: auto;
-}
-
-.vb-plate-sky::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: -1px;
-  height: clamp(1.75rem, 5vw, 4rem);
-  background: var(--plate-ground, var(--night));
-  mask: var(--crest-3) 0 0 / 100% 100% no-repeat;
-}
-
-.vb-screen:nth-child(even) .vb-plate-sky::after {
-  mask-image: var(--crest-1);
 }
 
 .vb-plate-where {
@@ -1596,53 +1582,89 @@
   }
 }
 
-/* ---------- Over the dune: the night rises over the hero, the next projects over the night ---------- */
+/* ---------- The product's band and its dark ground ---------- */
 
-.vb-case-hero {
-  padding-bottom: calc(clamp(3rem, 7vw, 6rem) + var(--edge));
-}
-
-.vb-case-hero + .vb-case-section {
-  position: relative;
+/* The body sits on the darkest tone of the product's own palette: the page's
+   dark tokens are redefined for each case, so every card follows. */
+.vb-case {
   background: var(--night);
 }
 
-.vb-case-hero + .vb-case-section::before,
-.vb-case-next::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: calc(100% - 1px);
-  height: var(--edge);
-  background: var(--crest-fill, var(--night));
-  mask: var(--crest-2) 0 0 / 100% 100% no-repeat;
-  pointer-events: none;
+.vb-case[data-id="naqah"] {
+  --night: #22150c;
+  --night-2: #2f1e11;
+  --night-3: #432c19;
+  --ember: #e3c697;
+  --sand-2: #cdbba1;
 }
 
-/* The problem keeps its 76rem measure but its night spans the page. */
-.vb-case-hero + .vb-case-problem {
+.vb-case[data-id="tammeni"] {
+  --night: #0a231d;
+  --night-2: #0f3129;
+  --night-3: #184437;
+  --ember: #d9b35a;
+  --sand-2: #b9c9bf;
+}
+
+.vb-case[data-id="seet"] {
+  --night: #0b141a;
+  --night-2: #111f26;
+  --night-3: #202c33;
+  --ember: #dba946;
+  --sand-2: #b8c4c9;
+}
+
+.vb-case[data-id="kashta"] {
+  --night: #0c1121;
+  --night-2: #141b31;
+  --night-3: #1f2844;
+  --ember: #f0945a;
+  --sand-2: #b9b4c4;
+}
+
+.vb-case[data-id="amanah"] {
+  --night: #0b261e;
+  --night-2: #10342a;
+  --night-3: #1a4638;
+  --ember: #e0bd6a;
+  --sand-2: #bccbc1;
+}
+
+.vb-case[data-id="gthrz"] {
+  --night: #141216;
+  --night-2: #1f1a27;
+  --night-3: #2c2440;
+  --ember: #a993ff;
+  --sand-2: #b5aeb8;
+}
+
+/* The problem keeps its 76rem measure but its ground spans the page. */
+.vb-case-band + .vb-case-problem {
   max-width: none;
   padding-right: max(var(--gutter), calc(100% - 76rem + var(--gutter)));
 }
 
+.vb-case-hero {
+  padding-bottom: clamp(3rem, 7vw, 6rem);
+}
+
 .vb-case-under {
-  padding-bottom: calc(clamp(4rem, 9vw, 8rem) + var(--edge));
+  padding-bottom: clamp(4rem, 9vw, 8rem);
 }
 
-/* The next projects rise as one dune in the first one's colour; the second sits beside it. */
-.vb-case-next {
-  position: relative;
-  --crest-fill: var(--first-field);
-}
-
-.vb-case-next::before {
-  mask-image: var(--crest-4);
-}
-
-/* Room under each for the crest of the one below it, and for the sunrise. */
+/* The next projects: each opens on its own band, like the samples on the homepage. */
 .vb-case-next-link {
-  padding-bottom: calc(clamp(2.5rem, 6vw, 4.5rem) + var(--edge));
+  padding-bottom: clamp(2.5rem, 6vw, 4.5rem);
+}
+
+.vb-case-next-link {
+  position: relative;
+  padding-top: calc(2.25rem + clamp(1.5rem, 4vw, 3rem));
+}
+
+.vb-case-next-band {
+  position: absolute;
+  inset: 0 0 auto;
 }
 
 /* Light parallax on the screenshots: they drift a little slower than the
@@ -1693,6 +1715,8 @@
   transition-delay: 0.24s;
 }
 
-.vb-case-hour {
-  margin-bottom: 1.25rem;
+/* Inside a case, demo buttons take the product's accent. */
+.vb .vb-case .vb-art .vb-btn:not(.vb-btn-quiet) {
+  background: var(--ember);
+  color: var(--night);
 }

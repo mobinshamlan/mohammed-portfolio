@@ -10,6 +10,7 @@ import { DeviceFrame } from "./device-frame";
 import { Footer } from "./footer";
 import { Nav } from "./nav";
 import { MotionRoot, Reveal } from "./reveal";
+import { SaduBand, type SaduVariant } from "./sadu";
 
 /** One reading on a step: a time, a state, or who can see it. `off` dims it; `all` covers every lane. */
 type Cue = { text: string; tone?: "off" | "held" | "done"; all?: boolean };
@@ -694,17 +695,15 @@ export function CaseBody({
         </div>
       </section>
 
-      <nav
-        className="vb-case-next"
-        aria-label="More projects"
-        style={{ "--first-field": previous.field } as CSSProperties}
-      >
+      <nav className="vb-case-next" aria-label="More projects">
         <Link
           href={hrefOf(previous)}
           prefetch={previous.id === "experiment" ? false : undefined}
           className="vb-case-next-link"
+          data-id={previous.id}
           style={fieldStyle(previous)}
         >
+          <SaduBand variant={previous.id as SaduVariant} size="s" className="vb-case-next-band" />
           <span>Previous</span>
           <strong>
             {previous.name}{previous.arabic ? <span lang="ar">{previous.arabic}</span> : null}
@@ -715,8 +714,10 @@ export function CaseBody({
           href={hrefOf(next)}
           prefetch={next.id === "experiment" ? false : undefined}
           className="vb-case-next-link"
+          data-id={next.id}
           style={fieldStyle(next)}
         >
+          <SaduBand variant={next.id as SaduVariant} size="s" className="vb-case-next-band" />
           <span>Next</span>
           <strong>
             {next.name}{next.arabic ? <span lang="ar">{next.arabic}</span> : null}
@@ -759,8 +760,9 @@ export function CasePage({
         field={project.field}
         fieldInk={project.fieldInk}
       />
-      <main id="case" className="vb-case">
+      <main id="case" className="vb-case" data-id={project.id}>
         <CaseHero project={project} art={heroArt} />
+        <SaduBand variant={project.id as SaduVariant} className="vb-case-band" />
         <CaseBody project={project} before={before} lead={lead} coverShown={!heroArt}>
           {children}
         </CaseBody>
