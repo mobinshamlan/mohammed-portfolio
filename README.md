@@ -1,23 +1,32 @@
-# Mohammed Bin Shamlan — portfolio experiment
+# Mohammed Bin Shamlan — portfolio
 
-Next.js, TypeScript, and Tailwind CSS. Shared portfolio content lives in `data/portfolio.ts`.
+Live at https://mobinshamlan.github.io/mohammed-portfolio/
+
+Next.js 16 (static export), React 19 and TypeScript. The portfolio is styled with plain CSS in `src/app/(portfolio)/styles/`; Tailwind CSS is used only by the `/version-a` baseline.
 
 ```bash
 npm install
-npm run dev
+npm run dev     # http://localhost:3000/mohammed-portfolio/
+npm run lint
+npm run build   # writes the static site to out/
 ```
 
-Open http://localhost:3000.
+Pushing to `main` deploys to GitHub Pages (`.github/workflows/pages.yml`).
 
 ## Routes
 
-- `/` — the portfolio: hero, flagship work, the full index, about, journey, skills, certificates and contact.
+- `/` — the portfolio: hero with the Naqah call example, a section for each project, the Work Line index, about, journey, skills, certificates and contact. Press ⌘K or `/` to jump to a project.
 - `/projects/naqah`, `/projects/tammeni`, `/projects/seet`, `/projects/kashta`, `/projects/amanah`, `/projects/gthrz` — case studies.
 - `/experiment` — the prompt experiment: one brief, two prompts. Choose Version A or Version B.
 - `/version-a` — the weak-prompt baseline, kept exactly as it was.
 - `/version-b/` and `/version-b/projects/<slug>/` — old links; each is a small page that forwards to the new path.
 
-Project content lives in `src/lib/projects.ts`. Product screenshots in `public/images/projects/` are captures of the live demos.
+## Where things are
+
+- Project content, statuses and evidence: `src/lib/projects.ts`.
+- Portfolio components: `src/components/portfolio/`.
+- Product screenshots in `public/images/projects/` are captures of the live demos.
+- `data/portfolio.ts` holds the Version A content only.
 
 ## Version A prompt
 
