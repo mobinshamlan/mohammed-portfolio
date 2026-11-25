@@ -1,223 +1,70 @@
-"use client";
-
 import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
-import { certificates, type Certificate } from "@/lib/certificates";
-import { publicUrl } from "@/lib/site";
-import { useHydrated } from "@/lib/use-hydrated";
-import { Collapsible } from "./collapsible";
-import { Reveal } from "./reveal";
-
-const previewable = certificates.filter((item) => item.image);
+import { certificates, volunteering, type Certificate } from "@/lib/certificates";
+import { DocumentViewer } from "./document-viewer";
 
 function meta(item: Certificate) {
-  return item.completed
-    ? `${item.organisation}, ${item.completed}`
-    : item.organisation;
+  return item.completed ? `${item.organisation}, ${item.completed}` : item.organisation;
 }
 
-/** The file a certificate opens without JavaScript: the PDF, else its preview. */
-function fileOf(item: Certificate) {
-  return item.href ?? item.image?.src ?? null;
-}
-
-export function Certs() {
-  const hydrated = useHydrated();
-  const [hover, setHover] = useState<string | null>(previewable[0]?.id ?? null);
-  const [openId, setOpenId] = useState<string | null>(null);
-  const dialog = useRef<HTMLDialogElement>(null);
-
-  const openIndex = previewable.findIndex((item) => item.id === openId);
-  const current = openIndex >= 0 ? previewable[openIndex] : null;
-  const shown = previewable.find((item) => item.id === hover) ?? previewable[0];
-
-  useEffect(() => {
-    const node = dialog.current;
-    if (!node) {
-      return;
-    }
-    if (openId && !node.open) {
-      node.showModal();
-      document.body.style.overflow = "hidden";
-    }
-    if (!openId && node.open) {
-      node.close();
-    }
-    if (!openId) {
-      document.body.style.overflow = "";
-    }
-    return () => {
-      document.body.style.overflow = "";
-    };
-  }, [openId]);
-
-  function step(direction: 1 | -1) {
-    const next =
-      previewable[(openIndex + direction + previewable.length) % previewable.length];
-    setOpenId(next.id);
-  }
-
-  function onKeyDown(event: React.KeyboardEvent<HTMLDialogElement>) {
-    if (event.key === "ArrowRight") {
-      step(1);
-    }
-    if (event.key === "ArrowLeft") {
-      step(-1);
-    }
-  }
-
+/** A certificate card: opens the viewer once the page runs, links to the file before. */
+function CertCard({ item, className }: { item: Certificate; className: string }) {
   return (
-    <section id="certificates" className="vb-certs" aria-labelledby="certs-title">
-      <div className="vb-certs-side">
-        <Reveal>
-          <h2 id="certs-title" className="vb-section-head">
-            Beyond the degree.
-          </h2>
-        </Reveal>
-        <Collapsible summary={<span className="vb-certs-summary">All five certificates</span>}>
-        <ul className="vb-certs-list">
-          {certificates.map((item) => (
-            <li key={item.id} data-active={hover === item.id ? "true" : undefined}>
-              {hydrated && item.image ? (
-                <button
-                  type="button"
-                  className="vb-certs-row"
-                  onMouseEnter={() => setHover(item.id)}
-                  onFocus={() => setHover(item.id)}
-                  onClick={() => setOpenId(item.id)}
-                >
-                  <CertRow item={item} />
-                </button>
-              ) : fileOf(item) ? (
-                <a
-                  href={publicUrl(fileOf(item) ?? "")}
-                  className="vb-certs-row"
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  <CertRow item={item} />
-                </a>
-              ) : (
-                <div className="vb-certs-row">
-                  <CertRow item={item} />
-                </div>
-              )}
-            </li>
-          ))}
-        </ul>
-        <p className="vb-certs-aside">
-          I also volunteered at the Language Intelligence Conference 2026 at the
-          Saudi Cultural Bureau in London. No certificate for that one.
-        </p>
-        </Collapsible>
-      </div>
-
-      <div className="vb-certs-stage">
-        {shown?.image && !hydrated ? (
-          <a
-            href={publicUrl(fileOf(shown) ?? "")}
-            className="vb-certs-sheet"
-            target="_blank"
-            rel="noreferrer"
-          >
-            <Image
-              src={shown.image.src}
-              alt=""
-              width={shown.image.width}
-              height={shown.image.height}
-              sizes="(max-width: 900px) 92vw, 46vw"
-            />
-            <span className="vb-certs-sheet-cap">{shown.name}</span>
-          </a>
-        ) : shown?.image ? (
-          <button
-            type="button"
-            className="vb-certs-sheet"
-            aria-label={`Open certificate: ${shown.name}`}
-            onClick={() => setOpenId(shown.id)}
-          >
-            <Image
-              key={shown.id}
-              src={shown.image.src}
-              alt=""
-              width={shown.image.width}
-              height={shown.image.height}
-              sizes="(max-width: 900px) 92vw, 46vw"
-            />
-            <span className="vb-certs-sheet-cap">{shown.name}</span>
-          </button>
-        ) : null}
-      </div>
-
-      <dialog
-        ref={dialog}
-        className="vb-dialog"
-        aria-labelledby="certs-dialog-title"
-        onClose={() => setOpenId(null)}
-        onKeyDown={onKeyDown}
-        onClick={(event) => {
-          if (event.target === event.currentTarget) {
-            setOpenId(null);
-          }
-        }}
-      >
-        {current && current.image ? (
-          <div className="vb-dialog-body">
-            <header className="vb-dialog-head">
-              <div>
-                <h3 id="certs-dialog-title">{current.name}</h3>
-                <p>{meta(current)}</p>
-              </div>
-              <button
-                type="button"
-                className="vb-btn vb-btn-quiet"
-                onClick={() => setOpenId(null)}
-              >
-                Close
-              </button>
-            </header>
-            <Image
-              key={current.id}
-              src={current.image.src}
-              alt={`Certificate: ${current.name}, ${meta(current)}`}
-              width={current.image.width}
-              height={current.image.height}
-              sizes="(max-width: 900px) 94vw, 1000px"
-              className="vb-dialog-img"
-            />
-            <footer className="vb-dialog-foot">
-              <div className="vb-dialog-step">
-                <button type="button" onClick={() => step(-1)}>
-                  Previous
-                </button>
-                <span aria-hidden="true">
-                  {openIndex + 1} of {previewable.length}
-                </span>
-                <button type="button" onClick={() => step(1)}>
-                  Next
-                </button>
-              </div>
-              {current.href ? (
-                <a href={publicUrl(current.href)} target="_blank" rel="noreferrer">
-                  {current.href.endsWith(".pdf")
-                    ? "Open the original PDF"
-                    : "Open the image in a new tab"}
-                </a>
-              ) : null}
-            </footer>
-          </div>
-        ) : null}
-      </dialog>
-    </section>
+    <DocumentViewer
+      triggerClassName={className}
+      src={item.image.src}
+      width={item.image.width}
+      height={item.image.height}
+      alt={`Certificate: ${item.name}, ${meta(item)}`}
+      title={item.name}
+      subtitle={meta(item)}
+      href={item.href}
+    >
+      <span className="cr-card-thumb" aria-hidden="true">
+        <Image src={item.thumb} alt="" width={560} height={350} loading="lazy" />
+      </span>
+      <span className="cr-card-text">
+        <span className="cr-card-issuer">{item.organisation}</span>
+        <span className="cr-card-title">{item.name}</span>
+        {item.completed ? <span className="cr-card-date">{item.completed}</span> : null}
+      </span>
+    </DocumentViewer>
   );
 }
 
-function CertRow({ item }: { item: Certificate }) {
+export function Certs() {
+  const record = volunteering.certificate;
   return (
-    <>
-      <span className="vb-certs-name">{item.name}</span>
-      <span className="vb-certs-meta">{meta(item)}</span>
-      {item.note ? <span className="vb-certs-note">{item.note}</span> : null}
-    </>
+    <section id="certificates" className="vb-certs cr-certs" aria-labelledby="certs-title">
+      <div className="cr-certs-head">
+        <h2 id="certs-title" className="vb-section-head cr-head">
+          Beyond the degree.
+        </h2>
+        <p className="cr-certs-lead">
+Most relevant first. Open one to see the original.
+        </p>
+      </div>
+
+      <ul className="cr-cards" aria-label="Certificates">
+        {certificates.map((item) => (
+          <li key={item.id}>
+            <CertCard item={item} className="cr-card" />
+          </li>
+        ))}
+      </ul>
+
+      <div className="cr-volunteer">
+        <h3 className="cr-volunteer-title">Volunteering</h3>
+        <CertCard item={record} className="cr-card cr-card-row" />
+        <div className="cr-volunteer-notes">
+          <p>{record.note}</p>
+          {volunteering.notes.map((note) => (
+            <p key={note.name}>
+              Also volunteered at the <strong>{note.name}</strong>, {note.place}.{" "}
+              {note.note}
+            </p>
+          ))}
+        </div>
+      </div>
+    </section>
   );
 }
