@@ -1,0 +1,489 @@
+/* Where I come from: one story around a map. Land is rows of short dashes,
+   the route is an ember line, each stop a marker. Phones get a small map,
+   the stops as a list and the chosen stop below. */
+
+.vb-story {
+  --jr-line: color-mix(in srgb, var(--sand) 12%, transparent);
+
+  display: grid;
+  gap: clamp(2rem, 4vw, 3.5rem);
+}
+
+.vb-story-intro {
+  display: grid;
+  gap: 1.5rem 3rem;
+}
+
+.vb-story-copy {
+  display: grid;
+  max-width: var(--measure);
+  gap: 1rem;
+}
+
+/* ---------- The map ---------- */
+
+.vb-jr {
+  display: grid;
+  gap: 1rem;
+  scroll-margin-top: 5rem;
+}
+
+.vb-jr-map {
+  overflow: hidden;
+  border-radius: 0.75rem;
+  background: color-mix(in srgb, var(--sand) 3%, var(--night));
+  box-shadow: inset 0 0 0 1px var(--jr-line);
+}
+
+.vb-jr-svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.vb-jr-dash {
+  fill: none;
+  stroke-width: 6;
+  stroke-dasharray: 7 3;
+}
+
+.vb-jr-offset {
+  stroke-dashoffset: 5;
+}
+
+.vb-jr-land {
+  stroke: color-mix(in srgb, var(--sand) 17%, transparent);
+}
+
+.vb-jr-home {
+  stroke: color-mix(in srgb, var(--sand) 50%, transparent);
+}
+
+.vb-jr-inset .vb-jr-dash {
+  stroke-width: 4.5;
+  stroke-dasharray: 5 2;
+}
+
+.vb-jr-inset .vb-jr-offset {
+  stroke-dashoffset: 3.5;
+}
+
+.vb-jr-inset-frame {
+  fill: var(--night);
+  stroke: color-mix(in srgb, var(--sand) 35%, transparent);
+  stroke-width: 1;
+}
+
+.vb-jr-leader {
+  fill: none;
+  stroke: color-mix(in srgb, var(--sand) 35%, transparent);
+  stroke-width: 1;
+  stroke-dasharray: 2 3;
+}
+
+.vb-jr-river {
+  fill: none;
+  stroke: var(--night);
+  stroke-width: 3;
+}
+
+.vb-jr-caption {
+  fill: var(--sand-2);
+  font-size: 10px;
+}
+
+/* The route: a faint dashed way ahead, a solid ember line once walked. */
+.vb-jr-thread path {
+  fill: none;
+  stroke-linecap: round;
+}
+
+.vb-jr-thread-ahead {
+  stroke: color-mix(in srgb, var(--sand) 28%, transparent);
+  stroke-width: 1.5;
+  stroke-dasharray: 3 5;
+}
+
+.vb-jr-thread-walked {
+  stroke: var(--ember);
+  stroke-width: 3;
+}
+
+.vb-jr-thread[data-next="true"] .vb-jr-thread-walked {
+  stroke-dasharray: 7 6;
+}
+
+.vb-jr-thread[data-walked="false"] .vb-jr-thread-walked {
+  opacity: 0;
+}
+
+.vb-jr-pin-mark {
+  fill: var(--night);
+  stroke: var(--sand);
+  stroke-width: 2;
+}
+
+.vb-jr-pin[data-on="true"] .vb-jr-pin-mark {
+  r: 9.5px;
+  fill: var(--ember);
+  stroke: var(--night);
+  stroke-width: 3;
+}
+
+.vb-jr-label,
+.vb-jr-caption {
+  paint-order: stroke;
+  stroke: var(--night);
+  stroke-width: 4px;
+  stroke-linejoin: round;
+}
+
+.vb-jr-label {
+  fill: var(--sand-2);
+  font-family: var(--display);
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.vb-jr-pin[data-on="true"] .vb-jr-label {
+  fill: var(--sand);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .vb-jr-thread .vb-jr-thread-walked {
+    transition: opacity 420ms var(--ease-out);
+  }
+  .vb-jr-panel[role="tabpanel"] {
+    animation: vb-jr-in 320ms var(--ease-out) both;
+  }
+}
+
+@keyframes vb-jr-in {
+  from {
+    opacity: 0;
+    transform: translateY(0.4rem);
+  }
+}
+
+/* ---------- The stops ---------- */
+
+.vb-jr-tabs {
+  display: grid;
+  border-top: 1px solid var(--jr-line);
+}
+
+.vb-jr-tab {
+  display: grid;
+  grid-template-columns: 6.5rem 1fr;
+  align-items: center;
+  gap: 0.75rem;
+  min-height: 2.75rem;
+  padding: 0.35rem 0.75rem;
+  border: 0;
+  border-bottom: 1px solid var(--jr-line);
+  background: transparent;
+  color: var(--sand-2);
+  cursor: pointer;
+  font: inherit;
+  text-align: left;
+  transition: background-color var(--t-hover) ease, color var(--t-hover) ease;
+}
+
+.vb-jr-tab:hover {
+  background: color-mix(in srgb, var(--sand) 5%, transparent);
+  color: var(--sand);
+}
+
+.vb-jr-tab[aria-selected="true"] {
+  background: color-mix(in srgb, var(--sand) 7%, transparent);
+  color: var(--sand);
+}
+
+.vb-jr-tab-when {
+  font-size: var(--step-small);
+  font-variant-numeric: tabular-nums;
+}
+
+.vb-jr-tab-place {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: var(--display);
+  font-weight: 700;
+}
+
+/* Each stop carries the map's marker; the chosen one is filled ember. */
+.vb-jr-tab-place::before {
+  content: "";
+  width: 0.6rem;
+  height: 0.6rem;
+  flex: none;
+  border: 1.5px solid currentColor;
+  border-radius: 50%;
+}
+
+.vb-jr-tab[aria-selected="true"] .vb-jr-tab-place::before {
+  border-color: var(--ember);
+  background: var(--ember);
+}
+
+.vb-jr-list {
+  display: grid;
+  gap: 1rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.vb-jr-panel {
+  display: flow-root;
+  padding: 1.25rem;
+  border-radius: 0.75rem;
+  background: color-mix(in srgb, var(--sand) 4%, var(--night));
+}
+
+.vb-jr-panel:focus-visible {
+  outline-offset: 3px;
+}
+
+.vb-jr-photo {
+  float: left;
+  width: 6.5rem;
+  margin: 0.2rem 1rem 0.5rem 0;
+}
+
+.vb-jr-photo img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  border-radius: 0.4rem;
+}
+
+.vb-jr-photo figcaption {
+  margin-top: 0.4rem;
+  color: var(--sand-2);
+  font-size: 0.8125rem;
+  line-height: 1.3;
+}
+
+.vb-jr-text > * + * {
+  margin-top: 0.5rem;
+}
+
+.vb-jr-text > :is(.vb-jr-degree, .vb-jr-link) {
+  margin-top: 0.75rem;
+}
+
+.vb-jr-text > p {
+  max-width: 56ch;
+  text-wrap: pretty;
+}
+
+.vb-jr-when {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.6rem;
+  color: var(--ember);
+  font-size: var(--step-small);
+  font-variant-numeric: tabular-nums;
+}
+
+.vb-jr-now {
+  padding: 0.05rem 0.55rem;
+  border-radius: 999px;
+  background: var(--ember);
+  color: var(--ember-ink);
+}
+
+.vb-jr-title {
+  font-size: var(--step-lead);
+  font-weight: 700;
+  line-height: 1.15;
+  text-wrap: balance;
+}
+
+.vb-jr-note {
+  color: var(--sand-2);
+  font-size: var(--step-small);
+}
+
+.vb-jr-degree {
+  display: flex;
+  width: fit-content;
+  align-items: center;
+  gap: 0.75rem;
+  min-height: 2.75rem;
+  padding: 0.45rem 0.9rem 0.45rem 0.45rem;
+  border: 0;
+  border-radius: 0.5rem;
+  background: var(--night-3);
+  color: var(--sand);
+  cursor: pointer;
+  font: inherit;
+  text-align: left;
+  text-decoration: none;
+  transition: background-color var(--t-hover) ease;
+}
+
+.vb-jr-degree:hover {
+  background: #242b3d;
+}
+
+.vb-jr-degree-doc {
+  display: block;
+  width: 2.5rem;
+  flex: none;
+  overflow: hidden;
+  border-radius: 0.2rem;
+}
+
+.vb-jr-degree-doc img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.vb-jr-degree-text {
+  display: grid;
+  font-size: var(--step-small);
+  line-height: 1.3;
+}
+
+.vb-jr-degree-cta {
+  color: var(--ember);
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+.vb-jr .vb-jr-link {
+  display: flex;
+  width: fit-content;
+  color: var(--ember);
+}
+
+/* ---------- Off the keyboard ---------- */
+
+.vb-story-off {
+  display: grid;
+  gap: 0.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--jr-line);
+}
+
+.vb-story-off-line {
+  max-width: var(--measure);
+}
+
+.vb-story-off-title {
+  font-size: var(--step-body);
+  font-weight: 700;
+}
+
+.vb-story .vb-details-summary {
+  font-size: var(--step-body);
+}
+
+.vb-story .vb-details-body {
+  padding-top: 0.75rem;
+}
+
+/* The records as one compact strip. */
+.vb-story .vb-mu-shelf {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+.vb-story .vb-mu-slot {
+  width: 5.25rem;
+}
+
+.vb-story .vb-mu-disc {
+  padding: 0.55rem;
+}
+
+.vb-story .vb-mu-name {
+  font-size: 0.6875rem;
+}
+
+/* The spindle hole shows only while a record spins, so names stay readable at this size. */
+.vb-story .vb-mu-disc:not([data-playing="true"])::after {
+  opacity: 0;
+}
+
+/* ---------- Phones ---------- */
+
+@media (max-width: 899px) {
+  .vb-story {
+    gap: 1.75rem;
+  }
+  .vb-jr-label {
+    font-size: 26px;
+  }
+  .vb-jr-caption {
+    display: none;
+  }
+  .vb-jr-panel {
+    padding: 1rem;
+  }
+  .vb-story .vb-mu-slot {
+    width: 4.5rem;
+  }
+}
+
+/* ---------- Wide screens: the map leads, the chosen stop sits beside it ---------- */
+
+@media (min-width: 900px) {
+  .vb-story-intro {
+    grid-template-columns: 5fr 7fr;
+    align-items: end;
+  }
+  .vb-jr {
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+    grid-template-areas:
+      "map panel"
+      "tabs panel";
+    align-items: start;
+    gap: 1rem clamp(1.5rem, 3vw, 3rem);
+  }
+  .vb-jr-map {
+    grid-area: map;
+  }
+  .vb-jr-tabs {
+    grid-area: tabs;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 0.25rem;
+    border-top: 0;
+  }
+  .vb-jr-tab {
+    grid-template-columns: 1fr;
+    align-content: start;
+    gap: 0.15rem;
+    min-height: 4rem;
+    padding: 0.6rem 0.8rem;
+    white-space: nowrap;
+    border-bottom: 0;
+    border-radius: 0.5rem;
+  }
+  .vb-jr-panel[role="tabpanel"] {
+    grid-area: panel;
+    padding: 1.75rem;
+  }
+  .vb-jr-photo {
+    width: 10rem;
+    margin-right: 1.5rem;
+  }
+  .vb-jr-list {
+    grid-area: panel;
+  }
+  /* Without JavaScript every stop is listed, so the map stays in view beside them. */
+  .vb-jr[data-mode="list"] .vb-jr-map {
+    position: sticky;
+    top: 5rem;
+  }
+}
