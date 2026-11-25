@@ -16,19 +16,15 @@ export function About() {
           </Reveal>
           <Reveal delay={0.08}>
             <p className="vb-lead">
-              I grew up in Saudi Arabia, studied computer science in London,
-              and came home to build software for the life I know:
-              family, school, the desert, the ranch.
+              Raised in Saudi Arabia, trained in London, back home building
+              for the life I know: family, school, the desert, the ranch.
             </p>
           </Reveal>
           <Reveal delay={0.14}>
             <div className="vb-about-body">
               <p>
-                I like products that do one job well and say so plainly. Most of
-                what I build now is Arabic first, with AI inside only where it
-                earns its place: a voice on a phone call, a match suggested to a
-                person who decides, an explanation of a number that code already
-                computed.
+                I like products that do one job well and say so plainly: Arabic
+                first, with AI inside only where it earns its place.
               </p>
               <p>
                 Off the keyboard: music, a round of Call of Duty: Black Ops 4,

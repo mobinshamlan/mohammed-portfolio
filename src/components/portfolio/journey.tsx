@@ -24,21 +24,11 @@ const chapters: Chapter[] = [
   {
     place: "London",
     arabic: "لندن",
-    years: "2022–2023",
-    title: "Building the foundation.",
+    years: "2022–2026",
+    title: "The foundation, then the degree.",
     lines: [
-      "Kaplan International College London.",
-      "Foundation Certificate for Science and Engineering.",
-    ],
-  },
-  {
-    place: "London",
-    arabic: "لندن",
-    years: "2023–2026",
-    title: "The university years.",
-    lines: [
-      "Queen Mary University of London.",
-      "BSc (Hons) Computer Science, Upper Second-Class Honours (2:1), graduated July 2026.",
+      "Kaplan International College London, 2022–2023: Foundation Certificate for Science and Engineering.",
+      "Queen Mary University of London, 2023–2026: BSc (Hons) Computer Science, Upper Second-Class Honours (2:1), graduated July 2026.",
       "Custodian of the Two Holy Mosques Scholarship Program, Imdad track.",
     ],
     award: true,
@@ -73,12 +63,6 @@ export function Journey() {
           <h2 id="journey-title" className="vb-section-head">
             The road here.
           </h2>
-        </Reveal>
-        <Reveal delay={0.08}>
-          <p className="vb-lead">
-            Saudi Arabia, two English cities, and back home. Five chapters,
-            in order.
-          </p>
         </Reveal>
       </div>
 

@@ -105,11 +105,11 @@ export function Certs() {
             </li>
           ))}
         </ul>
-        </Collapsible>
         <p className="vb-certs-aside">
           I also volunteered at the Language Intelligence Conference 2026 at the
           Saudi Cultural Bureau in London. No certificate for that one.
         </p>
+        </Collapsible>
       </div>
 
       <div className="vb-certs-stage">
