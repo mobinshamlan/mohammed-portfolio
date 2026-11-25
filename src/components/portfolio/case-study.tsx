@@ -1,6 +1,6 @@
 import Link from "next/link";
 import type { CSSProperties, ReactNode } from "react";
-import { fieldStyle, nextProject, previousProject, type Project } from "@/lib/projects";
+import { fieldStyle, nextProject, previousProject, type Project, type ProjectId } from "@/lib/projects";
 import { amanahViews } from "@/lib/amanah-views";
 import { kashtaExample } from "@/lib/kashta-example";
 import { DecisionArtifact } from "./artifacts";
@@ -41,6 +41,33 @@ function ExternalLink({ href, children }: { href: string; children: ReactNode })
 }
 
 const openings: ReadonlySet<string> = new Set(["kashta", "seet", "amanah"]);
+
+/**
+ * How a case departs from the default order, when its own demo or artifact
+ * tells the story better than the standard sections would.
+ */
+type Arrangement = {
+  /** The decision's demo opens the case in place of the cover. */
+  demoInHero?: boolean;
+  /** Draw the proof's line of moments; off when the demo already shows the same states. */
+  proofLine?: boolean;
+  /** The proof sits beside the demo in the decision, instead of a section of its own. */
+  proofWithDecision?: boolean;
+  /** Browser screenshots stand behind a dune at night rather than in a window. */
+  plates?: boolean;
+};
+
+const arrangements: Partial<Record<ProjectId, Arrangement>> = {
+  // Each family's rules are the product; the grid itself is the clearest opening.
+  tammeni: { demoInHero: true, proofLine: false },
+  // The chat steps through the same four states the proof would draw.
+  seet: { proofWithDecision: true, plates: true },
+  kashta: { plates: true },
+};
+
+function arrangementOf(project: Project): Arrangement {
+  return arrangements[project.id] ?? {};
+}
 
 function hasOpening(project: Project) {
   return openings.has(project.id);
@@ -261,22 +288,40 @@ export function CaseBody({
   project,
   children,
   before,
+  lead,
+  coverShown = true,
 }: {
   project: Project;
   /** Extra sections placed after the flow and before the screens. */
   children?: ReactNode;
   /** Extra sections placed before the flow. */
   before?: ReactNode;
+  /** A section that opens the body, ahead of the problem. */
+  lead?: ReactNode;
+  /** Whether the hero showed the cover, so the gallery need not repeat it. */
+  coverShown?: boolean;
 }) {
+  const arrangement = arrangementOf(project);
   const next = nextProject(project.id);
   const previous = previousProject(project.id);
   const hrefOf = (item: Project) => item.href ?? `/projects/${item.id}`;
   // The experiment page brings its own fonts; only fetch them when someone goes there.
   // The cover already showed the first screen; do not repeat it unless it would leave one.
   const unrepeated = project.screens.filter((shot) => shot.src !== project.cover.src);
-  const screens = unrepeated.length >= 2 ? unrepeated : project.screens;
+  const screens = coverShown && unrepeated.length >= 2 ? unrepeated : project.screens;
+  const proofNotes = (
+    <ul className="vb-proof-notes">
+      {project.proof.notes.map((note) => (
+        <li key={note}>{note}</li>
+      ))}
+    </ul>
+  );
+  const hasProofSection =
+    !arrangement.proofWithDecision || Boolean(project.proof.outcome || project.proof.evidence);
   return (
     <>
+      {lead}
+
       <section className="vb-case-section vb-case-problem" aria-labelledby="problem-title">
         <Reveal>
           <NightMark part="nightfall" className="vb-case-hour" />
@@ -312,7 +357,7 @@ export function CaseBody({
             The decision that shaped it
           </h2>
         </Reveal>
-        <div className="vb-decision-pair">
+        <div className="vb-decision-pair" data-solo={arrangement.demoInHero ? "true" : undefined}>
         <Reveal delay={0.06}>
           <dl className="vb-decision">
             <div className="vb-decision-constraint">
@@ -332,19 +377,32 @@ export function CaseBody({
               <dd>{project.decision.changed}</dd>
             </div>
           </dl>
+          {arrangement.proofWithDecision ? (
+            <section className="vb-decision-proof" aria-labelledby="proof-title">
+              <h3 id="proof-title" className="vb-decision-proof-title">
+                {project.proof.title}
+              </h3>
+              {proofNotes}
+            </section>
+          ) : null}
         </Reveal>
-        <Reveal delay={0.12} className="vb-decision-artifact">
-          <DecisionArtifact id={project.id} />
-        </Reveal>
+        {arrangement.demoInHero ? null : (
+          <Reveal delay={0.12} className="vb-decision-artifact">
+            <DecisionArtifact id={project.id} />
+          </Reveal>
+        )}
         </div>
       </section>
 
-      <section className="vb-case-section vb-case-proof" aria-labelledby="proof-title">
+      {hasProofSection ? (
+      <section className="vb-case-section vb-case-proof" aria-labelledby={arrangement.proofWithDecision ? undefined : "proof-title"}>
+        {arrangement.proofWithDecision ? null : (
         <Reveal>
           <h2 id="proof-title" className="vb-case-h2">
             {project.proof.title}
           </h2>
         </Reveal>
+        )}
         {project.proof.outcome ? (
           <Reveal delay={0.03}>
             <p className="vb-outcome">
@@ -356,18 +414,18 @@ export function CaseBody({
             </p>
           </Reveal>
         ) : null}
-        <Reveal delay={0.06}>
-          <figure className="vb-proof">
-            <DayLine moments={project.proof.moments} label={project.proof.title} className="vb-proof-line" />
-            <figcaption>
-              <ul className="vb-proof-notes">
-                {project.proof.notes.map((note) => (
-                  <li key={note}>{note}</li>
-                ))}
-              </ul>
-            </figcaption>
-          </figure>
-        </Reveal>
+        {arrangement.proofWithDecision ? null : (
+          <Reveal delay={0.06}>
+            {arrangement.proofLine === false ? (
+              proofNotes
+            ) : (
+              <figure className="vb-proof">
+                <DayLine moments={project.proof.moments} label={project.proof.title} className="vb-proof-line" />
+                <figcaption>{proofNotes}</figcaption>
+              </figure>
+            )}
+          </Reveal>
+        )}
         {project.proof.evidence ? (
           <Reveal delay={0.1}>
             <section className="vb-evidence" aria-labelledby="evidence-title">
@@ -405,6 +463,7 @@ export function CaseBody({
           </Reveal>
         ) : null}
       </section>
+      ) : null}
 
       {children}
 
@@ -424,6 +483,7 @@ export function CaseBody({
               <Reveal key={shot.src} delay={index * 0.05} className={`vb-screen vb-screen-${shot.frame}`}>
                 <DeviceFrame
                   shot={shot}
+                  plate={arrangement.plates}
                   sizes={
                     shot.frame === "phone"
                       ? "(max-width: 900px) 60vw, 260px"
@@ -504,13 +564,22 @@ export function CasePage({
   project,
   art,
   before,
+  lead,
   children,
 }: {
   project: Project;
   art?: ReactNode;
   before?: ReactNode;
+  lead?: ReactNode;
   children?: ReactNode;
 }) {
+  const heroArt =
+    art ??
+    (arrangementOf(project).demoInHero ? (
+      <div className="vb-case-hero-demo">
+        <DecisionArtifact id={project.id} />
+      </div>
+    ) : undefined);
   return (
     <>
       <a href="#case" className="vb-skip">
@@ -523,8 +592,8 @@ export function CasePage({
         fieldInk={project.fieldInk}
       />
       <main id="case" className="vb-case">
-        <CaseHero project={project} art={art} />
-        <CaseBody project={project} before={before}>
+        <CaseHero project={project} art={heroArt} />
+        <CaseBody project={project} before={before} lead={lead} coverShown={!heroArt}>
           {children}
         </CaseBody>
       </main>

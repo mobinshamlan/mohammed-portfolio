@@ -11,6 +11,7 @@ export function DeviceFrame({
   priority = false,
   className = "",
   label,
+  plate = false,
 }: {
   shot: Shot;
   sizes: string;
@@ -18,6 +19,8 @@ export function DeviceFrame({
   className?: string;
   /** A URL or caption to print in the browser bar. */
   label?: string;
+  /** Show a browser screenshot standing behind a dune at night, with no window chrome. */
+  plate?: boolean;
 }) {
   if (shot.frame === "phone") {
     return (
@@ -33,6 +36,30 @@ export function DeviceFrame({
         />
         {shot.caption ? (
           <figcaption className="vb-frame-cap">{shot.caption}</figcaption>
+        ) : null}
+      </figure>
+    );
+  }
+
+  if (plate) {
+    return (
+      <figure className={`vb-plate ${className}`} data-ui="">
+        <span className="vb-plate-sky">
+          <Image
+            src={shot.src}
+            alt={shot.alt}
+            width={shot.width}
+            height={shot.height}
+            sizes={sizes}
+            priority={priority}
+            className="vb-plate-img"
+          />
+        </span>
+        {shot.caption || label ? (
+          <figcaption className="vb-frame-cap">
+            {label ? <span className="vb-plate-where">{label}</span> : null}
+            {shot.caption}
+          </figcaption>
         ) : null}
       </figure>
     );

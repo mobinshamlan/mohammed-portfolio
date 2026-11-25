@@ -15,7 +15,7 @@ export default function NaqahCaseStudyPage() {
   return (
     <CasePage
       project={project}
-      before={
+      lead={
         <section className="vb-case-section vb-case-demo" aria-labelledby="demo-title">
           <Reveal>
             <h2 id="demo-title" className="vb-case-h2">

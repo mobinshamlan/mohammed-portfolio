@@ -1020,6 +1020,80 @@
     position: sticky;
     top: 5rem;
   }
+  /* When the demo opened the case, the decision reads across in two columns. */
+  .vb-decision-pair[data-solo="true"] {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .vb-decision-pair[data-solo="true"] .vb-decision {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: clamp(2rem, 5vw, 5rem);
+  }
+  .vb-decision-pair[data-solo="true"] .vb-decision-constraint {
+    grid-column: 1 / -1;
+  }
+}
+
+/* Who may move a booking, read beside the chat that moves it. */
+.vb-decision-proof {
+  display: grid;
+  gap: 1rem;
+  margin-top: 2.5rem;
+  padding-top: 2rem;
+  border-top: 1px solid color-mix(in srgb, var(--sand) 16%, transparent);
+}
+
+.vb-decision-proof-title {
+  font-size: var(--step-body);
+  font-weight: 700;
+  color: var(--sand);
+}
+
+/* The case's own demo, opening it on the project's field. */
+.vb-case-hero-demo {
+  min-width: 0;
+}
+
+/* A screenshot standing behind a dune at night, instead of in a browser window. */
+.vb-plate {
+  display: grid;
+  gap: 0.75rem;
+  margin: 0;
+}
+
+.vb-plate-sky {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  border-radius: 0.75rem 0.75rem 0 0;
+}
+
+.vb-plate-img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.vb-plate-sky::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: clamp(1.75rem, 5vw, 4rem);
+  background: var(--plate-ground, var(--night));
+  mask: var(--crest-3) 0 0 / 100% 100% no-repeat;
+}
+
+.vb-screen:nth-child(even) .vb-plate-sky::after {
+  mask-image: var(--crest-1);
+}
+
+.vb-plate-where {
+  display: block;
+  margin-bottom: 0.15rem;
+  color: var(--ember);
+  font-size: var(--step-small);
+  font-weight: 600;
 }
 
 /* ---------- Artifacts beside the decisions ---------- */
