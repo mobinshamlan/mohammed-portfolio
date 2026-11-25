@@ -463,3 +463,18 @@ a.vb-tools-cell:hover .vb-tools-cell-name {
     transition: none;
   }
 }
+
+/* Phones: the first three skills, then a button for the rest. Wide screens show all. */
+.vb-tools-more {
+  display: none;
+}
+
+@media (max-width: 899px) {
+  .vb-tools-rows[data-collapsed="true"] > .vb-tools-row:nth-child(n + 4) {
+    display: none;
+  }
+  .vb-tools-more {
+    display: inline-flex;
+    margin-top: 1rem;
+  }
+}

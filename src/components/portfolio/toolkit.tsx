@@ -53,6 +53,8 @@ export function Toolkit() {
   // The project filter needs JavaScript; without it every job and project is still listed.
   const hydrated = useHydrated();
   const [selected, setSelected] = useState<Selection>("all");
+  // Phones start with the first three skills; the rest open on request.
+  const [showAll, setShowAll] = useState(false);
   const project = selected === "all" ? null : projectById[selected];
   const total = toolkit.reduce((sum, job) => sum + job.tools.length, 0);
   const used = project
@@ -121,7 +123,7 @@ export function Toolkit() {
           </span>
         </div>
 
-        <ul className="vb-tools-rows">
+        <ul className="vb-tools-rows" data-collapsed={hydrated && !project && !showAll ? "true" : undefined}>
           {jobs.map((job) => {
             const tools = project ? job.tools.filter((tool) => tool.projects.includes(project.id)) : job.tools;
             const note = project ? job.notes?.find((item) => item.project === project.id) : undefined;
@@ -187,6 +189,11 @@ export function Toolkit() {
             );
           })}
         </ul>
+        {hydrated && !project && !showAll ? (
+          <button type="button" className="vb-btn vb-btn-quiet vb-tools-more" onClick={() => setShowAll(true)}>
+            Show all {toolkit.length} skills
+          </button>
+        ) : null}
       </div>
 
       <details className="vb-details vb-tools-rest">

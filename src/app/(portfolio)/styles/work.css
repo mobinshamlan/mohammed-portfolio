@@ -187,3 +187,25 @@
   text-underline-offset: 0.2em;
   color: var(--field-ink);
 }
+
+/* Phones: one decisive proof per product, its demo; real screens wait on desktop and in the case study. */
+@media (max-width: 899px) {
+  .vb-proj-screen,
+  .vb-proj[data-layout="score"] .vb-proj-art,
+  .vb-proj[data-layout="views"] .vb-proj-art {
+    display: none;
+  }
+  .vb-proj-facts > div {
+    padding: 0.65rem 0;
+  }
+  .vb-proj-facts > div:last-child dt {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+  }
+  .vb-proj-facts > div:last-child dd {
+    font-size: var(--step-small);
+  }
+}

@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { certificates } from "@/lib/certificates";
-import { childhood, degree, graduation } from "@/lib/portrait";
+import { childhood, degree } from "@/lib/portrait";
 import { DocumentViewer } from "./document-viewer";
 import { MusicShelf } from "./music-shelf";
 import { Reveal } from "./reveal";
@@ -73,19 +73,6 @@ export function Story() {
           </ul>
 
           <div className="vb-route-keep">
-            <figure className="vb-route-thumb">
-              <span className="vb-route-thumb-img">
-                <Image
-                  src={graduation.src}
-                  alt={graduation.alt}
-                  width={graduation.width}
-                  height={graduation.height}
-                  sizes="8rem"
-                  style={{ objectPosition: "50% 18%" }}
-                />
-              </span>
-              <figcaption>Graduation, July 2026</figcaption>
-            </figure>
             <DocumentViewer
               triggerClassName="vb-route-thumb vb-route-doc"
               src={degree.src}
