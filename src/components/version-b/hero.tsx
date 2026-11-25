@@ -142,24 +142,36 @@ function HeroArtifact() {
   );
 }
 
-/** Each live project's passing test count, read from its public repository. */
+/** Each live project's passing test count: linked to a passing CI run where one exists, else to the tests. */
 const testCounts = projects.flatMap((project) => {
   const tests = project.proof.evidence?.find((item) => item.kind === "tests");
-  return tests ? [{ id: project.id, name: project.name, value: tests.value, href: tests.source.href }] : [];
+  if (!tests) return [];
+  return [
+    {
+      id: project.id,
+      name: project.name,
+      value: tests.value,
+      href: tests.run?.href ?? tests.source.href,
+      how: tests.run ? `CI ${tests.run.date.replace(/ \d{4}$/, "")}` : "local",
+    },
+  ];
 });
 
-/** The checked numbers under the proof line, each linked to the repository it came from. */
+const naqahOutcome = projects.find((project) => project.id === "naqah")?.proof.outcome;
+
+/** The checked numbers beside the opening's visual, each linked to where it can be checked. */
 function HeroEvidence() {
   return (
-    <div className="vb-hero-evidence" data-rise="3">
+    <div className="vb-hero-evidence">
       <p className="vb-hero-evidence-head">
-        Tests passing in the public repos, run {EVIDENCE_CHECKED}
+        Tests passing in the public repos. CI links a passing GitHub run; local was counted on a
+        fresh clone, {EVIDENCE_CHECKED}.
       </p>
       <ul className="vb-hero-evidence-list">
         {testCounts.map((item) => (
           <li key={item.id}>
             <a href={item.href} className="vb-hero-evidence-link" target="_blank" rel="noreferrer">
-              {item.name} <strong>{item.value}</strong>
+              <b>{item.name}</b> <strong>{item.value}</strong> <span>{item.how}</span>
             </a>
           </li>
         ))}
@@ -180,6 +192,15 @@ export function VersionBHero() {
           for real Saudi life.
           <span lang="ar">أبني منتجات ذكاء اصطناعي، بالعربي أولاً، لحياة سعودية حقيقية</span>
         </p>
+        {naqahOutcome ? (
+          <p className="vb-hero-outcome" data-rise="3">
+            {naqahOutcome.text}{" "}
+            <a href={naqahOutcome.source.href} className="vb-hero-proof-link" target="_blank" rel="noreferrer">
+              {naqahOutcome.source.label}
+            </a>
+            , {naqahOutcome.date}.
+          </p>
+        ) : null}
         <p className="vb-hero-proof" data-rise="3">
           Lead contributor on Naqah, an investor MVP:{" "}
           <a
@@ -192,19 +213,13 @@ export function VersionBHero() {
           </a>
           , 5&ndash;13 November 2026.
         </p>
-        <HeroEvidence />
         <div className="vb-hero-actions" data-rise="4">
           <Link href="#work" className="vb-btn">
             View work
           </Link>
-          <span className="vb-hero-secondary">
-            <Link href="#naqah-demo" className="vb-link vb-hero-play">
-              Play the Naqah call
-            </Link>
-            <Link href="#contact" className="vb-link">
-              Get in touch
-            </Link>
-          </span>
+          <Link href="#contact" className="vb-link vb-hero-secondary">
+            Get in touch
+          </Link>
         </div>
         <p className="vb-hero-status" data-rise="5">
           <span className="vb-hero-dot" aria-hidden="true" />
@@ -214,6 +229,7 @@ export function VersionBHero() {
 
       <div className="vb-hero-visual" data-rise="3">
         <HeroArtifact />
+        <HeroEvidence />
       </div>
 
       <div className="vb-hero-strip" data-rise="6">

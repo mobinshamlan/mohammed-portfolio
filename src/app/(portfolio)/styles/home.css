@@ -23,7 +23,7 @@
 
 .vb-hero-title {
   max-width: 9ch;
-  font-size: clamp(2.8rem, 1rem + 5.8vw, 6.4rem);
+  font-size: clamp(2.8rem, 1rem + 6.3vw, 7rem);
   font-weight: 800;
   line-height: 0.92;
   letter-spacing: -0.04em;
@@ -55,6 +55,16 @@
   text-wrap: pretty;
 }
 
+/* A sourced product result, when the owner supplies one, leads the proof. */
+.vb-hero-outcome {
+  max-width: 44ch;
+  color: var(--sand);
+  font-size: var(--step-body);
+  font-weight: 500;
+  line-height: 1.5;
+  text-wrap: pretty;
+}
+
 .vb-hero-proof-link {
   color: var(--sand);
   text-decoration: underline;
@@ -66,13 +76,11 @@
   text-decoration-thickness: 2px;
 }
 
-/* Checked numbers under the proof line: a ledger, one entry per repository. */
+/* Checked numbers under the opening's visual: a ledger, one entry per repository. */
 .vb-hero-evidence {
   display: grid;
   gap: 0.35rem;
-  max-width: 44rem;
-  padding-top: 0.75rem;
-  border-top: 1px solid color-mix(in srgb, var(--sand) 14%, transparent);
+  padding-inline: 0.2rem;
 }
 
 .vb-hero-evidence-head {
@@ -81,9 +89,9 @@
 }
 
 .vb-hero-evidence-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0 1.5rem;
+  display: grid;
+  grid-template-columns: repeat(2, max-content);
+  gap: 0 2rem;
   margin: 0;
   padding: 0;
   list-style: none;
@@ -96,9 +104,19 @@
   min-height: 2rem;
   padding-block: 0.25rem;
   color: var(--sand-2);
+  text-decoration: none;
+}
+
+/* The name and number carry the underline; the CI or local tag stays plain. */
+.vb-hero-evidence-link b,
+.vb-hero-evidence-link strong {
   text-decoration: underline;
   text-decoration-color: color-mix(in srgb, var(--sand-2) 45%, transparent);
   text-underline-offset: 0.25em;
+}
+
+.vb-hero-evidence-link b {
+  font-weight: inherit;
 }
 
 .vb-hero-evidence-link strong {
@@ -109,8 +127,16 @@
   font-variant-numeric: tabular-nums;
 }
 
+.vb-hero-evidence-link span {
+  font-size: 0.8125rem;
+}
+
 .vb .vb-hero-evidence-link:hover {
   color: var(--sand);
+}
+
+.vb-hero-evidence-link:hover b,
+.vb-hero-evidence-link:hover strong {
   text-decoration-color: var(--ember);
 }
 
@@ -124,9 +150,7 @@
 
 .vb-hero-secondary {
   display: inline-flex;
-  flex-wrap: wrap;
   align-items: center;
-  gap: 0 1.25rem;
 }
 
 .vb-hero-status {
@@ -146,6 +170,8 @@
 
 /* The opening's visual: quote → fact → alert on the line of moments. */
 .vb-hero-visual {
+  display: grid;
+  gap: 1rem;
   align-self: center;
 }
 
@@ -208,7 +234,7 @@
 
 .vb-hero-step-ar {
   display: block;
-  font-size: clamp(1.15rem, 1rem + 0.8vw, 1.45rem);
+  font-size: clamp(1.15rem, 0.9rem + 0.6vw, 1.35rem);
   font-weight: 700;
   line-height: 1.6;
   text-align: right;
@@ -336,11 +362,11 @@
 
 @media (min-width: 900px) {
   .vb-hero {
-    grid-template-columns: 6fr 5fr;
-    grid-template-rows: auto auto;
+    grid-template-columns: 7fr 5fr;
+    /* The first row fills the first screen: name, one action, one answer. The strip waits below. */
+    grid-template-rows: minmax(calc(100svh - var(--nav-h) - 5rem), auto) auto;
     column-gap: clamp(2rem, 5vw, 5rem);
     align-items: center;
-    min-height: calc(100svh - var(--nav-h));
   }
   .vb-hero-visual {
     grid-column: 2;
@@ -357,7 +383,7 @@
     min-height: 100%;
     max-height: 14rem;
   }
-  .vb-hero-actions .vb-hero-secondary .vb-link {
+  .vb-hero-actions .vb-hero-secondary {
     min-height: 3rem;
   }
 }
@@ -1913,16 +1939,13 @@ div.vb-certs-row {
     font-size: var(--step-small);
   }
   .vb-hero-evidence {
-    padding-top: 0.5rem;
     gap: 0;
   }
   .vb-hero-evidence-head {
     font-size: 0.8125rem;
   }
   .vb-hero-evidence-list {
-    display: grid;
-    grid-template-columns: repeat(2, max-content);
-    gap: 0 1.75rem;
+    gap: 0 1.25rem;
   }
   .vb-hero-evidence-link strong {
     font-size: 1rem;
@@ -1931,10 +1954,8 @@ div.vb-certs-row {
     flex-wrap: nowrap;
     margin-top: 0;
   }
-  .vb .vb-hero-play {
-    display: none;
-  }
   .vb-hero-visual {
+    gap: 0.75rem;
     margin-top: 0.5rem;
   }
   .vb-hero-status {
