@@ -95,6 +95,11 @@ export function Jumper() {
   }
 
   function onInputKey(event: React.KeyboardEvent<HTMLInputElement>) {
+    if (event.key === "Escape") {
+      event.preventDefault();
+      close();
+      return;
+    }
     if (event.key === "ArrowDown") {
       event.preventDefault();
       setIndex((i) => Math.min(shown.length - 1, i + 1));

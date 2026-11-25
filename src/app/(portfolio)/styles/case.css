@@ -701,6 +701,10 @@
   gap: 2.5rem;
 }
 
+.vb-decision-pair > * {
+  min-width: 0;
+}
+
 @media (min-width: 900px) {
   .vb-decision-pair {
     grid-template-columns: 5fr 7fr;
@@ -837,6 +841,7 @@
 
 .vb-art-table select {
   width: 100%;
+  min-height: 2.75rem;
   margin-bottom: 0.35rem;
   padding: 0.35rem 0.4rem;
   border: 1px solid var(--night);
@@ -848,7 +853,7 @@
 }
 
 .vb-art-toggle {
-  min-height: 2rem;
+  min-height: 2.75rem;
   padding: 0 0.7rem;
   border: 0;
   border-radius: 999px;
@@ -927,6 +932,37 @@
 @media (min-width: 600px) {
   .vb-art-naqah-grid {
     grid-template-columns: 3fr 2fr;
+  }
+}
+
+/* Wide tables become labelled rows on phones. */
+@media (max-width: 599px) {
+  .vb-art-score thead,
+  .vb-art-gthrz thead {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+  }
+  .vb-art-score tr,
+  .vb-art-gthrz tr {
+    display: grid;
+    gap: 0.2rem;
+    padding: 0.6rem 0.6rem;
+    margin-bottom: 0.5rem;
+    border-radius: 0.4rem;
+  }
+  .vb-art-score th,
+  .vb-art-score td,
+  .vb-art-gthrz th,
+  .vb-art-gthrz td {
+    padding: 0;
+  }
+  .vb-art-score td::before,
+  .vb-art-gthrz td::before {
+    content: attr(data-label) ": ";
+    color: var(--sand-2);
   }
 }
 

@@ -3,6 +3,7 @@
 import { useId, useRef, useState, type FormEvent } from "react";
 import { useHydrated } from "@/lib/use-hydrated";
 import { contact } from "@/lib/contact";
+import { Collapsible } from "./collapsible";
 import { Reveal } from "./reveal";
 
 type Fields = { name: string; email: string; message: string };
@@ -118,9 +119,11 @@ export function VersionBContact() {
           <span>@{contact.email.split("@")[1]}</span>
         </a>
         <div className="vb-contact-email-actions">
-          <button type="button" className="vb-btn vb-btn-quiet" onClick={copyEmail}>
-            {emailCopied ? "Copied" : "Copy address"}
-          </button>
+          {mounted ? (
+            <button type="button" className="vb-btn vb-btn-quiet" onClick={copyEmail}>
+              {emailCopied ? "Copied" : "Copy address"}
+            </button>
+          ) : null}
           <a
             href={contact.linkedin.href}
             className="vb-link"
@@ -141,8 +144,8 @@ export function VersionBContact() {
       </Reveal>
 
       {mounted ? (
+      <Collapsible className="vb-form-wrap" summary={<span className="vb-form-title">Draft an email</span>}>
       <form className="vb-form" onSubmit={onSubmit} noValidate>
-        <h3 className="vb-form-title">Draft an email</h3>
         <div className="vb-form-grid">
           <Field
             id={`${id}-name`}
@@ -225,6 +228,7 @@ export function VersionBContact() {
           ) : null}
         </div>
       </form>
+      </Collapsible>
       ) : (
         <p className="vb-form-fallback">
           The draft form appears once the page has loaded. The email link above works without it.

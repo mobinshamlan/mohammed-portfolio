@@ -3,10 +3,12 @@
 import { useState } from "react";
 import { callScript } from "@/lib/naqah-call";
 import type { ProjectId } from "@/lib/projects";
+import { useHydrated } from "@/lib/use-hydrated";
 
 /**
  * Product artifacts that sit beside each project's decision: small, honest
- * pieces of the product itself. Simulations are labelled as such.
+ * pieces of the product itself. Simulations are labelled as such. Before
+ * hydration each one renders its complete, read-only content.
  */
 
 /* ---------- Naqah: the facts a call leaves behind ---------- */
@@ -74,6 +76,7 @@ const initial: Record<string, Cell> = {
 };
 
 export function TammeniSchedule() {
+  const hydrated = useHydrated();
   const [cells, setCells] = useState(initial);
   function set(key: string, patch: Partial<Cell>) {
     setCells((c) => ({ ...c, [key]: { ...c[key], ...patch } }));
@@ -83,7 +86,8 @@ export function TammeniSchedule() {
   return (
     <div className="vb-art vb-art-tammeni" data-ui="">
       <p className="vb-art-label">
-        The schedule grid, recreated. Fictional children from the demo; change any cell.
+        The schedule grid, recreated. Fictional children from the demo
+        {hydrated ? "; change any cell." : "."}
       </p>
       <table className="vb-art-table">
         <thead>
@@ -103,6 +107,13 @@ export function TammeniSchedule() {
               {children.map((child) => {
                 const key = `${child}:${topic}`;
                 const cell = cells[key];
+                if (!hydrated) {
+                  return (
+                    <td key={key}>
+                      {cell.timing === "off" ? "off" : `${cell.timing}, by ${cell.channel}`}
+                    </td>
+                  );
+                }
                 return (
                   <td key={key}>
                     <label className="vb-art-sr" htmlFor={`${key}-t`}>
@@ -172,14 +183,19 @@ const seetChat: ChatLine[] = [
   },
 ];
 
-export function SeetChat() {
+export function SeetChat({ compact = false }: { compact?: boolean }) {
+  const hydrated = useHydrated();
   const [step, setStep] = useState(1);
-  const shown = seetChat.slice(0, step + 1);
+  const last = seetChat.length - 1;
+  const visible = hydrated ? step : last;
+  const shown = seetChat.slice(0, visible + 1);
   const state = [...shown].reverse().find((m) => m.state)?.state ?? "Enquiry";
-  const done = step >= seetChat.length - 1;
+  const done = visible >= last;
   return (
-    <div className="vb-art vb-art-seet" data-ui="">
-      <p className="vb-art-label">Simulated WhatsApp thread with made-up prices. Step through it.</p>
+    <div className={`vb-art vb-art-seet ${compact ? "vb-art-compact" : ""}`} data-ui="">
+      <p className="vb-art-label">
+        Simulated WhatsApp thread with made-up prices{hydrated ? ". Step through it." : "."}
+      </p>
       <div className="vb-art-state">
         {["Enquiry", "Held", "Deposit", "Confirmed"].map((s) => (
           <span key={s} data-on={s === state ? "true" : undefined}>
@@ -196,21 +212,25 @@ export function SeetChat() {
         ))}
       </ol>
       <div className="vb-art-controls">
-        <button
-          type="button"
-          className="vb-btn vb-btn-quiet"
-          onClick={() => setStep((s) => Math.max(1, s - 1))}
-          disabled={step <= 1}
-        >
-          Back
-        </button>
-        <button
-          type="button"
-          className="vb-btn"
-          onClick={() => setStep((s) => (done ? 1 : Math.min(seetChat.length - 1, s + 1)))}
-        >
-          {done ? "Start again" : "Next"}
-        </button>
+        {hydrated ? (
+          <>
+            <button
+              type="button"
+              className="vb-btn vb-btn-quiet"
+              onClick={() => setStep((s) => Math.max(1, s - 1))}
+              disabled={step <= 1}
+            >
+              Back
+            </button>
+            <button
+              type="button"
+              className="vb-btn"
+              onClick={() => setStep((s) => (done ? 1 : Math.min(last, s + 1)))}
+            >
+              {done ? "Start again" : "Next"}
+            </button>
+          </>
+        ) : null}
         <span className="vb-art-note">
           Only the last step, the payment callback, can write &ldquo;confirmed&rdquo;.
         </span>
@@ -221,25 +241,60 @@ export function SeetChat() {
 
 /* ---------- Kashta: a worked score ---------- */
 
-/** Real limits and weights from Kashta's src/lib/score.ts; the night from the live app. */
+/**
+ * Real limits and weights from Kashta's src/lib/score.ts, and every value the
+ * live app showed for this night (destination page, forecast details, 25 Nov 2026).
+ */
 const kashtaExample = {
   site: "Al-Rahmaniya Park, Al-Kharj",
   night: "Wednesday 25 November 2026",
   liveScore: 99,
   rows: [
-    { factor: "Temperature", value: "22° evening, 15° min feels-like", rule: "100 in the 14–22° mild band, −8 per degree outside", score: 100, weight: 0.3 },
-    { factor: "Wind", value: "12 km/h gust", rule: "100 at ≤30 km/h, 0 at ≥55 (medium tolerance)", score: 100, weight: 0.3 },
-    { factor: "Rain", value: "0% chance", rule: "100 at ≤10%, 0 at ≥70%", score: 100, weight: 0.2 },
-    { factor: "Dust", value: "from the air-quality forecast", rule: "100 at ≤60 µg/m³, 0 at ≥400", score: null, weight: 0.15 },
-    { factor: "Cloud", value: "mean 20:00–04:00", rule: "100 at ≤10%, 0 at ≥80%", score: null, weight: 0.05 },
+    {
+      factor: "Temperature",
+      value: "21.7° evening, 14.9° min feels-like",
+      rule: "100 inside the 14–22° mild band, −8 per degree outside; −5 per degree of feels-like below 4°",
+      score: 100,
+      weight: 0.3,
+    },
+    {
+      factor: "Wind",
+      value: "11.5 km/h strongest gust",
+      rule: "100 at ≤30 km/h, 0 at ≥55, straight line between (medium tolerance)",
+      score: 100,
+      weight: 0.3,
+    },
+    {
+      factor: "Rain",
+      value: "0% highest chance",
+      rule: "100 at ≤10%, 0 at ≥70%",
+      score: 100,
+      weight: 0.2,
+    },
+    {
+      factor: "Dust",
+      value: "85 µg/m³ peak",
+      rule: "100 at ≤60, 0 at ≥400: 100 × (1 − 25⁄340) = 92.6, rounded 93",
+      score: 93,
+      weight: 0.15,
+    },
+    {
+      factor: "Cloud",
+      value: "0% mean, 20:00–04:00",
+      rule: "100 at ≤10%, 0 at ≥80%",
+      score: 100,
+      weight: 0.05,
+    },
   ],
 };
 
 export function KashtaScore() {
+  const total = kashtaExample.rows.reduce((sum, r) => sum + r.score * r.weight, 0);
   return (
     <div className="vb-art vb-art-kashta" data-ui="">
       <p className="vb-art-label">
-        A worked Kashta Score. Limits and weights are the app&rsquo;s own; the night is from the live app.
+        A worked Kashta Score. Limits and weights are the app&rsquo;s own (src/lib/score.ts, covered
+        by node:test unit tests); the five values are what the live app showed for this night.
       </p>
       <p className="vb-art-h">
         {kashtaExample.site}, {kashtaExample.night}
@@ -258,17 +313,19 @@ export function KashtaScore() {
           {kashtaExample.rows.map((row) => (
             <tr key={row.factor}>
               <th scope="row">{row.factor}</th>
-              <td>{row.value}</td>
-              <td>{row.rule}</td>
-              <td>{row.score ?? "from forecast"}</td>
-              <td>{row.weight}</td>
+              <td data-label="Forecast">{row.value}</td>
+              <td data-label="Rule">{row.rule}</td>
+              <td data-label="Score">{row.score}</td>
+              <td data-label="Weight">{row.weight}</td>
             </tr>
           ))}
         </tbody>
       </table>
       <p className="vb-art-sum">
-        Weighted average, capped at 35 if any reading is dangerous, no number if a measurement is missing.
-        The live app scored this night <strong>{kashtaExample.liveScore}</strong>: the dust and cloud terms cost one point.
+        Weighted sum: 0.3 × 100 + 0.3 × 100 + 0.2 × 100 + 0.15 × 93 + 0.05 × 100 ={" "}
+        {total.toFixed(2)}, rounded to <strong>{Math.round(total)}</strong>. The live app showed{" "}
+        <strong>{kashtaExample.liveScore}</strong>. No reading crossed a danger limit, so the 35-point
+        cap did not apply; a missing measurement would have given no number at all.
       </p>
     </div>
   );
@@ -277,21 +334,27 @@ export function KashtaScore() {
 /* ---------- Amanah: proving ownership privately ---------- */
 
 export function AmanahQuestions() {
+  const hydrated = useHydrated();
   const [answered, setAnswered] = useState<string | null>(null);
   const options = ["Yellow", "Black", "Wooden"];
   return (
     <div className="vb-art vb-art-amanah" data-ui="">
-      <p className="vb-art-label">The ownership step from the guided demo, recreated. One question, chosen by staff.</p>
+      <p className="vb-art-label">
+        Simulated ownership step, after the guided demo. Staff may ask up to two questions about a
+        match; this is the first of them, chosen from what the finder reported. Your answer is a
+        sample.
+      </p>
       <p className="vb-art-h">
         <span lang="ar">وش لون المقبض؟</span> What colour is the handle?
       </p>
-      <div className="vb-art-options" role="group" aria-label="Answer">
+      <div className="vb-art-options" role="group" aria-label="Sample answer">
         {options.map((o) => (
           <button
             key={o}
             type="button"
             className="vb-btn vb-btn-quiet"
             aria-pressed={answered === o}
+            disabled={!hydrated}
             onClick={() => setAnswered(o)}
           >
             {o}
@@ -300,8 +363,8 @@ export function AmanahQuestions() {
       </div>
       <p className="vb-art-sum" aria-live="polite">
         {answered
-          ? `Sent to staff. The found report stays private; the finder never sees your answer. Tracking link credential: stored only as a SHA-256 hash.`
-          : "Pick an answer. The finder's report is never shown to you, and your answer goes to staff, not to the finder."}
+          ? `Simulated: "${answered}" goes to staff on the private tracking link. If it matches, staff may ask one more question or approve; the finder's report is never shown to you, and the link credential is stored only as a SHA-256 hash.`
+          : "Pick a sample answer. In the product the answer goes to staff, not to the finder; a second question is asked only if staff want more certainty."}
       </p>
     </div>
   );
@@ -311,15 +374,19 @@ export function AmanahQuestions() {
 
 export function GthrzVisibility() {
   const rows = [
-    { state: "Discovered", title: true, time: true, address: false, exact: false, guests: false },
-    { state: "Requested", title: true, time: true, address: false, exact: false, guests: false },
-    { state: "Approved", title: true, time: true, address: true, exact: false, guests: true },
-    { state: "Revealed by host", title: true, time: true, address: true, exact: true, guests: true },
+    { state: "Discovered", address: "No", exact: "No", guests: "No" },
+    { state: "Requested", address: "No", exact: "No", guests: "No" },
+    { state: "Approved", address: "Yes", exact: "No", guests: "Yes" },
+    { state: "Revealed by host", address: "Yes", exact: "Yes", guests: "Yes" },
   ];
-  const cols = ["Title", "Time", "Address", "Exact pin", "Guest list"];
+  const cols = ["Address", "Exact pin", "Guest list"];
   return (
     <div className="vb-art vb-art-gthrz" data-ui="">
-      <p className="vb-art-label">What a guest can read at each state, as the row-level security rules allow.</p>
+      <p className="vb-art-label">
+        What a guest can read at each state. The title, time and category are always visible. This
+        example assumes the host set &ldquo;reveal the address later&rdquo; and left guest names on;
+        the row-level security rules enforce it.
+      </p>
       <table className="vb-art-table">
         <thead>
           <tr>
@@ -335,9 +402,9 @@ export function GthrzVisibility() {
           {rows.map((r) => (
             <tr key={r.state}>
               <th scope="row">{r.state}</th>
-              {[r.title, r.time, r.address, r.exact, r.guests].map((on, i) => (
-                <td key={i} data-on={on ? "true" : undefined}>
-                  {on ? "Yes" : "No"}
+              {[r.address, r.exact, r.guests].map((v, i) => (
+                <td key={i} data-label={cols[i]} data-on={v === "Yes" ? "true" : undefined}>
+                  {v}
                 </td>
               ))}
             </tr>

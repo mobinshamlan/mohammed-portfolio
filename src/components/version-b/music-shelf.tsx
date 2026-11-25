@@ -73,9 +73,6 @@ export function MusicShelf() {
           </li>
         ))}
       </ul>
-      <p className="vb-mu-note">
-        {artists.length} artists. Pick a record to spin it.
-      </p>
     </div>
   );
 }

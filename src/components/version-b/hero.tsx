@@ -93,42 +93,52 @@ function TonightStrip() {
   );
 }
 
-/** A real artifact on the first screen: what one Naqah call turns into. Simulated sample. */
+/**
+ * The opening's visual: one Naqah call turning into facts and an owner alert.
+ * Quote → the fact it supports → the alert, on the line of moments. Simulated sample.
+ */
 function HeroArtifact() {
   const worker = callScript.find((l) => l.kind === "worker");
-  const facts = callScript.filter((l) => l.kind === "fact").slice(0, 3);
+  const fact = callScript.find((l) => l.kind === "fact" && l.flag);
   return (
     <div className="vb-hero-art" data-ui="">
       <p className="vb-hero-art-label">
-        From a Naqah call to the owner&rsquo;s summary. Simulated sample.
+        What Naqah does with one answer. Simulated sample.
       </p>
-      <div className="vb-hero-art-grid">
-        <div className="vb-hero-art-worker">
-          <span className="vb-hero-art-who">Worker, 5:40 pm</span>
+      <ol className="vb-hero-steps">
+        <li className="vb-hero-step">
+          <span className="vb-hero-step-dot" aria-hidden="true" />
+          <span className="vb-hero-step-who">Worker, on the phone, 5:40 pm</span>
           {worker && worker.kind === "worker" ? (
             <>
-              <span lang="ar">{worker.ar}</span>
-              <span className="vb-hero-art-en">{worker.en}</span>
+              <span className="vb-hero-step-ar" lang="ar">
+                {worker.ar}
+              </span>
+              <span className="vb-hero-step-en">{worker.en}</span>
             </>
           ) : null}
-        </div>
-        <ul className="vb-hero-art-facts" aria-label="Facts kept">
-          {facts.map((fact, i) =>
-            fact.kind === "fact" ? (
-              <li key={i} data-flag={fact.flag ? "true" : undefined}>
-                <span>{fact.label}</span>
-                <strong>{fact.value}</strong>
-              </li>
-            ) : null,
-          )}
-        </ul>
-      </div>
-      <p className="vb-hero-art-owner">
-        <strong>Owner, 7:00 pm</strong> Wadha has not drunk since morning. Feed arrived.{" "}
-        <Link href="#naqah-demo" className="vb-link">
-          Play the full call, 15 s
-        </Link>
-      </p>
+        </li>
+        <li className="vb-hero-step">
+          <span className="vb-hero-step-dot" aria-hidden="true" />
+          <span className="vb-hero-step-who">Kept as a record, audio discarded</span>
+          {fact && fact.kind === "fact" ? (
+            <span className="vb-hero-step-fact">
+              <span>{fact.label}</span>
+              <strong>{fact.value}</strong>
+            </span>
+          ) : null}
+        </li>
+        <li className="vb-hero-step">
+          <span className="vb-hero-step-dot" aria-hidden="true" />
+          <span className="vb-hero-step-who">Owner, called at 7:00 pm</span>
+          <span className="vb-hero-step-en vb-hero-step-owner">
+            Wadha has not drunk since morning. The east fence needs repair. Feed arrived.
+          </span>
+        </li>
+      </ol>
+      <Link href="#naqah-demo" className="vb-link vb-hero-art-link">
+        Play the full call, 15 s
+      </Link>
     </div>
   );
 }
@@ -146,8 +156,8 @@ export function VersionBHero() {
           <span lang="ar">أبني منتجات ذكاء اصطناعي، بالعربي أولاً، لحياة سعودية حقيقية</span>
         </p>
         <p className="vb-hero-proof" data-rise="3">
-          Lead contributor on Naqah, a live investor MVP. Four of my five AI
-          products are live.
+          Lead contributor on Naqah: investor MVP, November 2026, with Vitest and
+          Playwright checks.
         </p>
         <div className="vb-hero-actions" data-rise="4">
           <Link href="#work" className="vb-btn">
@@ -168,27 +178,29 @@ export function VersionBHero() {
         </p>
       </div>
 
-      <figure className="vb-hero-sky" data-open="1">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src={sky.src1000}
-          srcSet={`${sky.src640} 640w, ${sky.src1000} 1000w, ${sky.src} 1067w`}
-          sizes="(max-width: 899px) 100vw, 40vw"
-          alt={sky.alt}
-          width={sky.width}
-          height={sky.height}
-          fetchPriority="high"
-          decoding="async"
-          className="vb-hero-sky-img"
-        />
-        <figcaption className="vb-hero-sky-cap">
-          The sky over AlUla. Photo: Saudi Press Agency.
-        </figcaption>
-      </figure>
+      <div className="vb-hero-visual" data-rise="3">
+        <HeroArtifact />
+      </div>
 
       <div className="vb-hero-strip" data-rise="6">
-        <HeroArtifact />
         <TonightStrip />
+        <figure className="vb-hero-sky">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={sky.src640}
+            srcSet={`${sky.src640} 640w, ${sky.src1000} 1000w`}
+            sizes="(max-width: 899px) 100vw, 30vw"
+            alt={sky.alt}
+            width={sky.width}
+            height={sky.height}
+            loading="lazy"
+            decoding="async"
+            className="vb-hero-sky-img"
+          />
+          <figcaption className="vb-hero-sky-cap">
+            The sky over AlUla. Photo: Saudi Press Agency.
+          </figcaption>
+        </figure>
       </div>
     </section>
   );

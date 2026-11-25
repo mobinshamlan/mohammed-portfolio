@@ -516,7 +516,6 @@ html:has(.vb) {
 .vb-jump-open kbd {
   font-family: var(--text);
   font-size: 0.8125rem;
-  opacity: 0.7;
 }
 
 .vb-jump {
@@ -622,7 +621,7 @@ html:has(.vb) {
 
 .vb-footer-arabic {
   margin-top: 0.75rem;
-  font-size: clamp(1.4rem, 1rem + 2vw, 3rem);
+  font-size: clamp(1.2rem, 1rem + 1vw, 1.8rem);
   font-weight: 500;
   color: var(--sand-2);
   text-align: left;

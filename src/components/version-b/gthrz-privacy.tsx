@@ -40,6 +40,22 @@ export function GthrzPrivacy() {
   const [index, setIndex] = useState(0);
   const control = controls[index];
 
+  function onTabKey(event: React.KeyboardEvent<HTMLButtonElement>, i: number) {
+    const moves: Record<string, number> = {
+      ArrowRight: i + 1,
+      ArrowLeft: i - 1,
+      Home: 0,
+      End: controls.length - 1,
+    };
+    if (!(event.key in moves)) {
+      return;
+    }
+    event.preventDefault();
+    const next = (moves[event.key] + controls.length) % controls.length;
+    setIndex(next);
+    document.getElementById(`gp-tab-${controls[next].id}`)?.focus();
+  }
+
   return (
     <section className="vb-gp" aria-labelledby="gp-title">
       <div className="vb-gp-copy">
@@ -59,8 +75,10 @@ export function GthrzPrivacy() {
               id={`gp-tab-${item.id}`}
               aria-selected={i === index}
               aria-controls="gp-panel"
+              tabIndex={i === index ? 0 : -1}
               className="vb-gp-tab"
               onClick={() => setIndex(i)}
+              onKeyDown={(event) => onTabKey(event, i)}
             >
               {item.label}
             </button>

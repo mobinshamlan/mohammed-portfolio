@@ -160,6 +160,7 @@ export function CallDemo({ compact = false, id }: { compact?: boolean; id?: stri
         </div>
       </div>
 
+      {mounted ? (
       <div className="vb-call-controls">
         <button type="button" className="vb-btn vb-btn-field" onClick={toggle}>
           {reduced
@@ -201,8 +202,8 @@ export function CallDemo({ compact = false, id }: { compact?: boolean; id?: stri
         <span className="vb-call-count" aria-hidden="true">
           {step + 1} / {callScript.length}
         </span>
-
       </div>
+      ) : null}
     </div>
   );
 }

@@ -660,7 +660,7 @@ export const projects: Project[] = [
     role: "Developer",
     field: "#f1ead9",
     fieldInk: "#0e3b2e",
-    fieldMuted: "#4a6657",
+    fieldMuted: "#3b5546",
     accent: "#7a5a12",
     light: true,
     problem:

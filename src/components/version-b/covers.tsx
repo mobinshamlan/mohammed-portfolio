@@ -3,6 +3,7 @@ import Link from "next/link";
 import type { CSSProperties } from "react";
 import { gthrzShots } from "@/lib/gthrz";
 import { projects, type Project } from "@/lib/projects";
+import { SeetChat } from "./artifacts";
 import { CallDemo } from "./call-demo";
 import { DeviceFrame } from "./device-frame";
 import { Reveal } from "./reveal";
@@ -96,6 +97,27 @@ function Cover({ project }: { project: Project }) {
         <div className="vb-cover-art">
           {project.id === "naqah" ? (
             <CallDemo compact id="naqah-demo" />
+          ) : project.id === "seet" ? (
+            <SeetChat compact />
+          ) : project.id === "tammeni" ? (
+            <div className="vb-cover-phones vb-cover-phones-2" aria-hidden="true">
+              {project.screens
+                .filter((shot) => shot.frame === "phone")
+                .slice(0, 2)
+                .map((shot) => (
+                  <div key={shot.src} className="vb-phone vb-phone-sm" data-ui="">
+                    <span className="vb-phone-notch" />
+                    <Image
+                      src={shot.src}
+                      alt=""
+                      width={shot.width}
+                      height={shot.height}
+                      sizes="(max-width: 900px) 44vw, 260px"
+                      className="vb-phone-img"
+                    />
+                  </div>
+                ))}
+            </div>
           ) : (
             <>
               <DeviceFrame

@@ -30,13 +30,13 @@ const versions: Version[] = [
     cta: "Open Version A",
     desktop: {
       src: publicUrl("/images/landing/a-desktop.jpg"),
-      width: 1200,
-      height: 3206,
+      width: 800,
+      height: 2137,
     },
     mobile: {
       src: publicUrl("/images/landing/a-mobile.jpg"),
-      width: 390,
-      height: 4258,
+      width: 300,
+      height: 3275,
     },
   },
   {
@@ -49,13 +49,13 @@ const versions: Version[] = [
     cta: "Open Version B",
     desktop: {
       src: publicUrl("/images/landing/b-desktop.jpg"),
-      width: 1200,
-      height: 5000,
+      width: 800,
+      height: 3333,
     },
     mobile: {
       src: publicUrl("/images/landing/b-mobile.jpg"),
-      width: 390,
-      height: 6000,
+      width: 300,
+      height: 4615,
     },
   },
 ];
