@@ -483,13 +483,33 @@ html:has(.vb) {
 .vb-hour-sun {
   position: absolute;
   left: 50%;
-  bottom: calc(0.2rem + var(--alt) * 1.1rem);
+  bottom: calc(0.2rem + var(--alt) * var(--rise, 1.1rem));
   translate: -50% 0;
 }
 
 .vb-hour-moon {
-  width: 1.6rem;
-  height: 1.6rem;
+  width: var(--moon-size, 1.6rem);
+  height: var(--moon-size, 1.6rem);
+}
+
+/* A larger sky for the marks set at display size. */
+@media (min-width: 900px) {
+  :is(.vb-midnight-hour, .vb-footer-hour) .vb-hour-sky {
+    --moon-size: 2.6rem;
+    --rise: 1.6rem;
+    width: 3.75rem;
+    height: 4.75rem;
+  }
+
+  :is(.vb-midnight-hour, .vb-footer-hour) .vb-hour-sky::after {
+    height: 1rem;
+  }
+
+  .vb-footer-hour .vb-hour-sun {
+    width: 2.8rem;
+    height: 2.8rem;
+    bottom: -0.4rem;
+  }
 }
 
 .vb-hour-sun {

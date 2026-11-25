@@ -375,6 +375,10 @@
   background: var(--nightfall);
 }
 
+.vb-work-head .vb-section-head {
+  font-size: clamp(2rem, 1.2rem + 2.6vw, 3.6rem);
+}
+
 .vb-work-intro {
   display: grid;
   gap: 1.25rem;
