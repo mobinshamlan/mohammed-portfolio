@@ -8,7 +8,7 @@
     "copy"
     "work";
   gap: 2rem;
-  padding: clamp(2rem, 5vw, 4.5rem) var(--gutter) clamp(2.5rem, 5vw, 4rem);
+  padding: clamp(1.5rem, 3.5vw, 3rem) var(--gutter) clamp(2.5rem, 5vw, 4rem);
   background:
     radial-gradient(60rem 30rem at 85% 0%, color-mix(in srgb, var(--ember) 9%, transparent), transparent 70%),
     var(--dusk);
@@ -44,7 +44,7 @@
   margin: 0;
   font-family: var(--display);
   font-weight: 800;
-  font-size: clamp(3rem, 15cqi, 8.25rem);
+  font-size: clamp(3rem, 14cqi, 7.5rem);
   line-height: 0.92;
   letter-spacing: -0.045em;
 }
@@ -83,7 +83,7 @@
 
 .vb-open-lead-ar {
   inline-size: fit-content;
-  max-width: 38ch;
+  max-width: 100%;
   margin-top: -0.5rem;
   color: var(--sand-2);
   font-size: 1.05rem;
@@ -245,7 +245,7 @@
       "copy photo"
       "work work";
     column-gap: clamp(2rem, 6vw, 6.5rem);
-    row-gap: clamp(2.5rem, 5vw, 4rem);
+    row-gap: clamp(2rem, 3.5vw, 3rem);
     align-items: center;
   }
   .vb-open-portrait {

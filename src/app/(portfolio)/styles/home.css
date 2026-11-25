@@ -771,9 +771,13 @@ span.vb-mu-disc {
   background: color-mix(in srgb, currentColor 6%, transparent);
 }
 
+/* The name sits on the label's lower half, clear of the spindle hole. */
 .vb-mu-name {
-  position: relative;
+  position: absolute;
   z-index: 1;
+  top: 58%;
+  left: 14%;
+  right: 14%;
   font-family: var(--display);
   font-size: 0.8125rem;
   font-weight: 700;
