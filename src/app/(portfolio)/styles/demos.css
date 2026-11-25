@@ -152,7 +152,7 @@
   --zones: linear-gradient(
     to right,
     var(--ok) 0 var(--good),
-    var(--ember) var(--good) var(--bad),
+    var(--caution) var(--good) var(--bad),
     var(--danger) var(--bad) 100%
   );
   width: 100%;

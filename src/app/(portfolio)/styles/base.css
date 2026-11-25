@@ -27,6 +27,8 @@
   --ribbon: #e0574e;
   --danger: #ff8a7a;
   --ok: #8fd3a5;
+  /* Between good and dangerous on a scale, such as a forecast reading. */
+  --caution: #e9a24a;
 
   --display: var(--font-vb-display), "Alexandria", "IBM Plex Sans Arabic", "Segoe UI", sans-serif;
   --text: var(--font-vb-text), "Readex Pro", "IBM Plex Sans Arabic", "Segoe UI", sans-serif;
