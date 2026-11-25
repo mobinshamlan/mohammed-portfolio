@@ -2555,13 +2555,13 @@ div.vb-certs-row {
     margin-bottom: 2rem;
   }
   .vb-chapters {
-    gap: 1.75rem;
+    gap: 1.5rem;
   }
   .vb-chapter {
-    gap: 0.6rem;
+    gap: 0.5rem;
   }
   .vb-chapter-city {
-    font-size: 2.1rem;
+    font-size: 1.85rem;
   }
   .vb-chapter-arabic {
     font-size: 1.2rem;

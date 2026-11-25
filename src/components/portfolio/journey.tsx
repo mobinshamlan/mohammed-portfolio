@@ -15,18 +15,12 @@ type Chapter = {
 
 const chapters: Chapter[] = [
   {
-    place: "Brighton",
-    arabic: "برايتون",
-    years: "",
-    title: "Learning the language.",
-    lines: ["English language studies, about six months by the sea, then a move to London."],
-  },
-  {
     place: "London",
     arabic: "لندن",
     years: "2022–2026",
-    title: "The foundation, then the degree.",
+    title: "The language, the foundation, then the degree.",
     lines: [
+      "First, about six months of English language studies by the sea in Brighton.",
       "Kaplan International College London, 2022–2023: Foundation Certificate for Science and Engineering.",
       "Queen Mary University of London, 2023–2026: BSc (Hons) Computer Science, Upper Second-Class Honours (2:1), graduated July 2026.",
       "Custodian of the Two Holy Mosques Scholarship Program, Imdad track.",
