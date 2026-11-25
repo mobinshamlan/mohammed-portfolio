@@ -6,6 +6,7 @@ import "./styles/case.css";
 import "./styles/demos.css";
 import "./styles/journey.css";
 import "./styles/credentials.css";
+import "./styles/worlds.css";
 
 // The portfolio is set in one family across both scripts.
 const plex = IBM_Plex_Sans({
