@@ -408,7 +408,7 @@ function buildCase(root: HTMLElement) {
       }
     });
   }
-  return slice(segs, zones, marks);
+  return slice(segs, zones, marks, []);
 }
 
 /* ---------- Geometry ---------- */
