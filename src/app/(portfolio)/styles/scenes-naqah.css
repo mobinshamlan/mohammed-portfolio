@@ -1,0 +1,98 @@
+/* ---------- Naqah: a caravan on the ranch horizon at sundown ---------- */
+
+/* The horizon sits in the band under the content, above the next chapter's crest. */
+.naqah-scene {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  display: block;
+  width: 100%;
+  height: calc(var(--edge) + clamp(5.5rem, 12vw, 10.5rem));
+}
+
+.naqah-sun {
+  fill: color-mix(in srgb, var(--accent) 26%, var(--field));
+}
+
+.naqah-far {
+  fill: color-mix(in srgb, var(--field-ink) 7%, var(--field));
+}
+
+.naqah-ground {
+  fill: color-mix(in srgb, var(--field-ink) 9%, var(--field));
+}
+
+.naqah-mid {
+  fill: color-mix(in srgb, var(--field-ink) 12%, var(--field));
+}
+
+.naqah-near {
+  fill: color-mix(in srgb, var(--field-ink) 15%, var(--field));
+}
+
+.naqah-caravan {
+  fill: color-mix(in srgb, var(--field-ink) 30%, var(--field));
+  transform: translateX(430px);
+}
+
+.naqah-ropes {
+  fill: none;
+  stroke: color-mix(in srgb, var(--field-ink) 30%, var(--field));
+  stroke-width: 0.9;
+}
+
+.naqah-leg {
+  transform-box: fill-box;
+  transform-origin: 50% 0;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .naqah-caravan {
+    animation: naqah-cross 120s linear infinite;
+  }
+
+  .naqah-leg-a {
+    animation: naqah-step 1.2s ease-in-out infinite alternate;
+  }
+
+  .naqah-leg-b {
+    animation: naqah-step 1.2s ease-in-out infinite alternate-reverse;
+  }
+
+  .naqah-scene[data-play="false"] :is(.naqah-caravan, .naqah-leg) {
+    animation-play-state: paused;
+  }
+}
+
+/* Starts where the still frame stands, so the first paint and the walk agree. */
+@keyframes naqah-cross {
+  from {
+    transform: translateX(430px);
+  }
+  56% {
+    transform: translateX(1460px);
+  }
+  56.01% {
+    transform: translateX(-420px);
+  }
+  to {
+    transform: translateX(430px);
+  }
+}
+
+@keyframes naqah-step {
+  from {
+    transform: rotate(9deg);
+  }
+  to {
+    transform: rotate(-9deg);
+  }
+}
+
+/* Phones: the free band under the links is short, so the horizon drops and shrinks. */
+@media (max-width: 899px) {
+  .naqah-scene {
+    bottom: -1.75rem;
+    height: calc(var(--edge) + 5.5rem);
+  }
+}

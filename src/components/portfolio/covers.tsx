@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { gthrzShots } from "@/lib/gthrz";
+import { publicUrl } from "@/lib/site";
 import { fieldStyle, projectById, type Project, type ProjectId } from "@/lib/projects";
 import { SeetChat } from "./artifacts";
 import { CallDemo } from "./call-demo";
@@ -250,26 +251,38 @@ function Tammeni() {
 
 function Seet() {
   const project = projectById.seet;
-  const how = project.screens.find((shot) => shot.src.includes("how")) ?? project.cover;
+  const dashboard = {
+    src: publicUrl("/images/projects/seet/dashboard.webp"),
+    alt: "Seet's booking dashboard on demo data: the ads manager's November 2026 calendar, with confirmed bookings on the 25th and 27th and ads already shown on the 13th, 20th and 21st.",
+    width: 1440,
+    height: 900,
+    frame: "browser" as const,
+  };
   return (
     <Section id="seet" scene={<SeetScene />} layout="masthead">
       <Head project={project} />
       <div className="vb-proj-art">
         <SeetChat compact />
       </div>
-      {how ? (
-        <figure className="vb-proj-screen vb-proj-screen-wide">
-          <DeviceFrame
-            shot={{ ...how, caption: undefined }}
-            sizes="(max-width: 899px) 100vw, 36vw"
-            label="seet-puce.vercel.app"
-          />
-          <figcaption>
-            From the live landing page: a slot moves from held to confirmed only after the deposit,
-            and one calendar shows free and booked days.
-          </figcaption>
-        </figure>
-      ) : null}
+      <figure className="vb-proj-screen vb-proj-screen-wide">
+        <DocumentViewer
+          triggerClassName="vb-proj-zoom"
+          src={dashboard.src}
+          width={dashboard.width}
+          height={dashboard.height}
+          alt={dashboard.alt}
+          title="Seet dashboard on demo data"
+          subtitle="Screenshot from the app running locally"
+          href={dashboard.src}
+        >
+          <DeviceFrame shot={dashboard} sizes="(max-width: 899px) 100vw, 36vw" label="Seet dashboard · demo data" />
+          <span className="vb-proj-zoom-hint">Enlarge</span>
+        </DocumentViewer>
+        <figcaption>
+          The dashboard I built, on its demo data: an ads manager&rsquo;s month, with confirmed
+          bookings and ads already shown, in Arabic first.
+        </figcaption>
+      </figure>
       <Foot project={project} idea="A slot is held first. Only the deposit confirms it." />
     </Section>
   );

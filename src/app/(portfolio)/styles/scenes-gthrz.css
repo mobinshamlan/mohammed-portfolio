@@ -1,0 +1,135 @@
+/* Gthrz: a street map behind the phones, one area fogged until the host
+   reveals it. The map fades out before the copy on the right; the fog is the
+   field colour itself, so nothing here lowers the contrast of any text. */
+
+.vb-proj[data-id="gthrz"] {
+  view-timeline: --gthrz block;
+}
+
+.gz {
+  --sx: 31%;
+  --sy: 15.5%;
+  --r: clamp(6.5rem, 10vw, 9.5rem);
+  position: absolute;
+  inset: 0;
+}
+
+.gz-map {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 62%;
+  height: 100%;
+  mask-image: radial-gradient(ellipse 62% 58% at 48% 40%, #000 35%, transparent 100%);
+}
+
+.gz-spot {
+  position: absolute;
+  left: var(--sx);
+  top: var(--sy);
+  width: calc(var(--r) * 2);
+  aspect-ratio: 1;
+  translate: -50% -50%;
+}
+
+.gz-spot > * {
+  position: absolute;
+}
+
+/* The streets under the hidden area are fogged out. */
+.gz-fog {
+  inset: -20%;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--field) 0 42%, transparent 70%);
+}
+
+.gz-ring {
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.gz-ghost,
+.gz-pin {
+  left: 50%;
+  top: 50%;
+  width: calc(var(--r) * 0.34);
+  translate: -50% -92%;
+}
+
+.gz-pin {
+  opacity: 0;
+}
+
+/* The reveal: the ring closes on the spot, the outline gives way to the pin. */
+@keyframes gz-close {
+  to {
+    scale: 0.3;
+    opacity: 0.55;
+  }
+}
+
+@keyframes gz-clear {
+  to {
+    scale: 0.34;
+  }
+}
+
+@keyframes gz-ghost-out {
+  55%,
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes gz-pin-in {
+  0%,
+  55% {
+    opacity: 0;
+    translate: -50% -150%;
+  }
+  100% {
+    opacity: 1;
+    translate: -50% -92%;
+  }
+}
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .vb[data-motion="on"] :is(.gz-ring, .gz-fog, .gz-ghost, .gz-pin) {
+      animation: gz-close cubic-bezier(0.16, 1, 0.3, 1) both;
+      animation-timeline: --gthrz;
+      animation-range: entry 35% cover 48%;
+    }
+    .vb[data-motion="on"] .gz-fog {
+      animation-name: gz-clear;
+    }
+    .vb[data-motion="on"] .gz-ghost {
+      animation-name: gz-ghost-out;
+      animation-timing-function: linear;
+    }
+    .vb[data-motion="on"] .gz-pin {
+      animation-name: gz-pin-in;
+    }
+  }
+}
+
+@media (max-width: 1199px) {
+  .gz {
+    --sx: 27%;
+  }
+}
+
+/* Phones: the map sits at the top, the hidden area in the corner right of the name. */
+@media (max-width: 899px) {
+  .gz {
+    --sx: 78%;
+    --sy: 2.6rem;
+    --r: 3.25rem;
+  }
+  .gz-map {
+    inset: 0 0 auto;
+    width: 100%;
+    height: 34rem;
+    mask-image: radial-gradient(ellipse 80% 70% at 75% 20%, #000 20%, transparent 100%);
+  }
+}

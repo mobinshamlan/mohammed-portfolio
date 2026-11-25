@@ -1,0 +1,128 @@
+/* Amanah: lost-property tags hanging in the margins beside the centred heading.
+   They sit only where no text is (the side margins above the demo), swing a
+   little as the chapter scrolls in and settle; with reduced motion they hang still. */
+
+.vb-proj[data-id="amanah"] {
+  view-timeline: --amanah block;
+}
+
+.am {
+  --tag-w: clamp(5.25rem, 8vw, 7.5rem);
+  position: absolute;
+  inset: 0;
+}
+
+.am-tag {
+  --len: 4rem;
+  --size: 1;
+  position: absolute;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: calc(var(--tag-w) * var(--size));
+  transform-origin: 50% 0;
+}
+
+.am-string {
+  width: 1px;
+  height: var(--len);
+  /* Stops at the eyelet's centre, so the tag reads as threaded. */
+  margin-bottom: calc(var(--tag-w) * var(--size) * -0.15);
+  background: #b08a3e;
+}
+
+.am-tag svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  filter: drop-shadow(0 0.6rem 0.75rem rgb(14 59 46 / 0.16));
+}
+
+.am-tag[data-slot="1"] {
+  --len: 4.5rem;
+  left: 5%;
+}
+
+.am-tag[data-slot="2"] {
+  --len: 9.5rem;
+  --size: 0.82;
+  left: 15.5%;
+}
+
+.am-tag[data-slot="3"] {
+  --len: 2.5rem;
+  --size: 0.86;
+  right: 15%;
+}
+
+.am-tag[data-slot="4"] {
+  --len: 7.5rem;
+  right: 4.5%;
+}
+
+/* A damped swing: pushed as the chapter arrives, settling by mid-screen. */
+@keyframes am-swing {
+  0% {
+    rotate: calc(var(--swing) * 7deg);
+  }
+  18% {
+    rotate: calc(var(--swing) * -5deg);
+  }
+  36% {
+    rotate: calc(var(--swing) * 3.2deg);
+  }
+  54% {
+    rotate: calc(var(--swing) * -1.8deg);
+  }
+  72% {
+    rotate: calc(var(--swing) * 0.8deg);
+  }
+  100% {
+    rotate: 0deg;
+  }
+}
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .vb[data-motion="on"] .am-tag {
+      animation: am-swing linear both;
+      animation-timeline: --amanah;
+      animation-range: entry 0% cover 45%;
+    }
+  }
+}
+
+/* Phones and tablets: the heading is left-aligned, so one tag hangs at the right. */
+@media (max-width: 899px) {
+  .am-tag:not([data-slot="1"]) {
+    display: none;
+  }
+  .am-tag[data-slot="1"] {
+    --len: 1.25rem;
+    --tag-w: 4.25rem;
+    left: auto;
+    right: 1rem;
+  }
+}
+
+/* ---------- The claim demo: readable option buttons and note ---------- */
+
+/* A deeper panel under each view, so muted text and quiet buttons clear 4.5:1. */
+.vb-proj[data-id="amanah"] .vb-demo-amanah {
+  --demo-surface: color-mix(in srgb, var(--field) 9%, transparent);
+}
+
+.vb-proj[data-id="amanah"] .vb-demo-amanah .vb-art-note {
+  color: color-mix(in srgb, var(--field) 90%, var(--field-ink));
+}
+
+.vb-proj[data-id="amanah"] .vb-demo-amanah .vb-btn-quiet:not([aria-pressed="true"]) {
+  background: color-mix(in srgb, var(--field) 7%, transparent);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--field) 45%, transparent);
+  color: var(--field);
+}
+
+.vb-proj[data-id="amanah"] .vb-demo-amanah .vb-btn-quiet:not([aria-pressed="true"]):hover {
+  background: color-mix(in srgb, var(--field) 14%, transparent);
+}
