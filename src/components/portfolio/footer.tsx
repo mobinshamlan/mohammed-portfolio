@@ -2,7 +2,7 @@ import Link from "next/link";
 import { contact } from "@/lib/contact";
 import { photoCredits } from "@/lib/projects";
 
-export function VersionBFooter() {
+export function Footer() {
   return (
     <footer className="vb-footer">
       <p className="vb-footer-name">Mohammed Bin&nbsp;Shamlan</p>

@@ -10,7 +10,7 @@ import { Reveal } from "./reveal";
 
 type Selection = ProjectId | "all";
 
-export function VersionBSkills() {
+export function Skills() {
   // The project switch needs JavaScript; without it the groups still show what was used.
   const hydrated = useHydrated();
   const [selected, setSelected] = useState<Selection>("all");

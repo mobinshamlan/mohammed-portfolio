@@ -36,7 +36,7 @@ function buildMail(values: Fields) {
   };
 }
 
-export function VersionBContact() {
+export function Contact() {
   const id = useId();
   const [fields, setFields] = useState<Fields>(empty);
   const [errors, setErrors] = useState<Partial<Record<FieldName, string>>>({});

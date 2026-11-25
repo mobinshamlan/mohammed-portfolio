@@ -33,7 +33,7 @@ export function focusSection(id: string) {
   return true;
 }
 
-export function VersionBNav({
+export function Nav({
   tone = "dark",
   field,
   fieldInk,

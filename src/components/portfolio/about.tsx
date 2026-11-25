@@ -4,7 +4,7 @@ import { Collapsible } from "./collapsible";
 import { MusicShelf } from "./music-shelf";
 import { Reveal } from "./reveal";
 
-export function VersionBAbout() {
+export function About() {
   return (
     <section id="about" className="vb-about" aria-labelledby="about-title">
       <div className="vb-about-grid">

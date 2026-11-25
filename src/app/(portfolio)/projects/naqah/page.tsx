@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
-import { CallDemo } from "@/components/version-b/call-demo";
-import { CasePage } from "@/components/version-b/case-study";
-import { Reveal } from "@/components/version-b/reveal";
+import { CallDemo } from "@/components/portfolio/call-demo";
+import { CasePage } from "@/components/portfolio/case-study";
+import { Reveal } from "@/components/portfolio/reveal";
 import { projectById } from "@/lib/projects";
 
 const project = projectById.naqah;

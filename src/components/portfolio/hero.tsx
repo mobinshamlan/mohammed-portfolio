@@ -180,7 +180,7 @@ function HeroEvidence() {
   );
 }
 
-export function VersionBHero() {
+export function Hero() {
   return (
     <section id="home" className="vb-hero" aria-labelledby="hero-title">
       <div className="vb-hero-copy">

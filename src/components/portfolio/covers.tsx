@@ -352,7 +352,7 @@ function Experiment() {
   );
 }
 
-export function VersionBCovers() {
+export function Covers() {
   return (
     <section id="work" className="vb-work" aria-labelledby="work-title">
       <div className="vb-work-head">

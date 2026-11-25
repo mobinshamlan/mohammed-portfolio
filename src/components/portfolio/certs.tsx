@@ -21,7 +21,7 @@ function fileOf(item: Certificate) {
   return item.href ?? item.image?.src ?? null;
 }
 
-export function VersionBCerts() {
+export function Certs() {
   const hydrated = useHydrated();
   const [hover, setHover] = useState<string | null>(previewable[0]?.id ?? null);
   const [openId, setOpenId] = useState<string | null>(null);

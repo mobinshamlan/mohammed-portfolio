@@ -6,8 +6,8 @@ import { kashtaExample } from "@/lib/kashta-example";
 import { DecisionArtifact } from "./artifacts";
 import { DayLine } from "./dayline";
 import { DeviceFrame } from "./device-frame";
-import { VersionBFooter } from "./footer";
-import { VersionBNav } from "./nav";
+import { Footer } from "./footer";
+import { Nav } from "./nav";
 import { MotionRoot, Reveal } from "./reveal";
 
 /** How it works: actors and actions drawn as a flow, left to right on wide screens. */
@@ -508,7 +508,7 @@ export function CasePage({
         Skip to content
       </a>
       <MotionRoot />
-      <VersionBNav
+      <Nav
         tone={project.light ? "light" : "dark"}
         field={project.field}
         fieldInk={project.fieldInk}
@@ -519,7 +519,7 @@ export function CasePage({
           {children}
         </CaseBody>
       </main>
-      <VersionBFooter />
+      <Footer />
     </>
   );
 }

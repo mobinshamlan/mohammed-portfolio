@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { CasePage } from "@/components/version-b/case-study";
+import { CasePage } from "@/components/portfolio/case-study";
 import { projectById } from "@/lib/projects";
 
 const project = projectById.seet;

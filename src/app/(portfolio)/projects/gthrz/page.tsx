@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
-import { CasePage } from "@/components/version-b/case-study";
-import { GthrzPlanner } from "@/components/version-b/gthrz-planner";
-import { GthrzImg } from "@/components/version-b/gthrz-img";
-import { GthrzPrivacy } from "@/components/version-b/gthrz-privacy";
-import { Reveal } from "@/components/version-b/reveal";
+import { CasePage } from "@/components/portfolio/case-study";
+import { GthrzPlanner } from "@/components/portfolio/gthrz-planner";
+import { GthrzImg } from "@/components/portfolio/gthrz-img";
+import { GthrzPrivacy } from "@/components/portfolio/gthrz-privacy";
+import { Reveal } from "@/components/portfolio/reveal";
 import { gthrzShots } from "@/lib/gthrz";
 import { projectById } from "@/lib/projects";
 

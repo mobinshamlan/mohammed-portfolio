@@ -65,7 +65,7 @@ const chapters: Chapter[] = [
   },
 ];
 
-export function VersionBJourney() {
+export function Journey() {
   return (
     <section id="journey" className="vb-journey" aria-labelledby="journey-title">
       <div className="vb-journey-head">
