@@ -128,21 +128,19 @@
   line-height: 1.4;
 }
 
-.w-ev {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem 2.5rem;
-  margin: 0;
-  padding: 0;
-  list-style: none;
+/* The checked figures as one line; their sources and my part open beneath. */
+.w-ev .vb-details-summary {
+  align-items: center;
+  font-family: inherit;
+  font-size: 1.0625rem;
+  font-weight: 500;
+  line-height: 1.35;
 }
 
-.w-ev li {
-  display: grid;
-  grid-template-columns: auto minmax(0, 1fr);
-  align-items: baseline;
-  column-gap: 0.5rem;
-  max-width: 22rem;
+.w-ev-figures {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 2rem;
 }
 
 .w-ev-figure {
@@ -153,19 +151,35 @@
   font-variant-numeric: tabular-nums;
 }
 
-.w-ev-label {
-  line-height: 1.35;
+.w-ev .vb-details-body {
+  display: grid;
+  gap: 0.75rem;
+  padding-top: 0.5rem;
 }
 
-.vb .w-ev-source {
-  grid-column: 1 / -1;
-  justify-self: start;
+.w-ev-src {
+  display: grid;
+  gap: 0.1rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  color: var(--field-muted);
+  font-size: var(--step-small);
+}
+
+.vb .w-ev-src a {
   display: inline-flex;
   min-height: 2.75rem;
   align-items: center;
-  color: var(--field-muted);
-  font-size: 0.875rem;
+  color: inherit;
   text-underline-offset: 0.2em;
+}
+
+/* With a mouse, the source lines sit closer; touch keeps full-size targets. */
+@media (pointer: fine) {
+  .vb .w-ev-src a {
+    min-height: 1.75rem;
+  }
 }
 
 .w-part {
@@ -205,7 +219,8 @@
   font-size: var(--step-small);
 }
 
-.vb-world :focus-visible {
+.vb-world :focus-visible,
+.pw-world :focus-visible {
   outline-color: currentColor;
 }
 
@@ -529,380 +544,6 @@
 
 .vb-world[data-id="seet"] .vb-art-chat li[data-who="system"] .vb-art-en {
   color: #e8dcc0;
-}
-
-/* ---------- Kashta: the only night on the page ---------- */
-
-.vb-world[data-id="kashta"] {
-  --pad-top: clamp(7rem, 3rem + 9vw, 12rem);
-  --pad-bottom: clamp(6rem, 3rem + 7vw, 10rem);
-  --pill: #f0945a;
-  --pill-ink: #151b2e;
-  --card: #1f2741;
-  --card-ink: #f3ece0;
-  --card-muted: #c3bdb0;
-  --card-surface: #2a3352;
-  --card-line: #36405f;
-  --card-accent: #f0945a;
-  --card-accent-ink: #1a0e05;
-  --card-ok: #8fd3a5;
-  --card-danger: #ff8a6a;
-}
-
-.w-sky {
-  position: absolute;
-  inset: 0 0 45% 0;
-  z-index: 0;
-  pointer-events: none;
-}
-
-.w-sky i {
-  position: absolute;
-  border-radius: 50%;
-  background: #f3ece0;
-  opacity: 0.75;
-}
-
-.w-dune {
-  position: absolute;
-  inset: auto 0 0 0;
-  z-index: 0;
-  height: clamp(5rem, 10vw, 9rem);
-  background: #1d2440;
-  clip-path: polygon(0 45%, 18% 30%, 36% 50%, 58% 22%, 78% 42%, 100% 28%, 100% 100%, 0 100%);
-}
-
-.w-inner > .w-sky,
-.w-inner > .w-dune {
-  position: absolute;
-  z-index: 0;
-}
-
-/* The score as a half dial. */
-.vb-demo-gauge {
-  width: clamp(7.5rem, 14vw, 10.5rem);
-  height: auto;
-  margin-bottom: -0.25rem;
-}
-
-.vb-demo-gauge-track,
-.vb-demo-gauge-cap {
-  fill: none;
-  stroke-width: 14;
-  stroke-linecap: round;
-}
-
-.vb-demo-gauge-track {
-  stroke: #f0945a;
-}
-
-.vb-demo-gauge-cap {
-  stroke: #36405f;
-}
-
-.vb-demo-gauge-needle {
-  transform: rotate(var(--needle));
-  transform-box: view-box;
-  transform-origin: 100px 100px;
-  transition: transform 0.45s var(--ease-out);
-}
-
-.vb-demo-gauge-needle line {
-  stroke: #f3ece0;
-  stroke-width: 5;
-  stroke-linecap: round;
-}
-
-.vb-demo-gauge-hub {
-  fill: #f3ece0;
-}
-
-/* The number sits inside the dial. */
-.vb-world[data-id="kashta"] .vb-demo-kashta-score {
-  grid-template-areas: "dial" "word";
-  justify-items: center;
-}
-
-.vb-world[data-id="kashta"] .vb-demo-gauge,
-.vb-world[data-id="kashta"] .vb-demo-kashta-score strong {
-  grid-area: dial;
-}
-
-.vb-world[data-id="kashta"] .vb-demo-kashta-score strong {
-  align-self: end;
-  font-size: clamp(2.2rem, 1.6rem + 1.6vw, 3rem);
-}
-
-.vb-world[data-id="kashta"] .vb-demo-kashta-score > span {
-  grid-area: word;
-}
-
-.vb-world[data-id="kashta"] .vb-demo-kashta-score[data-capped="true"] .vb-demo-gauge-needle line {
-  stroke: #ff8a6a;
-}
-
-@keyframes w-sweep {
-  from {
-    transform: rotate(-90deg);
-  }
-}
-
-.vb[data-motion="on"] [data-in="true"] .vb-demo-gauge-needle {
-  animation: w-sweep 1.4s var(--ease-expo) 0.2s backwards;
-}
-
-/* ---------- Amanah: the lost-property counter ---------- */
-
-.vb-world[data-id="amanah"] {
-  --pad-top: clamp(6rem, 3rem + 7vw, 11rem);
-  --pad-bottom: 0rem;
-  --pill: #e2c37a;
-  --pill-ink: #0e3b2e;
-  --card: transparent;
-  --card-ink: #0e3b2e;
-  --card-muted: #3b5546;
-  --card-surface: #fffdf7;
-  --card-line: #d8ccb0;
-  --card-accent: #0e3b2e;
-  --card-accent-ink: #f1ead9;
-  --card-ok: #1d6b45;
-  --card-danger: #9b2c22;
-}
-
-.vb-world[data-id="amanah"] .w-name .w-name-en {
-  font-weight: 500;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-}
-
-.vb-world[data-id="amanah"] .w-name span[lang="ar"] {
-  color: #7a5a12;
-}
-
-/* The luggage tag, on a brass string. */
-.w-tag-wrap {
-  justify-self: center;
-  padding-top: 3.5rem;
-}
-
-.w-tag {
-  position: relative;
-  width: min(21rem, 100%);
-  padding: 3.25rem 1.75rem 1.75rem;
-  background: #e7d9b8;
-  color: #0e3b2e;
-  clip-path: polygon(22% 0, 78% 0, 100% 14%, 100% 100%, 0 100%, 0 14%);
-  transform: rotate(-3deg);
-  transform-origin: 50% 0;
-}
-
-.w-tag::before {
-  content: "";
-  position: absolute;
-  top: 1.1rem;
-  left: 50%;
-  width: 1.3rem;
-  height: 1.3rem;
-  margin-left: -0.65rem;
-  border-radius: 50%;
-  background: #f1ead9;
-  box-shadow: 0 0 0 0.35rem #7a5a12;
-}
-
-.w-tag-wrap::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 50%;
-  width: 3px;
-  height: 4.6rem;
-  background: #7a5a12;
-  transform: rotate(10deg);
-  transform-origin: 50% 100%;
-}
-
-.w-tag p[lang="ar"] {
-  font-size: clamp(1.6rem, 1.2rem + 1.2vw, 2.1rem);
-  font-weight: 600;
-  line-height: 1.3;
-  text-align: center;
-}
-
-.w-tag dl {
-  display: grid;
-  gap: 0.3rem;
-  margin: 1rem 0 0;
-  font-size: 0.9375rem;
-}
-
-.w-tag dl > div {
-  display: grid;
-  grid-template-columns: 5.5rem minmax(0, 1fr);
-  gap: 0.75rem;
-}
-
-.w-tag dt {
-  font-weight: 600;
-}
-
-.w-tag dd {
-  margin: 0;
-}
-
-@keyframes w-swing {
-  0% {
-    transform: rotate(4deg);
-  }
-  45% {
-    transform: rotate(-6deg);
-  }
-  75% {
-    transform: rotate(-2deg);
-  }
-}
-
-.vb[data-motion="on"] .w-tag-wrap[data-in="true"] .w-tag {
-  animation: w-swing 1.6s var(--ease-soft) 0.15s backwards;
-}
-
-/* The counter: two claim slips and the live site, standing on the wood. */
-.w-counter {
-  position: relative;
-  display: grid;
-  gap: 1.25rem;
-  align-items: end;
-}
-
-.w-counter::after {
-  content: "";
-  position: absolute;
-  inset: auto calc(var(--gutter) * -1) -1.25rem;
-  z-index: -1;
-  height: 2.5rem;
-  background: #c08d5d;
-  box-shadow: inset 0 -0.55rem 0 #9c6b40;
-}
-
-.vb-world[data-id="amanah"] .vb-demo-amanah {
-  padding: 0;
-  background: transparent;
-}
-
-.vb-world[data-id="amanah"] .vb-demo-amanah > .vb-demo-hint,
-.vb-world[data-id="amanah"] .vb-demo-amanah > .vb-art-note {
-  color: #3b5546;
-}
-
-/* Each view is a paper slip lying on the counter. */
-.vb-world[data-id="amanah"] .vb-demo-view {
-  padding: 1.25rem 1.4rem;
-  border-radius: 0.2rem;
-  background: #fffdf7;
-  box-shadow: 0 2px 0 #d8ccb0;
-}
-
-.w-monitor {
-  display: none;
-  margin: 0;
-  border: 0.45rem solid #0e3b2e;
-  border-bottom-width: 0.8rem;
-  border-radius: 0.4rem 0.4rem 0 0;
-  background: #0e3b2e;
-}
-
-.w-monitor img {
-  width: 100%;
-}
-
-/* The green cabinet front holds the status and evidence in brass ink. */
-.w-cabinet {
-  display: grid;
-  gap: 1.5rem;
-  margin: 1.25rem calc(var(--gutter) * -1) 0;
-  padding: clamp(3rem, 6vw, 5rem) var(--gutter) clamp(3.5rem, 7vw, 6rem);
-  background: #0e3b2e;
-  color: #efe3c4;
-  --field-muted: #cdbf9d;
-}
-
-.vb .w-cabinet a {
-  color: #efe3c4;
-}
-
-/* ---------- Gthrz: the party invite ---------- */
-
-.vb-world[data-id="gthrz"] {
-  --pad-top: clamp(5rem, 3rem + 6vw, 10rem);
-  --pill: #8b6cf0;
-  --pill-ink: #141216;
-  --card: #f3eee6;
-  --card-ink: #1f1733;
-  --card-muted: #4f4660;
-  --card-surface: #e9e1f7;
-  --card-line: #d6cde3;
-  --card-accent: #6a4ed8;
-  --card-accent-ink: #fff;
-  --card-ok: #2f7a4f;
-  --card-danger: #b4332c;
-}
-
-.vb-world[data-id="gthrz"] .w-name {
-  font-size: clamp(3.25rem, 1.4rem + 6vw, 7rem);
-  letter-spacing: -0.05em;
-}
-
-.vb-world[data-id="gthrz"] .w-kind,
-.vb-world[data-id="gthrz"] .w-pitch {
-  color: #cbbcff;
-}
-
-/* The invite card with its tear-off stub, perforated between them. */
-.w-invite {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr);
-}
-
-.w-invite .vb-art {
-  border-radius: 0.75rem 0.75rem 0 0;
-}
-
-.w-stub {
-  position: relative;
-  display: grid;
-  gap: 0.35rem;
-  padding: 1.1rem 1.4rem 1.25rem;
-  border-radius: 0 0 0.75rem 0.75rem;
-  background: #8b6cf0;
-  color: #141216;
-  font-weight: 600;
-}
-
-.w-stub::before {
-  content: "";
-  position: absolute;
-  top: -2px;
-  left: 1rem;
-  right: 1rem;
-  border-top: 4px dotted #141216;
-}
-
-.w-stub-small {
-  font-size: var(--step-small);
-  font-weight: 400;
-}
-
-.w-phones {
-  display: flex;
-  justify-content: center;
-  gap: 1rem;
-}
-
-.w-phones .vb-capture {
-  width: clamp(8rem, 40vw, 13.5rem);
-}
-
-.w-phones .vb-capture:nth-child(2) {
-  margin-top: 3rem;
 }
 
 /* ---------- The Prompt Experiment: a plain sheet ---------- */
@@ -1243,24 +884,13 @@
   .w-name {
     font-size: clamp(2.5rem, 11vw, 3.2rem);
   }
-  .w-ev {
-    gap: 0.25rem 1.5rem;
-  }
-  .w-ev li {
-    max-width: none;
-  }
   .w-ev-figure {
     font-size: 1.4rem;
   }
-  /* Phones keep the figures; their sources, my part and the decision line wait in the case study. */
-  .w-part,
+  /* Phones keep the figures; the decision line and the link note wait in the case study. */
   .w-line,
-  .w-linknote,
-  .vb .w-ev-source {
+  .w-linknote {
     display: none;
-  }
-  .w-ev li {
-    display: block;
   }
   .w-links ul {
     gap: 0 1.25rem;
@@ -1291,50 +921,8 @@
   .w-aside {
     grid-template-columns: minmax(0, 1fr);
   }
-  .vb-world[data-id="seet"] .w-motto,
-  .vb-world[data-id="kashta"] .w-motto {
+  .vb-world[data-id="seet"] .w-motto {
     display: none;
-  }
-  .vb-world[data-id="kashta"] {
-    --pad-top: 5.5rem;
-    --pad-bottom: 5rem;
-  }
-  .w-sky i:nth-child(2n) {
-    display: none;
-  }
-  .vb-world[data-id="amanah"] {
-    --pad-top: 4.5rem;
-    --pad-bottom: 0rem;
-  }
-  .w-tag-wrap {
-    padding-top: 2.5rem;
-  }
-  .w-tag {
-    width: 16rem;
-    padding: 3rem 1.25rem 1.25rem;
-  }
-  .w-tag dl {
-    display: none;
-  }
-  .w-tag p[lang="ar"] {
-    font-size: 1.6rem;
-  }
-  .w-cabinet {
-    padding-block: 2.5rem 3rem;
-  }
-  .vb-world[data-id="gthrz"] {
-    --pad-top: 3.75rem;
-  }
-  .w-phones .vb-capture:nth-child(2) {
-    display: none;
-  }
-  .w-phones {
-    order: 1;
-  }
-  .w-phones .vb-capture {
-    width: 9rem;
-    max-height: 12rem;
-    overflow: hidden;
   }
   .w-seam-ended {
     right: auto;
@@ -1376,24 +964,20 @@
     column-gap: clamp(2rem, 5vw, 6rem);
     row-gap: 2.25rem;
   }
-  .w-head {
+  .vb-world .w-head {
     grid-area: head;
   }
-  .w-demo {
+  .vb-world .w-demo {
     grid-area: demo;
   }
-  .w-proof {
+  .vb-world .w-proof {
     grid-area: proof;
   }
-  .w-links {
+  .vb-world .w-links {
     grid-area: links;
   }
-  .w-motto {
+  .vb-world .w-motto {
     grid-area: motto;
-  }
-  .w-invite .w-demo,
-  .w-counter .w-demo {
-    grid-area: auto;
   }
 
   /* Naqah: the herd across the top, the story left, the call card over the photo's edge. */
@@ -1453,82 +1037,6 @@
       "links demo";
     grid-template-rows: auto auto auto 1fr;
     padding-bottom: clamp(5rem, 8vw, 8rem);
-  }
-
-  /* Kashta: story left, the gauge card right, evidence along the bottom over the dune. */
-  .vb-world[data-id="kashta"] .w-inner {
-    grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
-    grid-template-areas:
-      "head demo"
-      "motto demo"
-      "proof proof"
-      "links links";
-  }
-  .vb-world[data-id="kashta"] .w-demo {
-    align-self: center;
-  }
-
-  /* Amanah: name and tag, then the counter, then the cabinet. */
-  .vb-world[data-id="amanah"] .w-inner {
-    grid-template-columns: minmax(0, 7fr) minmax(0, 4fr);
-    grid-template-areas:
-      "head tag"
-      "counter counter"
-      "cabinet cabinet";
-    row-gap: 3rem;
-  }
-  .w-tag-wrap {
-    grid-area: tag;
-  }
-  .w-counter {
-    grid-area: counter;
-    grid-template-columns: minmax(0, 8fr) minmax(0, 4fr);
-    gap: clamp(1.5rem, 3vw, 2.5rem);
-    padding-inline: clamp(0rem, 3vw, 3rem);
-  }
-  .w-monitor {
-    display: block;
-  }
-  .w-cabinet {
-    grid-area: cabinet;
-    grid-template-columns: minmax(0, 7fr) minmax(0, 4fr);
-    grid-template-areas: "proof links";
-    align-items: start;
-    column-gap: clamp(2rem, 5vw, 6rem);
-  }
-  .w-cabinet .w-links ul {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  /* Gthrz: the invite left with its stub, the app's phones right. */
-  .vb-world[data-id="gthrz"] .w-inner {
-    grid-template-columns: minmax(0, 6fr) minmax(0, 5fr);
-    grid-template-areas:
-      "head phones"
-      "invite phones"
-      "proof proof"
-      "links links";
-  }
-  .w-invite {
-    grid-area: invite;
-    grid-template-columns: minmax(0, 1fr) 10.5rem;
-  }
-  .w-invite .vb-art {
-    border-radius: 0.75rem 0 0 0.75rem;
-  }
-  .w-stub {
-    align-content: center;
-    border-radius: 0 0.75rem 0.75rem 0;
-  }
-  .w-stub::before {
-    inset: 1rem auto 1rem -2px;
-    border-top: 0;
-    border-left: 4px dotted #141216;
-  }
-  .w-phones {
-    grid-area: phones;
-    align-self: center;
   }
 
   .vb-exp {

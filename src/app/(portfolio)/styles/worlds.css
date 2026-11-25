@@ -1,109 +1,44 @@
-/* Shared type and project information */
-:is(.pw-kashta, .pw-amanah, .pw-gthrz) {
-  --pw-gutter: clamp(1rem, 4.4vw, 4rem);
-  --pw-content: 81rem;
-  --display: var(--font-plex, "IBM Plex Sans"), "Segoe UI", sans-serif;
-  --text: var(--display);
+/* Kashta, Amanah and Gthrz. They share the grammar in work.css (.w-head,
+   .w-proof, .w-links, coloured through the project's --field tokens); this
+   file holds only what makes each of them its own world. */
+
+.pw-world {
+  --pad-top: clamp(3.5rem, 2rem + 7vw, 9.375rem);
+  --pad-bottom: clamp(3.5rem, 2rem + 7vw, 9.375rem);
+  --pill: var(--accent);
+  --pill-ink: var(--field);
 
   position: relative;
   isolation: isolate;
-  font-family: var(--text);
-  line-height: 1.45;
+  padding-block: var(--pad-top) var(--pad-bottom);
+  background: var(--field);
+  color: var(--field-ink);
+  scroll-margin-top: var(--nav-h);
 }
 
-:is(.pw-kashta, .pw-amanah, .pw-gthrz) .pw-inner {
-  width: min(100% - 2 * var(--pw-gutter), var(--pw-content));
-  margin-inline: auto;
+.pw-world .pw-inner {
+  padding-inline: var(--gutter);
 }
 
-:is(.pw-kashta, .pw-amanah, .pw-gthrz) .pw-kind {
-  font-size: clamp(0.875rem, 0.8rem + 0.2vw, 1rem);
-  font-weight: 500;
+.pw-world .pw-foot {
+  display: grid;
+  gap: 1.1rem;
 }
 
-:is(.pw-kashta, .pw-amanah, .pw-gthrz) .pw-name {
-  display: flex;
-  align-items: baseline;
-  flex-wrap: wrap;
-  gap: 0.05em 0.25em;
-  margin-block: 0.12em 0.17em;
-  color: var(--pw-name, inherit);
-  font-family: var(--display);
-  font-size: clamp(2.875rem, 1.9rem + 4.15vw, 5.75rem);
-  font-weight: 700;
-  letter-spacing: -0.055em;
-  line-height: 1.06;
+@media (min-width: 900px) {
+  .pw-world .pw-foot {
+    row-gap: 2.25rem;
+  }
 }
 
-:is(.pw-kashta, .pw-amanah, .pw-gthrz) [lang="ar"] {
-  direction: rtl;
-  unicode-bidi: isolate;
+.pw-world [lang="ar"] {
   font-family: var(--font-plex-arabic, "IBM Plex Sans Arabic"), "Segoe UI", sans-serif;
   letter-spacing: 0;
 }
 
-:is(.pw-kashta, .pw-amanah, .pw-gthrz) .pw-name [lang="ar"] {
-  color: var(--pw-accent);
-  font-size: 0.76em;
-  line-height: 1.35;
-}
-
-:is(.pw-kashta, .pw-amanah, .pw-gthrz) .pw-pitch {
-  max-width: 36ch;
-  font-size: clamp(1.125rem, 1.02rem + 0.6vw, 1.5625rem);
-  line-height: 1.4;
-  text-wrap: pretty;
-}
-
-:is(.pw-kashta, .pw-amanah, .pw-gthrz) .pw-foot {
-  display: grid;
-  justify-items: start;
-  gap: 0.5rem;
-  font-size: 1rem;
-}
-
-:is(.pw-kashta, .pw-amanah, .pw-gthrz) .pw-status {
-  padding: 0.25rem 0.75rem;
-  border-radius: 999px;
-  background: var(--pw-chip);
-  color: var(--pw-chip-ink);
-  font-size: 0.875rem;
-  font-weight: 600;
-}
-
-:is(.pw-kashta, .pw-amanah, .pw-gthrz) .pw-contribution {
-  max-width: 65ch;
-}
-
-:is(.pw-kashta, .pw-amanah, .pw-gthrz) .pw-links {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0 1.25rem;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-:is(.pw-kashta, .pw-amanah, .pw-gthrz) :is(.pw-links a, .pw-evidence-list a, summary, .vb-demo button) {
+.pw-world .vb-demo button {
   min-height: 44px;
   min-width: 44px;
-}
-
-:is(.pw-kashta, .pw-amanah, .pw-gthrz) :is(.pw-links a, .pw-evidence-list a) {
-  display: inline-flex;
-  align-items: center;
-  color: inherit;
-  font-weight: 500;
-  text-decoration: underline;
-  text-underline-offset: 0.2em;
-}
-
-:is(.pw-kashta, .pw-amanah, .pw-gthrz) :is(a, button, input, summary):focus-visible {
-  outline: 2px solid currentColor;
-  outline-offset: 3px;
-}
-
-:is(.pw-kashta, .pw-amanah, .pw-gthrz) .vb-demo button {
   transition: none;
 }
 
@@ -114,55 +49,12 @@
   transition: none;
 }
 
-:is(.pw-kashta, .pw-amanah) .pw-evidence {
-  width: 100%;
-}
-
-:is(.pw-kashta, .pw-amanah) .pw-evidence summary {
-  align-content: center;
-  cursor: pointer;
-  color: var(--pw-evidence);
-  font-size: 0.9375rem;
-}
-
-:is(.pw-kashta, .pw-amanah) .pw-evidence summary span {
-  display: inline-block;
-  margin-inline-start: 0.6rem;
-}
-
-:is(.pw-kashta, .pw-amanah) .pw-evidence summary strong {
-  font-size: clamp(1.05rem, 0.8rem + 0.8vw, 1.75rem);
-  font-weight: 600;
-}
-
-:is(.pw-kashta, .pw-amanah) .pw-evidence-list {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(15rem, 100%), 1fr));
-  gap: 1rem;
-  padding: 0.75rem 0 0.5rem;
-  margin: 0;
-  list-style: none;
-}
-
-:is(.pw-kashta, .pw-amanah) .pw-evidence-list li {
-  border-top: 1px solid var(--pw-evidence-line);
-  padding-top: 0.65rem;
-}
-
-/* Kashta */
+/* Kashta: the only night on the page */
 .pw-kashta {
-  --pw-accent: #f0945a;
-  --pw-chip: var(--pw-accent);
-  --pw-chip-ink: #151b2e;
-  --pw-evidence: #f3ece0;
-  --pw-evidence-line: #555d71;
-  --night: #151b2e;
-  --sand: #f3ece0;
-  --ember: var(--pw-accent);
+  /* The receipt from Seet hangs into the top of the night. */
+  --pad-top: clamp(6.5rem, 3rem + 7vw, 10rem);
+  --pad-bottom: clamp(5rem, 3rem + 6vw, 9rem);
 
-  padding-block: clamp(5.25rem, 9vw, 9.5rem) clamp(5.5rem, 8vw, 8rem);
-  background: var(--night);
-  color: var(--sand);
   color-scheme: dark;
 }
 
@@ -194,12 +86,12 @@
 
 .pw-kashta .pw-kashta-layout {
   display: grid;
-  gap: 1.5rem;
+  gap: 1.75rem;
   align-items: center;
 }
 
 .pw-kashta .vb-demo-kashta {
-  --demo-ink: var(--sand);
+  --demo-ink: var(--field-ink);
   --demo-muted: #cecddd;
   --demo-danger: #ff9a83;
   --demo-ok: #f4b079;
@@ -208,7 +100,7 @@
   color: var(--demo-ink);
   padding: clamp(0.9rem, 2.4vw, 2rem);
   border: 1px solid #36405c;
-  border-radius: 0.65rem;
+  border-radius: 0.75rem;
 }
 
 .pw-kashta .vb-demo-kashta[data-compact] .vb-demo-kashta-top {
@@ -217,37 +109,60 @@
   align-items: start;
 }
 
+/* The score as a half dial: the needle turns with the score, the number sits
+   below the hub so the two never touch. */
 .pw-kashta .vb-demo-kashta .vb-demo-kashta-score {
-  --pw-arc: var(--pw-accent);
-
-  position: relative;
-  isolation: isolate;
   grid-row: 1 / span 2;
   justify-items: center;
   align-content: start;
-  width: clamp(7rem, 12vw, 10rem);
-  padding-top: 1.25rem;
+  gap: 0.35rem;
+  width: clamp(7.5rem, 12vw, 10rem);
   text-align: center;
 }
 
-.pw-kashta .vb-demo-kashta-score::before {
-  position: absolute;
-  z-index: -1;
-  inset: 0 0 auto;
-  aspect-ratio: 2;
-  border: 0.38rem solid var(--pw-arc);
-  border-bottom: 0;
-  border-radius: 100% 100% 0 0 / 200% 200% 0 0;
-  transform-origin: 50% 100%;
-  content: "";
+.pw-kashta .vb-demo-gauge {
+  width: 100%;
+  height: auto;
 }
 
-.pw-kashta .vb-demo-kashta-score[data-capped="true"] {
-  --pw-arc: var(--demo-danger);
+.pw-kashta :is(.vb-demo-gauge-track, .vb-demo-gauge-cap) {
+  fill: none;
+  stroke-width: 14;
+  stroke-linecap: round;
+}
+
+.pw-kashta .vb-demo-gauge-track {
+  stroke: var(--accent);
+}
+
+.pw-kashta .vb-demo-gauge-cap {
+  stroke: #36405f;
+}
+
+.pw-kashta .vb-demo-gauge-needle {
+  transform: rotate(var(--needle));
+  transform-box: view-box;
+  transform-origin: 100px 100px;
+  transition: transform 0.45s var(--ease-out);
+}
+
+.pw-kashta .vb-demo-gauge-needle line {
+  stroke: var(--field-ink);
+  stroke-width: 5;
+  stroke-linecap: round;
+}
+
+.pw-kashta .vb-demo-gauge-hub {
+  fill: var(--field-ink);
+}
+
+.pw-kashta .vb-demo-kashta-score[data-capped="true"] .vb-demo-gauge-needle line {
+  stroke: var(--demo-danger);
 }
 
 .pw-kashta .vb-demo-kashta[data-compact] .vb-demo-kashta-score strong {
-  font-size: clamp(2.25rem, 1.4rem + 3vw, 3.75rem);
+  font-size: clamp(2.25rem, 1.4rem + 3vw, 3.5rem);
+  line-height: 0.9;
 }
 
 .pw-kashta .vb-demo-kashta-score span {
@@ -271,10 +186,10 @@
   font-size: var(--step-small);
 }
 
-@media (min-width: 850px) {
+@media (min-width: 900px) {
   .pw-kashta .pw-kashta-layout {
-    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
-    gap: 2rem clamp(2rem, 6vw, 6rem);
+    grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+    gap: 2.25rem clamp(2rem, 5vw, 6rem);
   }
 
   .pw-kashta .pw-foot {
@@ -293,38 +208,24 @@
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  .pw-kashta .pw-kashta-gauge[data-in="true"] .vb-demo-kashta-score::before {
-    animation: pw-gauge-entrance 550ms ease-out both;
+  .vb[data-motion="on"] .pw-kashta-gauge[data-in="true"] .vb-demo-gauge-needle {
+    animation: pw-sweep 1.4s var(--ease-expo) 0.2s backwards;
   }
 }
 
-@keyframes pw-gauge-entrance {
+@keyframes pw-sweep {
   from {
-    opacity: 0.35;
-    transform: scale(0.8);
-  }
-
-  to {
-    opacity: 1;
-    transform: none;
+    transform: rotate(-90deg);
   }
 }
 
-/* Amanah */
+/* Amanah: the lost-property counter */
 .pw-amanah {
-  --pw-accent: #7a5a12;
-  --pw-green: #0e3b2e;
-  --pw-cream: #f1ead9;
   --pw-manila: #e7d9b8;
-  --pw-gold: #e2c37a;
-  --pw-chip: var(--pw-gold);
-  --pw-chip-ink: var(--pw-green);
-  --pw-evidence: var(--pw-gold);
-  --pw-evidence-line: #8a845a;
+  /* The lantern's tag from Kashta hangs into the top of the counter. */
+  --pad-top: clamp(5.5rem, 3rem + 6vw, 9.375rem);
+  --pad-bottom: 0rem;
 
-  padding-top: clamp(5.25rem, 9vw, 9rem);
-  background: var(--pw-cream);
-  color: var(--pw-green);
   color-scheme: light;
 }
 
@@ -335,7 +236,7 @@
   padding-bottom: clamp(1.5rem, 5vw, 4.5rem);
 }
 
-.pw-amanah .pw-name > span:first-child {
+.pw-amanah .w-name-en {
   font-size: 0.86em;
   font-weight: 500;
   letter-spacing: 0.075em;
@@ -363,9 +264,9 @@
   inset: 50% auto auto 0.95rem;
   width: 0.63rem;
   aspect-ratio: 1;
-  border: 2px solid var(--pw-accent);
+  border: 2px solid var(--accent);
   border-radius: 50%;
-  background: var(--pw-cream);
+  background: var(--field);
   transform: translateY(-50%);
   content: "";
 }
@@ -395,11 +296,17 @@
   display: none;
 }
 
+/* The green cabinet front holds the status and evidence in brass. */
 .pw-amanah .pw-amanah-cabinet {
-  background: var(--pw-green);
-  color: #f5ead0;
+  --field-ink: #f5ead0;
+  --field-muted: #d9ceb3;
+  --pill: #e2c37a;
+  --pill-ink: #0e3b2e;
+
+  background: #0e3b2e;
+  color: var(--field-ink);
   color-scheme: dark;
-  padding-block: clamp(1.75rem, 4vw, 3.5rem) clamp(3rem, 7vw, 6.5rem);
+  padding-block: clamp(2.5rem, 4vw, 3.5rem) clamp(3.5rem, 2rem + 4vw, 6.5rem);
 }
 
 .pw-amanah .vb-demo-amanah {
@@ -476,7 +383,7 @@
     top: -3.55rem;
     width: 2px;
     height: 5.1rem;
-    background: var(--pw-accent);
+    background: var(--accent);
     transform: rotate(11deg);
     transform-origin: bottom;
     content: "";
@@ -510,6 +417,19 @@
   }
 }
 
+@media (min-width: 900px) {
+  .pw-amanah .pw-foot {
+    grid-template-columns: minmax(0, 7fr) minmax(0, 4fr);
+    align-items: start;
+    column-gap: clamp(2rem, 5vw, 6rem);
+  }
+
+  .pw-amanah .w-links ul {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
 @media (min-width: 1100px) {
   .pw-amanah .pw-amanah-desk {
     grid-template-columns: minmax(0, 1.7fr) minmax(0, 1fr);
@@ -518,8 +438,8 @@
   .pw-amanah .pw-amanah-screen {
     display: block;
     margin-bottom: 0.75rem;
-    border: 0.5rem solid var(--pw-green);
-    background: var(--pw-green);
+    border: 0.5rem solid var(--field-ink);
+    background: var(--field-ink);
   }
 }
 
@@ -541,20 +461,15 @@
   }
 }
 
-/* Gthrz */
+/* Gthrz: the party invite */
 .pw-gthrz {
-  --pw-night: #141216;
   --pw-lilac: #cbbcff;
   --pw-purple: #8b6cf0;
   --pw-invite: #f3eee6;
-  --pw-accent: var(--pw-lilac);
-  --pw-name: var(--pw-lilac);
-  --pw-chip: var(--pw-lilac);
-  --pw-chip-ink: var(--pw-night);
+  --pill: var(--pw-lilac);
+  /* The Amanah tag rests on the top edge of the night. */
+  --pad-top: clamp(5rem, 3rem + 6vw, 9.375rem);
 
-  padding-block: clamp(3.5rem, 8vw, 7.5rem);
-  background: var(--pw-night);
-  color: var(--pw-invite);
   color-scheme: dark;
 }
 
@@ -563,9 +478,10 @@
   gap: clamp(1.25rem, 3.5vw, 3.5rem);
 }
 
-.pw-gthrz .pw-name {
+.pw-gthrz .w-name {
+  color: var(--pw-lilac);
   font-size: clamp(3.75rem, 2.45rem + 5.6vw, 7.5rem);
-  letter-spacing: -0.075em;
+  letter-spacing: -0.05em;
   line-height: 0.92;
 }
 
@@ -590,9 +506,9 @@
   justify-self: start;
   width: 100%;
   padding: 1.15rem 1rem;
-  border-top: 3px dotted var(--pw-night);
+  border-top: 3px dotted var(--field);
   background: var(--pw-purple);
-  color: var(--pw-night);
+  color: var(--field);
   font-size: clamp(1.1rem, 0.95rem + 0.65vw, 1.55rem);
   font-weight: 700;
   line-height: 1.3;
@@ -674,13 +590,6 @@
   background: var(--demo-surface);
 }
 
-.pw-gthrz .pw-gthrz-proof {
-  max-width: 65ch;
-  margin: 0;
-  padding-left: 1.15rem;
-  color: var(--pw-lilac);
-}
-
 @media (max-width: 599px) {
   .pw-gthrz .vb-demo .vb-art-table thead {
     position: static;
@@ -715,7 +624,7 @@
     align-self: stretch;
     align-content: center;
     border-top: 0;
-    border-left: 4px dotted var(--pw-night);
+    border-left: 4px dotted var(--field);
     margin-left: -1rem;
     width: calc(100% + 1rem);
   }

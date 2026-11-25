@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { ReactNode } from "react";
-import { fieldStyle, projectById, type Evidence, type Project, type ProjectId } from "@/lib/projects";
+import { fieldStyle, projectById, type ProjectId } from "@/lib/projects";
 import { SeetChat } from "./artifacts";
 import { CallDemo } from "./call-demo";
 import { TammeniScheduleDemo } from "./demos/tammeni-schedule";
@@ -9,6 +9,7 @@ import { AmanahWorld } from "./worlds/amanah-world";
 import { GthrzWorld } from "./worlds/gthrz-world";
 import { KashtaWorld } from "./worlds/kashta-world";
 import { Reveal } from "./reveal";
+import { Head, Links, Proof, projectHref } from "./world-parts";
 import {
   CallEndedSeam,
   LanternSeam,
@@ -24,90 +25,10 @@ import {
  * kind and dates, the name in both scripts, the pitch, the working demo,
  * status and checked evidence, then the links. Between two worlds the colour
  * cuts hard, and one object sits on the line because it belongs to both
- * (seams.tsx); the seams stand between the sections, not inside them.
+ * (seams.tsx); the seams stand between the sections, not inside them. The
+ * shared parts live in world-parts.tsx; Kashta, Amanah and Gthrz are built
+ * from them in worlds/.
  */
-
-function projectHref(project: Project) {
-  return project.href ?? `/projects/${project.id}`;
-}
-
-/** The first clause of an evidence label, for the homepage; the full line is on the case page. */
-function shortLabel(item: Evidence) {
-  return item.label.split(/[:,.]/)[0].trim();
-}
-
-function Head({ project, line }: { project: Project; line?: ReactNode }) {
-  return (
-    <Reveal className="w-head">
-      <p className="w-kind">
-        {project.kind} · {project.dates}
-      </p>
-      <h3 id={`proj-${project.id}`} className="w-name">
-        <Link href={projectHref(project)} prefetch={false}>
-          <span className="w-name-en">{project.name}</span>
-          {project.arabic ? <span lang="ar">{project.arabic}</span> : null}
-        </Link>
-      </h3>
-      <p className="w-pitch">{project.tagline}</p>
-      {line ? <p className="w-line">{line}</p> : null}
-    </Reveal>
-  );
-}
-
-/** Status in words, the checked numbers with their sources, and my part. */
-function Proof({ project }: { project: Project }) {
-  const evidence = project.proof.evidence ?? [];
-  return (
-    <Reveal className="w-proof" delay={0.14}>
-      <p className="w-status">{project.statusChip}</p>
-      {evidence.length > 0 ? (
-        <ul className="w-ev" aria-label={`${project.name}, checked ${evidence[0].checked}`}>
-          {evidence.map((item) => (
-            <li key={item.kind}>
-              <span className="w-ev-figure">{item.value}</span> <span className="w-ev-label">{shortLabel(item)}</span>
-              <a
-                className="w-ev-source"
-                href={item.run?.href ?? item.source.href}
-                target="_blank"
-                rel="noreferrer"
-              >
-                {item.run ? `Passing CI run, ${item.run.date}` : `${item.source.label}, checked ${item.checked}`}
-              </a>
-            </li>
-          ))}
-        </ul>
-      ) : null}
-      <p className="w-part">{project.contribution}</p>
-    </Reveal>
-  );
-}
-
-function Links({ project }: { project: Project }) {
-  return (
-    <Reveal className="w-links" delay={0.18}>
-      <ul>
-        <li>
-          <Link href={projectHref(project)} prefetch={false} className="w-case">
-            Read the case study<span className="vb-sr">: {project.name}</span>
-          </Link>
-        </li>
-        {project.links.map((link) => (
-          <li key={link.href}>
-            {link.href.startsWith("/") ? (
-              <Link href={link.href}>{link.label}</Link>
-            ) : (
-              <a href={link.href} target="_blank" rel="noreferrer">
-                {link.label}
-                <span className="vb-sr"> ({project.name})</span>
-              </a>
-            )}
-          </li>
-        ))}
-      </ul>
-      {project.linkNote ? <p className="w-linknote">{project.linkNote}</p> : null}
-    </Reveal>
-  );
-}
 
 function World({ id, children }: { id: ProjectId; children: ReactNode }) {
   const project = projectById[id];
