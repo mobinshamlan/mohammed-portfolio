@@ -109,7 +109,6 @@ function Section({
 function Phone({ shot, sizes }: { shot: Project["screens"][number]; sizes: string }) {
   return (
     <div className="vb-phone vb-phone-sm" data-ui="">
-      <span className="vb-phone-notch" />
       <Image src={shot.src} alt="" width={shot.width} height={shot.height} sizes={sizes} className="vb-phone-img" />
     </div>
   );
@@ -279,8 +278,8 @@ function Gthrz() {
     <Section id="gthrz" layout="fan">
       <div className="vb-proj-art vb-proj-fan" aria-hidden="true">
         {shots.map((shot) => (
-          <div key={shot.src} className="vb-phone vb-phone-sm" data-ui="">
-            <GthrzImg shot={shot} sizes="(max-width: 899px) 30vw, 240px" decorative className="vb-phone-img" />
+          <div key={shot.src} className="vb-capture" data-ui="">
+            <GthrzImg shot={shot} sizes="(max-width: 899px) 30vw, 240px" decorative />
           </div>
         ))}
       </div>

@@ -22,7 +22,6 @@ export function DeviceFrame({
   if (shot.frame === "phone") {
     return (
       <figure className={`vb-phone ${className}`} data-ui="">
-        <span className="vb-phone-notch" aria-hidden="true" />
         <Image
           src={shot.src}
           alt={shot.alt}

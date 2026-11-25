@@ -2,22 +2,21 @@ import type { GthrzShot } from "@/lib/gthrz";
 
 /**
  * A Gthrz phone capture with a 240 px variant beside the 455 px original, so
- * small frames do not download the full image. Cards (PNG) have one size.
+ * small frames do not download the full image. Cards have one size. The
+ * captures carry their own bezel, with transparent corners, so they render bare.
  */
 export function GthrzImg({
   shot,
   sizes,
   priority = false,
-  className,
   decorative = false,
 }: {
   shot: GthrzShot;
   sizes: string;
   priority?: boolean;
-  className?: string;
   decorative?: boolean;
 }) {
-  const small = shot.src.endsWith(".jpg") ? shot.src.replace(/\.jpg$/, "-240.jpg") : null;
+  const small = shot.variant === "card" ? null : shot.src.replace(/\.webp$/, "-240.webp");
   return (
     // eslint-disable-next-line @next/next/no-img-element
     <img
@@ -30,7 +29,6 @@ export function GthrzImg({
       loading={priority ? "eager" : "lazy"}
       fetchPriority={priority ? "high" : undefined}
       decoding="async"
-      className={className}
     />
   );
 }

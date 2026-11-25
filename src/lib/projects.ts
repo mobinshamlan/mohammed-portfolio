@@ -914,7 +914,7 @@ export const projects: Project[] = [
     stack: ["React Native", "Expo", "TypeScript", "Supabase", "PostgreSQL"],
     links: [{ label: "Source on GitHub", href: "https://github.com/mobinshamlan/Gthrz" }],
     cover: {
-      src: publicUrl("/images/projects/gthrz/home.jpg"),
+      src: publicUrl("/images/projects/gthrz/home.webp"),
       alt: "Gthrz home screen with upcoming events and create controls.",
       width: 455,
       height: 952,

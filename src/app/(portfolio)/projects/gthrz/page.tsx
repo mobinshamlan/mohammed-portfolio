@@ -27,14 +27,8 @@ function Phones() {
   return (
     <div className="vb-case-phones">
       {heroShots.map((shot, index) => (
-        <figure key={shot.src} className="vb-phone vb-phone-sm" data-ui="">
-          <span className="vb-phone-notch" aria-hidden="true" />
-          <GthrzImg
-            shot={shot}
-            sizes="(max-width: 899px) 17rem, 230px"
-            priority={index === 1}
-            className="vb-phone-img"
-          />
+        <figure key={shot.src} className="vb-capture" data-ui="">
+          <GthrzImg shot={shot} sizes="(max-width: 899px) 17rem, 230px" priority={index === 1} />
         </figure>
       ))}
     </div>
@@ -55,13 +49,8 @@ export default function GthrzCaseStudyPage() {
         <div className="vb-screens vb-screens-phones">
           {gallery.map((shot, index) => (
             <Reveal key={shot.src} delay={index * 0.05} className="vb-screen vb-screen-phone">
-              <figure className="vb-phone" data-ui="">
-                <span className="vb-phone-notch" aria-hidden="true" />
-                <GthrzImg
-                  shot={shot}
-                  sizes="(max-width: 899px) 44vw, 220px"
-                  className="vb-phone-img"
-                />
+              <figure className="vb-capture" data-ui="">
+                <GthrzImg shot={shot} sizes="(max-width: 899px) 44vw, 220px" />
                 <figcaption className="vb-frame-cap">{shot.caption}</figcaption>
               </figure>
             </Reveal>
