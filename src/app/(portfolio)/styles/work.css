@@ -112,12 +112,12 @@
   }
 }
 
-/* Phones: name and decision, then my part and the links, then the demo and the real screen. */
-@media (max-width: 899px) {
-  .vb .vb-proj[data-layout] .vb-proj-head {
-    order: -2;
-  }
-  .vb .vb-proj[data-layout] .vb-proj-foot {
-    order: -1;
-  }
+
+.vb-proj-screen-wide {
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0.75rem;
+}
+
+.vb-proj-screen-wide figcaption {
+  max-width: 48ch;
 }

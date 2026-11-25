@@ -39,6 +39,7 @@ export function Jumper() {
   const router = useRouter();
   const dialog = useRef<HTMLDialogElement>(null);
   const input = useRef<HTMLInputElement>(null);
+  const closeButton = useRef<HTMLButtonElement>(null);
   const opener = useRef<HTMLButtonElement>(null);
   const [query, setQuery] = useState("");
   const [index, setIndex] = useState(0);
@@ -144,6 +145,15 @@ export function Jumper() {
         ref={dialog}
         className="vb-jump"
         aria-label="Jump to a project or section"
+        onKeyDown={(event) => {
+          // Tab moves between the search field and Close; arrows move through the results.
+          if (event.key !== "Tab") return;
+          const stops = [input.current, closeButton.current].filter((n): n is HTMLInputElement | HTMLButtonElement => n !== null);
+          const at = stops.indexOf(document.activeElement as HTMLInputElement | HTMLButtonElement);
+          event.preventDefault();
+          const next = event.shiftKey ? (at <= 0 ? stops.length - 1 : at - 1) : (at + 1) % stops.length;
+          stops[next]?.focus();
+        }}
         onClose={() => {
           const target = returnTo.current;
           if (target && target !== document.body && document.contains(target)) {
@@ -163,7 +173,7 @@ export function Jumper() {
             <label htmlFor={`${listId}-q`} className="vb-jump-label">
               Where to? <span lang="ar">وين تبي تروح؟</span>
             </label>
-            <button type="button" className="vb-jump-close" onClick={close}>
+            <button ref={closeButton} type="button" className="vb-jump-close" onClick={close}>
               Close
             </button>
           </div>

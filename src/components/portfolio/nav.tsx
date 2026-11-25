@@ -50,13 +50,30 @@ export function Nav({
   const onHome = pathname === "/";
   const onProject = pathname.startsWith("/projects/");
 
-  // Arriving from another page at /#section: focus lands on that section's heading.
+  // Arriving from another page at /#section, or going Back and Forward
+  // between sections: focus follows to that section's heading. Back to the
+  // top of the page returns focus to the opening's heading.
   useEffect(() => {
-    const id = window.location.hash.slice(1);
-    if (onHome && id && document.getElementById(id)) {
-      const timer = window.setTimeout(() => focusSection(id), 300);
-      return () => window.clearTimeout(timer);
+    if (!onHome) {
+      return;
     }
+    const id = window.location.hash.slice(1);
+    const timer =
+      id && document.getElementById(id) ? window.setTimeout(() => focusSection(id), 300) : undefined;
+    function onPop() {
+      const target = window.location.hash.slice(1) || "home";
+      // After the router and the browser have restored their own scroll.
+      window.setTimeout(() => {
+        if (document.getElementById(target)) {
+          focusSection(target);
+        }
+      }, 80);
+    }
+    window.addEventListener("popstate", onPop);
+    return () => {
+      window.clearTimeout(timer);
+      window.removeEventListener("popstate", onPop);
+    };
   }, [onHome]);
 
   useEffect(() => {

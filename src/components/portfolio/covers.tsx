@@ -173,6 +173,7 @@ function Naqah() {
         project={project}
         hook="The worker types nothing. A daily call asks the owner's questions, keeps the answers as records and throws the audio away."
       />
+      <Foot project={project} />
       <div className="vb-proj-art">
         <CallDemo compact id="naqah-demo" />
       </div>
@@ -183,7 +184,6 @@ function Naqah() {
           caption="The live site, in Arabic first: Naqah calls your worker at the time you choose, keeps the answers, then calls you with what matters."
         />
       ) : null}
-      <Foot project={project} />
     </Section>
   );
 }
@@ -199,6 +199,7 @@ function Tammeni() {
         project={project}
         hook="Each parent chooses, per child and per topic, whether news comes by call or text, and when."
       />
+      <Foot project={project} />
       <div className="vb-proj-demo">
         <TammeniScheduleDemo compact />
       </div>
@@ -215,7 +216,6 @@ function Tammeni() {
           caption="The live demo, step 4 of 11: a parent chooses whether attendance news comes right away or after the school day."
         />
       ) : null}
-      <Foot project={project} />
     </Section>
   );
 }
@@ -224,9 +224,11 @@ function Tammeni() {
 
 function Seet() {
   const project = projectById.seet;
+  const how = project.screens.find((shot) => shot.src.includes("how")) ?? project.cover;
   return (
     <Section id="seet" layout="masthead">
       <Head project={project} hook="A slot is held first. Only the deposit confirms it." />
+      <Foot project={project} />
       <Reveal className="vb-proj-states" delay={0.1}>
         <DayLine
           label="One booking, simulated with made-up prices"
@@ -240,14 +242,19 @@ function Seet() {
       <div className="vb-proj-art">
         <SeetChat compact />
       </div>
-      {project.coverPhone ? (
-        <Screen
-          shot={project.coverPhone}
-          sizes="(max-width: 899px) 60vw, 220px"
-          caption="The live landing page: a Snap story at 4,500 SAR, Tuesday free, and the booking confirmed only once the 2,250 SAR deposit arrives."
-        />
+      {how ? (
+        <figure className="vb-proj-screen vb-proj-screen-wide">
+          <DeviceFrame
+            shot={{ ...how, caption: undefined }}
+            sizes="(max-width: 899px) 100vw, 36vw"
+            label="seet-puce.vercel.app"
+          />
+          <figcaption>
+            From the live landing page: a slot moves from held to confirmed only after the deposit,
+            and one calendar shows free and booked days.
+          </figcaption>
+        </figure>
       ) : null}
-      <Foot project={project} />
     </Section>
   );
 }
@@ -259,6 +266,7 @@ function Kashta() {
   return (
     <Section id="kashta" layout="score">
       <Head project={project} hook="The score is code, not AI. Llama explains a ranking it never computes." />
+      <Foot project={project} />
       <div className="vb-proj-demo">
         <KashtaScoreDemo compact />
       </div>
@@ -267,7 +275,6 @@ function Kashta() {
           <Phone shot={project.coverPhone} sizes="240px" />
         </div>
       ) : null}
-      <Foot project={project} />
     </Section>
   );
 }
@@ -280,6 +287,7 @@ function Amanah() {
   return (
     <Section id="amanah" layout="views">
       <Head project={project} hook="One match, two different views." />
+      <Foot project={project} />
       <div className="vb-proj-demo">
         <AmanahClaimDemo compact />
       </div>
@@ -290,7 +298,6 @@ function Amanah() {
           label="amanahz.vercel.app/demo"
         />
       </div>
-      <Foot project={project} />
     </Section>
   );
 }
@@ -302,6 +309,8 @@ function Gthrz() {
   const shots = [gthrzShots.home, gthrzShots.details, gthrzShots.privacy];
   return (
     <Section id="gthrz" layout="fan">
+      <Head project={project} hook="The host decides who sees the address, and when." />
+      <Foot project={project} />
       <div className="vb-proj-art vb-proj-fan" aria-hidden="true">
         {shots.map((shot) => (
           <div key={shot.src} className="vb-capture" data-ui="">
@@ -309,44 +318,10 @@ function Gthrz() {
           </div>
         ))}
       </div>
-      <Head project={project} hook="The host decides who sees the address, and when." />
       <div className="vb-proj-demo">
         <GthrzStatesDemo compact />
       </div>
-      <Foot project={project} />
     </Section>
-  );
-}
-
-/* ---------- The experiment: a smaller, secondary entry ---------- */
-
-function Experiment() {
-  const project = projectById.experiment;
-  const previews = [
-    { src: project.cover.src, label: "Version A: one prompt, one pass", width: 800, height: 2137 },
-    { src: project.cover.src.replace("a-desktop", "b-desktop"), label: "Version B: this site", width: 800, height: 3333 },
-  ];
-  return (
-    <aside className="vb-exp" aria-labelledby="exp-title" style={fieldStyle(project)}>
-      <div className="vb-exp-copy">
-        <p className="vb-proj-kind">The seventh project</p>
-        <h3 id="exp-title" className="vb-exp-name">
-          <Link href={projectHref(project)} prefetch={false}>
-            {project.name}
-          </Link>
-        </h3>
-        <p className="vb-exp-tagline">{project.tagline}</p>
-        <ProjectLinks project={project} />
-      </div>
-      <Link href={projectHref(project)} prefetch={false} className="vb-exp-pair" aria-hidden="true" tabIndex={-1}>
-        {previews.map((p) => (
-          <span key={p.src} className="vb-exp-shot">
-            <Image src={p.src} alt="" width={p.width} height={p.height} sizes="(max-width: 899px) 44vw, 300px" />
-            <span className="vb-exp-label">{p.label}</span>
-          </span>
-        ))}
-      </Link>
-    </aside>
   );
 }
 
@@ -375,7 +350,6 @@ export function Covers() {
       <Kashta />
       <Amanah />
       <Gthrz />
-      <Experiment />
     </section>
   );
 }
