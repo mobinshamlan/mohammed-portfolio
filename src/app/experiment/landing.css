@@ -518,9 +518,15 @@
     animation-delay: 0.5s;
   }
 
-  /* Labels carry reading text: they rise without fading, so they stay legible throughout. */
+  /* Text rises without fading, so it stays legible throughout; only the previews fade in. */
+  .vl-title span,
+  .vl-intro,
+  .vl-open,
   .vl-label {
     animation-name: vl-rise-only;
+  }
+
+  .vl-label {
     animation-delay: 0.65s;
   }
 
