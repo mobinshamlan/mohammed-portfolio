@@ -77,6 +77,25 @@ export function KashtaScoreDemo({ compact = false }: { compact?: boolean }) {
 
       <div className="vb-demo-kashta-top">
         <p className="vb-demo-kashta-score" data-capped={capped ? "true" : undefined}>
+          {compact ? (
+            // The score as a half dial; the needle turns with it.
+            <svg className="vb-demo-gauge" viewBox="0 0 200 112" aria-hidden="true">
+              <path className="vb-demo-gauge-track" d="M18 100 A82 82 0 0 1 182 100" pathLength={100} />
+              <path
+                className="vb-demo-gauge-cap"
+                d="M18 100 A82 82 0 0 1 182 100"
+                pathLength={100}
+                strokeDasharray={`${kashtaLimits.cap} 100`}
+              />
+              <g
+                className="vb-demo-gauge-needle"
+                style={{ "--needle": `${result.score * 1.8 - 90}deg` } as React.CSSProperties}
+              >
+                <line x1="100" y1="100" x2="100" y2="30" />
+              </g>
+              <circle className="vb-demo-gauge-hub" cx="100" cy="100" r="7" />
+            </svg>
+          ) : null}
           <strong>{result.score}</strong>
           <span>{compact && capped ? `capped: dangerous ${result.dangers.join(" and ")}` : rating}</span>
         </p>

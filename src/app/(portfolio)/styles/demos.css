@@ -1,6 +1,6 @@
 /* Project demos: small, labelled simulations of each product's core mechanic.
    They sit on the night surface of .vb-art on case pages and pick up the
-   project's field colours inside a homepage section (.vb-proj). */
+   project's own card colours inside a homepage world (.vb-world, see work.css). */
 
 .vb-demo {
   --demo-surface: var(--night-3);
@@ -13,30 +13,29 @@
   --demo-danger: var(--danger);
 }
 
-.vb-proj .vb-demo {
-  --demo-surface: color-mix(in srgb, var(--field) 14%, transparent);
-  --demo-ink: var(--field);
-  --demo-muted: color-mix(in srgb, var(--field) 75%, var(--field-ink));
-  --demo-accent: var(--field);
-  --demo-accent-ink: var(--field-ink);
-  --demo-line: color-mix(in srgb, var(--field) 24%, transparent);
-  /* Status colours pulled toward the field so they read on either card. */
-  --demo-ok: color-mix(in srgb, var(--ok) 40%, var(--field));
-  --demo-danger: color-mix(in srgb, var(--danger) 45%, var(--field));
+.vb-world .vb-demo {
+  --demo-surface: var(--card-surface);
+  --demo-ink: var(--card-ink);
+  --demo-muted: var(--card-muted);
+  --demo-accent: var(--card-accent);
+  --demo-accent-ink: var(--card-accent-ink);
+  --demo-line: var(--card-line);
+  --demo-ok: var(--card-ok, var(--ok));
+  --demo-danger: var(--card-danger, var(--danger));
 }
 
 /* The static table shown before hydration, redrawn in the field's colours. */
-.vb-proj .vb-demo .vb-art-table thead th,
-.vb-proj .vb-demo .vb-art-table td::before {
+.vb-world .vb-demo .vb-art-table thead th,
+.vb-world .vb-demo .vb-art-table td::before {
   color: var(--demo-muted);
 }
 
-.vb-proj .vb-demo .vb-art-table tbody tr,
-.vb-proj .vb-demo .vb-art-table tbody tr:nth-child(even) {
+.vb-world .vb-demo .vb-art-table tbody tr,
+.vb-world .vb-demo .vb-art-table tbody tr:nth-child(even) {
   background: var(--demo-surface);
 }
 
-.vb-proj .vb-demo .vb-art-table td[data-on="true"] {
+.vb-world .vb-demo .vb-art-table td[data-on="true"] {
   color: var(--demo-ink);
   font-weight: 700;
 }

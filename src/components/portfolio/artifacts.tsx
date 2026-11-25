@@ -112,7 +112,7 @@ export function SeetChat({ compact = false }: { compact?: boolean }) {
   const state = [...shown].reverse().find((m) => m.state)?.state ?? "Enquiry";
   const done = visible >= last;
   return (
-    <div className={`vb-art vb-demo vb-art-seet ${compact ? "vb-art-compact" : ""}`} data-ui="">
+    <div className={`vb-art vb-demo vb-art-seet ${compact ? "vb-art-compact" : ""}`} data-ui="" data-state={state}>
       <p className="vb-demo-hint">
         <span className="vb-demo-tag">Simulated</span>
         {hydrated ? "Press Next to take the booking to confirmed." : "A WhatsApp booking with made-up prices."}

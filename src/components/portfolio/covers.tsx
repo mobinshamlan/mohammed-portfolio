@@ -2,258 +2,337 @@ import Image from "next/image";
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { gthrzShots } from "@/lib/gthrz";
-import { fieldStyle, projectById, projects, type Project, type ProjectId } from "@/lib/projects";
+import { fieldStyle, projectById, type Evidence, type Project, type ProjectId } from "@/lib/projects";
 import { SeetChat } from "./artifacts";
 import { CallDemo } from "./call-demo";
-import { DayLine } from "./dayline";
 import { AmanahClaimDemo } from "./demos/amanah-claim";
 import { GthrzStatesDemo } from "./demos/gthrz-states";
 import { KashtaScoreDemo } from "./demos/kashta-score";
 import { TammeniScheduleDemo } from "./demos/tammeni-schedule";
-import { DeviceFrame } from "./device-frame";
 import { GthrzImg } from "./gthrz-img";
 import { Reveal } from "./reveal";
-import { SaduBand, type SaduVariant } from "./sadu";
+import {
+  CallEndedSeam,
+  LanternSeam,
+  ReceiptSeam,
+  StubSeam,
+  TagSeam,
+  TypingSeam,
+} from "./seams";
+
+/*
+ * Every product is shown in its own world: its colours, its materials and the
+ * one object it is about. What stays the same is the order inside each one:
+ * kind and dates, the name in both scripts, the pitch, the working demo,
+ * status and checked evidence, then the links. Between two worlds the colour
+ * cuts hard, and one object sits on the line because it belongs to both
+ * (seams.tsx); the seams stand between the sections, not inside them.
+ */
 
 function projectHref(project: Project) {
   return project.href ?? `/projects/${project.id}`;
 }
 
-/*
- * Every project gets its own section on its own colour field, opened by its
- * own woven band. The parts are shared (name, the decision in one line,
- * status, actions); the composition and the band come from the product: a
- * call, a schedule, a chat, a score, two views, phones. Each section's
- * centrepiece is a small working demo of that one decision.
- */
-
-function ProjectLinks({ project }: { project: Project }) {
-  return (
-    <ul className="vb-proj-links">
-      {project.links.map((link) =>
-        link.href.startsWith("/") ? (
-          <li key={link.href}>
-            <Link href={link.href} className="vb-link">
-              {link.label}
-            </Link>
-          </li>
-        ) : (
-          <li key={link.href}>
-            <a href={link.href} className="vb-link" target="_blank" rel="noreferrer">
-              {link.label}
-            </a>
-          </li>
-        ),
-      )}
-      {project.linkNote ? <li className="vb-proj-linknote">{project.linkNote}</li> : null}
-    </ul>
-  );
+/** The first clause of an evidence label, for the homepage; the full line is on the case page. */
+function shortLabel(item: Evidence) {
+  return item.label.split(/[:,.]/)[0].trim();
 }
 
-/** Kind, name and tagline: what the product is. */
-function Head({ project, hook }: { project: Project; hook: ReactNode }) {
+function Head({ project, line }: { project: Project; line?: ReactNode }) {
   return (
-    <Reveal className="vb-proj-head">
-      <p className="vb-proj-kind">{project.kind}</p>
-      <h3 id={`proj-${project.id}`} className="vb-proj-name">
+    <Reveal className="w-head">
+      <p className="w-kind">
+        {project.kind} · {project.dates}
+      </p>
+      <h3 id={`proj-${project.id}`} className="w-name">
         <Link href={projectHref(project)} prefetch={false}>
-          {project.name}
+          <span className="w-name-en">{project.name}</span>
           {project.arabic ? <span lang="ar">{project.arabic}</span> : null}
         </Link>
       </h3>
-      <p className="vb-proj-tagline">{project.tagline}</p>
-      <SaduBand variant={project.id as SaduVariant} size="s" className="vb-proj-tab" />
-      <p className="vb-proj-hook">{hook}</p>
+      <p className="w-pitch">{project.tagline}</p>
+      {line ? <p className="w-line">{line}</p> : null}
     </Reveal>
   );
 }
 
-/** Status, dates, my part and where to go next. */
-function Foot({ project }: { project: Project }) {
+/** Status in words, the checked numbers with their sources, and my part. */
+function Proof({ project }: { project: Project }) {
+  const evidence = project.proof.evidence ?? [];
   return (
-    <Reveal className="vb-proj-foot" delay={0.08}>
-      <p className="vb-proj-meta">
-        <span className="vb-chip">{project.statusChip}</span>
-        <span>{project.dates}</span>
-      </p>
-      <p className="vb-proj-part">{project.contribution}</p>
-      <div className="vb-proj-actions">
-        <Link href={projectHref(project)} prefetch={false} className="vb-btn vb-btn-field">
-          Read the case study
-        </Link>
-        <ProjectLinks project={project} />
-      </div>
+    <Reveal className="w-proof" delay={0.14}>
+      <p className="w-status">{project.statusChip}</p>
+      {evidence.length > 0 ? (
+        <ul className="w-ev" aria-label={`${project.name}, checked ${evidence[0].checked}`}>
+          {evidence.map((item) => (
+            <li key={item.kind}>
+              <span className="w-ev-figure">{item.value}</span> <span className="w-ev-label">{shortLabel(item)}</span>
+              <a
+                className="w-ev-source"
+                href={item.run?.href ?? item.source.href}
+                target="_blank"
+                rel="noreferrer"
+              >
+                {item.run ? `Passing CI run, ${item.run.date}` : `${item.source.label}, checked ${item.checked}`}
+              </a>
+            </li>
+          ))}
+        </ul>
+      ) : null}
+      <p className="w-part">{project.contribution}</p>
     </Reveal>
   );
 }
 
-function Section({
-  id,
-  layout,
-  children,
-}: {
-  id: ProjectId;
-  layout: string;
-  children: ReactNode;
-}) {
+function Links({ project }: { project: Project }) {
+  return (
+    <Reveal className="w-links" delay={0.18}>
+      <ul>
+        <li>
+          <Link href={projectHref(project)} prefetch={false} className="w-case">
+            Read the case study<span className="vb-sr">: {project.name}</span>
+          </Link>
+        </li>
+        {project.links.map((link) => (
+          <li key={link.href}>
+            {link.href.startsWith("/") ? (
+              <Link href={link.href}>{link.label}</Link>
+            ) : (
+              <a href={link.href} target="_blank" rel="noreferrer">
+                {link.label}
+                <span className="vb-sr"> ({project.name})</span>
+              </a>
+            )}
+          </li>
+        ))}
+      </ul>
+      {project.linkNote ? <p className="w-linknote">{project.linkNote}</p> : null}
+    </Reveal>
+  );
+}
+
+function World({ id, children }: { id: ProjectId; children: ReactNode }) {
   const project = projectById[id];
   return (
     <article
-      className="vb-proj"
-      data-layout={layout}
+      id={id}
+      className="vb-world"
       data-id={id}
       data-light={project.light ? "true" : undefined}
       style={fieldStyle(project)}
       aria-labelledby={`proj-${id}`}
     >
-      <SaduBand variant={id as SaduVariant} className="vb-proj-band" />
-      <div className="vb-proj-inner">{children}</div>
+      <div className="w-inner">{children}</div>
     </article>
   );
 }
 
-function Phone({ shot, sizes }: { shot: Project["screens"][number]; sizes: string }) {
-  return (
-    <div className="vb-phone vb-phone-sm" data-ui="">
-      <Image src={shot.src} alt="" width={shot.width} height={shot.height} sizes={sizes} className="vb-phone-img" />
-    </div>
-  );
-}
-
-/* ---------- Naqah: the call itself is the picture ---------- */
+/* ---------- Naqah: the ranch at sunset, and the call it makes ---------- */
 
 function Naqah() {
   const project = projectById.naqah;
   return (
-    <Section id="naqah" layout="stage">
+    <World id="naqah">
+      <div className="w-photo" aria-hidden="true">
+        <Image src={project.cover.src} alt="" width={project.cover.width} height={project.cover.height} sizes="200vw" />
+      </div>
       <Head
         project={project}
-        hook="The worker types nothing. A daily call asks the owner's questions, keeps the answers as records and throws the audio away."
+        line="The worker types nothing. A daily call asks the owner's questions, keeps the answers as records and throws the audio away."
       />
-      <div className="vb-proj-art">
-        <CallDemo compact id="naqah-demo" />
-      </div>
-      <Foot project={project} />
-    </Section>
+      <p className="w-motto" lang="ar">
+        {project.arabicTagline}
+      </p>
+      <Reveal className="w-demo" delay={0.07}>
+        <div className="w-callcard">
+          <p className="w-callcard-bar" aria-hidden="true">
+            <span className="w-callcard-dot" />
+            Naqah is calling
+            <span lang="ar">ناقة تتصل</span>
+          </p>
+          <CallDemo compact id="naqah-demo" />
+        </div>
+      </Reveal>
+      <Proof project={project} />
+      <Links project={project} />
+    </World>
   );
 }
 
-/* ---------- Tammeni: one family's rules, and the screens that set them ---------- */
+/* ---------- Tammeni: the chalkboard, and one family's timetable ---------- */
 
 function Tammeni() {
   const project = projectById.tammeni;
-  const phones = project.screens.filter((shot) => shot.frame === "phone").slice(0, 2);
+  const phone = project.screens.find((shot) => shot.src.endsWith("phone.jpg")) ?? project.coverPhone;
   return (
-    <Section id="tammeni" layout="schedule">
-      <Head
-        project={project}
-        hook="Each parent chooses, per child and per topic, whether news comes by call or text, and when."
-      />
-      <div className="vb-proj-demo">
+    <World id="tammeni">
+      <Head project={project} line="Each parent chooses, per child and per topic, whether news comes by call or text, and when." />
+      <figure className="w-chalk">
+        <p lang="ar">{project.arabicTagline}</p>
+        <figcaption>&ldquo;What happened with your kids today?&rdquo; Tammeni&rsquo;s own opening line.</figcaption>
+      </figure>
+      <Reveal className="w-demo" delay={0.07}>
         <TammeniScheduleDemo compact />
-      </div>
-      <div className="vb-proj-art vb-proj-phones" aria-hidden="true">
-        {phones.map((shot) => (
-          <Phone key={shot.src} shot={shot} sizes="(max-width: 899px) 42vw, 250px" />
-        ))}
-      </div>
-      <Foot project={project} />
-    </Section>
+      </Reveal>
+      <Reveal className="w-aside" delay={0.1}>
+        <figure className="w-sms">
+          <p className="w-sms-from">
+            <span>Lulwa · Tammeni</span>
+            <span>7:42 am</span>
+          </p>
+          <p lang="ar">صباح الخير، ريم وصلت المدرسة وسُجّل حضورها الساعة ٧:٣٠.</p>
+          <p className="w-sms-en">Good morning, Reem arrived and was marked present at 7:30.</p>
+          <figcaption>
+            <span className="vb-demo-tag">Simulated</span>A text for an attendance rule. Fictional names.
+          </figcaption>
+        </figure>
+        {phone ? (
+          <div className="w-slim" aria-hidden="true">
+            <Image src={phone.src} alt="" width={phone.width} height={phone.height} sizes="180px" />
+          </div>
+        ) : null}
+      </Reveal>
+      <Proof project={project} />
+      <Links project={project} />
+    </World>
   );
 }
 
-/* ---------- Seet: a masthead over the booking chat ---------- */
+/* ---------- Seet: gold, and a WhatsApp thread in a dark phone ---------- */
 
 function Seet() {
   const project = projectById.seet;
   return (
-    <Section id="seet" layout="masthead">
-      <Head project={project} hook="A slot is held first. Only the deposit confirms it." />
-      <Reveal className="vb-proj-states" delay={0.1}>
-        <DayLine
-          label="One booking, simulated with made-up prices"
-          moments={[
-            { time: "Held", label: "Tuesday, for two hours" },
-            { time: "Deposit", label: "2,250 SAR link sent" },
-            { time: "Confirmed", label: "Payment callback only" },
-          ]}
-        />
+    <World id="seet">
+      <Head project={project} line="A slot is held first. Only the deposit confirms it." />
+      <p className="w-motto" lang="ar">
+        {project.arabicTagline}
+      </p>
+      <Reveal className="w-demo" delay={0.07}>
+        <div className="w-handset">
+          <p className="w-handset-bar" aria-hidden="true">
+            <span lang="ar">إعلانات</span>
+            <span>Seet replies</span>
+          </p>
+          <SeetChat compact />
+        </div>
       </Reveal>
-      <div className="vb-proj-art">
-        <SeetChat compact />
-      </div>
-      <Foot project={project} />
-    </Section>
+      <Proof project={project} />
+      <Links project={project} />
+    </World>
   );
 }
 
-/* ---------- Kashta: one real night, scored by the app's own rules ---------- */
+/* ---------- Kashta: the only night on the page ---------- */
+
+/** Hand-placed stars: left %, top %, size in px. Fewer show on phones. */
+const stars: [number, number, number][] = [
+  [6, 9, 2], [14, 22, 1.5], [23, 6, 2], [31, 15, 1.5], [38, 4, 2.5], [44, 19, 1.5], [52, 8, 2],
+  [57, 26, 1.5], [63, 5, 2], [69, 17, 2.5], [76, 10, 1.5], [82, 24, 2], [88, 7, 2], [93, 18, 1.5],
+  [97, 31, 2], [3, 30, 1.5],
+];
 
 function Kashta() {
   const project = projectById.kashta;
   return (
-    <Section id="kashta" layout="score">
-      <Head project={project} hook="The score is code, not AI. Llama explains a ranking it never computes." />
-      <div className="vb-proj-demo">
-        <KashtaScoreDemo compact />
+    <World id="kashta">
+      <div className="w-sky" aria-hidden="true">
+        {stars.map(([x, y, r], index) => (
+          <i key={index} style={{ left: `${x}%`, top: `${y}%`, width: r, height: r }} />
+        ))}
       </div>
-      {project.coverPhone ? (
-        <div className="vb-proj-art" aria-hidden="true">
-          <Phone shot={project.coverPhone} sizes="240px" />
-        </div>
-      ) : null}
-      <Foot project={project} />
-    </Section>
+      <Head project={project} line="The score is code, not AI. Llama explains a ranking it never computes." />
+      <p className="w-motto" lang="ar">
+        {project.arabicTagline}
+      </p>
+      <Reveal className="w-demo" delay={0.07}>
+        <KashtaScoreDemo compact />
+      </Reveal>
+      <Proof project={project} />
+      <Links project={project} />
+      <div className="w-dune" aria-hidden="true" />
+    </World>
   );
 }
 
-/* ---------- Amanah: the same claim, seen from each side ---------- */
+/* ---------- Amanah: the lost-property counter ---------- */
 
 function Amanah() {
   const project = projectById.amanah;
   const ownership = project.screens.find((shot) => shot.src.includes("ownership")) ?? project.cover;
   return (
-    <Section id="amanah" layout="views">
-      <Head project={project} hook="One match, two different views." />
-      <div className="vb-proj-demo">
-        <AmanahClaimDemo compact />
+    <World id="amanah">
+      <Head project={project} line="One match, two different views." />
+      <Reveal className="w-tag-wrap" delay={0.05}>
+        <div className="w-tag">
+          <p lang="ar">{project.arabicTagline}</p>
+          <dl>
+            <div>
+              <dt>Item</dt>
+              <dd>Umbrella</dd>
+            </div>
+            <div>
+              <dt>Found</dt>
+              <dd>Reported, never posted</dd>
+            </div>
+            <div>
+              <dt>Match</dt>
+              <dd>Suggested by Gemini</dd>
+            </div>
+            <div>
+              <dt>Hand-over</dt>
+              <dd>When staff approve</dd>
+            </div>
+          </dl>
+        </div>
+      </Reveal>
+      <div className="w-counter">
+        <Reveal className="w-demo" delay={0.07}>
+          <AmanahClaimDemo compact />
+        </Reveal>
+        <figure className="w-monitor" aria-hidden="true">
+          <Image src={ownership.src} alt="" width={ownership.width} height={ownership.height} sizes="30vw" />
+        </figure>
       </div>
-      <div className="vb-proj-art">
-        <DeviceFrame
-          shot={{ ...ownership, caption: undefined }}
-          sizes="(max-width: 899px) 100vw, 40vw"
-          label="amanahz.vercel.app/demo"
-        />
+      <div className="w-cabinet">
+        <Proof project={project} />
+        <Links project={project} />
       </div>
-      <Foot project={project} />
-    </Section>
+    </World>
   );
 }
 
-/* ---------- Gthrz: a phone app, so phones lead ---------- */
+/* ---------- Gthrz: the party invite with a tear-off stub ---------- */
 
 function Gthrz() {
   const project = projectById.gthrz;
-  const shots = [gthrzShots.home, gthrzShots.details, gthrzShots.privacy];
+  const shots = [gthrzShots.details, gthrzShots.plannerSuggestions];
   return (
-    <Section id="gthrz" layout="fan">
-      <div className="vb-proj-art vb-proj-fan" aria-hidden="true">
+    <World id="gthrz">
+      <Head project={project} line="The host decides who sees the address, and when." />
+      <Reveal className="w-invite" delay={0.07}>
+        <div className="w-demo">
+          <GthrzStatesDemo compact />
+        </div>
+        <p className="w-stub">
+          <span>Only guests see this</span>
+          <span className="w-stub-small">Address, pin and guest list stay with the host until they say so.</span>
+        </p>
+      </Reveal>
+      <div className="w-phones" aria-hidden="true">
         {shots.map((shot) => (
           <div key={shot.src} className="vb-capture" data-ui="">
-            <GthrzImg shot={shot} sizes="(max-width: 899px) 30vw, 240px" decorative />
+            <GthrzImg shot={shot} sizes="(max-width: 899px) 45vw, 220px" decorative />
           </div>
         ))}
       </div>
-      <Head project={project} hook="The host decides who sees the address, and when." />
-      <div className="vb-proj-demo">
-        <GthrzStatesDemo compact />
-      </div>
-      <Foot project={project} />
-    </Section>
+      <Proof project={project} />
+      <Links project={project} />
+    </World>
   );
 }
 
-/* ---------- The experiment: a smaller, secondary entry ---------- */
+/* ---------- The experiment: a plain sheet, a smaller entry ---------- */
 
 function Experiment() {
   const project = projectById.experiment;
@@ -263,16 +342,29 @@ function Experiment() {
   ];
   return (
     <aside className="vb-exp" data-id="experiment" aria-labelledby="exp-title" style={fieldStyle(project)}>
-      <SaduBand variant="experiment" size="s" className="vb-exp-band" />
       <div className="vb-exp-copy">
-        <p className="vb-proj-kind">The seventh project</p>
+        <p className="w-kind">The seventh project · {project.kind}</p>
         <h3 id="exp-title" className="vb-exp-name">
           <Link href={projectHref(project)} prefetch={false}>
             {project.name}
           </Link>
         </h3>
         <p className="vb-exp-tagline">{project.tagline}</p>
-        <ProjectLinks project={project} />
+        <ul className="vb-exp-links">
+          {project.links.map((link) => (
+            <li key={link.href}>
+              {link.href.startsWith("/") ? (
+                <Link href={link.href} prefetch={false}>
+                  {link.label}
+                </Link>
+              ) : (
+                <a href={link.href} target="_blank" rel="noreferrer">
+                  {link.label}
+                </a>
+              )}
+            </li>
+          ))}
+        </ul>
       </div>
       <Link href={projectHref(project)} prefetch={false} className="vb-exp-pair" aria-hidden="true" tabIndex={-1}>
         {previews.map((p) => (
@@ -286,59 +378,24 @@ function Experiment() {
   );
 }
 
-/* ---------- The sampler: every project as a strip of its own weave ---------- */
-
-const sampled = projects.filter((project) => project.id !== "experiment");
-
-function Sampler() {
-  return (
-    <nav className="vb-sampler" aria-label="Projects">
-      <ul className="vb-sampler-list">
-        {sampled.map((project) => (
-          <li key={project.id} className="vb-sample" data-id={project.id} style={fieldStyle(project)}>
-            <a href={`#proj-${project.id}`} className="vb-sample-link">
-              <SaduBand variant={project.id as SaduVariant} size="s" className="vb-sample-band" />
-              <span className="vb-sample-text">
-                <span className="vb-sample-name">
-                  {project.name}
-                  {project.arabic ? <span lang="ar">{project.arabic}</span> : null}
-                </span>
-                <span className="vb-sample-kind">{project.kind}</span>
-                <span className="vb-sample-dates">{project.dates}</span>
-              </span>
-            </a>
-          </li>
-        ))}
-      </ul>
-    </nav>
-  );
-}
-
 export function Covers() {
   return (
     <section id="work" className="vb-work" aria-labelledby="work-title">
-      <div className="vb-work-head">
-        <div className="vb-work-intro">
-          <Reveal>
-            <h2 id="work-title" className="vb-section-head">
-              Six products, one decision each.
-            </h2>
-          </Reveal>
-          <Reveal delay={0.1}>
-            <p className="vb-lead vb-work-lead">
-              A ranch, a school, an ads inbox, a desert night, a lost umbrella and a private party.
-              Each one is woven in its own colours, around the choice that shaped it.
-            </p>
-          </Reveal>
-        </div>
-        <Sampler />
-      </div>
+      <h2 id="work-title" className="vb-sr">
+        Selected work
+      </h2>
       <Naqah />
+      <CallEndedSeam />
       <Tammeni />
+      <TypingSeam />
       <Seet />
+      <ReceiptSeam />
       <Kashta />
+      <LanternSeam />
       <Amanah />
+      <TagSeam />
       <Gthrz />
+      <StubSeam />
       <Experiment />
     </section>
   );

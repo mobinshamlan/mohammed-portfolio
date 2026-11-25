@@ -1,6 +1,7 @@
 import { IBM_Plex_Sans, IBM_Plex_Sans_Arabic } from "next/font/google";
 import "./styles/base.css";
 import "./styles/home.css";
+import "./styles/work.css";
 import "./styles/case.css";
 import "./styles/demos.css";
 import "./styles/journey.css";
