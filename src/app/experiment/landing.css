@@ -518,7 +518,9 @@
     animation-delay: 0.5s;
   }
 
+  /* Labels carry reading text: they rise without fading, so they stay legible throughout. */
   .vl-label {
+    animation-name: vl-rise-only;
     animation-delay: 0.65s;
   }
 
@@ -566,6 +568,12 @@
 @keyframes vl-rise {
   from {
     opacity: 0;
+    translate: 0 1.6rem;
+  }
+}
+
+@keyframes vl-rise-only {
+  from {
     translate: 0 1.6rem;
   }
 }
