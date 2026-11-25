@@ -912,6 +912,18 @@
 }
 
 /* Numbers read from the public repository, each with its source. */
+/* A sourced product result, when the owner supplies one, leads the proof. */
+.vb-outcome {
+  max-width: 40ch;
+  margin-bottom: 2rem;
+  color: var(--sand);
+  font-family: var(--display);
+  font-size: clamp(1.3rem, 1rem + 1vw, 1.8rem);
+  font-weight: 700;
+  line-height: 1.3;
+  text-wrap: pretty;
+}
+
 .vb-evidence {
   display: grid;
   gap: 1rem;

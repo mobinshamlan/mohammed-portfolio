@@ -57,6 +57,16 @@ export type Evidence = {
   source: ProjectLink;
   /** When the number was read, e.g. "25 Nov 2026". */
   checked: string;
+  /** A passing CI run on the same commit that runs these tests. Without one, the count was taken locally. */
+  run?: { href: string; date: string };
+};
+
+/** A product result, such as usage or a customer decision. Only from the owner, with a source. */
+export type Outcome = {
+  text: string;
+  /** When it was true, e.g. "Dec 2026". */
+  date: string;
+  source: ProjectLink;
 };
 
 export type Proof = {
@@ -66,6 +76,8 @@ export type Proof = {
   moments: { time: string; label: string }[];
   /** Annotations under the figure. */
   notes: string[];
+  /** Shown before the evidence when present. Leave empty until the owner supplies a sourced result. */
+  outcome?: Outcome;
   /** Checked numbers from the public repository. Never traction claims. */
   evidence?: Evidence[];
 };
@@ -154,6 +166,7 @@ export const projects: Project[] = [
           label: "automated tests pass: 2,774 in Vitest and 134 for the voice bridge. 162 database tests need Postgres and were skipped.",
           source: { label: "Test setup at fee47bd", href: "https://github.com/justAbdulaziz10/Naqah/blob/fee47bd/vitest.config.ts" },
           checked: EVIDENCE_CHECKED,
+          run: { href: "https://github.com/justAbdulaziz10/Naqah/actions/runs/43485948279", date: "13 Nov 2026" },
         },
         {
           kind: "commits",
@@ -570,6 +583,7 @@ export const projects: Project[] = [
           label: "automated tests pass, covering the score, the AI guards, share links and the sky timeline.",
           source: { label: "Tests at 2f29fad", href: "https://github.com/mobinshamlan/kashta/tree/2f29fad/tests" },
           checked: EVIDENCE_CHECKED,
+          run: { href: "https://github.com/mobinshamlan/kashta/actions/runs/45579659392", date: "25 Nov 2026" },
         },
         {
           kind: "commits",

@@ -348,6 +348,17 @@ export function CaseBody({
             {project.proof.title}
           </h2>
         </Reveal>
+        {project.proof.outcome ? (
+          <Reveal delay={0.03}>
+            <p className="vb-outcome">
+              {project.proof.outcome.text}{" "}
+              <a href={project.proof.outcome.source.href} className="vb-evidence-source" target="_blank" rel="noreferrer">
+                {project.proof.outcome.source.label}
+              </a>
+              , {project.proof.outcome.date}.
+            </p>
+          </Reveal>
+        ) : null}
         <Reveal delay={0.06}>
           <figure className="vb-proof">
             <DayLine moments={project.proof.moments} label={project.proof.title} className="vb-proof-line" />
@@ -375,6 +386,20 @@ export function CaseBody({
                       <a href={item.source.href} className="vb-evidence-source" target="_blank" rel="noreferrer">
                         {item.source.label}
                       </a>
+                      {item.kind === "tests" ? (
+                        item.run ? (
+                          <>
+                            {" · "}
+                            <a href={item.run.href} className="vb-evidence-source" target="_blank" rel="noreferrer">
+                              Passing CI run, {item.run.date}
+                            </a>
+                          </>
+                        ) : (
+                          <span>
+                            . Counted locally on {item.checked} from a fresh clone; the repo has no CI for these tests.
+                          </span>
+                        )
+                      ) : null}
                     </dd>
                   </div>
                 ))}
