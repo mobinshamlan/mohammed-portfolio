@@ -2,6 +2,7 @@ import { Alexandria, Readex_Pro } from "next/font/google";
 import "./styles/base.css";
 import "./styles/home.css";
 import "./styles/case.css";
+import "./styles/demos.css";
 
 // The portfolio: one display face and one text face, both Arabic and Latin.
 const display = Alexandria({

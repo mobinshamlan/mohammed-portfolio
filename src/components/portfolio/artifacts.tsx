@@ -3,9 +3,9 @@
 import { useState } from "react";
 import { callScript } from "@/lib/naqah-call";
 import { gthrzVisibility } from "@/lib/gthrz";
-import { kashtaExample } from "@/lib/kashta-example";
 import type { ProjectId } from "@/lib/projects";
 import { useHydrated } from "@/lib/use-hydrated";
+import { KashtaScoreDemo } from "./demos/kashta-score";
 
 /**
  * Product artifacts that sit beside each project's decision: small, honest
@@ -258,51 +258,6 @@ export function SeetChat({ compact = false }: { compact?: boolean }) {
   );
 }
 
-/* ---------- Kashta: a worked score ---------- */
-
-export function KashtaScore() {
-  const total = kashtaExample.rows.reduce((sum, r) => sum + r.score * r.weight, 0);
-  return (
-    <div className="vb-art vb-art-kashta" data-ui="">
-      <p className="vb-art-label">
-        A worked Kashta Score. Limits and weights are the app&rsquo;s own (src/lib/score.ts, covered
-        by node:test unit tests); the five values are what the live app showed for this night.
-      </p>
-      <p className="vb-art-h">
-        {kashtaExample.site}, {kashtaExample.night}
-      </p>
-      <table className="vb-art-table vb-art-score">
-        <thead>
-          <tr>
-            <th scope="col">Factor</th>
-            <th scope="col">Forecast</th>
-            <th scope="col">Rule</th>
-            <th scope="col">0–100</th>
-            <th scope="col">Weight</th>
-          </tr>
-        </thead>
-        <tbody>
-          {kashtaExample.rows.map((row) => (
-            <tr key={row.factor}>
-              <th scope="row">{row.factor}</th>
-              <td data-label="Forecast">{row.value}</td>
-              <td data-label="Rule">{row.rule}</td>
-              <td data-label="Score">{row.score}</td>
-              <td data-label="Weight">{row.weight}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-      <p className="vb-art-sum">
-        Weighted sum: 0.3 × 100 + 0.3 × 100 + 0.2 × 100 + 0.15 × 93 + 0.05 × 100 ={" "}
-        {total.toFixed(2)}, rounded to <strong>{Math.round(total)}</strong>. The live app showed{" "}
-        <strong>{kashtaExample.liveScore}</strong>. No reading crossed a danger limit, so the 35-point
-        cap did not apply; a missing measurement would have given no number at all.
-      </p>
-    </div>
-  );
-}
-
 /* ---------- Amanah: proving ownership privately ---------- */
 
 export function AmanahQuestions() {
@@ -403,7 +358,7 @@ export function DecisionArtifact({ id }: { id: ProjectId }) {
     case "seet":
       return <SeetChat />;
     case "kashta":
-      return <KashtaScore />;
+      return <KashtaScoreDemo />;
     case "amanah":
       return <AmanahQuestions />;
     case "gthrz":

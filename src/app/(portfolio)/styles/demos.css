@@ -1,0 +1,203 @@
+/* Project demos: small, labelled simulations of each product's core mechanic.
+   They sit on the night surface of .vb-art on case pages and pick up the
+   project's field colours inside a homepage section (.vb-proj). */
+
+.vb-demo {
+  --demo-surface: var(--night-3);
+  --demo-ink: var(--sand);
+  --demo-muted: var(--sand-2);
+  --demo-accent: var(--ember);
+  --demo-accent-ink: var(--ember-ink);
+  --demo-line: color-mix(in srgb, var(--sand) 16%, transparent);
+}
+
+.vb-proj .vb-demo {
+  --demo-surface: color-mix(in srgb, var(--field) 14%, transparent);
+  --demo-ink: var(--field);
+  --demo-muted: color-mix(in srgb, var(--field) 75%, var(--field-ink));
+  --demo-accent: var(--field);
+  --demo-accent-ink: var(--field-ink);
+  --demo-line: color-mix(in srgb, var(--field) 24%, transparent);
+}
+
+/* ---------- Shared: the "Simulated" tag and the one-line instruction ---------- */
+
+.vb-demo-hint {
+  color: var(--demo-muted, var(--sand-2));
+  font-size: var(--step-small);
+  line-height: 1.45;
+}
+
+.vb-demo-tag {
+  display: inline-block;
+  margin-inline-end: 0.5rem;
+  padding: 0.05rem 0.5rem;
+  border: 1px solid color-mix(in srgb, currentColor 55%, transparent);
+  border-radius: 999px;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  line-height: 1.5;
+  vertical-align: 0.05em;
+}
+
+.vb-call-sub .vb-demo-tag {
+  margin-inline-end: 0.4rem;
+}
+
+.vb-demo-reset {
+  justify-self: start;
+}
+
+.vb .vb-demo .vb-btn:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.vb .vb-demo .vb-btn:disabled:active {
+  transform: none;
+}
+
+/* ---------- Kashta: the score, live ---------- */
+
+.vb-demo-kashta-top {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 1.25rem;
+}
+
+.vb-demo-kashta-score {
+  display: grid;
+  min-width: 5.5rem;
+  line-height: 1;
+}
+
+.vb-demo-kashta-score strong {
+  font-family: var(--display);
+  font-size: clamp(3rem, 2.2rem + 3vw, 4.5rem);
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.03em;
+}
+
+.vb-demo-kashta-score span {
+  margin-top: 0.3rem;
+  color: var(--ok);
+  font-size: var(--step-small);
+  font-weight: 500;
+}
+
+.vb-demo-kashta-score[data-capped="true"] strong,
+.vb-demo-kashta-score[data-capped="true"] span {
+  color: var(--danger);
+}
+
+.vb-demo-kashta-where {
+  flex: 1 1 14rem;
+  color: var(--demo-muted);
+  font-size: var(--step-small);
+}
+
+.vb-demo-sliders {
+  display: grid;
+  gap: 0.6rem;
+}
+
+.vb-demo-kashta-top .vb-demo-reset {
+  margin-inline-start: auto;
+}
+
+.vb-demo-slider label {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  font-weight: 500;
+}
+
+.vb-demo-slider[data-danger="true"] output {
+  color: var(--danger);
+}
+
+.vb-demo-rule {
+  margin-top: -0.2rem;
+  color: var(--demo-muted);
+  font-size: 0.8125rem;
+}
+
+/* A 44px-tall touch target with a thin track coloured by the score's own limits. */
+.vb-demo-slider input[type="range"] {
+  --zones: linear-gradient(
+    to right,
+    var(--ok) 0 var(--good),
+    var(--ember) var(--good) var(--bad),
+    var(--danger) var(--bad) 100%
+  );
+  width: 100%;
+  height: 2.75rem;
+  margin: 0;
+  background: transparent;
+  cursor: pointer;
+  appearance: none;
+}
+
+.vb-demo-slider input[type="range"]::-webkit-slider-runnable-track {
+  height: 0.375rem;
+  border-radius: 999px;
+  background: var(--zones);
+}
+
+.vb-demo-slider input[type="range"]::-moz-range-track {
+  height: 0.375rem;
+  border-radius: 999px;
+  background: var(--zones);
+}
+
+.vb-demo-slider input[type="range"]::-webkit-slider-thumb {
+  width: 1.5rem;
+  height: 1.5rem;
+  margin-top: -0.5625rem;
+  border: 3px solid var(--night);
+  border-radius: 50%;
+  background: var(--sand);
+  box-shadow: 0 2px 6px rgb(0 0 0 / 0.45);
+  appearance: none;
+}
+
+.vb-demo-slider input[type="range"]::-moz-range-thumb {
+  width: 1.5rem;
+  height: 1.5rem;
+  border: 3px solid var(--night);
+  border-radius: 50%;
+  background: var(--sand);
+  box-shadow: 0 2px 6px rgb(0 0 0 / 0.45);
+}
+
+.vb-demo-slider input[type="range"]:focus-visible {
+  outline: 2px solid var(--ember);
+  outline-offset: 2px;
+  border-radius: 0.4rem;
+}
+
+.vb-demo-points {
+  color: var(--demo-muted);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.vb-demo-points strong {
+  color: var(--demo-ink);
+}
+
+.vb-demo-slider output {
+  margin-inline-start: 0.35rem;
+  color: var(--demo-muted);
+  font-weight: 400;
+}
+
+.vb-demo-held {
+  padding-top: 0.6rem;
+  border-top: 1px solid var(--demo-line);
+  color: var(--demo-muted);
+  font-size: var(--step-small);
+}
