@@ -132,7 +132,7 @@ export function Jumper() {
         onClick={open}
         aria-haspopup="dialog"
       >
-        Jump to
+        <span lang="ar">وين؟</span> Jump to
         <kbd aria-hidden="true">⌘K</kbd>
       </button>
       <dialog
@@ -155,7 +155,7 @@ export function Jumper() {
       >
         <div className="vb-jump-body">
           <label htmlFor={`${listId}-q`} className="vb-jump-label">
-            Where to?
+            Where to tonight? <span lang="ar">وين الليلة؟</span>
           </label>
           <input
             ref={input}

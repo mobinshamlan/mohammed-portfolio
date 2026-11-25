@@ -3,12 +3,14 @@ import { childhood, graduation } from "@/lib/portrait";
 import { Collapsible } from "./collapsible";
 import { MusicShelf } from "./music-shelf";
 import { Reveal } from "./reveal";
+import { NightMark } from "./sky";
 
 export function About() {
   return (
     <section id="about" className="vb-about" aria-labelledby="about-title">
       <div className="vb-about-grid">
         <div className="vb-about-copy">
+          <NightMark part="lastThird" />
           <Reveal>
             <h2 id="about-title" className="vb-section-head">
               Where I come from.

@@ -1,7 +1,6 @@
 /**
- * A line of moments: the motif of the site, taken from the day timelines on
- * Naqah's and Tammeni's own landing pages. Dots on a rail, each with a time
- * and a label. `active` fills the dots up to that index.
+ * Moments of an evening, set side by side as blocks of time, each with a time
+ * and a label. `active` lights the blocks up to that index; it is the current one.
  */
 export type Moment = { time: string; label: string };
 

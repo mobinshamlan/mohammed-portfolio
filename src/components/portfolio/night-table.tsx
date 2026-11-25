@@ -5,18 +5,18 @@ import { useRef } from "react";
 import { projects } from "@/lib/projects";
 
 /**
- * The work as a line of moments: every project is a point on one night line,
- * in the order it was built, with its month and status. Arrow keys move along
- * the line; Home and End jump to the ends.
+ * Every project in the order it was built, set like a timetable: the months
+ * in the first column, the name in Latin and Arabic, then where it stands.
+ * Up and down arrows move between rows; Home and End jump to the ends.
  */
-export function WorkLine() {
+export function NightTable() {
   const refs = useRef<(HTMLAnchorElement | null)[]>([]);
   const ordered = [...projects].sort((a, b) => order(a) - order(b));
 
   function onKeyDown(event: React.KeyboardEvent<HTMLElement>, index: number) {
     const moves: Record<string, number> = {
-      ArrowRight: index + 1,
-      ArrowLeft: index - 1,
+      ArrowDown: index + 1,
+      ArrowUp: index - 1,
       Home: 0,
       End: ordered.length - 1,
     };
@@ -28,13 +28,13 @@ export function WorkLine() {
   }
 
   return (
-    <nav id="all-projects" className="vb-workline" aria-label="All projects, in the order they were built">
-      <ol className="vb-workline-list">
+    <nav id="all-projects" className="vb-table" aria-label="All projects, in the order they were built">
+      <ol className="vb-table-list">
         {ordered.map((project, index) => (
           <li
             key={project.id}
-            className="vb-workline-point"
-            style={{ "--field": project.field } as React.CSSProperties}
+            className="vb-table-row"
+            style={{ "--field": project.field, "--field-ink": project.fieldInk } as React.CSSProperties}
           >
             <Link
               ref={(node) => {
@@ -42,16 +42,19 @@ export function WorkLine() {
               }}
               href={project.href ?? `/projects/${project.id}`}
               prefetch={false}
-              className="vb-workline-link"
+              className="vb-table-link"
               onKeyDown={(event) => onKeyDown(event, index)}
             >
-              <span className="vb-workline-dot" aria-hidden="true" />
-              <span className="vb-workline-date">{project.dates}</span>
-              <span className="vb-workline-name">
-                {project.name}
-                {project.arabic ? <span lang="ar">{project.arabic}</span> : null}
-              </span>
-              <span className="vb-workline-status">{project.statusChip}</span>
+              <span className="vb-table-date">{project.dates}</span>
+              <span className="vb-table-name">{project.name}</span>
+              {project.arabic ? (
+                <span className="vb-table-ar" lang="ar">
+                  {project.arabic}
+                </span>
+              ) : (
+                <span className="vb-table-ar" aria-hidden="true" />
+              )}
+              <span className="vb-table-status">{project.statusChip}</span>
             </Link>
           </li>
         ))}

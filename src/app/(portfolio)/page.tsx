@@ -9,7 +9,6 @@ import { Journey } from "@/components/portfolio/journey";
 import { Nav } from "@/components/portfolio/nav";
 import { MotionRoot } from "@/components/portfolio/reveal";
 import { Skills } from "@/components/portfolio/skills";
-import { Thread } from "@/components/portfolio/thread";
 
 export const metadata: Metadata = {
   title: { absolute: "Mohammed Bin Shamlan — AI products for real Saudi life" },
@@ -35,7 +34,6 @@ export default function HomePage() {
         <Contact />
       </main>
       <Footer />
-      <Thread />
     </>
   );
 }

@@ -1,95 +1,18 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
 import { contact } from "@/lib/contact";
 import { callScript } from "@/lib/naqah-call";
 import { EVIDENCE_CHECKED, projects } from "@/lib/projects";
-import { publicUrl } from "@/lib/site";
-import { tonightInRiyadh, type Tonight } from "@/lib/riyadh";
-import { DayLine } from "./dayline";
+import { Horizon, Moon, NightMark } from "./sky";
 
-const sky = {
-  src: publicUrl("/images/projects/credits/alula-night-sky.jpg"),
-  src640: publicUrl("/images/projects/credits/alula-night-sky-640.jpg"),
-  src1000: publicUrl("/images/projects/credits/alula-night-sky-1000.jpg"),
-  alt: "The Milky Way seen through a gap between two sandstone cliffs at night in AlUla, Saudi Arabia.",
-  width: 1067,
-  height: 1600,
-};
-
-/** The moon drawn from its real phase: a dark disc and the lit part. */
-function Moon({ phase, illumination }: { phase: number; illumination: number }) {
-  const waxing = phase < 0.5;
-  const r = 16;
-  const k = Math.cos(phase * 2 * Math.PI);
-  const tx = Math.abs(k) * r;
-  const outer = `M 18 2 A ${r} ${r} 0 0 1 18 34`;
-  const inner = k >= 0 ? `A ${tx} ${r} 0 0 0 18 2` : `A ${tx} ${r} 0 0 1 18 2`;
+/** The horizon at sunset: tonight's moon in the sky, the sun going down behind the far dune. */
+function HeroSky() {
   return (
-    <svg
-      className="vb-moon"
-      viewBox="0 0 36 36"
-      width="36"
-      height="36"
-      aria-hidden="true"
-      focusable="false"
-    >
-      <circle cx="18" cy="18" r={r} className="vb-moon-dark" />
-      <path
-        d={`${outer} ${inner} Z`}
-        className="vb-moon-lit"
-        style={{ opacity: Math.max(0.15, illumination) }}
-        transform={waxing ? undefined : "scale(-1,1) translate(-36,0)"}
-      />
-    </svg>
-  );
-}
-
-/** Tonight in Riyadh, Kashta's forecast city: time, sun and moon computed in the browser. */
-function TonightStrip() {
-  const [tonight, setTonight] = useState<Tonight | null>(null);
-
-  useEffect(() => {
-    const tick = () => setTonight(tonightInRiyadh());
-    tick();
-    const id = window.setInterval(tick, 30000);
-    return () => window.clearInterval(id);
-  }, []);
-
-  const percent = tonight ? Math.round(tonight.moon.illumination * 100) : null;
-  const moments = tonight
-    ? [
-        { time: tonight.sunset, label: "Sun sets" },
-        { time: tonight.time, label: tonight.night ? "Now, night" : "Now, day" },
-        { time: tonight.sunrise, label: "Sun rises" },
-      ]
-    : [
-        { time: "--:--", label: "Sun sets" },
-        { time: "--:--", label: "Now" },
-        { time: "--:--", label: "Sun rises" },
-      ];
-
-  return (
-    <div className="vb-tonight" aria-live="polite">
-      <div className="vb-tonight-moon">
-        {tonight ? (
-          <Moon phase={tonight.moon.phase} illumination={tonight.moon.illumination} />
-        ) : (
-          <span className="vb-moon" aria-hidden="true" />
-        )}
-        <p>
-          <strong>Tonight in Riyadh</strong>
-          <span>
-            {tonight ? `${tonight.moon.name}, ${percent}% lit.` : "Reading the sky."}{" "}
-            Computed here from the date, for Kashta&rsquo;s forecast city.{" "}
-            <Link href="/projects/kashta#how-title" prefetch={false} className="vb-tonight-link">
-              How Kashta scores a night
-            </Link>
-          </span>
-        </p>
-      </div>
-      <DayLine moments={moments} active={1} label="Riyadh tonight" />
+    <div className="vb-hero-horizon" aria-hidden="true">
+      <Moon className="vb-moon vb-hero-moon" size={96} />
+      <span className="vb-hero-sun" />
+      <Horizon />
     </div>
   );
 }
@@ -106,8 +29,8 @@ function HeroArtifact() {
       <p className="vb-hero-art-label">One answer on a Naqah call. Simulated sample.</p>
       <ol className="vb-hero-steps">
         <li className="vb-hero-step">
-          <span className="vb-hero-step-dot" aria-hidden="true" />
-          <span className="vb-hero-step-who">The worker answers, 5:40 pm</span>
+          <span className="vb-hero-step-time">5:40 pm</span>
+          <span className="vb-hero-step-who">The worker answers</span>
           {worker && worker.kind === "worker" ? (
             <>
               <span className="vb-hero-step-ar" lang="ar">
@@ -118,7 +41,7 @@ function HeroArtifact() {
           ) : null}
         </li>
         <li className="vb-hero-step">
-          <span className="vb-hero-step-dot" aria-hidden="true" />
+          <span className="vb-hero-step-time">5:44 pm</span>
           <span className="vb-hero-step-who">Saved as a record, audio discarded</span>
           {fact && fact.kind === "fact" ? (
             <span className="vb-hero-step-fact">
@@ -127,9 +50,9 @@ function HeroArtifact() {
             </span>
           ) : null}
         </li>
-        <li className="vb-hero-step">
-          <span className="vb-hero-step-dot" aria-hidden="true" />
-          <span className="vb-hero-step-who">The owner is alerted, 7:00 pm</span>
+        <li className="vb-hero-step" data-alert="true">
+          <span className="vb-hero-step-time">7:00 pm</span>
+          <span className="vb-hero-step-who">The owner is alerted</span>
           <span className="vb-hero-step-en vb-hero-step-owner">
             Wadha has not drunk since morning.
           </span>
@@ -184,12 +107,13 @@ export function Hero() {
   return (
     <section id="home" className="vb-hero" aria-labelledby="hero-title">
       <div className="vb-hero-copy">
+        <NightMark part="sunset" className="vb-hero-hour" />
         <h1 id="hero-title" className="vb-hero-title" data-rise="1">
-          Mohammed Bin&nbsp;Shamlan
+          <span className="vb-hero-name">Mohammed Bin&nbsp;Shamlan</span> builds Arabic-first AI for
+          real Saudi life.
         </h1>
         <p className="vb-hero-role" data-rise="2">
-          Software developer in Saudi Arabia. I build Arabic-first AI products
-          for real Saudi life.
+          Software developer in Saudi Arabia.
           <span lang="ar">أبني منتجات ذكاء اصطناعي، بالعربي أولاً، لحياة سعودية حقيقية</span>
         </p>
         {naqahOutcome ? (
@@ -232,26 +156,7 @@ export function Hero() {
         <HeroEvidence />
       </div>
 
-      <div className="vb-hero-strip" data-rise="6">
-        <TonightStrip />
-        <figure className="vb-hero-sky">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src={sky.src640}
-            srcSet={`${sky.src640} 640w, ${sky.src1000} 1000w`}
-            sizes="(max-width: 899px) 100vw, 30vw"
-            alt={sky.alt}
-            width={sky.width}
-            height={sky.height}
-            loading="lazy"
-            decoding="async"
-            className="vb-hero-sky-img"
-          />
-          <figcaption className="vb-hero-sky-cap">
-            The sky over AlUla. Photo: Saudi Press Agency.
-          </figcaption>
-        </figure>
-      </div>
+      <HeroSky />
     </section>
   );
 }

@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { gthrzShots } from "@/lib/gthrz";
+import { publicUrl } from "@/lib/site";
 import { fieldStyle, projectById, type Project, type ProjectId } from "@/lib/projects";
 import { SeetChat } from "./artifacts";
 import { CallDemo } from "./call-demo";
@@ -13,7 +14,8 @@ import { TammeniScheduleDemo } from "./demos/tammeni-schedule";
 import { DeviceFrame } from "./device-frame";
 import { GthrzImg } from "./gthrz-img";
 import { Reveal } from "./reveal";
-import { WorkLine } from "./workline";
+import { NightTable } from "./night-table";
+import { MoonFacts, NightMark } from "./sky";
 
 function projectHref(project: Project) {
   return project.href ?? `/projects/${project.id}`;
@@ -261,7 +263,7 @@ function Experiment() {
   return (
     <aside className="vb-exp" aria-labelledby="exp-title" style={fieldStyle(project)}>
       <div className="vb-exp-copy">
-        <p className="vb-proj-kind">Also on the work line</p>
+        <p className="vb-proj-kind">The seventh project</p>
         <h3 id="exp-title" className="vb-exp-name">
           <Link href={projectHref(project)} prefetch={false}>
             {project.name}
@@ -282,29 +284,65 @@ function Experiment() {
   );
 }
 
+/* ---------- Midnight: the darkest point of the night, before the desert planner ---------- */
+
+const sky = {
+  src640: publicUrl("/images/projects/credits/alula-night-sky-640.jpg"),
+  src1000: publicUrl("/images/projects/credits/alula-night-sky-1000.jpg"),
+  alt: "The Milky Way seen through a gap between two sandstone cliffs at night in AlUla, Saudi Arabia.",
+  width: 1067,
+  height: 1600,
+};
+
+function Midnight() {
+  return (
+    <div className="vb-midnight">
+      <div className="vb-midnight-copy">
+        <NightMark part="midnight" className="vb-midnight-hour" />
+        <MoonFacts />
+      </div>
+      <figure className="vb-midnight-sky">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={sky.src640}
+          srcSet={`${sky.src640} 640w, ${sky.src1000} 1000w`}
+          sizes="(max-width: 899px) 1px, 45vw"
+          alt={sky.alt}
+          width={sky.width}
+          height={sky.height}
+          loading="lazy"
+          decoding="async"
+        />
+        <figcaption>The sky over AlUla. Photo: Saudi Press Agency.</figcaption>
+      </figure>
+    </div>
+  );
+}
+
 export function Covers() {
   return (
     <section id="work" className="vb-work" aria-labelledby="work-title">
       <div className="vb-work-head">
-        <Reveal>
-          <h2 id="work-title" className="vb-section-head">
-            Six products, one decision each.
-          </h2>
-        </Reveal>
-        <Reveal delay={0.1}>
-          <p className="vb-lead vb-work-lead">
-            A ranch, a school, an ads inbox, a desert night, a lost umbrella and a private party.
-            Each section shows the choice that shaped the product.{" "}
-            <Link href="#all-projects" className="vb-link vb-work-all">
-              All seven projects on one line
-            </Link>
-          </p>
-        </Reveal>
+        <div className="vb-work-intro">
+          <NightMark part="nightfall" />
+          <Reveal>
+            <h2 id="work-title" className="vb-section-head">
+              Six products, one decision each.
+            </h2>
+          </Reveal>
+          <Reveal delay={0.1}>
+            <p className="vb-lead vb-work-lead">
+              A ranch, a school, an ads inbox, a desert night, a lost umbrella and a private party.
+              Each section shows the choice that shaped the product.
+            </p>
+          </Reveal>
+        </div>
+        <NightTable />
       </div>
       <Naqah />
-      <WorkLine />
       <Tammeni />
       <Seet />
+      <Midnight />
       <Kashta />
       <Amanah />
       <Gthrz />

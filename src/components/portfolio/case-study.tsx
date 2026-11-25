@@ -9,7 +9,7 @@ import { DeviceFrame } from "./device-frame";
 import { Footer } from "./footer";
 import { Nav } from "./nav";
 import { MotionRoot, Reveal } from "./reveal";
-import { Thread } from "./thread";
+import { NightMark } from "./sky";
 
 /** How it works: actors and actions drawn as a flow, left to right on wide screens. */
 export function Flow({ project }: { project: Project }) {
@@ -276,6 +276,7 @@ export function CaseBody({
     <>
       <section className="vb-case-section vb-case-problem" aria-labelledby="problem-title">
         <Reveal>
+          <NightMark part="nightfall" className="vb-case-hour" />
           <h2 id="problem-title" className="vb-case-h2">
             The problem
           </h2>
@@ -462,7 +463,11 @@ export function CaseBody({
         </div>
       </section>
 
-      <nav className="vb-case-next" aria-label="More projects">
+      <nav
+        className="vb-case-next"
+        aria-label="More projects"
+        style={{ "--first-field": previous.field } as CSSProperties}
+      >
         <Link
           href={hrefOf(previous)}
           prefetch={previous.id === "experiment" ? false : undefined}
@@ -514,19 +519,13 @@ export function CasePage({
         field={project.field}
         fieldInk={project.fieldInk}
       />
-      {/* On the night, a light field's accent is too dark to see; its field colour carries the thread. */}
-      <main
-        id="case"
-        className="vb-case"
-        style={{ "--thread": project.light ? project.field : project.accent } as CSSProperties}
-      >
+      <main id="case" className="vb-case">
         <CaseHero project={project} art={art} />
         <CaseBody project={project} before={before}>
           {children}
         </CaseBody>
       </main>
       <Footer />
-      <Thread variant="case" />
     </>
   );
 }

@@ -11,8 +11,9 @@ function julianDay(date: Date) {
   return date.getTime() / 86400000 + 2440587.5;
 }
 
-/** Sunrise and sunset in UTC hours for the given date at Riyadh (NOAA approximation). */
-function sunTimesUtc(date: Date) {
+/** Sunrise and sunset in UTC for the given date at Riyadh (NOAA approximation). `depth` is the
+ * sun's altitude that counts as the event: −0.833° for the visible edge, −18.5° for dawn. */
+function sunTimesUtc(date: Date, depth = -0.833) {
   const jd = julianDay(date);
   const n = Math.ceil(jd - 2451545.0 + 0.0008);
   // Mean solar noon: longitude east is positive here, so the sun crosses earlier than at Greenwich.
@@ -30,7 +31,7 @@ function sunTimesUtc(date: Date) {
     0.0069 * Math.sin(2 * lambda * rad);
   const decl = Math.asin(Math.sin(lambda * rad) * Math.sin(23.4397 * rad));
   const cosHa =
-    (Math.sin(-0.833 * rad) - Math.sin(RIYADH.lat * rad) * Math.sin(decl)) /
+    (Math.sin(depth * rad) - Math.sin(RIYADH.lat * rad) * Math.sin(decl)) /
     (Math.cos(RIYADH.lat * rad) * Math.cos(decl));
   const ha = Math.acos(Math.max(-1, Math.min(1, cosHa))) / rad;
   const set = jTransit + ha / 360;
@@ -83,6 +84,73 @@ export type Tonight = {
   sunrise: string;
   moon: MoonPhase;
 };
+
+/** The parts of one night, named the way the night is named in Arabic. */
+export type NightPart = "sunset" | "nightfall" | "midnight" | "lastThird" | "dawn" | "sunrise";
+
+export const nightParts: Record<NightPart, { ar: string; en: string }> = {
+  sunset: { ar: "الغروب", en: "Sunset" },
+  nightfall: { ar: "العشاء", en: "Nightfall" },
+  midnight: { ar: "منتصف الليل", en: "Midnight" },
+  lastThird: { ar: "الثلث الأخير", en: "The last third" },
+  dawn: { ar: "الفجر", en: "Dawn" },
+  sunrise: { ar: "الشروق", en: "Sunrise" },
+};
+
+export type Night = {
+  /** Clock time of each part tonight in Riyadh, "HH:MM". */
+  times: Record<NightPart, string>;
+  /** Tonight's date in the Umm al-Qura calendar; the day turns at sunset. */
+  hijri: { ar: string; en: string };
+  moon: MoonPhase;
+};
+
+const DAY = 86400000;
+
+/**
+ * Tonight from sunset to sunrise. Before noon the night in question is the
+ * one that is ending. Nightfall is the Isha time of the Umm al-Qura calendar
+ * (90 minutes after sunset); midnight and the last third divide the night
+ * from sunset to dawn; dawn is the sun 18.5° below the horizon.
+ */
+export function nightInRiyadh(now = new Date()): Night {
+  const timeFormat = new Intl.DateTimeFormat("en-GB", {
+    hour: "2-digit",
+    minute: "2-digit",
+    timeZone: RIYADH.zone,
+  });
+  const hour = Number(
+    new Intl.DateTimeFormat("en-GB", { hour: "numeric", hour12: false, timeZone: RIYADH.zone }).format(now),
+  ) % 24;
+  const evening = hour < 12 ? new Date(now.getTime() - DAY) : now;
+  const morning = new Date(evening.getTime() + DAY);
+  const set = sunTimesUtc(evening).set;
+  const rise = sunTimesUtc(morning).rise;
+  const dawn = sunTimesUtc(morning, -18.5).rise;
+  const span = dawn.getTime() - set.getTime();
+  const at = (ms: number) => timeFormat.format(new Date(ms));
+  // The Hijri day begins at sunset, so after sunset it is already tomorrow's date.
+  const hijriDay = now > sunTimesUtc(now).set ? new Date(now.getTime() + DAY) : now;
+  const hijri = (locale: string) =>
+    new Intl.DateTimeFormat(`${locale}-u-ca-islamic-umalqura`, {
+      day: "numeric",
+      month: "long",
+      year: "numeric",
+      timeZone: RIYADH.zone,
+    }).format(hijriDay);
+  return {
+    times: {
+      sunset: at(set.getTime()),
+      nightfall: at(set.getTime() + 90 * 60000),
+      midnight: at(set.getTime() + span / 2),
+      lastThird: at(set.getTime() + (span * 2) / 3),
+      dawn: at(dawn.getTime()),
+      sunrise: at(rise.getTime()),
+    },
+    hijri: { ar: hijri("ar-SA"), en: hijri("en") },
+    moon: moonPhase(now),
+  };
+}
 
 export function tonightInRiyadh(now = new Date()): Tonight {
   const timeFormat = new Intl.DateTimeFormat("en-GB", {

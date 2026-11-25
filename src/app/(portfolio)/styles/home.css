@@ -1,12 +1,15 @@
 /* Portfolio home: hero, covers, about, journey, skills, certificates, contact. */
 
-/* ---------- Hero ---------- */
+/* ---------- Hero: sunset over the desert ---------- */
 
 .vb-hero {
+  --dune-h: clamp(3rem, 6.5vw, 6.5rem);
+  position: relative;
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: minmax(0, 1fr);
   gap: 2rem;
-  padding: clamp(1.5rem, 4vw, 3rem) var(--gutter) clamp(2rem, 4vw, 3rem);
+  padding: clamp(1.5rem, 4vw, 3rem) var(--gutter) 0;
+  background: var(--dusk);
   scroll-margin-top: 5rem;
 }
 
@@ -22,16 +25,20 @@
 }
 
 .vb-hero-title {
-  max-width: 9ch;
-  font-size: clamp(2.8rem, 1rem + 6.3vw, 7rem);
+  max-width: 21ch;
+  font-size: clamp(2rem, 1rem + 2.8vw, 4rem);
   font-weight: 800;
-  line-height: 0.92;
-  letter-spacing: -0.04em;
+  line-height: 1;
+  letter-spacing: -0.035em;
+}
+
+.vb-hero-name {
+  display: block;
 }
 
 .vb-hero-role {
   max-width: 40ch;
-  font-size: clamp(1.15rem, 1rem + 0.9vw, 1.55rem);
+  font-size: clamp(1.1rem, 1rem + 0.6vw, 1.4rem);
   font-weight: 500;
   line-height: 1.3;
   text-wrap: pretty;
@@ -40,7 +47,7 @@
 .vb-hero-role span[lang="ar"] {
   display: block;
   margin-top: 0.4rem;
-  font-size: 0.78em;
+  font-size: 0.92em;
   font-weight: 700;
   line-height: 1.6;
   color: var(--ember);
@@ -76,13 +83,11 @@
   text-decoration-thickness: 2px;
 }
 
-/* Checked numbers under the opening's visual: a ledger, one entry per repository.
-   It sits in the card's text column, leaving the lane under the alert dot clear
-   for the thread that leaves it. */
+/* Checked numbers under the call: one entry per repository. */
 .vb-hero-evidence {
   display: grid;
   gap: 0.35rem;
-  padding-left: calc(var(--hero-card-pad) + var(--hero-step-indent));
+  padding-inline: var(--hero-card-pad);
 }
 
 .vb-hero-evidence-head {
@@ -171,10 +176,9 @@
   background: var(--ok);
 }
 
-/* The opening's visual: quote → fact → alert on the line of moments. */
+/* The call, set like an evening's timetable: the time, then what happened. */
 .vb-hero-visual {
   --hero-card-pad: 1.4rem;
-  --hero-step-indent: 1.6rem;
   display: grid;
   gap: 1rem;
   align-self: center;
@@ -182,10 +186,10 @@
 
 .vb-hero-art {
   display: grid;
-  gap: 1rem;
+  gap: 1.1rem;
   padding: 1.25rem var(--hero-card-pad);
   border-radius: 0.75rem;
-  background: var(--night-2);
+  background: var(--dusk-2);
 }
 
 .vb-hero-art-label {
@@ -202,34 +206,25 @@
 }
 
 .vb-hero-step {
-  position: relative;
   display: grid;
-  gap: 0.25rem;
-  padding-left: var(--hero-step-indent);
+  grid-template-columns: 4.25rem minmax(0, 1fr);
+  column-gap: 0.9rem;
+  row-gap: 0.25rem;
+  align-items: baseline;
 }
 
-.vb-hero-step::before {
-  content: "";
-  position: absolute;
-  left: 0.42rem;
-  top: 0.9rem;
-  bottom: -1.2rem;
-  width: 2px;
-  background: var(--ember);
+.vb-hero-step > :not(.vb-hero-step-time) {
+  grid-column: 2;
 }
 
-.vb-hero-step:last-child::before {
-  display: none;
-}
-
-.vb-hero-step-dot {
-  position: absolute;
-  left: 0;
-  top: 0.3rem;
-  width: 0.95rem;
-  height: 0.95rem;
-  border-radius: 50%;
-  background: var(--ember);
+.vb-hero-step-time {
+  grid-row: 1 / span 3;
+  color: var(--ember);
+  font-family: var(--display);
+  font-size: 1rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
 }
 
 .vb-hero-step-who {
@@ -256,138 +251,107 @@
   gap: 0.25rem 1rem;
   padding: 0.6rem 0.8rem;
   border-radius: 0.5rem;
-  background: var(--night-3);
+  background: var(--dusk-3);
 }
 
 .vb-hero-step-fact strong {
   color: var(--ember);
 }
 
+/* The alert arrives like a message on the owner's phone. */
 .vb-hero-step-owner {
+  justify-self: start;
+  padding: 0.55rem 0.85rem;
+  border-radius: 0.9rem 0.9rem 0.9rem 0.25rem;
+  background: var(--ember);
+  color: var(--ember-ink);
   font-size: var(--step-body);
   font-weight: 500;
-  color: var(--sand);
 }
 
 .vb-hero-art-link {
   justify-self: start;
-  margin-left: var(--hero-step-indent);
+  margin-left: calc(4.25rem + 0.9rem);
 }
 
-.vb-hero-strip {
+/* The horizon: tonight's moon above two dune lines; the sun goes down behind the far one. */
+.vb-hero-horizon {
   grid-column: 1 / -1;
-  display: grid;
-  gap: 1rem;
-}
-
-.vb-hero-sky {
   position: relative;
-  margin: 0;
-  overflow: hidden;
-  border-radius: 0.5rem;
-  aspect-ratio: 16 / 9;
-  background: var(--night-2);
+  height: calc(var(--dune-h) * 1.5);
+  margin-inline: calc(var(--gutter) * -1);
 }
 
-.vb-hero-sky-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: 50% 55%;
-}
-
-.vb[data-motion="on"] .vb-hero-sky-img {
-  transform: scale(1.04);
-  animation: vb-drift 28s var(--ease-soft) infinite alternate;
-}
-
-@keyframes vb-drift {
-  from {
-    transform: scale(1.04) translateY(1.5%);
-  }
-  to {
-    transform: scale(1.1) translateY(-1.5%);
-  }
-}
-
-.vb-hero-sky-cap {
+.vb-horizon {
   position: absolute;
-  left: 1rem;
-  bottom: 0.9rem;
-  padding: 0.3rem 0.6rem;
-  background: rgba(8, 10, 16, 0.72);
-  color: var(--sand);
-  font-size: 0.8125rem;
-  border-radius: 0.25rem;
+  left: 0;
+  bottom: -1px;
+  width: 100%;
+  height: var(--dune-h);
 }
 
-.vb-tonight {
-  display: grid;
-  gap: 1.25rem 2.5rem;
-  padding: 1.25rem 1.4rem;
-  border-radius: 0.5rem;
-  background: var(--night-2);
+.vb-horizon-far {
+  fill: var(--dusk-3);
 }
 
-.vb-tonight-moon {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
+.vb-horizon-near {
+  fill: var(--nightfall);
 }
 
-.vb-tonight-moon p {
-  display: grid;
-  gap: 0.15rem;
-  font-size: var(--step-small);
-  color: var(--sand-2);
+.vb-hero-sun {
+  position: absolute;
+  right: 18%;
+  bottom: calc(var(--dune-h) * 0.35);
+  width: clamp(3rem, 7vw, 6.5rem);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: var(--ember);
 }
 
-.vb-tonight-moon strong {
-  font-family: var(--display);
-  font-size: 1.05rem;
-  font-weight: 700;
-  color: var(--sand);
+.vb-hero-moon {
+  position: absolute;
+  left: 40%;
+  bottom: calc(var(--dune-h) * 0.8);
+  width: clamp(2.75rem, 5.5vw, 5.5rem);
+  height: auto;
 }
 
-.vb-tonight-link {
-  color: var(--sand);
-  text-decoration: underline;
+/* The sun sets and the moon comes up as the page is first read. */
+@media (prefers-reduced-motion: no-preference) {
+  .vb[data-motion="on"] .vb-hero-sun {
+    animation: vb-sunset 2.4s var(--ease-soft) 0.3s both;
+  }
+  .vb[data-motion="on"] .vb-hero-moon {
+    animation: vb-moonrise 2.4s var(--ease-out) 0.5s both;
+  }
 }
 
-.vb-moon {
-  flex: none;
+@keyframes vb-sunset {
+  from {
+    transform: translateY(-55%);
+  }
 }
 
-.vb-moon-dark {
-  fill: var(--night-3);
-}
-
-.vb-moon-lit {
-  fill: var(--sand);
+@keyframes vb-moonrise {
+  from {
+    transform: translateY(60%);
+  }
 }
 
 @media (min-width: 900px) {
   .vb-hero {
     grid-template-columns: 7fr 5fr;
-    /* The first row fills the first screen: name, one action, one answer. The strip waits below. */
-    grid-template-rows: minmax(calc(100svh - var(--nav-h) - 5rem), auto) auto;
+    grid-template-rows: minmax(calc(100svh - var(--nav-h) - 4rem - var(--dune-h) * 1.5), auto) auto;
     column-gap: clamp(2rem, 5vw, 5rem);
+    row-gap: 1rem;
     align-items: center;
   }
   .vb-hero-visual {
     grid-column: 2;
     grid-row: 1;
   }
-  .vb-hero-strip {
-    grid-column: 1 / -1;
+  .vb-hero-horizon {
     grid-row: 2;
-    grid-template-columns: 7fr 5fr;
-    align-items: stretch;
-  }
-  .vb-hero-sky {
-    aspect-ratio: auto;
-    min-height: 100%;
-    max-height: 14rem;
   }
   .vb-hero-actions .vb-hero-secondary {
     min-height: 3rem;
@@ -402,24 +366,227 @@
   scroll-margin-top: 0;
 }
 
-.vb-work-all {
-  display: inline-flex;
-}
-
-@media (min-width: 900px) {
-  .vb-work-all {
-    display: none;
-  }
-}
-
+/* Nightfall: what the work is, and every project in the order it was built. */
 .vb-work-head {
   display: grid;
+  gap: 2rem;
+  padding-top: clamp(2.5rem, 6vw, 5rem);
+  padding-inline: var(--gutter);
+  background: var(--nightfall);
+}
+
+.vb-work-intro {
+  display: grid;
   gap: 1.25rem;
-  padding: clamp(3rem, 7vw, 6rem) var(--gutter) clamp(2.5rem, 5vw, 4rem);
+  align-content: start;
 }
 
 .vb-work-lead {
   color: var(--sand-2);
+}
+
+/* The timetable: months, name in both scripts, where it stands. */
+.vb-table-list {
+  display: grid;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.vb .vb-table-link {
+  display: grid;
+  grid-template-columns: 8.5rem minmax(0, 1fr) auto;
+  grid-template-areas: "date name ar" "date status status";
+  column-gap: 1rem;
+  align-items: baseline;
+  min-height: 3rem;
+  padding: 0.7rem 0.9rem;
+  border-radius: 0.5rem;
+  text-decoration: none;
+  transition: background-color var(--t-hover) ease;
+}
+
+.vb-table-row:nth-child(odd) .vb-table-link {
+  background: color-mix(in srgb, var(--sand) 4%, transparent);
+}
+
+.vb .vb-table-link:hover {
+  background: var(--field);
+  color: var(--field-ink);
+}
+
+.vb-table-date {
+  grid-area: date;
+  color: var(--sand-2);
+  font-size: var(--step-small);
+  font-variant-numeric: tabular-nums;
+}
+
+.vb-table-name {
+  grid-area: name;
+  font-family: var(--display);
+  font-size: 1.25rem;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.vb-table-ar {
+  grid-area: ar;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--ember);
+}
+
+.vb-table-status {
+  grid-area: status;
+  color: var(--sand-2);
+  font-size: var(--step-small);
+}
+
+.vb-table-link:hover :is(.vb-table-date, .vb-table-status, .vb-table-ar) {
+  color: inherit;
+}
+
+@media (min-width: 900px) {
+  .vb-work-head {
+    grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+    column-gap: clamp(2rem, 5vw, 6rem);
+    align-items: start;
+  }
+}
+
+@media (max-width: 899px) {
+  .vb-work-head {
+    gap: 1.25rem;
+  }
+  .vb-table-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.3rem;
+  }
+  .vb .vb-table-row .vb-table-link {
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-areas: "name ar" "date date";
+    min-height: 2.75rem;
+    padding: 0.4rem 0.6rem;
+    background: color-mix(in srgb, var(--sand) 5%, transparent);
+  }
+  .vb .vb-table-row .vb-table-link:hover {
+    background: var(--field);
+  }
+  .vb-table-status {
+    display: none;
+  }
+  .vb-table-name {
+    font-size: 1rem;
+  }
+  .vb-table-date {
+    font-size: 0.8125rem;
+  }
+  .vb-table-ar {
+    font-size: 1rem;
+  }
+}
+
+/* Midnight: the darkest point, and the sky a kashta is planned for. */
+.vb-midnight {
+  display: grid;
+  gap: 1.5rem;
+  padding-top: clamp(2rem, 5vw, 4rem);
+  padding-inline: var(--gutter);
+  background: var(--night);
+}
+
+.vb-midnight-hour .vb-hour-ar {
+  font-size: clamp(2.6rem, 1rem + 4.2vw, 5.5rem);
+  line-height: 1.15;
+  white-space: nowrap;
+}
+
+.vb-midnight-hour .vb-hour-sky {
+  align-self: end;
+  margin-bottom: 1.2rem;
+}
+
+.vb-midnight-copy {
+  display: grid;
+  gap: 1.25rem;
+  align-content: center;
+}
+
+.vb-moon-facts {
+  max-width: 44ch;
+  color: var(--sand-2);
+  text-wrap: pretty;
+}
+
+.vb-moon-facts strong {
+  color: var(--sand);
+  font-family: var(--display);
+  font-weight: 700;
+}
+
+.vb-midnight-sky {
+  position: relative;
+  margin: 0;
+  overflow: hidden;
+  border-radius: 0.5rem;
+  background: var(--night-2);
+}
+
+.vb-midnight-sky img {
+  width: 100%;
+  height: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  object-position: 50% 40%;
+}
+
+.vb-midnight-sky figcaption {
+  position: absolute;
+  left: 1rem;
+  bottom: 0.9rem;
+  padding: 0.3rem 0.6rem;
+  border-radius: 0.25rem;
+  background: rgb(8 10 16 / 0.72);
+  color: var(--sand);
+  font-size: 0.8125rem;
+}
+
+@media (min-width: 900px) {
+  .vb-midnight {
+    grid-template-columns: minmax(0, 6fr) minmax(0, 5fr);
+    column-gap: clamp(2rem, 5vw, 6rem);
+    align-items: center;
+  }
+  .vb-midnight-sky img {
+    aspect-ratio: 5 / 4;
+  }
+}
+
+@media (max-width: 899px) {
+  .vb-midnight-sky {
+    display: none;
+  }
+}
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .vb[data-motion="on"] .vb-midnight-sky img {
+      animation: vb-sky-turn linear both;
+      animation-timeline: view();
+      animation-range: cover;
+    }
+  }
+}
+
+/* The sky turns slowly about the pole as the night goes on. */
+@keyframes vb-sky-turn {
+  from {
+    transform: scale(1.12) rotate(-2.5deg);
+  }
+  to {
+    transform: scale(1.12) rotate(2.5deg);
+  }
 }
 
 .vb-about-grid > * {
@@ -628,7 +795,8 @@
 
 /* Seet: the held → deposit → confirmed line under the masthead. */
 .vb-proj-states .vb-dayline {
-  --rail-on: var(--field-ink);
+  --hour-now: var(--field-ink);
+  --hour-now-ink: var(--field);
 }
 
 .vb-proj-states .vb-dayline-time {
@@ -1767,74 +1935,53 @@ div.vb-certs-row {
   }
 }
 
-/* ---------- The motif: a line of moments ---------- */
+/* ---------- Moments: the hours of an evening, side by side ---------- */
 
+/* Each moment is a block of the evening. Those that have passed are lit;
+   the current one is lit fully. No rail and no points: blocks of time. */
 .vb-dayline {
   display: grid;
   grid-auto-flow: column;
-  grid-auto-columns: 1fr;
-  gap: 0.5rem;
+  grid-auto-columns: minmax(0, 1fr);
+  gap: 0.3rem;
   margin: 0;
   padding: 0;
   list-style: none;
-  --rail: color-mix(in srgb, currentColor 22%, transparent);
-  --rail-on: var(--accent, var(--ember));
 }
 
 .vb-dayline-moment {
-  position: relative;
   display: grid;
-  gap: 0.2rem;
-  padding-top: 1.1rem;
+  align-content: start;
+  gap: 0.15rem;
   min-width: 0;
+  padding: 0.6rem 0.7rem;
+  background: var(--hour, color-mix(in srgb, currentColor 9%, transparent));
+  transition: background-color var(--t-ui) ease, color var(--t-ui) ease;
 }
 
-.vb-dayline-moment::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 0.3rem;
-  height: 2px;
-  background: var(--rail);
+.vb-dayline-moment:first-child {
+  border-radius: 0.5rem 0 0 0.5rem;
 }
 
-.vb-dayline-moment[data-on="true"]::before {
-  background: var(--rail-on);
+.vb-dayline-moment:last-child {
+  border-radius: 0 0.5rem 0.5rem 0;
 }
 
-.vb-dayline-moment:last-child::before {
-  right: auto;
-  width: 50%;
+.vb-dayline-moment[data-on="true"] {
+  background: var(--hour-on, color-mix(in srgb, var(--accent, var(--ember)) 26%, transparent));
 }
 
-.vb-dayline-moment:first-child::before {
-  left: 50%;
+.vb-dayline-moment[aria-current="step"] {
+  background: var(--hour-now, var(--accent, var(--ember)));
+  color: var(--hour-now-ink, var(--field, var(--ember-ink)));
 }
 
 .vb-dayline-dot {
-  position: absolute;
-  left: 50%;
-  top: 0;
-  width: 0.65rem;
-  height: 0.65rem;
-  border-radius: 50%;
-  background: var(--rail);
-  transform: translateX(-50%);
-  transition: background-color var(--t-ui) ease, transform var(--t-ui) var(--ease-out);
-}
-
-.vb-dayline-moment[data-on="true"] .vb-dayline-dot {
-  background: var(--rail-on);
-}
-
-.vb-dayline-moment[aria-current="step"] .vb-dayline-dot {
-  transform: translateX(-50%) scale(1.5);
+  display: none;
 }
 
 .vb-dayline-time,
 .vb-dayline-label {
-  text-align: center;
   font-size: var(--step-small);
   line-height: 1.3;
 }
@@ -1846,7 +1993,7 @@ div.vb-certs-row {
 }
 
 .vb-dayline-label {
-  opacity: 0.8;
+  opacity: 0.85;
 }
 
 /* ---------- The call demo ---------- */
@@ -1859,6 +2006,7 @@ div.vb-certs-row {
   background: color-mix(in srgb, var(--field-ink, var(--sand)) 90%, var(--field, var(--night)));
   color: var(--field, var(--sand));
   --accent: var(--field, var(--ember));
+  --hour-now-ink: var(--field-ink, var(--night));
 }
 
 .vb .vb-call:focus-visible {
@@ -2010,111 +2158,35 @@ div.vb-certs-row {
   }
 }
 
-/* The work line: every project as a point on one night line. */
-.vb-workline {
-  padding: 0 var(--gutter) clamp(3rem, 6vw, 5rem);
-}
-
-.vb-workline-list {
-  display: grid;
-  gap: 0.25rem;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.vb-workline-link {
-  position: relative;
-  display: grid;
-  grid-template-columns: 1.5rem 7rem 1fr;
-  gap: 0.2rem 0.75rem;
-  align-items: baseline;
-  min-height: 2.75rem;
-  padding: 0.5rem 0;
-  text-decoration: none;
-}
-
-.vb-workline-dot {
-  width: 0.8rem;
-  height: 0.8rem;
-  align-self: center;
-  border-radius: 50%;
-  background: var(--field);
-  outline: 2px solid var(--sand-2); /* taste-skill-ignore: a dark field needs an edge on the night */
-}
-
-.vb-workline-date {
-  color: var(--sand-2);
-  font-size: var(--step-small);
-  font-variant-numeric: tabular-nums;
-}
-
-.vb-workline-name {
-  font-family: var(--display);
-  font-weight: 700;
-}
-
-.vb-workline-name span[lang="ar"] {
-  margin-left: 0.4em;
-  font-weight: 500;
-  color: var(--sand-2);
-}
-
-.vb-workline-status {
-  grid-column: 3;
-  color: var(--sand-2);
-  font-size: var(--step-small);
-}
-
-.vb-workline-link:hover .vb-workline-name {
-  text-decoration: underline;
-}
-
-@media (min-width: 900px) {
-  .vb-workline-list {
-    grid-auto-flow: column;
-    grid-auto-columns: 1fr;
-    gap: 0.75rem;
-    position: relative;
-  }
-  .vb-workline-list::before {
-    content: "";
-    position: absolute;
-    left: 0.4rem;
-    right: 0.4rem;
-    top: 0.9rem;
-    height: 2px;
-    background: color-mix(in srgb, var(--sand) 22%, transparent);
-  }
-  .vb-workline-link {
-    grid-template-columns: 1fr;
-    gap: 0.3rem;
-    padding: 0 0.25rem 0.5rem 0;
-  }
-  .vb-workline-dot {
-    width: 1.1rem;
-    height: 1.1rem;
-    margin: 0.35rem 0 0.5rem;
-    align-self: start;
-  }
-  .vb-workline-status {
-    grid-column: auto;
-  }
-}
-
 /* ---------- Phone: shorter route to the work ---------- */
 @media (max-width: 899px) {
-  /* The first screen holds who, when, the main action and one answer becoming an alert. */
+  /* The first screen holds who, the main action and one answer becoming an alert. */
   .vb-hero {
+    --dune-h: 3rem;
     gap: 0.75rem;
     padding-top: 1rem;
   }
+  /* The copy's parts join the hero's own column, so the status can follow the call. */
   .vb-hero-copy {
     display: contents;
   }
+  .vb-hero-status {
+    order: 1;
+  }
+  .vb-hero-horizon {
+    order: 2;
+  }
   .vb-hero-title {
     max-width: none;
-    font-size: clamp(2.4rem, 1rem + 6.4vw, 3.2rem);
+    font-size: clamp(1.6rem, 0.5rem + 5vw, 2.4rem);
+  }
+  /* Tonight's sunset on one line. */
+  .vb-hero-hour {
+    grid-template-areas: "sky ar en";
+    align-items: end;
+  }
+  .vb-hero-hour .vb-hour-en {
+    padding-bottom: 0.3rem;
   }
   .vb-hero-role {
     font-size: 1.0625rem;
@@ -2156,14 +2228,6 @@ div.vb-certs-row {
     gap: 0.75rem;
     margin-top: 0.5rem;
   }
-  /* Room for the thread to bend from the card's lane to the margin. */
-  .vb-hero-status {
-    order: 1;
-    margin-top: 1.25rem;
-  }
-  .vb-hero-strip {
-    order: 2;
-  }
   .vb-hero-art {
     gap: 0.6rem;
     padding: 0.9rem var(--hero-card-pad) 0.4rem;
@@ -2172,10 +2236,15 @@ div.vb-certs-row {
     gap: 0.6rem;
   }
   .vb-hero-step {
-    gap: 0.1rem;
+    grid-template-columns: 3.6rem minmax(0, 1fr);
+    column-gap: 0.6rem;
+    row-gap: 0.1rem;
   }
-  .vb-hero-step::before {
-    bottom: -0.7rem;
+  .vb-hero-step-time {
+    font-size: 0.875rem;
+  }
+  .vb-hero-art-link {
+    margin-left: calc(3.6rem + 0.6rem);
   }
   .vb-hero-step-ar {
     font-size: 1.05rem;
@@ -2187,43 +2256,21 @@ div.vb-certs-row {
   .vb-hero-step-fact {
     padding: 0.4rem 0.7rem;
   }
-  .vb-hero-sky {
+  .vb-hero-step-owner {
+    font-size: var(--step-small);
+  }
+  .vb-hero-horizon {
+    height: calc(var(--dune-h) * 1.6);
+  }
+  .vb-hero-moon {
+    left: auto;
+    right: 38%;
+  }
+  .vb-hero-evidence-head {
     display: none;
   }
-  .vb-hero-strip {
-    gap: 0;
-  }
-  .vb-workline-list {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 0.5rem 1rem;
-  }
-  .vb-workline-link {
-    grid-template-columns: 1.2rem 1fr;
-    gap: 0.1rem 0.5rem;
-    padding: 0.35rem 0;
-  }
-  .vb-workline-date {
-    grid-column: 2;
-  }
-  .vb-workline-status {
-    grid-column: 2;
-  }
-  .vb-workline-dot {
-    grid-row: 1 / 4;
-    align-self: start;
-    margin-top: 0.35rem;
-  }
-  .vb-chapter-city {
-    font-size: clamp(2rem, 1.2rem + 4vw, 3rem);
-  }
-  .vb-chapters {
-    gap: 1.75rem;
-  }
-  .vb-footer-name {
-    font-size: clamp(2.2rem, 1rem + 7vw, 4rem);
-  }
-  .vb-footer {
-    padding-top: 3rem;
+  .vb-hero-sun {
+    right: 12%;
   }
 }
 
@@ -2249,10 +2296,6 @@ div.vb-certs-row {
   .vb-exp {
     gap: 1.25rem;
     padding-block: 2.5rem;
-  }
-  .vb-tonight {
-    gap: 1rem;
-    padding: 1rem 1.1rem;
   }
 
   /* One row of controls: play, back, next and the count. */
@@ -2284,35 +2327,6 @@ div.vb-certs-row {
   }
   .vb-proj-head {
     gap: 0.7rem;
-  }
-
-  /* Work line: two columns of date and name; each section carries its own status. */
-  .vb-workline {
-    padding-bottom: 2.5rem;
-  }
-  .vb-workline-list {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    column-gap: 1rem;
-  }
-  .vb-workline-link {
-    grid-template-columns: 1rem minmax(0, 1fr);
-    gap: 0 0.6rem;
-    min-height: 2.75rem;
-    padding: 0.35rem 0;
-  }
-  .vb-workline-dot {
-    grid-row: 1 / 3;
-    width: 0.7rem;
-    height: 0.7rem;
-  }
-  .vb-workline-date {
-    grid-column: 2;
-  }
-  .vb-workline-name {
-    grid-column: 2;
-  }
-  .vb-workline-status {
-    display: none;
   }
 
   /* Gthrz: name, then the phones, then the guest's view. */
@@ -2377,88 +2391,97 @@ div.vb-certs-row {
   }
 }
 
-/* ---------- The thread: one line of moments through the page ---------- */
+/* ---------- Over the dune: each field rises over the last as a crest ---------- */
 
-.vb {
+/* The crest is drawn in the section's own colour just above it, so whatever
+   came before shows behind the dune line. The section before keeps room for it. */
+:is(.vb-proj, .vb-midnight, .vb-exp, .vb-about) {
   position: relative;
 }
 
-.vb-thread {
+:is(.vb-proj, .vb-midnight, .vb-exp, .vb-about)::before {
+  content: "";
   position: absolute;
-  inset: 0;
+  left: 0;
+  right: 0;
+  bottom: calc(100% - 1px);
+  height: var(--edge);
+  background: var(--crest-fill, var(--field));
+  mask: var(--crest, var(--crest-1)) 0 0 / 100% 100% no-repeat;
   pointer-events: none;
-  overflow: hidden;
 }
 
-.vb-thread svg {
-  display: block;
-  width: 100%;
-  height: 100%;
-  overflow: visible;
+.vb-proj[data-id="tammeni"],
+.vb-proj[data-id="amanah"] {
+  --crest: var(--crest-2);
 }
 
-.vb-thread path {
-  fill: none;
-  stroke-width: 2;
-  stroke-linecap: round;
+.vb-proj[data-id="seet"],
+.vb-proj[data-id="gthrz"] {
+  --crest: var(--crest-3);
 }
 
-.vb-thread circle {
-  transform-box: fill-box;
-  transform-origin: center;
-  transform: scale(0);
-  transition: transform var(--t-ui) var(--ease-out);
+.vb-midnight,
+.vb-exp {
+  --crest: var(--crest-4);
 }
 
-.vb-thread circle[data-on="true"] {
-  transform: none;
+.vb-midnight {
+  --crest-fill: var(--night);
 }
 
-/* The moments the thread passes through sit on top of it. */
-.vb-workline-dot,
-.vb-proj-states .vb-dayline-dot,
-.vb-hero-strip .vb-dayline-dot {
-  position: relative;
-  z-index: 1;
+.vb-exp {
+  --crest-fill: var(--night);
 }
 
-.vb-proj-states .vb-dayline-dot,
-.vb-hero-strip .vb-dayline-dot {
-  position: absolute;
+.vb-about {
+  --crest-fill: var(--night);
 }
 
-@media (min-width: 900px) {
-  .vb:has(.vb-thread[data-ready="true"]) .vb-workline-list::before {
-    display: none;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .vb-thread circle {
-    transform: none;
-  }
-}
-
-/* Each field arrives over the last one with rounded shoulders, the same bend
-   the thread makes, so the colour change reads as a turn rather than a cut. */
-.vb-proj {
-  --edge: clamp(1.25rem, 4vw, 4rem);
-  border-radius: var(--edge) var(--edge) 0 0;
-}
-
-.vb-proj + .vb-proj {
-  margin-top: calc(var(--edge) * -1);
-}
-
-.vb-proj:has(+ .vb-proj) .vb-proj-inner {
+/* Room under each section for the next one's crest. */
+.vb-work-head,
+.vb-proj .vb-proj-inner {
   padding-bottom: calc(clamp(3.5rem, 7vw, 7rem) + var(--edge));
 }
 
+.vb-midnight {
+  padding-bottom: calc(clamp(3rem, 6vw, 5rem) + var(--edge));
+}
+
+.vb-exp {
+  padding-bottom: calc(clamp(3rem, 6vw, 5rem) + var(--edge));
+}
+
 @media (max-width: 899px) {
-  .vb-proj:has(+ .vb-proj) .vb-proj-inner {
-    padding-bottom: calc(2rem + var(--edge) * 0.5);
+  .vb-work-head,
+  .vb-proj .vb-proj-inner {
+    padding-bottom: calc(1.75rem + var(--edge));
+  }
+  .vb-midnight,
+  .vb-exp {
+    padding-bottom: calc(1.5rem + var(--edge));
   }
 }
+
+/* As a field comes into view its crest settles, as if walking up the dune. */
+@keyframes vb-crest {
+  from {
+    transform: scaleY(0.35);
+  }
+}
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .vb[data-motion="on"] :is(.vb-proj, .vb-midnight, .vb-exp, .vb-about)::before {
+      transform-origin: bottom;
+      animation: vb-crest linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 60%;
+    }
+  }
+}
+
+
 
 /* Light parallax: product pictures drift a little slower than the page.
    Scroll-driven where supported; elsewhere they simply stay still. */
@@ -2492,5 +2515,90 @@ div.vb-certs-row {
     .vb[data-motion="on"] .vb-about-grad {
       --drift: 2.75rem;
     }
+  }
+}
+
+/* ---------- Before dawn: the sky lightens under the contact, then the sun comes up ---------- */
+
+.vb-about-copy .vb-hour,
+.vb-contact-top .vb-hour {
+  margin-bottom: 0.25rem;
+}
+
+.vb-contact {
+  background: var(--predawn);
+  padding-bottom: calc(clamp(4rem, 8vw, 7rem) + var(--edge));
+}
+
+@media (max-width: 899px) {
+  .vb-contact {
+    padding-bottom: calc(3rem + var(--edge));
+  }
+}
+
+/* Phones: the night marks stay one compact line; Seet's chat carries the booking states. */
+@media (max-width: 899px) {
+  .vb-proj-inner {
+    gap: 1rem;
+  }
+  .vb-proj[data-layout="masthead"] .vb-proj-states {
+    display: none;
+  }
+  .vb-work-lead {
+    display: none;
+  }
+  .vb-proj-kind {
+    display: none;
+  }
+  .vb-moon-facts {
+    font-size: var(--step-small);
+  }
+  .vb-moon-facts-how {
+    display: none;
+  }
+  .vb-proj .vb-proj-head {
+    gap: 0.55rem;
+  }
+  .vb .vb-proj .vb-proj-inner {
+    padding-top: 1.5rem;
+  }
+  .vb-contact {
+    padding-bottom: calc(2.25rem + var(--edge));
+  }
+  /* Status and the case study share a row; the months are in the timetable above. */
+  .vb-proj-foot {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+  }
+  .vb-proj-meta > span:not(.vb-chip) {
+    display: none;
+  }
+  .vb-proj-actions {
+    margin-top: 0;
+  }
+  .vb-proj-hook {
+    margin-top: 0;
+    padding-top: 0.6rem;
+  }
+  .vb-about,
+  .vb-journey,
+  .vb-skills,
+  .vb-certs,
+  .vb-contact {
+    padding-top: 2.25rem;
+  }
+  .vb-journey,
+  .vb-skills,
+  .vb-certs {
+    padding-bottom: 2.25rem;
+  }
+  .vb-midnight-hour .vb-hour-ar {
+    font-size: 2.2rem;
+  }
+  .vb-midnight-hour .vb-hour-sky {
+    margin-bottom: 0.5rem;
   }
 }
