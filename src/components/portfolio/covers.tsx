@@ -5,7 +5,6 @@ import { gthrzShots } from "@/lib/gthrz";
 import { fieldStyle, projectById, type Project, type ProjectId } from "@/lib/projects";
 import { SeetChat } from "./artifacts";
 import { CallDemo } from "./call-demo";
-import { DayLine } from "./dayline";
 import { AmanahClaimDemo } from "./demos/amanah-claim";
 import { GthrzStatesDemo } from "./demos/gthrz-states";
 import { KashtaScoreDemo } from "./demos/kashta-score";
@@ -13,7 +12,7 @@ import { TammeniScheduleDemo } from "./demos/tammeni-schedule";
 import { DeviceFrame } from "./device-frame";
 import { GthrzImg } from "./gthrz-img";
 import { Reveal } from "./reveal";
-import { ChapterMark } from "./chapter-mark";
+import { SectionTitle } from "./section-title";
 
 function projectHref(project: Project) {
   return project.href ?? `/projects/${project.id}`;
@@ -50,11 +49,10 @@ function ProjectLinks({ project }: { project: Project }) {
   );
 }
 
-/** Kind, name and tagline: what the product is. */
-function Head({ project, hook }: { project: Project; hook: ReactNode }) {
+/** The name in both scripts and what the product is, in one line. */
+function Head({ project }: { project: Project }) {
   return (
     <Reveal className="vb-proj-head">
-      <p className="vb-proj-kind">{project.kind}</p>
       <h3 id={`proj-${project.id}`} className="vb-proj-name">
         <Link href={projectHref(project)} prefetch={false}>
           {project.name}
@@ -62,44 +60,49 @@ function Head({ project, hook }: { project: Project; hook: ReactNode }) {
         </Link>
       </h3>
       <p className="vb-proj-tagline">{project.tagline}</p>
-      <p className="vb-proj-hook">{hook}</p>
     </Reveal>
   );
 }
 
-/** Checked numbers from the public repository: tests and commits, each with its source. */
-function Evidence({ project }: { project: Project }) {
+/** Checked numbers from the public repository, in one line, each linked to its source. */
+function Proof({ project }: { project: Project }) {
   const items = project.proof.evidence?.filter((item) => item.kind !== "scope") ?? [];
   if (!items.length) return null;
   return (
-    <ul className="vb-proj-evidence">
+    <span className="vb-proj-proof">
       {items.map((item) => (
-        <li key={item.kind}>
-          <strong>{item.value}</strong> {item.kind === "tests" ? "automated tests pass" : "commits are mine"}
-          {" · "}
+        <span key={item.kind}>
           <a href={item.run?.href ?? item.source.href} className="vb-link" target="_blank" rel="noreferrer">
-            {item.run ? "passing run" : item.source.label}
+            <strong>{item.value}</strong> {item.kind === "tests" ? "tests pass" : "commits mine"}
             <span className="vb-sr"> (opens in a new tab)</span>
           </a>
-        </li>
+        </span>
       ))}
-    </ul>
+    </span>
   );
 }
 
-/** My part first, then the checked numbers, status, and where to go next. */
-function Foot({ project }: { project: Project }) {
+/** The idea, my part and the evidence as three short rows, then where to go next. */
+function Foot({ project, idea }: { project: Project; idea: ReactNode }) {
   return (
     <Reveal className="vb-proj-foot" delay={0.08}>
-      <div className="vb-proj-part">
-        <p className="vb-proj-label">My part</p>
-        <p>{project.contribution}</p>
-      </div>
-      <Evidence project={project} />
-      <p className="vb-proj-meta">
-        <span className="vb-chip">{project.statusChip}</span>
-        <span>{project.dates}</span>
-      </p>
+      <dl className="vb-proj-facts">
+        <div>
+          <dt>The idea</dt>
+          <dd className="vb-proj-idea">{idea}</dd>
+        </div>
+        <div>
+          <dt>My part</dt>
+          <dd>{project.contribution}</dd>
+        </div>
+        <div>
+          <dt>Where it stands</dt>
+          <dd>
+            {project.statusChip}, {project.dates}
+            <Proof project={project} />
+          </dd>
+        </div>
+      </dl>
       <div className="vb-proj-actions">
         <Link href={projectHref(project)} prefetch={false} className="vb-btn vb-btn-field">
           Read the case study
@@ -171,11 +174,7 @@ function Naqah() {
   const project = projectById.naqah;
   return (
     <Section id="naqah" layout="stage">
-      <Head
-        project={project}
-        hook="The worker types nothing. A daily call asks the owner's questions, keeps the answers as records and throws the audio away."
-      />
-      <Foot project={project} />
+      <Head project={project} />
       <div className="vb-proj-art">
         <CallDemo compact id="naqah-demo" />
       </div>
@@ -186,6 +185,7 @@ function Naqah() {
           caption="The live site, in Arabic first: Naqah calls your worker at the time you choose, keeps the answers, then calls you with what matters."
         />
       ) : null}
+      <Foot project={project} idea="The worker types nothing. A daily call asks the owner's questions, keeps the answers as records and throws the audio away." />
     </Section>
   );
 }
@@ -197,11 +197,7 @@ function Tammeni() {
   const phones = project.screens.filter((shot) => shot.frame === "phone").slice(0, 2);
   return (
     <Section id="tammeni" layout="schedule">
-      <Head
-        project={project}
-        hook="Each parent chooses, per child and per topic, whether news comes by call or text, and when."
-      />
-      <Foot project={project} />
+      <Head project={project} />
       <div className="vb-proj-demo">
         <TammeniScheduleDemo compact />
       </div>
@@ -218,6 +214,7 @@ function Tammeni() {
           caption="The live demo, step 4 of 11: a parent chooses whether attendance news comes right away or after the school day."
         />
       ) : null}
+      <Foot project={project} idea="Each parent chooses, per child and per topic, whether news comes by call or text, and when." />
     </Section>
   );
 }
@@ -229,18 +226,7 @@ function Seet() {
   const how = project.screens.find((shot) => shot.src.includes("how")) ?? project.cover;
   return (
     <Section id="seet" layout="masthead">
-      <Head project={project} hook="A slot is held first. Only the deposit confirms it." />
-      <Foot project={project} />
-      <Reveal className="vb-proj-states" delay={0.1}>
-        <DayLine
-          label="One booking, simulated with made-up prices"
-          moments={[
-            { time: "Held", label: "Tuesday, for two hours" },
-            { time: "Deposit", label: "2,250 SAR link sent" },
-            { time: "Confirmed", label: "Payment callback only" },
-          ]}
-        />
-      </Reveal>
+      <Head project={project} />
       <div className="vb-proj-art">
         <SeetChat compact />
       </div>
@@ -257,6 +243,7 @@ function Seet() {
           </figcaption>
         </figure>
       ) : null}
+      <Foot project={project} idea="A slot is held first. Only the deposit confirms it." />
     </Section>
   );
 }
@@ -267,8 +254,7 @@ function Kashta() {
   const project = projectById.kashta;
   return (
     <Section id="kashta" layout="score">
-      <Head project={project} hook="The score is code, not AI. Llama explains a ranking it never computes." />
-      <Foot project={project} />
+      <Head project={project} />
       <div className="vb-proj-demo">
         <KashtaScoreDemo compact />
       </div>
@@ -277,6 +263,7 @@ function Kashta() {
           <Phone shot={project.coverPhone} sizes="240px" />
         </div>
       ) : null}
+      <Foot project={project} idea="The score is code, not AI. Llama explains a ranking it never computes." />
     </Section>
   );
 }
@@ -288,8 +275,7 @@ function Amanah() {
   const ownership = project.screens.find((shot) => shot.src.includes("ownership")) ?? project.cover;
   return (
     <Section id="amanah" layout="views">
-      <Head project={project} hook="One match, two different views." />
-      <Foot project={project} />
+      <Head project={project} />
       <div className="vb-proj-demo">
         <AmanahClaimDemo compact />
       </div>
@@ -300,6 +286,7 @@ function Amanah() {
           label="amanahz.vercel.app/demo"
         />
       </div>
+      <Foot project={project} idea="One match, two different views." />
     </Section>
   );
 }
@@ -311,8 +298,7 @@ function Gthrz() {
   const shots = [gthrzShots.home, gthrzShots.details, gthrzShots.privacy];
   return (
     <Section id="gthrz" layout="fan">
-      <Head project={project} hook="The host decides who sees the address, and when." />
-      <Foot project={project} />
+      <Head project={project} />
       <div className="vb-proj-art vb-proj-fan" aria-hidden="true">
         {shots.map((shot) => (
           <div key={shot.src} className="vb-capture" data-ui="">
@@ -323,6 +309,7 @@ function Gthrz() {
       <div className="vb-proj-demo">
         <GthrzStatesDemo compact />
       </div>
+      <Foot project={project} idea="The host decides who sees the address, and when." />
     </Section>
   );
 }
@@ -332,16 +319,11 @@ export function Covers() {
     <section id="work" className="vb-work" aria-labelledby="work-title">
       <div className="vb-work-head">
         <div className="vb-work-intro">
-          <ChapterMark n={1} en="Work" ar="أعمالي" />
-          <Reveal>
-            <h2 id="work-title" className="vb-section-head">
-              Six products, one decision each.
-            </h2>
-          </Reveal>
+          <SectionTitle id="work-title" en="Six products." ar="أعمالي" />
           <Reveal delay={0.1}>
             <p className="vb-lead vb-work-lead">
               A ranch, a school, an ads inbox, a desert night, a lost umbrella and a private party.
-              Each one shows the decision that shaped it, the part I built, and where to try it.
+              Each one: try the idea, see the real screen, and what I built.
             </p>
           </Reveal>
         </div>

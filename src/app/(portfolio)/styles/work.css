@@ -4,39 +4,57 @@
   scroll-margin-top: 0;
 }
 
-.vb-proj-part {
+/* The idea, my part and where it stands: three short labelled rows. */
+.vb-proj-facts {
   display: grid;
-  gap: 0.2rem;
-  max-width: 50ch;
-  padding-left: 0.9rem;
-  border-left: 3px solid var(--accent, var(--field-ink));
-  color: var(--field-ink);
-  font-size: 1rem;
-}
-
-.vb-proj-label {
-  font-family: var(--display);
-  font-weight: 700;
-  font-size: 0.8125rem;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--field-muted);
-}
-
-.vb-proj-evidence {
-  display: grid;
-  gap: 0.3rem;
   margin: 0;
-  padding: 0;
-  list-style: none;
+  max-width: 34rem;
+}
+
+.vb-proj-facts > div {
+  display: grid;
+  grid-template-columns: 7.5rem minmax(0, 1fr);
+  gap: 1rem;
+  padding: 0.85rem 0;
+  border-top: 1px solid color-mix(in srgb, var(--field-ink) 20%, transparent);
+}
+
+.vb-proj-facts dt {
   color: var(--field-muted);
   font-size: var(--step-small);
+  line-height: 1.6;
 }
 
-.vb-proj-evidence strong {
+.vb-proj-facts dd {
+  margin: 0;
   color: var(--field-ink);
+  line-height: 1.55;
+}
+
+.vb-proj-facts dd.vb-proj-idea {
   font-family: var(--display);
   font-weight: 700;
+  font-size: 1.1rem;
+  line-height: 1.4;
+}
+
+.vb-proj-proof {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 1rem;
+  margin-top: 0.35rem;
+}
+
+.vb-proj-facts strong {
+  font-family: var(--display);
+  font-weight: 700;
+}
+
+@media (max-width: 599px) {
+  .vb-proj-facts > div {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.2rem;
+  }
 }
 
 .vb-proj-screen {
@@ -63,13 +81,14 @@
     grid-area: screen;
   }
   .vb-proj[data-layout="stage"] .vb-proj-inner {
-    grid-template-areas: "art head" "screen foot";
+    grid-template-areas: "art head" "art foot" "screen foot";
+    grid-template-rows: auto auto 1fr;
   }
   .vb-proj[data-layout="stage"] .vb-proj-art {
     align-self: start;
   }
   .vb-proj[data-layout="masthead"] .vb-proj-inner {
-    grid-template-areas: "head head" "states art" "screen art" "foot art";
+    grid-template-areas: "head head" "foot art" "foot screen";
   }
 }
 
@@ -90,7 +109,7 @@
     column-gap: clamp(2rem, 5vw, 6rem);
     align-items: end;
   }
-  .vb-work-intro .vb-mark {
+  .vb-work-intro .vb-title {
     grid-column: 1 / -1;
   }
   .vb-work-lead {
@@ -120,4 +139,10 @@
 
 .vb-proj-screen-wide figcaption {
   max-width: 48ch;
+}
+
+@media (min-width: 900px) {
+  .vb-proj[data-layout="masthead"] .vb-proj-screen-wide {
+    max-width: 34rem;
+  }
 }

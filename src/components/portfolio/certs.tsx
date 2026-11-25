@@ -5,9 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import { certificates, type Certificate } from "@/lib/certificates";
 import { publicUrl } from "@/lib/site";
 import { useHydrated } from "@/lib/use-hydrated";
-import { Collapsible } from "./collapsible";
-import { ChapterMark } from "./chapter-mark";
-import { Reveal } from "./reveal";
+import { SectionTitle } from "./section-title";
 
 const previewable = certificates.filter((item) => item.image);
 
@@ -24,13 +22,12 @@ function fileOf(item: Certificate) {
 
 export function Certs() {
   const hydrated = useHydrated();
-  const [hover, setHover] = useState<string | null>(previewable[0]?.id ?? null);
   const [openId, setOpenId] = useState<string | null>(null);
   const dialog = useRef<HTMLDialogElement>(null);
+  const opener = useRef<HTMLElement | null>(null);
 
   const openIndex = previewable.findIndex((item) => item.id === openId);
   const current = openIndex >= 0 ? previewable[openIndex] : null;
-  const shown = previewable.find((item) => item.id === hover) ?? previewable[0];
 
   useEffect(() => {
     const node = dialog.current;
@@ -52,6 +49,11 @@ export function Certs() {
     };
   }, [openId]);
 
+  function open(item: Certificate, from: HTMLElement) {
+    opener.current = from;
+    setOpenId(item.id);
+  }
+
   function step(direction: 1 | -1) {
     const next =
       previewable[(openIndex + direction + previewable.length) % previewable.length];
@@ -68,94 +70,47 @@ export function Certs() {
   }
 
   return (
-    <section id="certificates" className="vb-certs" aria-labelledby="certs-title">
-      <div className="vb-certs-side">
-        <ChapterMark n={3} en="Certificates" ar="الشهادات" />
-        <Reveal>
-          <h2 id="certs-title" className="vb-section-head">
-            Beyond the degree.
-          </h2>
-        </Reveal>
-        <Collapsible summary={<span className="vb-certs-summary">All five certificates</span>}>
-        <ul className="vb-certs-list">
-          {certificates.map((item) => (
-            <li key={item.id} data-active={hover === item.id ? "true" : undefined}>
-              {hydrated && item.image ? (
-                <button
-                  type="button"
-                  className="vb-certs-row"
-                  onMouseEnter={() => setHover(item.id)}
-                  onFocus={() => setHover(item.id)}
-                  onClick={() => setOpenId(item.id)}
-                >
-                  <CertRow item={item} />
-                </button>
-              ) : fileOf(item) ? (
-                <a
-                  href={publicUrl(fileOf(item) ?? "")}
-                  className="vb-certs-row"
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  <CertRow item={item} />
-                </a>
-              ) : (
-                <div className="vb-certs-row">
-                  <CertRow item={item} />
-                </div>
-              )}
-            </li>
-          ))}
-        </ul>
-        <p className="vb-certs-aside">
-          I also volunteered at the Language Intelligence Conference 2026 at the
-          Saudi Cultural Bureau in London. No certificate for that one.
-        </p>
-        </Collapsible>
-      </div>
+    <section id="certificates" className="vb-certs vb-certs-compact" aria-labelledby="certs-title">
+      <SectionTitle id="certs-title" en="Certificates." ar="الشهادات" />
 
-      <div className="vb-certs-stage">
-        {shown?.image && !hydrated ? (
-          <a
-            href={publicUrl(fileOf(shown) ?? "")}
-            className="vb-certs-sheet"
-            target="_blank"
-            rel="noreferrer"
-          >
-            <Image
-              src={shown.image.src}
-              alt=""
-              width={shown.image.width}
-              height={shown.image.height}
-              sizes="(max-width: 900px) 92vw, 46vw"
-            />
-            <span className="vb-certs-sheet-cap">{shown.name}</span>
-          </a>
-        ) : shown?.image ? (
-          <button
-            type="button"
-            className="vb-certs-sheet"
-            aria-label={`Open certificate: ${shown.name}`}
-            onClick={() => setOpenId(shown.id)}
-          >
-            <Image
-              key={shown.id}
-              src={shown.image.src}
-              alt=""
-              width={shown.image.width}
-              height={shown.image.height}
-              sizes="(max-width: 900px) 92vw, 46vw"
-            />
-            <span className="vb-certs-sheet-cap">{shown.name}</span>
-          </button>
-        ) : null}
-      </div>
+      <ul className="vb-certs-rows">
+        {certificates.map((item) => (
+          <li key={item.id}>
+            {hydrated && item.image ? (
+              <button
+                type="button"
+                className="vb-cert"
+                aria-haspopup="dialog"
+                onClick={(event) => open(item, event.currentTarget)}
+              >
+                <CertRow item={item} />
+              </button>
+            ) : fileOf(item) ? (
+              <a
+                href={publicUrl(fileOf(item) ?? "")}
+                className="vb-cert"
+                target="_blank"
+                rel="noreferrer"
+              >
+                <CertRow item={item} />
+              </a>
+            ) : (
+              <div className="vb-cert">
+                <CertRow item={item} />
+              </div>
+            )}
+          </li>
+        ))}
+      </ul>
 
       <dialog
         ref={dialog}
         className="vb-dialog"
         aria-labelledby="certs-dialog-title"
-        onClose={() => setOpenId(null)}
+        onClose={() => {
+          setOpenId(null);
+          opener.current?.focus();
+        }}
         onKeyDown={onKeyDown}
         onClick={(event) => {
           if (event.target === event.currentTarget) {
@@ -214,12 +169,24 @@ export function Certs() {
   );
 }
 
+/** One line per certificate: a small copy of the page, the title, who issued it, and when. */
 function CertRow({ item }: { item: Certificate }) {
   return (
     <>
-      <span className="vb-certs-name">{item.name}</span>
-      <span className="vb-certs-meta">{meta(item)}</span>
-      {item.note ? <span className="vb-certs-note">{item.note}</span> : null}
+      <span className="vb-cert-thumb" aria-hidden="true">
+        {item.image ? (
+          <Image
+            src={item.image.src}
+            alt=""
+            width={item.image.width}
+            height={item.image.height}
+            sizes="4.5rem"
+          />
+        ) : null}
+      </span>
+      <span className="vb-cert-name">{item.name}</span>
+      <span className="vb-cert-issuer">{item.organisation}</span>
+      <span className="vb-cert-date">{item.completed ?? ""}</span>
     </>
   );
 }

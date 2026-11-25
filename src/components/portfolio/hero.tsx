@@ -15,12 +15,6 @@ export function Hero() {
   return (
     <section id="home" className="vb-open" aria-labelledby="hero-title">
       <div className="vb-open-copy">
-        <p className="vb-open-kicker" data-rise="1">
-          <span>Software developer</span>
-          <span aria-hidden="true">·</span>
-          <span>Riyadh, Saudi Arabia</span>
-        </p>
-
         <h1 id="hero-title" className="vb-open-name" data-rise="1">
           <span className="vb-open-en">
             <span>Mohammed</span> <span>Bin&nbsp;Shamlan</span>
@@ -31,11 +25,8 @@ export function Hero() {
         </h1>
 
         <p className="vb-open-lead" data-rise="2">
-          I build Arabic-first AI products for everyday Saudi life: a ranch that phones its owner,
-          school news that reaches parents by call, a planner for a night in the desert.
-        </p>
-        <p className="vb-open-lead-ar" lang="ar" dir="rtl" data-rise="2">
-          أبني منتجات ذكاء اصطناعي بالعربي أولاً، لحياة سعودية حقيقية.
+          Software developer in Riyadh. I build Arabic-first AI for everyday Saudi life: a ranch
+          that phones its owner, school news by call, a planner for a night in the desert.
         </p>
 
         <div className="vb-open-actions" data-rise="3">
@@ -75,32 +66,17 @@ export function Hero() {
       </figure>
 
       <nav className="vb-open-work" aria-label="The six products">
-        <p className="vb-open-work-label">
-          <span className="vb-open-work-wide">Jump to a product</span>
-          <span className="vb-open-work-swipe" aria-hidden="true">
-            Swipe for all six →
-          </span>
-        </p>
         <ol className="vb-open-work-list">
           {work.map((project) => (
             <li key={project.id} style={fieldStyle(project)}>
               <JumpLink to={project.id} className="vb-open-tile">
-                <span className="vb-open-tile-shot" aria-hidden="true">
-                  <Image
-                    src={(project.coverPhone ?? project.cover).src}
-                    alt=""
-                    width={(project.coverPhone ?? project.cover).width}
-                    height={(project.coverPhone ?? project.cover).height}
-                    sizes="8rem"
-                  />
-                </span>
-                <span className="vb-open-tile-text">
-                  <span className="vb-open-tile-name">
-                    {project.name}
-                    {project.arabic ? <span lang="ar">{project.arabic}</span> : null}
+                <span className="vb-open-swatch" aria-hidden="true" />
+                <span className="vb-open-tile-name">{project.name}</span>
+                {project.arabic ? (
+                  <span className="vb-open-tile-ar" lang="ar">
+                    {project.arabic}
                   </span>
-                  <span className="vb-open-tile-kind">{project.kind}</span>
-                </span>
+                ) : null}
               </JumpLink>
             </li>
           ))}

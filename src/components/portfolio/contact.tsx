@@ -5,7 +5,7 @@ import { useHydrated } from "@/lib/use-hydrated";
 import { contact } from "@/lib/contact";
 import { Collapsible } from "./collapsible";
 import { Reveal } from "./reveal";
-import { ChapterMark } from "./chapter-mark";
+import { SectionTitle } from "./section-title";
 
 type Fields = { name: string; email: string; message: string };
 type FieldName = keyof Fields;
@@ -116,12 +116,7 @@ export function Contact() {
   return (
     <section id="contact" className="vb-contact" aria-labelledby="contact-title">
       <div className="vb-contact-top">
-        <ChapterMark n={5} en="Contact" ar="تواصل معي" />
-        <Reveal>
-          <h2 id="contact-title" className="vb-section-head">
-            Write to me.
-          </h2>
-        </Reveal>
+        <SectionTitle id="contact-title" en="Let's talk." ar="تواصل معي" />
         <Reveal delay={0.08}>
           <p className="vb-lead">
             A role, a project, or a question, in Arabic or English.

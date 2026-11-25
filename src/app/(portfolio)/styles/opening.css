@@ -27,15 +27,6 @@
   container-type: inline-size;
 }
 
-.vb-open-kicker {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  color: var(--sand-2);
-  font-size: var(--step-small);
-  letter-spacing: 0.02em;
-}
-
 /* English and Arabic share the block: the Latin name on two lines,
    the Arabic name on a rule beneath it, set from the right edge. */
 .vb-open-name {
@@ -79,15 +70,6 @@
   font-size: var(--step-lead);
   line-height: 1.35;
   text-wrap: pretty;
-}
-
-.vb-open-lead-ar {
-  inline-size: fit-content;
-  max-width: 100%;
-  margin-top: -0.5rem;
-  color: var(--sand-2);
-  font-size: 1.05rem;
-  line-height: 1.7;
 }
 
 .vb-open-actions {
@@ -160,88 +142,57 @@
   color: var(--ember);
 }
 
-/* The six products, each on its own colour, with a real screen. */
+/* The six products as one line of links, each with its field colour. */
 .vb-open-work {
   grid-area: work;
-  display: grid;
-  gap: 0.75rem;
-}
-
-.vb-open-work-label {
-  color: var(--sand-2);
-  font-size: 0.875rem;
-}
-
-@media (min-width: 900px) {
-  .vb-open-work-swipe {
-    display: none;
-  }
+  border-top: 1px solid color-mix(in srgb, var(--sand) 14%, transparent);
+  padding-top: 1rem;
 }
 
 .vb-open-work-list {
   display: grid;
   grid-template-columns: repeat(6, minmax(0, 1fr));
-  gap: 0.75rem;
+  gap: 0.5rem;
   margin: 0;
   padding: 0;
   list-style: none;
 }
 
 .vb .vb-open-tile {
-  display: grid;
-  height: 100%;
-  overflow: hidden;
-  border-radius: 0.9rem;
-  background: var(--field);
-  color: var(--field-ink);
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  min-height: 2.75rem;
+  padding: 0.35rem 0.5rem;
+  border-radius: 0.6rem;
+  color: var(--sand);
   text-decoration: none;
-  transition: transform var(--t-hover) var(--ease-out);
+  transition: background-color var(--t-hover) ease;
 }
 
 .vb .vb-open-tile:hover {
-  transform: translateY(-3px);
+  background: color-mix(in srgb, var(--sand) 8%, transparent);
 }
 
-.vb-open-tile-shot {
-  display: block;
-  height: 6.5rem;
-  overflow: hidden;
-  padding: 0.75rem 1.25rem 0;
-}
-
-.vb-open-tile-shot img {
-  display: block;
-  width: 100%;
-  height: auto;
-  border-radius: 0.6rem 0.6rem 0 0;
-  box-shadow: 0 0 0 1px color-mix(in srgb, var(--field-ink) 15%, transparent);
-}
-
-.vb-open-tile-text {
-  display: grid;
-  gap: 0.1rem;
-  padding: 0.7rem 0.9rem 0.85rem;
-  border-top: 1px solid color-mix(in srgb, var(--field-ink) 18%, transparent);
+.vb-open-swatch {
+  flex: none;
+  width: 0.9rem;
+  height: 0.9rem;
+  border-radius: 0.25rem;
+  background: var(--field);
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--sand) 25%, transparent);
 }
 
 .vb-open-tile-name {
-  display: flex;
-  justify-content: space-between;
-  gap: 0.5rem;
   font-family: var(--display);
   font-weight: 700;
   font-size: 1.05rem;
-  line-height: 1.3;
 }
 
-.vb-open-tile-name span {
-  font-size: 0.95em;
-}
-
-.vb-open-tile-kind {
-  font-size: 0.8125rem;
-  line-height: 1.35;
-  opacity: 0.8;
+.vb-open-tile-ar {
+  margin-inline-start: auto;
+  color: var(--sand-2);
+  font-size: 0.95rem;
 }
 
 @media (min-width: 900px) {
@@ -251,43 +202,35 @@
       "copy photo"
       "work work";
     column-gap: clamp(2rem, 6vw, 6.5rem);
-    row-gap: clamp(2rem, 3.5vw, 3rem);
+    row-gap: clamp(1.75rem, 3vw, 2.5rem);
     align-items: center;
+    min-height: calc(100svh - var(--nav-h));
+    align-content: center;
   }
   .vb-open-portrait {
     align-self: center;
-    max-width: 24rem;
+    max-width: 22rem;
     justify-self: end;
     width: 100%;
   }
 }
 
-/* Phones: a small portrait beside the kicker, the name, one action row, then the products as a row to swipe. */
+/* Phones: the portrait and its caption, the name, one sentence, the actions, then the six products. */
 @media (max-width: 899px) {
   .vb-open {
-    grid-template-columns: 5.25rem minmax(0, 1fr);
+    grid-template-columns: 4.5rem minmax(0, 1fr);
     grid-template-areas:
-      "photo kicker"
+      "photo photo"
       "name name"
       "lead lead"
-      "leadar leadar"
       "actions actions"
       "work work"
       "status status";
     gap: 1rem;
-    padding-top: 1.5rem;
+    padding-top: 1.25rem;
   }
   .vb-open-copy {
     display: contents;
-  }
-  .vb-open-kicker {
-    grid-area: kicker;
-    flex-direction: column;
-    gap: 0.1rem;
-    align-self: center;
-  }
-  .vb-open-kicker > span[aria-hidden] {
-    display: none;
   }
   .vb-open-name {
     grid-area: name;
@@ -295,22 +238,22 @@
   }
   .vb-open-lead {
     grid-area: lead;
-    font-size: 1.15rem;
-  }
-  .vb-open-lead-ar {
-    grid-area: leadar;
-    margin-top: -0.6rem;
+    font-size: 1.1rem;
   }
   .vb-open-actions {
     grid-area: actions;
     gap: 0.5rem 1.25rem;
   }
-  /* Contact is one tap away in the menu; the row keeps the work and the story. */
   .vb-open-actions .vb-link:last-child {
     display: none;
   }
   .vb-open-status {
     grid-area: status;
+  }
+  .vb-open-portrait {
+    grid-template-columns: 4.5rem minmax(0, 1fr);
+    align-items: center;
+    gap: 0.9rem;
   }
   .vb-open-frame {
     aspect-ratio: 1;
@@ -321,49 +264,16 @@
     transform-origin: 50% 27%;
   }
   .vb-open-portrait figcaption {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    overflow: hidden;
-    clip-path: inset(50%);
+    font-size: 0.875rem;
   }
   .vb-open-work-list {
-    display: flex;
-    gap: 0.6rem;
-    margin-inline: calc(var(--gutter) * -1);
-    padding: 0.25rem var(--gutter) 0.5rem;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    scroll-padding-inline: var(--gutter);
-    scrollbar-width: none;
-  }
-  .vb-open-work-list > li {
-    flex: 0 0 9.5rem;
-    scroll-snap-align: start;
-  }
-  /* Names first, so the choice is readable before the pictures. */
-  .vb-open-tile-text {
-    order: -1;
-    border-top: 0;
-    border-bottom: 1px solid color-mix(in srgb, var(--field-ink) 18%, transparent);
-  }
-  .vb-open-tile-shot {
-    height: 4.5rem;
-  }
-  .vb-open-work {
-    gap: 0.4rem;
-  }
-  .vb-open-work-label {
-    order: 1;
-    text-align: right;
-  }
-  .vb-open-work-wide {
-    display: none;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.25rem 0.75rem;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .vb .vb-open-tile:hover {
-    transform: none;
+  .vb .vb-open-tile {
+    transition: none;
   }
 }

@@ -1,30 +1,29 @@
-/* What I work with: tools grouped by the job they did. A warmer dark than the
-   chapters around it; the biggest jobs sit on a lifted panel, the rest on a rule.
-   Each project is marked by its own field colour. */
+/* What I work with: a ledger with one row per job. On wide screens the
+   projects sit in fixed columns, so each project's field colour runs down
+   the page like a column in a matrix. */
 
 .vb-tools {
   --tools-bg: color-mix(in srgb, var(--dusk) 45%, var(--night));
   --tools-panel: color-mix(in srgb, var(--dusk-2) 70%, var(--night));
   --tools-rule: color-mix(in srgb, var(--sand) 16%, transparent);
-  --tools-dim: 0.32;
 
   display: grid;
-  gap: clamp(2rem, 4vw, 3.5rem);
-  padding: clamp(4rem, 8vw, 8rem) var(--gutter);
+  gap: clamp(1.5rem, 2.5vw, 2rem);
+  padding: clamp(3rem, 5vw, 4rem) var(--gutter);
   background: var(--tools-bg);
   scroll-margin-top: 4rem;
 }
 
 .vb-tools-head {
   display: grid;
-  gap: 1.25rem;
+  gap: 1rem;
 }
 
 .vb-tools-lead {
   max-width: 44ch;
   color: var(--sand-2);
-  font-size: var(--step-lead);
-  line-height: 1.35;
+  font-size: var(--step-body);
+  line-height: 1.45;
   text-wrap: pretty;
 }
 
@@ -32,21 +31,21 @@
 
 .vb-tools-filter {
   display: grid;
-  gap: 0.75rem;
+  gap: 0.6rem;
 }
 
 .vb-tools-picks {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem;
+  gap: 0.35rem;
 }
 
 .vb-tools-pick {
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.45rem;
   min-height: 2.75rem;
-  padding: 0 1rem;
+  padding: 0 0.7rem;
   border: 1px solid var(--tools-rule);
   border-radius: 999px;
   background: transparent;
@@ -74,237 +73,228 @@
   font-size: var(--step-small);
 }
 
-/* ---------- Swatches and project links ---------- */
+/* ---------- Swatches ---------- */
 
 .vb-tools-swatch {
   display: inline-block;
   flex: none;
-  width: 0.8rem;
-  height: 0.8rem;
+  width: 0.75rem;
+  height: 0.75rem;
   border-radius: 2px;
   background: var(--swatch, var(--sand-2));
   /* Some fields are near-black; the ring keeps them visible on the night. */
   box-shadow: 0 0 0 1px color-mix(in srgb, var(--sand) 35%, transparent);
 }
 
-.vb-tools-proj {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.45rem;
-  min-height: 2.75rem;
-  font-size: var(--step-small);
-  font-weight: 500;
-  text-decoration: none;
-  white-space: nowrap;
+/* ---------- Ledger ---------- */
+
+.vb-tools-cols {
+  display: none;
 }
 
-.vb-tools-proj:hover {
-  text-decoration: underline;
-}
-
-.vb-tools-where {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0 1.1rem;
-  margin-top: auto;
-}
-
-/* ---------- Jobs ---------- */
-
-.vb-tools-grid {
-  display: grid;
-  gap: 1rem;
+.vb-tools-rows {
   margin: 0;
   padding: 0;
   list-style: none;
+  border-bottom: 1px solid var(--tools-rule);
 }
 
-.vb-tools-job {
-  display: flex;
-  flex-direction: column;
-  gap: 0.85rem;
-  padding: 1.5rem 0 0.5rem;
+.vb-tools-row {
+  display: grid;
+  gap: 0.5rem;
+  padding: 1rem 0 0.35rem;
   border-top: 1px solid var(--tools-rule);
 }
 
-.vb-tools-job[data-wide="true"] {
-  padding: clamp(1.5rem, 3vw, 2.5rem);
-  border-top: 0;
-  border-radius: 0.75rem;
-  background: var(--tools-panel);
-}
-
-.vb-tools-n {
-  color: var(--ember);
-  font-family: var(--display);
-  font-size: 0.875rem;
-  font-weight: 700;
-  font-variant-numeric: tabular-nums;
+.vb-tools-job {
+  display: grid;
+  gap: 0.3rem;
+  align-content: start;
 }
 
 .vb-tools-title {
-  font-size: clamp(1.4rem, 1.1rem + 1vw, 1.9rem);
-  line-height: 1.1;
-}
-
-.vb-tools-job[data-wide="true"] .vb-tools-title {
-  font-size: clamp(1.6rem, 1.1rem + 1.8vw, 2.6rem);
+  font-size: clamp(1.2rem, 1.05rem + 0.5vw, 1.45rem);
+  line-height: 1.15;
 }
 
 .vb-tools-line {
-  max-width: 58ch;
+  max-width: 60ch;
   color: var(--sand-2);
   font-size: var(--step-small);
-  line-height: 1.55;
+  line-height: 1.5;
   text-wrap: pretty;
-}
-
-.vb-tools-job[data-wide="true"] .vb-tools-line {
-  font-size: var(--step-body);
 }
 
 .vb-tools-names {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.25rem 0.9rem;
-  margin: 0.15rem 0 0;
+  align-content: start;
+  gap: 0.1rem 0;
+  margin: 0;
   padding: 0;
   list-style: none;
 }
 
 .vb-tools-name {
   color: var(--sand);
-  font-family: var(--display);
-  font-size: clamp(1.05rem, 0.95rem + 0.45vw, 1.3rem);
+  font-size: var(--step-small);
   font-weight: 600;
-  line-height: 1.3;
-  transition: opacity var(--t-ui) ease;
+  line-height: 1.5;
 }
 
 .vb-tools-name:not(:last-child)::after {
-  content: "/";
-  margin-left: 0.9rem;
-  color: color-mix(in srgb, var(--sand) 30%, transparent);
+  content: "·";
+  margin: 0 0.5rem;
+  color: var(--sand-2);
   font-weight: 400;
 }
 
-/* How each project used them. */
+/* Projects: swatch and name, with a test count above where there is one. */
+.vb-tools-cells {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0 1.1rem;
+  margin: 0;
+}
+
+.vb-tools-cell {
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 2.75rem;
+  color: var(--sand);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+a.vb-tools-cell:hover .vb-tools-cell-name {
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+.vb-tools-cell-name {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: var(--step-small);
+  font-weight: 500;
+}
+
+.vb-tools-count {
+  font-family: var(--display);
+  font-size: 1.35rem;
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+}
+
+/* A row with notes opens them from its projects. */
+.vb-tools-fold-summary {
+  cursor: pointer;
+  list-style: none;
+  border-radius: 0.4rem;
+}
+
+.vb-tools-fold-summary::-webkit-details-marker {
+  display: none;
+}
+
+.vb-tools-fold-summary:hover .vb-tools-cell-name {
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+.vb-tools-chev {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.25rem;
+  min-height: 2.75rem;
+  color: var(--ember);
+}
+
+.vb-tools-chev::before {
+  content: "";
+  width: 0.5rem;
+  height: 0.5rem;
+  border-right: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  transform: translateY(-0.15rem) rotate(45deg);
+  transition: transform var(--t-ui) var(--ease-out);
+}
+
+.vb-tools-fold[open] .vb-tools-chev::before {
+  transform: translateY(0.15rem) rotate(-135deg);
+}
+
 .vb-tools-notes {
   display: grid;
-  gap: 0.25rem;
-  margin: 0.5rem 0 0;
+  gap: 0.6rem;
+  margin: 0.35rem 0 0.6rem;
   padding: 0;
   list-style: none;
 }
 
 .vb-tools-how {
   display: grid;
-  gap: 0 1rem;
-  padding: 0.25rem 0 0.75rem;
-  border-top: 1px solid var(--tools-rule);
-}
-
-.vb-tools-how-text {
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 0.1rem 0.6rem;
+  align-items: baseline;
   max-width: 62ch;
   color: var(--sand-2);
   font-size: var(--step-small);
-  line-height: 1.55;
+  line-height: 1.5;
   text-wrap: pretty;
 }
 
-/* Test counts, read from each repository. */
-.vb-tools-counts {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(8.5rem, 1fr));
-  gap: 0.75rem 1.5rem;
-  margin: 0.5rem 0 0;
-  padding: 0;
-  list-style: none;
+.vb-tools-notes .vb-tools-how {
+  grid-template-columns: minmax(0, 1fr);
 }
 
-.vb-tools-count {
-  display: grid;
-  padding-top: 0.75rem;
-  border-top: 3px solid var(--swatch);
-}
-
-.vb-tools-count-n {
-  font-family: var(--display);
-  font-size: clamp(1.9rem, 1.4rem + 1.6vw, 2.8rem);
-  font-weight: 700;
-  line-height: 1;
-  letter-spacing: -0.02em;
-  font-variant-numeric: tabular-nums;
-}
-
-.vb-tools-small {
-  color: var(--sand-2);
-  font-size: 0.875rem;
-}
-
-/* On phones, the notes fold behind one line that keeps the projects' swatches. */
-.vb-tools-fold {
-  margin-top: 0.25rem;
-  border-top: 1px solid var(--tools-rule);
-}
-
-.vb-tools-fold > .vb-details-summary {
-  font-family: var(--text);
-  font-size: var(--step-small);
-  font-weight: 500;
-  color: var(--sand-2);
-}
-
-.vb-tools-fold-summary {
+.vb-tools-how-proj {
   display: inline-flex;
   align-items: center;
-  gap: 0.6rem;
+  gap: 0.45rem;
+  color: var(--sand);
+  font-weight: 600;
+  text-decoration: none;
 }
 
-.vb-tools-fold-swatches {
-  display: inline-flex;
-  gap: 0.25rem;
+.vb-tools-how-proj:hover {
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
 }
 
-.vb-tools-fold > .vb-details-body {
-  padding-top: 0.25rem;
-}
-
-.vb-tools-fold .vb-tools-notes {
-  margin: 0;
+/* A selected note sits under the job line. */
+.vb-tools-job > .vb-tools-how {
+  margin-top: 0.35rem;
+  color: var(--sand);
 }
 
 /* ---------- Filter states ---------- */
 
-/* Only the selected project's jobs are listed; within them its tools are marked. */
-.vb-tools-name[data-lit="off"] {
-  opacity: var(--tools-dim);
+.vb-tools-cell[data-lit="off"] {
+  color: var(--sand-2);
 }
 
-.vb-tools-name[data-lit="on"] {
+.vb-tools-cell[data-lit="off"] .vb-tools-swatch {
+  opacity: 0.45;
+}
+
+.vb-tools-cell[data-lit="on"] .vb-tools-cell-name {
   color: var(--ember);
+  font-weight: 700;
 }
 
-.vb-tools-grid[data-filtered="true"] .vb-tools-job {
-  border-top-color: var(--ember);
-}
-
-@media (max-width: 699px) {
-  .vb-tools-job {
-    gap: 0.65rem;
-    padding-top: 1.25rem;
-  }
-  .vb-tools-job[data-wide="true"] {
-    padding: 1.25rem;
-  }
+.vb-tools-cells-note {
+  flex-basis: 100%;
+  color: var(--sand-2);
+  font-size: 0.875rem;
 }
 
 /* ---------- The rest ---------- */
-
-.vb-tools-rest {
-  padding-top: 1.5rem;
-  border-top: 1px solid var(--tools-rule);
-}
 
 .vb-tools-rest-summary {
   font-size: var(--step-body);
@@ -313,6 +303,11 @@
 .vb-tools-rest .vb-details-body {
   display: grid;
   gap: 1.25rem;
+}
+
+.vb-tools-small {
+  color: var(--sand-2);
+  font-size: 0.875rem;
 }
 
 .vb-tools-rest-grid {
@@ -336,59 +331,127 @@
 }
 
 @media (min-width: 700px) {
-  .vb-tools-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    column-gap: clamp(1.5rem, 3vw, 2.5rem);
-    row-gap: 1.5rem;
-  }
-  .vb-tools-job[data-wide="true"] {
-    grid-column: 1 / -1;
-  }
-  /* A few jobs pack into balanced columns, so short ones leave no tall gaps. */
-  .vb-tools-grid[data-filtered="true"] {
-    display: block;
-    columns: 2;
-    column-gap: clamp(1.5rem, 3vw, 2.5rem);
-  }
-  .vb-tools-grid[data-filtered="true"] .vb-tools-job {
-    break-inside: avoid;
-    margin-bottom: 1.5rem;
-  }
   .vb-tools-rest-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
-@media (min-width: 1100px) {
+/* Wide: a matrix. Project names head six fixed columns and each row marks its
+   projects with their field colour, so the pattern reads down the ledger. */
+@media (min-width: 1000px) {
   .vb-tools-head {
-    grid-template-columns: minmax(0, 6fr) minmax(0, 5fr);
+    grid-template-columns: minmax(0, 1fr) auto;
     column-gap: clamp(2rem, 5vw, 5rem);
-    align-items: end;
+    align-items: start;
   }
   .vb-tools-head > :first-child {
-    grid-column: 1;
+    grid-column: 1 / -1;
   }
-  .vb-tools-head > :nth-child(2) {
-    grid-column: 1;
+  .vb-tools-lead {
+    padding-top: 0.5rem;
   }
-  .vb-tools-filter {
-    grid-column: 2;
-    grid-row: 1 / span 2;
-    align-self: end;
+
+  .vb-tools-ledger {
+    --slot: 4.3rem;
+    --slots: repeat(6, var(--slot)) 1.25rem;
+    --ledger: minmax(0, 1.1fr) minmax(0, 1fr) auto;
   }
-  .vb-tools-grid {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+
+  .vb-tools-cols,
+  .vb-tools-row {
+    display: grid;
+    grid-template-columns: var(--ledger);
+    column-gap: clamp(1.5rem, 3vw, 3rem);
   }
-  .vb-tools-job[data-wide="true"] {
-    grid-column: span 2;
+
+  .vb-tools-cols {
+    align-items: end;
+    padding-bottom: 0.6rem;
+    color: var(--sand-2);
+    font-size: 0.875rem;
   }
-  .vb-tools-grid[data-filtered="true"] {
-    columns: 3;
+
+  .vb-tools-cols-projects,
+  .vb-tools-cells {
+    display: grid;
+    grid-template-columns: var(--slots);
+    column-gap: 0.5rem;
   }
-  .vb-tools-job[data-wide="true"] .vb-tools-how {
-    grid-template-columns: 7.5rem minmax(0, 1fr);
-    align-items: baseline;
+
+  .vb-tools-cols-projects > span {
+    color: var(--sand);
+    font-weight: 500;
   }
+
+  .vb-tools-cols-projects > [data-lit="on"] {
+    color: var(--ember);
+    font-weight: 700;
+  }
+
+  .vb-tools-cols-projects > [data-lit="off"] {
+    color: var(--sand-2);
+  }
+
+  .vb-tools-row {
+    padding: 0.85rem 0;
+    align-items: start;
+  }
+
+  .vb-tools-names {
+    padding-top: 0.2rem;
+  }
+
+  .vb-tools-cells {
+    align-items: start;
+  }
+
+  .vb-tools-cell {
+    grid-column: var(--col);
+    grid-row: 1;
+    justify-content: start;
+    padding-top: 0.3rem;
+  }
+
+  /* The header names the column; the cell keeps the name for screen readers. */
+  .vb-tools-cell-label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  .vb-tools-cell .vb-tools-swatch {
+    width: 1.1rem;
+    height: 1.1rem;
+  }
+
+  .vb-tools-count {
+    order: 1;
+    margin-top: 0.3rem;
+    font-size: 1.1rem;
+  }
+
+  .vb-tools-cell[data-lit="on"] .vb-tools-swatch {
+    box-shadow: 0 0 0 2px var(--tools-bg), 0 0 0 4px var(--ember);
+  }
+
+  .vb-tools-cells-note {
+    grid-column: 1 / -1;
+    grid-row: 2;
+  }
+
+  .vb-tools-chev {
+    grid-column: -2;
+    grid-row: 1;
+    min-height: 1.75rem;
+  }
+
+  .vb-tools-notes {
+    width: calc(6 * var(--slot) + 6 * 0.5rem + 1.25rem);
+  }
+
   .vb-tools-rest-grid {
     grid-template-columns: repeat(4, minmax(0, 1fr));
   }
@@ -396,7 +459,7 @@
 
 @media (prefers-reduced-motion: reduce) {
   .vb-tools-pick,
-  .vb-tools-name {
+  .vb-tools-chev::before {
     transition: none;
   }
 }

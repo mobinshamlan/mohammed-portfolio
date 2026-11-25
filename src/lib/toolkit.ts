@@ -16,10 +16,8 @@ export type Job = {
   line: string;
   /** Names from skills.ts. */
   tools: string[];
-  /** How each project used them, for the jobs that deserve the detail. */
+  /** How each project used them, opened on demand. */
   notes?: JobNote[];
-  /** Larger on wide screens. */
-  wide?: boolean;
   /** Show the checked test counts from projects.ts. */
   tests?: boolean;
 };
@@ -35,28 +33,28 @@ const jobs: Job[] = [
       "Llama 4 Scout on Cloudflare Workers AI",
       "Anthropic Claude with tools",
       "Google Gemini",
+      "Open-Meteo and SunCalc",
     ],
     notes: [
       {
-        project: "kashta",
-        text: "Code computes the Kashta Score. Llama turns a trip into settings that must parse against a Zod schema, then explains the ranking; a sentence with a number not in the forecast is cut.",
-      },
-      {
         project: "seet",
         text: "Claude replies through tools the server runs, so every price and date comes from the database. Only the payment callback can confirm a booking.",
+      },
+      {
+        project: "kashta",
+        text: "Code ranks the camping sites from seven nights of Open-Meteo forecast and SunCalc moonlight. Llama turns a trip into settings that must parse against a Zod schema, then explains the ranking; a sentence with a number not in the forecast is cut.",
       },
       {
         project: "amanah",
         text: "Gemini compares lost and found reports privately and suggests matches. Staff approve or reject each one.",
       },
     ],
-    wide: true,
   },
   {
     id: "calls",
     title: "Phone calls in Arabic",
     line: "A real call on an ordinary phone, with a live voice that listens and speaks in Arabic.",
-    tools: ["Twilio Voice", "OpenAI Realtime voice"],
+    tools: ["Twilio Voice", "OpenAI Realtime voice", "Python"],
     notes: [
       {
         project: "naqah",
@@ -64,54 +62,57 @@ const jobs: Job[] = [
       },
       {
         project: "tammeni",
-        text: "Lulwa calls a parent at the time they chose, then answers follow-ups only from that child's record.",
+        text: "Lulwa calls a parent at the time they chose, then answers follow-ups only from that child's record. The voice service is Python, on Railway.",
       },
     ],
   },
   {
-    id: "private",
-    title: "Data that stays private",
-    line: "Row-level security in Postgres decides who can read a record, not the app: one ranch per owner, one parent's children, one organisation's reports, a host's guests.",
-    tools: ["Supabase", "PostgreSQL and row-level security"],
+    id: "data",
+    title: "Private data, database rules",
+    line: "Postgres decides who can read a record and when a booking is allowed, not the app.",
+    tools: [
+      "Supabase",
+      "PostgreSQL and row-level security",
+      "Postgres triggers and locks",
+      "Webhooks and signatures",
+      "SQL",
+      "FastAPI",
+    ],
+    notes: [
+      { project: "naqah", text: "Supabase Auth and row-level security keep one ranch to one owner." },
+      {
+        project: "tammeni",
+        text: "Row-level security scopes every record to the parent. A FastAPI service serves the demo's fictional school data.",
+      },
+      {
+        project: "seet",
+        text: "A Postgres trigger under a per-workspace lock refuses a second hold on the same slot. The WhatsApp webhook checks its signature before anything is read.",
+      },
+      { project: "amanah", text: "Row-level security scopes every report to its organisation." },
+      {
+        project: "gthrz",
+        text: "Row-level security enforces each event's privacy: the address now or later, guest names and photos on or off.",
+      },
+    ],
   },
   {
-    id: "rules",
-    title: "Rules the database enforces",
-    line: "Booking rules sit in a Postgres trigger under a per-workspace lock, so two holds on one slot cannot both succeed. The WhatsApp webhook checks its signature before anything is read.",
-    tools: ["Postgres triggers and locks", "Webhooks and signatures"],
-  },
-  {
-    id: "arabic",
-    title: "Arabic-first interfaces",
-    line: "Web apps laid out right to left from the start, in Saudi Arabic, with English alongside where it helps.",
-    tools: ["Next.js", "React", "Tailwind CSS", "Arabic-first, RTL interfaces", "zustand"],
-  },
-  {
-    id: "tests",
-    title: "Tests that run",
-    line: "Vitest covers Naqah's question flow and Playwright walks the owner's website end to end.",
-    tools: ["Vitest", "Playwright"],
-    tests: true,
-    wide: true,
-  },
-  {
-    id: "forecast",
-    title: "Forecasts turned into a score",
-    line: "Seven nights of forecast and moonlight for every camping site in one call, cached for 30 minutes, then ranked by code.",
-    tools: ["Open-Meteo and SunCalc"],
+    id: "web",
+    title: "Arabic-first web apps",
+    line: "Right to left from the start, in Saudi Arabic, on Vercel. TypeScript throughout, the phone app too.",
+    tools: ["Next.js", "React", "Tailwind CSS", "Arabic-first, RTL interfaces", "zustand", "TypeScript", "Vercel and Railway"],
   },
   {
     id: "mobile",
     title: "A phone app",
-    line: "An iPhone and Android app for private events: guests request to join, the host approves, and the address stays hidden until the host reveals it.",
+    line: "iPhone and Android, for private events: the host approves guests and decides when the address shows.",
     tools: ["React Native and Expo"],
   },
   {
-    id: "ship",
-    title: "Typed, queried and shipped",
-    line: "TypeScript across the apps, SQL where the data lives, the web apps on Vercel and Tammeni's Python voice service on Railway, next to a FastAPI service for its demo school data.",
-    tools: ["TypeScript", "SQL", "Vercel and Railway", "Python", "FastAPI"],
-    wide: true,
+    id: "tests",
+    title: "Tests that run",
+    line: "Vitest covers Naqah's question flow; Playwright walks the owner's website end to end.",
+    tools: ["Vitest", "Playwright"],
+    tests: true,
   },
 ];
 
@@ -162,6 +163,13 @@ export const toolkit: ResolvedJob[] = jobs.map((job) => {
     projects: order.filter((id) => touched.has(id)),
   };
 });
+
+// Every skill used in a project belongs to one job, so nothing in skills.ts goes missing here.
+for (const item of allSkills) {
+  if (item.projects?.length && !jobs.some((job) => job.tools.includes(item.name))) {
+    throw new Error(`skills.ts lists "${item.name}" in a project, but no toolkit job names it.`);
+  }
+}
 
 /** Projects that appear in the toolkit, in portfolio order, for the filter. */
 export const toolkitProjects = order.filter((id) => toolkit.some((job) => job.projects.includes(id)));

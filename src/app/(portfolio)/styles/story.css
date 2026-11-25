@@ -1,413 +1,107 @@
-/* ---------- Where I come from: the route, stop by stop ----------
-   Home, a short stop in Brighton, four years in London, home again.
-   London gets the most room because it held the most. */
+/* ---------- Where I come from: one route, stop by stop ----------
+   Home, a short stop in Brighton, four years in London, home again, then
+   what comes next. Each stop draws its own stretch of the line: dotted while
+   travelling, a thick accent line for London, faint for what is still ahead.
+   Side by side on wide screens, stacked along a left rail on phones. */
 
 .vb-story {
-  padding: clamp(4rem, 8vw, 8rem) var(--gutter);
+  padding: clamp(3.5rem, 6vw, 6rem) var(--gutter);
   scroll-margin-top: 4rem;
 }
 
 .vb-story-head {
   display: flex;
   flex-direction: column;
-  gap: 1.25rem;
-}
-
-/* Small labels: years, durations, "Next". */
-.vb-story-when {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 0.6rem;
-  color: var(--ember);
-  font-size: var(--step-small);
-  font-weight: 500;
-  letter-spacing: 0.02em;
-}
-
-/* Place names: big English, Arabic underneath. */
-.vb-story-place {
-  font-size: clamp(2rem, 1.4rem + 2.4vw, 3.25rem);
-}
-
-.vb-story-place [lang="ar"] {
-  display: block;
-  width: fit-content;
-  margin-top: 0.35em;
-  color: var(--sand-2);
-  font-size: 0.55em;
-  font-weight: 500;
-  line-height: 1.3;
-}
-
-.vb-story-place-sm {
-  font-size: clamp(1.75rem, 1.3rem + 1.6vw, 2.5rem);
-}
-
-.vb-story-place-xl {
-  font-size: clamp(3.5rem, 1.6rem + 8vw, 9rem);
-  letter-spacing: -0.04em;
-}
-
-.vb-story-copy {
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-  max-width: 38ch;
-}
-
-.vb-story-copy > .vb-story-place {
-  margin-bottom: 0.25rem;
-}
-
-/* ---------- The route line ---------- */
-
-.vb-story-route {
-  margin-top: clamp(2.5rem, 5vw, 4.5rem);
-}
-
-.vb-story-rail {
-  position: relative;
-  height: clamp(3.5rem, 2rem + 4vw, 6rem);
-}
-
-.vb-story-rail svg {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  overflow: visible;
-  fill: none;
-}
-
-.vb-story-line,
-.vb-story-line-london,
-.vb-story-line-next {
-  vector-effect: non-scaling-stroke;
-  stroke-linecap: round;
-}
-
-.vb-story-line {
-  stroke: var(--sand-2);
-  stroke-width: 1.5;
-  stroke-dasharray: 2 7;
-}
-
-.vb-story-line-london {
-  stroke: var(--ember);
-  stroke-width: 7;
-}
-
-.vb-story-line-next {
-  stroke: var(--sand-2);
-  stroke-width: 1.5;
-  stroke-dasharray: 1 9;
-  opacity: 0.5;
-}
-
-.vb-story-pin {
-  position: absolute;
-  width: 0.8rem;
-  height: 0.8rem;
-  border: 2px solid var(--sand);
-  border-radius: 50%;
-  background: var(--night);
-  transform: translate(-50%, -50%);
-}
-
-/* London is the stretch itself; its pin sits on the ember line as a quiet mark. */
-.vb-story-pin[data-kind="long"] {
-  width: 0.5rem;
-  height: 0.5rem;
-  border: 0;
-  background: var(--ember-ink);
-}
-
-.vb-story-pin[data-kind="now"] {
-  width: 1rem;
-  height: 1rem;
-  border: 0;
-  background: var(--ember);
-  box-shadow: 0 0 0 0.4rem color-mix(in srgb, var(--ember) 22%, transparent);
-}
-
-.vb-story-stops {
-  display: grid;
-  grid-template-columns: 2.2fr 1.8fr 3.6fr 2.4fr;
-  margin: 0.75rem 0 0;
-  padding: 0;
-  list-style: none;
-  text-align: center;
-}
-
-.vb-story-stops a {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.15rem;
-  padding: 0.5rem 0.25rem;
-  border-radius: 0.4rem;
-  text-decoration: none;
-  transition: background-color var(--t-hover) ease;
-}
-
-.vb-story-stops a:hover {
-  background: var(--night-2);
-}
-
-.vb-story-stop-en {
-  font-family: var(--display);
-  font-weight: 700;
-  font-size: clamp(0.8rem, 0.6rem + 0.7vw, 1.15rem);
-  line-height: 1.15;
-}
-
-.vb-story-stops [data-kind="long"] .vb-story-stop-en {
-  font-size: clamp(1rem, 0.6rem + 1.4vw, 1.75rem);
-  color: var(--ember);
-}
-
-.vb-story-stop-ar {
-  color: var(--sand-2);
-  font-size: clamp(0.78rem, 0.65rem + 0.4vw, 1rem);
-}
-
-.vb-story-stop-when {
-  color: var(--sand-2);
-  font-size: clamp(0.72rem, 0.65rem + 0.25vw, 0.875rem);
-  font-variant-numeric: tabular-nums;
-}
-
-/* ---------- Photos ---------- */
-
-.vb-story-photo {
-  margin: 0;
-}
-
-.vb-story-photo img {
-  width: 100%;
-  height: auto;
-  object-fit: cover;
-  border-radius: 0.5rem;
-}
-
-.vb-story-photo figcaption {
-  margin-top: 0.6rem;
-  color: var(--sand-2);
-  font-size: var(--step-small);
-}
-
-.vb-story-child img {
-  aspect-ratio: 4 / 5;
-}
-
-/* The graduation photo opens the page as the portrait, so here it is only a keepsake. */
-.vb-story-grad {
-  display: flex;
-  align-items: center;
-  gap: 0.85rem;
-  margin-top: 0.5rem;
-}
-
-.vb-story-grad img {
-  width: 4.5rem;
-  flex: none;
-  aspect-ratio: 1;
-  border-radius: 0.4rem;
-}
-
-.vb-story-grad figcaption {
-  margin-top: 0;
-}
-
-/* ---------- Home, then Brighton ---------- */
-
-.vb-story-start {
-  display: grid;
-  gap: 3rem;
-  margin-top: clamp(3rem, 6vw, 5.5rem);
-}
-
-.vb-story-origin {
-  display: grid;
-  gap: 1.5rem;
-}
-
-.vb-story-child {
-  width: min(100%, 15rem);
-}
-
-/* A short stop: no photo, a dashed edge like the line that led to it. */
-.vb-story-brighton {
-  padding-left: 1.25rem;
-  border-left: 2px dashed color-mix(in srgb, var(--sand-2) 55%, transparent);
-}
-
-/* ---------- London ---------- */
-
-.vb-story-london {
-  display: grid;
-  gap: 2.5rem;
-  margin-top: clamp(3.5rem, 7vw, 6.5rem);
-  padding: clamp(1.5rem, 4vw, 4rem);
-  border-top: 7px solid var(--ember);
-  border-radius: 0 0 0.75rem 0.75rem;
-  background: var(--night-2);
-  scroll-margin-top: 4rem;
-}
-
-.vb-story-london-head {
-  display: flex;
-  flex-direction: column;
   gap: 1rem;
 }
 
-.vb-story-fund {
-  max-width: 40ch;
-  color: var(--sand-2);
-}
+/* ---------- The route ---------- */
 
-.vb-story-years {
+.vb-route {
   display: flex;
   flex-direction: column;
-  gap: 2rem;
-  margin: 0;
+  margin: clamp(2rem, 4vw, 3rem) 0 0;
   padding: 0;
   list-style: none;
 }
 
-.vb-story-years > li {
+.vb-route-stop {
+  --rail-w: 2px;
+  --rail-style: dotted;
+  --rail-color: color-mix(in srgb, var(--sand-2) 70%, transparent);
   position: relative;
-  padding-left: 1.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  min-width: 0;
+  padding: 0 0 2rem 2rem;
+  scroll-margin-top: 5rem;
 }
 
-/* The years as a thin rail with a mark at each one. */
-.vb-story-years > li::before {
+/* The stretch of line this stop owns. */
+.vb-route-stop::before {
   content: "";
   position: absolute;
-  left: 0.3rem;
-  top: 0.55rem;
-  bottom: -2rem;
-  width: 1px;
-  background: color-mix(in srgb, var(--sand-2) 40%, transparent);
+  top: 0.6rem;
+  bottom: 0;
+  left: calc(0.45rem - var(--rail-w) / 2);
+  border-left: var(--rail-w) var(--rail-style) var(--rail-color);
 }
 
-.vb-story-years > li:last-child::before {
-  display: none;
+.vb-route-stop[data-kind="long"] {
+  --rail-w: 6px;
+  --rail-style: solid;
+  --rail-color: var(--ember);
 }
 
-.vb-story-years > li::after {
-  content: "";
+.vb-route-stop[data-kind="next"] {
+  --rail-color: color-mix(in srgb, var(--sand-2) 35%, transparent);
+  padding-bottom: 0;
+}
+
+.vb-route-pin {
   position: absolute;
+  top: 0.15rem;
   left: 0;
-  top: 0.3rem;
-  width: 0.65rem;
-  height: 0.65rem;
-  border: 2px solid var(--ember);
+  width: 0.9rem;
+  height: 0.9rem;
+  border: 2px solid var(--sand);
   border-radius: 50%;
-  background: var(--night-2);
+  background: var(--night);
+  z-index: 1;
 }
 
-.vb-story-milestone::after {
-  background: var(--ember) !important;
+.vb-route-stop[data-kind="long"] .vb-route-pin {
+  border-color: var(--ember);
 }
 
-.vb-story-year {
-  display: flex;
-  flex-direction: column;
-  gap: 0.45rem;
-  max-width: 46ch;
-}
-
-/* A milestone with the document that proves it. */
-.vb-story-proved {
-  display: grid;
-  gap: 1.25rem;
-}
-
-.vb-story-years h4 {
-  margin: 0;
-  font-family: var(--display);
-  font-size: var(--step-lead);
-  font-weight: 700;
-  line-height: 1.15;
-  letter-spacing: -0.015em;
-}
-
-/* Certificates shown as the artifacts themselves; each opens in the viewer. */
-.vb-story-artifact {
-  display: flex;
-  flex-direction: column;
-  gap: 0.85rem;
-  width: 100%;
-  padding: 0.75rem 0.75rem 1rem;
+.vb-route-stop[data-kind="now"] .vb-route-pin {
   border: 0;
-  border-radius: 0.6rem;
-  background: var(--night-3);
-  color: var(--sand);
-  cursor: pointer;
-  text-align: left;
-  text-decoration: none;
-  transition: background-color var(--t-hover) ease;
+  background: var(--ember);
+  box-shadow: 0 0 0 0.35rem color-mix(in srgb, var(--ember) 22%, transparent);
 }
 
-.vb-story-artifact:hover {
-  background: #242b3d;
+.vb-route-stop[data-kind="next"] .vb-route-pin {
+  border-style: dashed;
+  border-color: var(--sand-2);
 }
 
-.vb-story-artifact-img {
-  display: block;
-  overflow: hidden;
-  border-radius: 0.3rem;
-  box-shadow: 0 0.75rem 2rem -1rem rgb(0 0 0 / 0.7);
-}
-
-.vb-story-artifact-img img {
-  display: block;
-  width: 100%;
-  height: auto;
-  transition: transform var(--t-ui) ease;
-}
-
-.vb-story-artifact:hover .vb-story-artifact-img img {
-  transform: scale(1.02);
-}
-
-.vb-story-artifact-eid {
-  max-width: 28rem;
-}
-
-.vb-story-artifact-degree {
-  max-width: 17rem;
-}
-
-.vb-story-doc-text {
+/* Years, durations, "Next". */
+.vb-route-when {
   display: flex;
-  flex-direction: column;
-  gap: 0.2rem;
-}
-
-.vb-story-doc-title {
-  font-weight: 500;
-  line-height: 1.3;
-}
-
-.vb-story-doc-cta {
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 1.2rem;
   color: var(--ember);
   font-size: var(--step-small);
-  text-decoration: underline;
+  font-weight: 500;
+  line-height: 1.2;
+  font-variant-numeric: tabular-nums;
 }
 
-/* ---------- Home again, and what comes next ---------- */
-
-.vb-story-end {
-  display: grid;
-  gap: 2.5rem;
-  margin-top: clamp(3.5rem, 7vw, 6rem);
-}
-
-.vb-story-now-tag {
-  padding: 0.1rem 0.6rem;
+.vb-route-now-tag {
+  padding: 0.05rem 0.55rem;
   border-radius: 999px;
   background: var(--ember);
   color: var(--ember-ink);
@@ -415,135 +109,262 @@
   font-weight: 700;
 }
 
-.vb-story-link {
+/* Place names: English, then Arabic underneath. */
+.vb-route-place {
+  font-size: clamp(1.35rem, 1.15rem + 0.7vw, 1.75rem);
+  line-height: 1.1;
+  text-wrap: balance;
+}
+
+.vb-route-place [lang="ar"] {
+  display: block;
   width: fit-content;
-  min-height: 2.75rem;
+  margin-top: 0.3em;
+  color: var(--sand-2);
+  font-size: 0.72em;
+  font-weight: 500;
+  line-height: 1.3;
+}
+
+.vb-route-stop[data-kind="long"] .vb-route-place {
+  font-size: clamp(2.25rem, 1.6rem + 2.2vw, 3.5rem);
+  letter-spacing: -0.03em;
+}
+
+.vb-route-stop[data-kind="long"] .vb-route-place [lang="ar"] {
+  font-size: 0.5em;
+  letter-spacing: 0;
+}
+
+.vb-route-line {
+  max-width: 34ch;
+  color: var(--sand-2);
+  font-size: var(--step-small);
+  line-height: 1.45;
+}
+
+.vb-route-link {
   display: inline-flex;
   align-items: center;
+  width: fit-content;
+  min-height: 2.75rem;
   color: var(--ember);
   font-weight: 500;
   text-decoration: underline;
+  text-underline-offset: 0.2em;
 }
 
-.vb-story-next {
-  padding: 1.5rem;
-  border: 1px dashed color-mix(in srgb, var(--sand-2) 55%, transparent);
-  border-radius: 0.75rem;
+/* ---------- Home: the childhood photo ---------- */
+
+.vb-route-child {
+  display: flex;
+  align-items: end;
+  gap: 0.75rem;
+  margin: 0.25rem 0 0;
 }
 
-.vb-story-next-title {
-  font-size: var(--step-lead);
-  line-height: 1.15;
+.vb-route-child img {
+  display: block;
+  width: 5.5rem;
+  height: auto;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  border-radius: 0.4rem;
+}
+
+.vb-route-child figcaption {
+  color: var(--sand-2);
+  font-size: var(--step-small);
+}
+
+/* ---------- London: the years, and what I kept from them ---------- */
+
+.vb-route-facts {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin: 0.25rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.vb-route-facts li {
+  display: grid;
+  grid-template-columns: 4.25rem minmax(0, 1fr);
+  gap: 0.75rem;
+  color: var(--sand-2);
+  font-size: var(--step-small);
+  line-height: 1.45;
+}
+
+.vb-route-facts strong {
+  display: block;
+  color: var(--sand);
+  font-weight: 600;
+}
+
+.vb-route-year {
+  padding-top: 0.05rem;
+  color: var(--ember);
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Photos and certificates at a shared height, each in its own shape. */
+.vb-route-keep {
+  --thumb-h: 6.25rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: start;
+  gap: 0.75rem;
+  margin-top: 0.75rem;
+}
+
+.vb-route-thumb {
+  display: inline-flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--sand-2);
+  font: inherit;
+  font-size: 0.8125rem;
+  line-height: 1.3;
+  text-align: left;
+  text-decoration: none;
+}
+
+.vb-route-thumb-img {
+  display: block;
+  height: var(--thumb-h);
+  overflow: hidden;
+  border-radius: 0.35rem;
+  box-shadow: 0 0.5rem 1.25rem -0.75rem rgb(0 0 0 / 0.7);
+}
+
+.vb-route-thumb-img img {
+  display: block;
+  width: auto;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Captions wrap to the width of their picture. */
+.vb-route-thumb figcaption,
+.vb-route-doc-cap {
+  width: 0;
+  min-width: 100%;
+  font-size: 0.8125rem;
+  line-height: 1.3;
+}
+
+.vb-route-doc {
+  cursor: pointer;
+}
+
+.vb-route-doc-cap {
+  color: var(--ember);
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+.vb-route-doc .vb-route-thumb-img {
+  outline: 1px solid transparent;
+  outline-offset: 2px;
+  transition: outline-color var(--t-hover) ease, transform var(--t-ui) var(--ease-out);
+}
+
+.vb-route-doc:hover .vb-route-thumb-img {
+  outline-color: var(--ember);
+  transform: translateY(-2px);
 }
 
 /* ---------- Off the keyboard ---------- */
 
 .vb-story-off {
   display: grid;
-  gap: 2.5rem;
-  margin-top: clamp(4rem, 8vw, 7rem);
-  padding-top: clamp(2.5rem, 5vw, 4rem);
+  gap: 1rem;
+  margin-top: clamp(2rem, 4vw, 3rem);
+  padding-top: 1.5rem;
   border-top: 1px solid color-mix(in srgb, var(--sand-2) 25%, transparent);
 }
 
-.vb-story-values {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  max-width: var(--measure);
+.vb-story-off > p {
+  max-width: 60ch;
+  font-size: var(--step-small);
 }
 
-.vb-story-values-line {
-  font-family: var(--display);
-  font-size: var(--step-lead);
-  font-weight: 500;
-  line-height: 1.3;
-  text-wrap: pretty;
+.vb-story-music .vb-details-summary {
+  font-size: var(--step-body);
 }
 
-.vb-story-music-title {
-  font-size: var(--step-lead);
-  font-weight: 700;
-}
-
-/* ---------- Wide screens ---------- */
+/* ---------- Wide screens: the route runs left to right ---------- */
 
 @media (min-width: 900px) {
-  .vb-story-start {
-    grid-template-columns: 7fr 4fr;
-    align-items: end;
-    column-gap: clamp(2rem, 5vw, 5rem);
-  }
-
-  .vb-story-origin {
-    grid-template-columns: minmax(12rem, 15rem) 1fr;
-    align-items: end;
-    column-gap: 2rem;
-  }
-
-  .vb-story-origin .vb-story-copy {
-    padding-bottom: 2.4rem;
-  }
-
-  .vb-story-brighton {
-    margin-bottom: 2.4rem;
-  }
-
-  .vb-story-london {
-    gap: clamp(3rem, 5vw, 4.5rem);
-  }
-
-  .vb-story-london-head {
+  .vb-route {
     display: grid;
-    grid-template-columns: minmax(0, 6fr) minmax(0, 5fr);
-    column-gap: clamp(2.5rem, 5vw, 6rem);
-    align-items: end;
-  }
-
-  .vb-story-london-head .vb-story-when {
-    grid-column: 1 / -1;
-  }
-
-  .vb-story-fund {
-    padding-bottom: 1rem;
-  }
-
-  .vb-story-years {
-    gap: 2.75rem;
-  }
-
-  .vb-story-years > li::before {
-    bottom: -2.75rem;
-  }
-
-  /* The milestone on the left, its document beside it. */
-  .vb-story-proved {
-    grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
-    column-gap: clamp(2.5rem, 5vw, 6rem);
+    grid-template-columns:
+      minmax(0, 1.05fr) minmax(0, 0.85fr) minmax(0, 2.6fr)
+      minmax(0, 1.05fr) minmax(0, 0.95fr);
     align-items: start;
   }
 
-  .vb-story-end {
-    grid-template-columns: 7fr 4fr;
+  .vb-route-stop {
+    padding: 2rem clamp(1rem, 2vw, 2rem) 0 0;
+  }
+
+  .vb-route-stop::before {
+    top: calc(0.45rem - var(--rail-w) / 2);
+    right: 0;
+    bottom: auto;
+    left: 0;
+    border-top: var(--rail-w) var(--rail-style) var(--rail-color);
+    border-left: 0;
+  }
+
+  /* What is ahead fades out. */
+  .vb-route-stop[data-kind="next"]::before {
+    right: 10%;
+    -webkit-mask-image: linear-gradient(90deg, #000 40%, transparent);
+    mask-image: linear-gradient(90deg, #000 40%, transparent);
+  }
+
+  .vb-route-pin {
+    top: 0;
+  }
+
+  .vb-route-child {
+    flex-direction: column;
     align-items: start;
-    column-gap: clamp(2rem, 5vw, 5rem);
+  }
+
+  .vb-route-child img {
+    width: 7rem;
+  }
+
+  .vb-route-keep {
+    --thumb-h: 7.5rem;
   }
 
   .vb-story-off {
-    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);
     column-gap: clamp(2rem, 5vw, 5rem);
     align-items: start;
   }
-}
 
-@media (max-width: 899px) {
-  .vb-story-artifact-degree {
-    max-width: 14rem;
+  .vb-story-off > p {
+    padding-top: 0.55rem;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .vb-story-artifact-img img {
+  .vb-route-doc .vb-route-thumb-img {
     transition: none;
+  }
+
+  .vb-route-doc:hover .vb-route-thumb-img {
+    transform: none;
   }
 }

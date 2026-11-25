@@ -7,6 +7,7 @@ import "./styles/opening.css";
 import "./styles/work.css";
 import "./styles/story.css";
 import "./styles/toolkit.css";
+import "./styles/certs.css";
 
 // The portfolio: one display face and one text face, both Arabic and Latin.
 const display = Alexandria({

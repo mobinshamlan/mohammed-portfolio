@@ -889,36 +889,19 @@ html:has(.vb) {
   }
 }
 
-/* ---------- Chapter marker: number, English, a rule, Arabic, number ---------- */
+/* ---------- Bilingual chapter heading: English, then Arabic in the accent ---------- */
 
-.vb-mark {
+.vb-title {
   display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  margin: 0 0 1.25rem;
-  max-width: 34rem;
-  font-size: 0.875rem;
-  letter-spacing: 0.02em;
-  color: var(--mark-ink, var(--sand-2));
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0 0.5em;
 }
 
-.vb-mark-n {
-  font-family: var(--display);
+.vb-title-ar {
+  color: var(--ember);
+  font-size: 0.62em;
   font-weight: 700;
-  color: var(--mark-accent, var(--ember));
-  font-variant-numeric: tabular-nums;
-}
-
-.vb-mark-rule {
-  flex: 1 1 2rem;
-  min-width: 1.5rem;
-  height: 1px;
-  background: currentColor;
-  opacity: 0.45;
-}
-
-.vb-mark-ar {
-  font-family: var(--display);
-  font-weight: 700;
-  font-size: 1.05em;
+  letter-spacing: 0;
+  line-height: 1.4;
 }
