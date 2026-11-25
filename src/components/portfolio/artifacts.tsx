@@ -5,6 +5,7 @@ import { callScript } from "@/lib/naqah-call";
 import { gthrzVisibility } from "@/lib/gthrz";
 import type { ProjectId } from "@/lib/projects";
 import { useHydrated } from "@/lib/use-hydrated";
+import { AmanahClaimDemo } from "./demos/amanah-claim";
 import { KashtaScoreDemo } from "./demos/kashta-score";
 import { TammeniScheduleDemo } from "./demos/tammeni-schedule";
 
@@ -161,58 +162,6 @@ export function SeetChat({ compact = false }: { compact?: boolean }) {
   );
 }
 
-/* ---------- Amanah: proving ownership privately ---------- */
-
-export function AmanahQuestions() {
-  const hydrated = useHydrated();
-  const [answered, setAnswered] = useState<string | null>(null);
-  const options = ["Yellow", "Black", "Wooden"];
-  const after =
-    "If it matches, staff may ask one more question or approve; the finder's report is never shown to the owner, and the link credential is stored only as a SHA-256 hash.";
-  return (
-    <div className="vb-art vb-art-amanah" data-ui="">
-      <p className="vb-art-label">
-        Simulated ownership step, after the guided demo. Staff may ask up to two questions about a
-        match; this is the first of them, chosen from what the finder reported. Your answer is a
-        sample.
-      </p>
-      <p className="vb-art-h">
-        <span lang="ar">وش لون المقبض؟</span> What colour is the handle?
-      </p>
-      {hydrated ? (
-        <>
-          <div className="vb-art-options" role="group" aria-label="Sample answer">
-            {options.map((o) => (
-              <button
-                key={o}
-                type="button"
-                className="vb-btn vb-btn-quiet"
-                aria-pressed={answered === o}
-                onClick={() => setAnswered(o)}
-              >
-                {o}
-              </button>
-            ))}
-          </div>
-          <p className="vb-art-sum" aria-live="polite">
-            {answered
-              ? `Simulated: "${answered}" goes to staff on the private tracking link. ${after}`
-              : "Pick a sample answer. In the product the answer goes to staff, not to the finder; a second question is asked only if staff want more certainty."}
-          </p>
-        </>
-      ) : (
-        <>
-          <p className="vb-art-sum">
-            Sample answers: {options.join(", ")}. Whichever the owner picks goes to staff on the
-            private tracking link, not to the finder.
-          </p>
-          <p className="vb-art-sum">{after}</p>
-        </>
-      )}
-    </div>
-  );
-}
-
 /* ---------- Gthrz: what a guest sees, by state ---------- */
 
 export function GthrzVisibility() {
@@ -263,7 +212,7 @@ export function DecisionArtifact({ id }: { id: ProjectId }) {
     case "kashta":
       return <KashtaScoreDemo />;
     case "amanah":
-      return <AmanahQuestions />;
+      return <AmanahClaimDemo />;
     case "gthrz":
       return <GthrzVisibility />;
     default:

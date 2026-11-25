@@ -346,6 +346,74 @@
   font-weight: 700;
 }
 
+/* ---------- Amanah: the owner's question beside the staff verdict ---------- */
+
+.vb-demo-amanah-views {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.vb-demo-view {
+  display: grid;
+  align-content: start;
+  gap: 0.6rem;
+  padding: 0.9rem 1rem 1rem;
+  border-radius: 0.6rem;
+  background: var(--demo-surface);
+}
+
+.vb-demo-view h3 {
+  color: var(--demo-muted);
+  font-size: var(--step-small);
+  font-weight: 500;
+}
+
+.vb-demo-view .vb-art-h span[lang="ar"] {
+  display: block;
+  margin: 0 0 0.15rem;
+  font-size: 1.15rem;
+}
+
+.vb .vb-demo-view .vb-btn {
+  min-height: 2.75rem;
+  padding: 0 1.1rem;
+  font-size: var(--step-small);
+}
+
+.vb .vb-demo-view .vb-btn[aria-pressed="true"] {
+  background: var(--demo-accent);
+  color: var(--demo-accent-ink);
+}
+
+.vb-demo-verdict {
+  font-size: var(--step-small);
+  line-height: 1.5;
+}
+
+.vb-demo-verdict-word {
+  display: block;
+  margin-bottom: 0.2rem;
+  font-family: var(--display);
+  font-size: 1.15rem;
+  font-weight: 700;
+}
+
+.vb-demo-verdict[data-verdict="supports"] .vb-demo-verdict-word,
+.vb-demo-verdict[data-verdict="supports"] strong {
+  color: var(--ok);
+}
+
+.vb-demo-verdict[data-verdict="conflicts"] .vb-demo-verdict-word,
+.vb-demo-verdict[data-verdict="conflicts"] strong {
+  color: var(--danger);
+}
+
+@media (min-width: 600px) {
+  .vb-demo-amanah-views {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
 @media (max-width: 599px) {
   .vb-demo-steps {
     grid-template-columns: repeat(2, minmax(0, 1fr));
