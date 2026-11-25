@@ -2673,3 +2673,38 @@ div.vb-certs-row {
     padding-bottom: calc(2.5rem + var(--edge) * 0.5);
   }
 }
+
+/* Light parallax: product pictures drift a little slower than the page.
+   Scroll-driven where supported; elsewhere they simply stay still. */
+@keyframes vb-drift-y {
+  from {
+    translate: 0 var(--drift);
+  }
+  to {
+    translate: 0 calc(var(--drift) * -1);
+  }
+}
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .vb[data-motion="on"] :is(
+        .vb-proj-phones .vb-phone,
+        .vb-proj[data-layout="score"] .vb-proj-art,
+        .vb-proj[data-layout="views"] .vb-proj-art,
+        .vb-proj-fan .vb-capture,
+        .vb-exp-shot,
+        .vb-about-photo
+      ) {
+      --drift: 1.5rem;
+      animation: vb-drift-y linear both;
+      animation-timeline: view();
+      animation-range: cover;
+    }
+    .vb[data-motion="on"] .vb-proj-phones .vb-phone:nth-child(2),
+    .vb[data-motion="on"] .vb-proj-fan .vb-capture:nth-child(2),
+    .vb[data-motion="on"] .vb-exp-shot:nth-child(2),
+    .vb[data-motion="on"] .vb-about-grad {
+      --drift: 2.75rem;
+    }
+  }
+}
