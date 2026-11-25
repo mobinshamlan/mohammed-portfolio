@@ -3,6 +3,7 @@ import type { CSSProperties, ReactNode } from "react";
 import { fieldStyle, nextProject, previousProject, type Project, type ProjectId } from "@/lib/projects";
 import { amanahViews } from "@/lib/amanah-views";
 import { kashtaExample } from "@/lib/kashta-example";
+import { callScript } from "@/lib/naqah-call";
 import { DecisionArtifact } from "./artifacts";
 import { DayLine } from "./dayline";
 import { DeviceFrame } from "./device-frame";
@@ -11,18 +12,187 @@ import { Nav } from "./nav";
 import { MotionRoot, Reveal } from "./reveal";
 import { NightMark } from "./sky";
 
-/** How it works: actors and actions drawn as a flow, left to right on wide screens. */
-export function Flow({ project }: { project: Project }) {
+/** One reading on a step: a time, a state, or who can see it. `off` dims it; `all` covers every lane. */
+type Cue = { text: string; tone?: "off" | "held" | "done"; all?: boolean };
+
+/**
+ * What changes as each case's steps go by, read the way the product reads it:
+ * the evening's times, the booking's state, who can see what. Each lane holds
+ * one cue per step; `null` leaves that step without one.
+ */
+type HowView = {
+  kind: "timetable" | "states" | "nights" | "views" | "guest" | "children";
+  caption?: string;
+  lanes: { label: string; cues: (Cue | null)[] }[];
+};
+
+const callTimes = callScript.flatMap((line) => (line.kind === "event" ? [line.time] : []));
+
+const howViews: Partial<Record<ProjectId, HowView>> = {
+  naqah: {
+    kind: "timetable",
+    caption: "Times from the simulated sample call.",
+    lanes: [
+      {
+        label: "When",
+        cues: [
+          { text: "Set once" },
+          { text: callTimes[0] },
+          { text: `${callTimes[0].replace(" pm", "")}–${callTimes[1]}` },
+          { text: callTimes[1] },
+          { text: callTimes[2] },
+        ],
+      },
+    ],
+  },
+  seet: {
+    kind: "states",
+    caption: "The booking after each step.",
+    lanes: [
+      {
+        label: "Booking",
+        cues: [
+          { text: "No booking", tone: "off" },
+          { text: "No booking", tone: "off" },
+          { text: "Held", tone: "held" },
+          { text: "Held", tone: "held" },
+          { text: "Confirmed", tone: "done" },
+        ],
+      },
+    ],
+  },
+  kashta: {
+    kind: "nights",
+    lanes: [
+      {
+        label: "Carries",
+        cues: [
+          { text: "Your words" },
+          { text: "Settings" },
+          { text: "7 nights" },
+          { text: "Nights ranked" },
+          { text: "Best night, explained" },
+        ],
+      },
+    ],
+  },
+  amanah: {
+    kind: "views",
+    caption: "Who can see each step. The public never can.",
+    lanes: [
+      {
+        label: "Owner",
+        cues: [
+          { text: "Owner sees" },
+          { text: "Hidden from owner", tone: "off" },
+          { text: "Hidden from owner", tone: "off" },
+          { text: "Owner sees" },
+          { text: "Hidden from owner", tone: "off" },
+        ],
+      },
+      {
+        label: "Staff",
+        cues: Array.from({ length: 5 }, () => ({ text: "Staff see" })),
+      },
+      {
+        label: "Public",
+        cues: Array.from({ length: 5 }, () => ({ text: "Hidden from public", tone: "off" as const })),
+      },
+    ],
+  },
+  gthrz: {
+    kind: "guest",
+    caption: "What a guest can read, for one made-up event.",
+    lanes: [
+      {
+        label: "Guest",
+        cues: [
+          { text: "No guest yet", tone: "off" },
+          { text: "No guest yet", tone: "off" },
+          { text: "Requested: title and time" },
+          { text: "Approved: address, guest list", tone: "done" },
+          { text: "Host only", tone: "off" },
+        ],
+      },
+    ],
+  },
+  tammeni: {
+    kind: "children",
+    caption: "Attendance alerts for the fictional children above.",
+    lanes: [
+      {
+        label: "Reem",
+        cues: [{ text: "Text, right away" }, { text: "Absent", all: true }, { text: "Texted now" }, null, null],
+      },
+      {
+        label: "Nawaf",
+        cues: [
+          { text: "Off", tone: "off" },
+          null,
+          { text: "No alert", tone: "off" },
+          null,
+          null,
+        ],
+      },
+    ],
+  },
+};
+
+/** Kashta's forecast at a step: seven nights, then the same nights ranked, then the best one picked. */
+function Nights({ stage }: { stage: number }) {
+  if (stage < 2) return null;
   return (
-    <ol className="vb-flow" aria-label={`How ${project.name} works`}>
-      {project.how.map((step, index) => (
-        <li key={`${step.actor}-${index}`} className="vb-flow-step">
-          <span className="vb-flow-actor">{step.actor}</span>
-          <span className="vb-flow-action">{step.action}</span>
-          {step.note ? <span className="vb-flow-note">{step.note}</span> : null}
-        </li>
+    <span className="vb-nights" data-stage={stage} aria-hidden="true">
+      {Array.from({ length: 7 }, (_, night) => (
+        <i key={night} style={stage > 2 ? ({ "--rank": 7 - night } as CSSProperties) : undefined} />
       ))}
-    </ol>
+    </span>
+  );
+}
+
+/** How it works: actors and actions as a run of blocks, with what changes at each one. */
+export function Flow({ project }: { project: Project }) {
+  const view = howViews[project.id];
+  return (
+    <>
+      <ol
+        className="vb-flow"
+        data-view={view?.kind}
+        data-lanes={view?.lanes.length}
+        aria-label={`How ${project.name} works`}
+      >
+        {project.how.map((step, index) => {
+          const shared = view?.lanes.find((lane) => lane.cues[index]?.all)?.cues[index];
+          const cues = shared
+            ? [{ lane: "Both", cue: shared }]
+            : view?.lanes.map((lane) => ({ lane: lane.label, cue: lane.cues[index] }));
+          return (
+            <li key={`${step.actor}-${index}`} className="vb-flow-step">
+              <span className="vb-flow-actor">{step.actor}</span>
+              {view ? (
+                <span className="vb-flow-cues">
+                  {cues?.map(({ lane, cue }) =>
+                    cue ? (
+                      <span key={lane} className="vb-flow-cue" data-tone={cue.tone} data-all={cue.all}>
+                        {view.kind === "children" ? <span className="vb-flow-lane">{lane}: </span> : null}
+                        {cue.text}
+                      </span>
+                    ) : (
+                      // Keeps the lanes level across the row on wide screens.
+                      <span key={lane} className="vb-flow-cue" data-empty="true" aria-hidden="true" />
+                    ),
+                  )}
+                  {view.kind === "nights" ? <Nights stage={index} /> : null}
+                </span>
+              ) : null}
+              <span className="vb-flow-action">{step.action}</span>
+              {step.note ? <span className="vb-flow-note">{step.note}</span> : null}
+            </li>
+          );
+        })}
+      </ol>
+      {view?.caption ? <p className="vb-flow-caption">{view.caption}</p> : null}
+    </>
   );
 }
 

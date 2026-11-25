@@ -448,6 +448,198 @@
   }
 }
 
+/* What changes at each step: a time, a state, who can see it. On phones it sits on the actor's line. */
+.vb-flow[data-view] .vb-flow-step {
+  grid-template-columns: auto minmax(0, 1fr);
+  column-gap: 0.75rem;
+  padding: 0.85rem 1.1rem 0.95rem;
+}
+
+.vb-flow[data-view] :is(.vb-flow-action, .vb-flow-note) {
+  grid-column: 1 / -1;
+}
+
+.vb-flow-cues {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.3rem;
+  min-width: 0;
+}
+
+.vb-flow-cue {
+  padding: 0.1rem 0.5rem;
+  border-radius: 0.3rem;
+  background: color-mix(in srgb, var(--sand) 12%, transparent);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  line-height: 1.4;
+  font-variant-numeric: tabular-nums;
+}
+
+.vb-flow-cue[data-tone="off"] {
+  background: none;
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--sand-2) 35%, transparent);
+  color: var(--sand-2);
+  font-weight: 500;
+}
+
+.vb-flow-cue[data-tone="held"] {
+  background: var(--ember);
+  color: var(--ember-ink);
+}
+
+.vb-flow-cue[data-tone="done"] {
+  background: var(--ok);
+  color: var(--night);
+}
+
+.vb-flow-cue[data-empty] {
+  display: none;
+}
+
+.vb-flow-lane {
+  color: var(--sand-2);
+  font-weight: 500;
+}
+
+.vb-flow-cue[data-tone] .vb-flow-lane {
+  color: inherit;
+}
+
+/* Naqah: the evening's clock, not a badge. */
+.vb-flow[data-view="timetable"] .vb-flow-cue {
+  padding: 0;
+  background: none;
+  color: var(--ember);
+  font-family: var(--display);
+  font-size: var(--step-small);
+  font-weight: 700;
+}
+
+/* Kashta: the forecast's seven nights, then the same nights ranked, then the best one picked. */
+.vb-nights {
+  display: inline-flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 1rem;
+}
+
+.vb-nights i {
+  width: 5px;
+  height: 60%;
+  border-radius: 1px;
+  background: color-mix(in srgb, var(--sand) 45%, transparent);
+}
+
+.vb-nights[data-stage="3"] i,
+.vb-nights[data-stage="4"] i {
+  height: calc(var(--rank) / 7 * 100%);
+}
+
+.vb-nights[data-stage="4"] i:first-child {
+  background: var(--ember);
+}
+
+.vb-flow + .vb-flow-caption {
+  margin-top: 0.75rem;
+  color: var(--sand-2);
+  font-size: var(--step-small);
+}
+
+@media (max-width: 899px) {
+  /* Amanah on phones: the parties who can see a step; the hidden ones stay for screen readers. */
+  .vb-flow[data-view="views"] .vb-flow-cue[data-tone="off"] {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+}
+
+@media (min-width: 900px) {
+  /* The cues run across the top of the row as one band, step by step. */
+  .vb-flow[data-view] .vb-flow-step {
+    grid-template-columns: minmax(0, 1fr);
+    align-content: start;
+    overflow: clip;
+    padding: 0 1.2rem 1.2rem;
+  }
+  .vb-flow[data-view] .vb-flow-cues {
+    display: grid;
+    order: -1;
+    justify-content: stretch;
+    gap: 2px;
+    margin: 0 -1.2rem 0.75rem;
+  }
+  .vb-flow[data-view] .vb-flow-cue {
+    padding: 0.55rem 1.2rem;
+    border-radius: 0;
+    box-shadow: none;
+  }
+  .vb-flow[data-view] .vb-flow-cue[data-tone="off"] {
+    background: var(--night-2);
+  }
+  .vb-flow[data-view="views"] .vb-flow-cue:not([data-tone]) {
+    background: color-mix(in srgb, var(--sand) 22%, transparent);
+  }
+  .vb-flow-cue[data-all] {
+    display: flex;
+    align-items: center;
+    gap: 0.3em;
+    grid-row: span 2;
+  }
+  .vb-flow-cue[data-empty] {
+    display: block;
+    background: var(--night-2);
+  }
+  .vb-flow-cue[data-empty]::before {
+    content: "\00a0";
+  }
+  .vb-flow[data-view="nights"] .vb-flow-cues {
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    padding-right: 1.2rem;
+    background: color-mix(in srgb, var(--sand) 12%, transparent);
+  }
+  .vb-flow[data-view="nights"] .vb-flow-cue {
+    background: none;
+  }
+
+  /* Naqah: one evening read down the clock. */
+  .vb-flow[data-view="timetable"] {
+    grid-template-columns: max-content 7rem minmax(0, 1.2fr) minmax(0, 1fr);
+    column-gap: 1.5rem;
+  }
+  .vb-flow[data-view="timetable"] .vb-flow-step {
+    grid-column: 1 / -1;
+    grid-template-columns: subgrid;
+    align-items: baseline;
+    padding: 1.1rem 1.5rem;
+  }
+  .vb-flow[data-view="timetable"] .vb-flow-step:first-child {
+    border-radius: 0.5rem 0.5rem 0 0;
+  }
+  .vb-flow[data-view="timetable"] .vb-flow-step:last-child {
+    border-radius: 0 0 0.5rem 0.5rem;
+  }
+  .vb-flow[data-view="timetable"] .vb-flow-cues {
+    display: block;
+    margin: 0;
+  }
+  .vb-flow[data-view="timetable"] .vb-flow-cue {
+    padding: 0;
+    font-size: var(--step-lead);
+    white-space: nowrap;
+  }
+  .vb-flow[data-view="timetable"] :is(.vb-flow-action, .vb-flow-note) {
+    grid-column: auto;
+  }
+}
+
 /* Screens */
 .vb-screens {
   display: grid;
