@@ -1720,6 +1720,7 @@ div.vb-certs-row {
 
 .vb-certs-aside {
   max-width: 48ch;
+  margin-top: 1.25rem;
   color: var(--sand-2);
   font-size: var(--step-small);
 }
@@ -2388,5 +2389,204 @@ div.vb-certs-row {
   }
   .vb-footer {
     padding-top: 3rem;
+  }
+}
+
+/* ---------- Phone: a shorter home ---------- */
+
+/* Secondary detail inside a project: a quiet toggle on phones, always open on wide screens. */
+.vb-proj-more > .vb-details-summary {
+  width: fit-content;
+  font-family: var(--text);
+  font-size: var(--step-body);
+  font-weight: 500;
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, currentColor 40%, transparent);
+  text-underline-offset: 0.25em;
+}
+
+.vb-proj-more > .vb-details-body {
+  padding-top: 0.5rem;
+}
+
+.vb-proj-score .vb-score-source {
+  margin-top: 0.9rem;
+}
+
+@media (min-width: 900px) {
+  .vb-proj-more[open] > .vb-details-summary {
+    display: none;
+  }
+  .vb-proj-more[open] > .vb-details-body {
+    padding-top: 0;
+  }
+}
+
+@media (max-width: 899px) {
+  .vb-about,
+  .vb-journey,
+  .vb-skills,
+  .vb-certs,
+  .vb-contact {
+    padding-block: 3rem;
+  }
+  .vb-proj-inner {
+    gap: 1.25rem;
+    padding-block: 2.5rem;
+  }
+  .vb-work-head {
+    gap: 1rem;
+    padding-block: 2.5rem 2rem;
+  }
+  .vb-exp {
+    gap: 1.25rem;
+    padding-block: 2.5rem;
+  }
+  .vb-tonight {
+    gap: 1rem;
+    padding: 1rem 1.1rem;
+  }
+
+  /* One row of controls: play, back, next and the count. */
+  .vb-call-controls {
+    gap: 0.4rem;
+  }
+  .vb-call-controls .vb-btn {
+    padding-inline: 0.85rem;
+    white-space: nowrap;
+  }
+  .vb-call-count {
+    white-space: nowrap;
+  }
+  .vb-proj .vb-art-state {
+    gap: 0.3rem;
+  }
+  .vb-proj .vb-art-state span {
+    padding-inline: 0.5rem;
+    font-size: 0.8125rem;
+  }
+  .vb-proj-rules li {
+    padding: 0.6rem 0.8rem;
+  }
+  .vb-proj-phones .vb-phone:nth-child(2) {
+    margin-top: 1rem;
+  }
+  .vb-proj-head {
+    gap: 0.7rem;
+  }
+
+  /* Work line: two columns of date and name; each section carries its own status. */
+  .vb-workline {
+    padding-bottom: 2.5rem;
+  }
+  .vb-workline-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 1rem;
+  }
+  .vb-workline-link {
+    grid-template-columns: 1rem minmax(0, 1fr);
+    gap: 0 0.6rem;
+    min-height: 2.75rem;
+    padding: 0.35rem 0;
+  }
+  .vb-workline-dot {
+    grid-row: 1 / 3;
+    width: 0.7rem;
+    height: 0.7rem;
+  }
+  .vb-workline-date {
+    grid-column: 2;
+  }
+  .vb-workline-name {
+    grid-column: 2;
+  }
+  .vb-workline-status {
+    display: none;
+  }
+
+  /* Gthrz: name, then the phones, then the ladder behind its toggle. */
+  .vb-proj[data-layout="fan"] .vb-proj-head {
+    order: -1;
+  }
+  .vb-proj[data-layout="fan"] .vb-proj-ladder {
+    order: 1;
+  }
+
+  /* Phone crops keep each capture's header and title. */
+  .vb-proj-phones .vb-phone,
+  .vb-proj-fan .vb-capture {
+    aspect-ratio: 440 / 560;
+  }
+
+  /* Amanah: the two views side by side, so the difference reads at a glance. */
+  .vb-proj[data-layout="views"] .vb-proj-inner {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 1rem;
+  }
+  .vb-proj[data-layout="views"] .vb-proj-head,
+  .vb-proj[data-layout="views"] .vb-proj-foot,
+  .vb-proj[data-layout="views"] .vb-proj-art {
+    grid-column: 1 / -1;
+  }
+  .vb-proj-view {
+    gap: 0.5rem;
+    font-size: var(--step-small);
+  }
+  .vb-proj-view h4 {
+    font-size: 1.125rem;
+  }
+  .vb-proj-view ul {
+    gap: 0.4rem;
+  }
+  .vb-proj-view li {
+    padding-bottom: 0.4rem;
+  }
+
+  /* Skills: the project switch only lights words inside the list, so it waits for the list. */
+  .vb-skills:has(.vb-skills-groups:not([open])) :is(.vb-skills-switch, .vb-skills-note) {
+    display: none;
+  }
+  .vb-skills {
+    gap: 1.5rem;
+  }
+
+  /* Journey and about: smaller place names, closer chapters. */
+  .vb-journey-head {
+    margin-bottom: 2rem;
+  }
+  .vb-chapters {
+    gap: 1.75rem;
+  }
+  .vb-chapter {
+    gap: 0.6rem;
+  }
+  .vb-chapter-city {
+    font-size: 2.1rem;
+  }
+  .vb-chapter-arabic {
+    font-size: 1.2rem;
+  }
+  .vb-award {
+    margin-top: 0.5rem;
+  }
+  .vb-award-doc {
+    width: 3.25rem;
+  }
+  .vb-about-img {
+    aspect-ratio: 1;
+  }
+  .vb-about-grad {
+    margin-top: 0;
+  }
+  .vb-about-music {
+    margin-top: 2rem;
+  }
+
+  .vb-footer {
+    padding-top: 3rem;
+  }
+  .vb-footer-grid {
+    gap: 1rem;
+    margin-top: 1.75rem;
   }
 }

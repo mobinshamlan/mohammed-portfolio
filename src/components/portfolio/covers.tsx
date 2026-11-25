@@ -7,6 +7,7 @@ import { kashtaExample } from "@/lib/kashta-example";
 import { fieldStyle, projectById, type Project, type ProjectId } from "@/lib/projects";
 import { SeetChat } from "./artifacts";
 import { CallDemo } from "./call-demo";
+import { Collapsible } from "./collapsible";
 import { DayLine } from "./dayline";
 import { DeviceFrame } from "./device-frame";
 import { GthrzImg } from "./gthrz-img";
@@ -200,8 +201,7 @@ function Kashta() {
       <Reveal className="vb-proj-score" delay={0.1}>
         <figure>
           <figcaption className="vb-proj-label">
-            {kashtaExample.site}, {kashtaExample.shortNight}. Limits and weights from the app&rsquo;s
-            score.ts; values from its live forecast.
+            {kashtaExample.site}, {kashtaExample.shortNight}.
           </figcaption>
           <p className="vb-score-total">
             <strong>{Math.round(total)}</strong>
@@ -209,16 +209,21 @@ function Kashta() {
               Worked by hand: {total.toFixed(2)}, rounded. The live app showed {kashtaExample.liveScore}.
             </span>
           </p>
-          <ol className="vb-score-bars">
-            {kashtaExample.rows.map((row) => (
-              <li key={row.factor} style={{ "--score": `${row.score}%` } as CSSProperties}>
-                <span className="vb-score-factor">{row.factor}</span>
-                <span className="vb-score-bar" aria-hidden="true" />
-                <strong>{row.score}</strong>
-                <em>×&nbsp;{row.weight}</em>
-              </li>
-            ))}
-          </ol>
+          <Collapsible className="vb-proj-more" summary="The five factors behind it">
+            <ol className="vb-score-bars">
+              {kashtaExample.rows.map((row) => (
+                <li key={row.factor} style={{ "--score": `${row.score}%` } as CSSProperties}>
+                  <span className="vb-score-factor">{row.factor}</span>
+                  <span className="vb-score-bar" aria-hidden="true" />
+                  <strong>{row.score}</strong>
+                  <em>×&nbsp;{row.weight}</em>
+                </li>
+              ))}
+            </ol>
+            <p className="vb-proj-label vb-score-source">
+              Limits and weights from the app&rsquo;s score.ts; values from its live forecast.
+            </p>
+          </Collapsible>
         </figure>
       </Reveal>
       {project.coverPhone ? (
@@ -285,34 +290,36 @@ function Gthrz() {
       </div>
       <Head project={project} hook="The host decides who sees the address, and when." />
       <Reveal className="vb-proj-ladder" delay={0.1}>
-        <table>
-          <caption className="vb-proj-label">
-            What a guest can read, by state. Host chose &ldquo;reveal later&rdquo;.
-          </caption>
-          <thead>
-            <tr>
-              <th scope="col">State</th>
-              {gthrzVisibility.columns.map((c) => (
-                <th key={c} scope="col">
-                  {c}
-                </th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {gthrzVisibility.rows.map((r) => (
-              <tr key={r.state}>
-                <th scope="row">{r.state}</th>
-                {r.values.map((v, i) => (
-                  <td key={i} data-on={v ? "true" : undefined}>
-                    <span aria-hidden="true" className="vb-ladder-dot" />
-                    {v ? "Yes" : "No"}
-                  </td>
+        <Collapsible className="vb-proj-more" summary="Address, pin and guest list, by state">
+          <table>
+            <caption className="vb-proj-label">
+              What a guest can read, by state. Host chose &ldquo;reveal later&rdquo;.
+            </caption>
+            <thead>
+              <tr>
+                <th scope="col">State</th>
+                {gthrzVisibility.columns.map((c) => (
+                  <th key={c} scope="col">
+                    {c}
+                  </th>
                 ))}
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {gthrzVisibility.rows.map((r) => (
+                <tr key={r.state}>
+                  <th scope="row">{r.state}</th>
+                  {r.values.map((v, i) => (
+                    <td key={i} data-on={v ? "true" : undefined}>
+                      <span aria-hidden="true" className="vb-ladder-dot" />
+                      {v ? "Yes" : "No"}
+                    </td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </Collapsible>
       </Reveal>
       <Foot project={project} />
     </Section>
