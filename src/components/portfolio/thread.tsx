@@ -3,10 +3,12 @@
 import { useEffect, useRef } from "react";
 
 /*
- * The line of moments, drawn through the whole page. It leaves Tonight's line
- * in the hero, runs down the margin, becomes the Work Line and Seet's
+ * The line of moments, drawn through the whole page. It leaves the owner's
+ * alert on the hero's Naqah card, runs down the margin, becomes the Work Line and Seet's
  * held → deposit → confirmed line, and bends across each chapter in the space
- * above its heading. Inside a project's field it takes that project's accent.
+ * above its heading. Inside a project's field it takes that project's accent,
+ * and it breaks where a field's rounded top passes over the margin, picking up
+ * again at the dot that marks the project.
  *
  * The path is measured from the page (never per frame) and drawn as you
  * scroll: each colour zone is its own path, so a frame only repaints the zone
@@ -164,18 +166,27 @@ function build(root: HTMLElement) {
     return null;
   }
 
-  // Colour zones: night by default, each project's field in its accent.
+  // Colour zones: night by default, each project's field in its accent. A
+  // field that overlaps the next one (the rounded shoulders) ends where it starts.
   const zones: Zone[] = [{ top: -Infinity, color: night }];
   const fields = [...root.querySelectorAll<HTMLElement>(".vb-proj")];
-  fields.forEach((el) => {
-    const b = box(el);
-    if (!b) {
-      return;
+  const fieldBoxes = fields.map((el) => ({ el, b: box(el) })).filter((f) => f.b !== null);
+  fieldBoxes.forEach(({ el, b }, i) => {
+    const next = fieldBoxes[i + 1]?.b;
+    zones.push({ top: b!.top, color: getComputedStyle(el).getPropertyValue("--accent").trim() || night });
+    if (!next || next.top > b!.bottom) {
+      zones.push({ top: b!.bottom, color: night });
     }
-    zones.push({ top: b.top, color: getComputedStyle(el).getPropertyValue("--accent").trim() || night });
-    zones.push({ top: b.bottom, color: night });
   });
   zones.sort((a, b) => a.top - b.top);
+
+  // Where the thread enters a field on the margin: it breaks over the rounded
+  // top and starts again at the project's dot, just below the curve.
+  const entries = fieldBoxes.map(({ el, b }) => {
+    const radius = parseFloat(getComputedStyle(el).borderTopLeftRadius) || 0;
+    return { id: el.dataset.id, top: b!.top, dot: Math.round(b!.top + radius + (desktop ? 16 : 6)) };
+  });
+  const gaps: [number, number][] = entries.map((e) => [e.top - 10, e.dot]);
 
   // A section's top padding: where the thread may cross the page.
   const seam = (sel: string) => {
@@ -192,15 +203,26 @@ function build(root: HTMLElement) {
   const pts: Pt[] = [];
   const marks: Pt[] = []; // points where a moment dot sits
 
+  // The hero's Naqah card: the thread leaves the owner's alert, the last moment
+  // on the card's line, runs down the lane the link and ledger leave clear, and
+  // bends to the margin in the space above Tonight (or the status line on phones).
+  const alerts = qa(".vb-hero-steps .vb-hero-step-dot");
+  const alert = alerts[alerts.length - 1];
+  const visual = box(q(".vb-hero-visual"));
+  const below = box(q(desktop ? ".vb-hero-strip" : ".vb-hero-status"));
+  if (alert && visual && below && below.top > visual.bottom) {
+    const copy = box(q(".vb-hero-copy"));
+    const above = desktop && copy ? Math.max(visual.bottom, copy.bottom) : visual.bottom;
+    const bend = Math.round((above + below.top) / 2);
+    pts.push([alert.cx, alert.cy], [alert.cx, bend], [xL, bend]);
+  } else {
+    pts.push([xL, hero.bottom - 48]);
+  }
+
   if (!desktop) {
-    // Phones: one rail down the left edge, a dot where each project begins.
-    pts.push([xL, hero.bottom - 24], [xL, footer.top + 48]);
-    fields.forEach((el) => {
-      const b = box(el);
-      if (b) {
-        marks.push([xL, b.top + 28]);
-      }
-    });
+    // Phones: one rail down the margin, a dot where each project begins.
+    pts.push([xL, footer.top + 48]);
+    entries.forEach((e) => marks.push([xL, e.dot]));
   } else {
     let side: "L" | "R" = "L";
     const x = () => (side === "L" ? xL : xR);
@@ -212,15 +234,6 @@ function build(root: HTMLElement) {
       side = side === "L" ? "R" : "L";
       pts.push([x(), y]);
     };
-
-    // Tonight's line in the hero: the thread starts at its first moment.
-    const tonight = qa(".vb-hero-strip .vb-dayline-dot");
-    if (tonight.length) {
-      pts.push([tonight[0].cx, tonight[0].cy], [xL, tonight[0].cy]);
-      marks.push([tonight[0].cx, tonight[0].cy]);
-    } else {
-      pts.push([xL, hero.bottom - 48]);
-    }
 
     // The Work Line: the thread runs along it, from its first point to past its last.
     const work = qa(".vb-workline-dot");
@@ -260,21 +273,21 @@ function build(root: HTMLElement) {
     marks.push([gutter, endY]);
   }
 
-  const segs = route(pts, desktop ? 40 : 0);
+  const segs = route(pts, desktop ? 40 : 16);
   if (!segs.length) {
     return null;
   }
   // On desktop, a moment where the thread enters each field on its rail.
+  const onRail = (y: number) => segs.find((s) => !s.flat && s.x0 === s.x1 && s.y0 <= y && s.y1 >= y);
   if (desktop) {
-    fields.forEach((el) => {
-      const b = box(el);
-      const seg = b && segs.find((s) => !s.flat && s.x0 === s.x1 && s.y0 <= b.top + 72 && s.y1 >= b.top + 72);
-      if (b && seg && el.dataset.id !== "seet") {
-        marks.push([seg.x0, b.top + 72]);
+    entries.forEach((e) => {
+      const seg = onRail(e.dot);
+      if (seg && e.id !== "seet") {
+        marks.push([seg.x0, e.dot]);
       }
     });
   }
-  return slice(segs, zones, marks);
+  return slice(segs, zones, marks, gaps.filter(([g0, g1]) => onRail(g0) && onRail(g1)));
 }
 
 /* ---------- Geometry ---------- */
@@ -317,7 +330,7 @@ function route(input: Pt[], radius: number): Seg[] {
 }
 
 /** Split the route into colour zones and build the scroll → length keys. */
-function slice(segs: Seg[], zones: Zone[], marks: Pt[]) {
+function slice(segs: Seg[], zones: Zone[], marks: Pt[], gaps: [number, number][]) {
   const zoneOf = (y: number) => {
     let color = zones[0].color;
     for (const z of zones) {
@@ -346,10 +359,29 @@ function slice(segs: Seg[], zones: Zone[], marks: Pt[]) {
     }
   }
 
+  // Lift the pen over each gap on a downward rail: a zero-length move.
+  const lifted: Seg[] = [];
+  for (const s of parts) {
+    const gap = s.d.startsWith("L") && !s.flat && s.y1 > s.y0 ? gaps.find(([g0, g1]) => g0 < s.y1 && g1 > s.y0) : undefined;
+    if (!gap) {
+      lifted.push(s);
+      continue;
+    }
+    const g0 = Math.max(gap[0], s.y0);
+    const g1 = Math.min(gap[1], s.y1);
+    if (g0 > s.y0) {
+      lifted.push({ ...s, d: `L${r1(s.x1)} ${r1(g0)}`, y1: g0, len: g0 - s.y0 });
+    }
+    lifted.push({ ...s, d: `M${r1(s.x1)} ${r1(g1)}`, y0: g0, y1: g1, len: 0 });
+    if (g1 < s.y1) {
+      lifted.push({ ...s, d: `L${r1(s.x1)} ${r1(s.y1)}`, y0: g1, len: s.y1 - g1 });
+    }
+  }
+
   const pieces: Piece[] = [];
   const keys: [number, number][] = [];
   let at = 0;
-  for (const s of parts) {
+  for (const s of lifted) {
     const color = zoneOf((s.y0 + s.y1) / 2);
     const last = pieces[pieces.length - 1];
     if (last && last.color === color) {
@@ -373,7 +405,7 @@ function slice(segs: Seg[], zones: Zone[], marks: Pt[]) {
     let best = 0;
     let bestD = Infinity;
     let run = 0;
-    for (const s of parts) {
+    for (const s of lifted) {
       for (const [px, py, l] of [[s.x0, s.y0, run], [s.x1, s.y1, run + s.len]]) {
         const d = Math.hypot(px - x, py - y);
         if (d < bestD) {
@@ -382,7 +414,7 @@ function slice(segs: Seg[], zones: Zone[], marks: Pt[]) {
         }
       }
       // On a vertical rail the point may sit inside a segment.
-      if (!s.flat && Math.abs(s.x0 - x) < 1 && y > Math.min(s.y0, s.y1) && y < Math.max(s.y0, s.y1)) {
+      if (s.len > 0 && !s.flat && Math.abs(s.x0 - x) < 1 && y > Math.min(s.y0, s.y1) && y < Math.max(s.y0, s.y1)) {
         best = run + Math.abs(y - s.y0);
         bestD = 0;
       }
