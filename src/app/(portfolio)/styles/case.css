@@ -1,5 +1,6 @@
-/* Portfolio case studies: hero in the project's field, its band, then the
-   body on the darkest tone of the same product. */
+/* Portfolio case studies: each case is its product's own world. The hero sits
+   in the product's field with its signature object, the body on the darkest
+   tone of the same palette, and the next project hands over at the seam. */
 
 .vb-case {
   min-height: 60vh;
@@ -34,11 +35,9 @@
 }
 
 .vb-crumbs a {
-  display: inline-block;
-  padding: 0.6rem 0;
-}
-
-.vb-crumbs a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
   text-decoration: underline;
 }
 
@@ -765,28 +764,25 @@
   }
 }
 
-/* Previous and next */
+/* Previous and next: a handoff into the next product's world. Each link is
+   cut in that product's field, with its object sitting on the seam. */
 .vb-case-next {
   display: grid;
   gap: 0;
 }
 
 .vb-case-next-link {
+  position: relative;
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-  padding: clamp(2.5rem, 6vw, 4.5rem) var(--gutter);
+  padding: clamp(3.5rem, 7vw, 5.5rem) var(--gutter) clamp(2.5rem, 6vw, 4.5rem);
   background: var(--field);
   color: var(--field-ink);
   text-decoration: none;
-  transition: filter var(--t-hover) ease;
 }
 
-.vb-case-next-link:hover {
-  filter: brightness(1.06);
-}
-
-.vb-case-next-link > span:first-of-type {
+.vb-case-next-dir {
   color: var(--field-muted);
   font-size: var(--step-small);
 }
@@ -797,6 +793,15 @@
   font-weight: 800;
   line-height: 1;
   letter-spacing: -0.035em;
+  transition: transform var(--t-ui) var(--ease-out);
+}
+
+.vb-case-next-link:hover strong {
+  transform: translateX(0.35rem);
+}
+
+.vb-case-next-link:first-child:hover strong {
+  transform: translateX(-0.35rem);
 }
 
 .vb-case-next-link strong span[lang="ar"] {
@@ -1582,7 +1587,7 @@
   }
 }
 
-/* ---------- The product's band and its dark ground ---------- */
+/* ---------- The product's dark ground ---------- */
 
 /* The body sits on the darkest tone of the product's own palette: the page's
    dark tokens are redefined for each case, so every card follows. */
@@ -1639,7 +1644,7 @@
 }
 
 /* The problem keeps its 76rem measure but its ground spans the page. */
-.vb-case-band + .vb-case-problem {
+.vb-case-problem {
   max-width: none;
   padding-right: max(var(--gutter), calc(100% - 76rem + var(--gutter)));
 }
@@ -1652,20 +1657,6 @@
   padding-bottom: clamp(4rem, 9vw, 8rem);
 }
 
-/* The next projects: each opens on its own band, like the samples on the homepage. */
-.vb-case-next-link {
-  padding-bottom: clamp(2.5rem, 6vw, 4.5rem);
-}
-
-.vb-case-next-link {
-  position: relative;
-  padding-top: calc(2.25rem + clamp(1.5rem, 4vw, 3rem));
-}
-
-.vb-case-next-band {
-  position: absolute;
-  inset: 0 0 auto;
-}
 
 /* Light parallax on the screenshots: they drift a little slower than the
    page. Scroll-driven where supported; elsewhere they simply stay still. */
@@ -1719,4 +1710,806 @@
 .vb .vb-case .vb-art .vb-btn:not(.vb-btn-quiet) {
   background: var(--ember);
   color: var(--night);
+}
+
+/* ==========================================================================
+   Product worlds. Each case keeps the same order of sections; only its
+   materials change. Objects are aria-hidden: every word on them is in the text.
+   ========================================================================== */
+
+.vb-case-hero {
+  position: relative;
+  overflow: clip;
+}
+
+.vb-case-hero-art {
+  position: relative;
+}
+
+.vb-case-hero > :not(.vb-sky) {
+  position: relative;
+  z-index: 1;
+}
+
+/* Links on a light field ring in the field's ink, not the dark body's accent. */
+.vb .vb-case-hero :focus-visible,
+.vb .vb-case-next-link:focus-visible {
+  outline-color: currentColor;
+}
+
+.vb .vb-case-next-link:focus-visible {
+  outline-width: 3px;
+  outline-offset: -0.6rem;
+}
+
+.vb-obj {
+  position: absolute;
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* A screenshot that is a whole scene, set straight on the field. */
+.vb-case-shot[data-plate="true"] picture {
+  overflow: hidden;
+  border-radius: 0.75rem;
+  box-shadow: 0 1.5rem 3rem -1.25rem rgb(0 0 0 / 0.5);
+}
+
+/* ---------- Naqah: sand, and a call to an ordinary phone ---------- */
+
+.vb-case[data-id="naqah"] .vb-case-hero::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0;
+  height: clamp(1.5rem, 4vw, 3rem);
+  background: #e4c597;
+  clip-path: polygon(0 70%, 18% 30%, 34% 62%, 52% 18%, 71% 55%, 86% 26%, 100% 48%, 100% 100%, 0 100%);
+}
+
+.vb-obj-call {
+  bottom: -1.75rem;
+  left: -1.75rem;
+  display: grid;
+  gap: 0.2rem;
+  width: 15rem;
+  padding: 1rem 1.1rem 1.1rem;
+  border-radius: 1.5rem;
+  background: #2f1c0e;
+  color: #efd7b3;
+  box-shadow: 0 1.25rem 2.5rem -1rem rgb(47 28 14 / 0.6);
+}
+
+.vb-obj-call-who {
+  font-size: 0.8125rem;
+  color: #c9a77c;
+}
+
+.vb-obj-call-ar {
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1.3;
+  text-align: right;
+}
+
+.vb-obj-call-keys {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 0.6rem;
+}
+
+.vb-obj-call-keys i,
+.vb-seam[data-object="naqah"] i {
+  display: block;
+  width: 2.6rem;
+  height: 2.6rem;
+  border-radius: 50%;
+  background: #c8473a;
+}
+
+.vb-obj-call-keys i[data-key="answer"],
+.vb-seam[data-object="naqah"] i {
+  background: #3f9b5a;
+}
+
+/* The sample call sits one dune lower, still in the sand, before night falls on the body. */
+.vb-case[data-id="naqah"] .vb-case-demo {
+  background: #e4c597;
+  color: #2f1c0e;
+}
+
+.vb-case[data-id="naqah"] .vb-case-demo .vb-call {
+  max-width: 62rem;
+  border-radius: 1.5rem;
+  box-shadow: 0 1.5rem 3rem -1.5rem rgb(47 28 14 / 0.55);
+}
+
+/* ---------- Tammeni: a chalkboard, and the family's page in an exercise book ---------- */
+
+.vb-case[data-id="tammeni"] .vb-case-arabic {
+  color: #f1ead9;
+  font-size: clamp(1.5rem, 1rem + 2vw, 2.6rem);
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.vb-case[data-id="tammeni"] .vb-case-hero-demo .vb-demo {
+  --demo-surface: #fffdf6;
+  --demo-ink: #10302a;
+  --demo-muted: #3f5a50;
+  --demo-accent: #0f3d33;
+  --demo-accent-ink: #f1ead9;
+  --demo-line: #9fb8ad;
+  --ember: #0f3d33;
+  --sand-2: #3f5a50;
+  padding: 1.4rem 1.4rem 1.4rem 3.4rem;
+  border-radius: 0.2rem;
+  background:
+    linear-gradient(90deg, transparent 2.25rem, #d9645a 2.25rem, #d9645a calc(2.25rem + 2px), transparent 0),
+    linear-gradient(#d6e4dc 1px, transparent 1px) 0 0 / 100% 1.25rem,
+    linear-gradient(90deg, #d6e4dc 1px, transparent 1px) 0 0 / 1.25rem 100%,
+    #f7f3e8;
+  color: #10302a;
+  box-shadow: 0 1.75rem 3rem -1.5rem rgb(0 0 0 / 0.6);
+}
+
+.vb-case[data-id="tammeni"] .vb-case-hero-demo .vb-demo-grid button[aria-pressed="true"] {
+  background: #f3d98b;
+}
+
+.vb-case[data-id="tammeni"] .vb-case-hero-demo .vb-art-table thead th {
+  color: #3f5a50;
+}
+
+.vb-case[data-id="tammeni"] .vb-case-hero-demo .vb-art-table tbody tr {
+  background: #fffdf6;
+}
+
+.vb-case[data-id="tammeni"] .vb-case-hero-demo .vb-art-table td[data-on="true"] {
+  color: #0f3d33;
+  font-weight: 700;
+}
+
+/* ---------- Seet: gold, a WhatsApp thread, and the receipt it prints ---------- */
+
+.vb-receipt {
+  --zig: 0.45rem;
+  display: grid;
+  gap: 0.55rem;
+  max-width: 21rem;
+  padding: 1rem 1.15rem calc(1rem + var(--zig));
+  background: #fffdf6;
+  color: #0b1220;
+  font-size: var(--step-small);
+  font-variant-numeric: tabular-nums;
+  rotate: -1.2deg;
+  mask: conic-gradient(from -45deg at bottom, #0000, #000 1deg 89deg, #0000 90deg) 50% / calc(2 * var(--zig)) 100%;
+  filter: drop-shadow(0 0.75rem 1rem rgb(11 18 32 / 0.25));
+}
+
+.vb-receipt-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-weight: 700;
+}
+
+.vb-receipt-head strong {
+  padding: 0.1rem 0.6rem;
+  border-radius: 999px;
+  background: #0b1220;
+  color: #f5dfa6;
+}
+
+.vb-receipt-rows {
+  display: grid;
+  margin: 0;
+}
+
+.vb-receipt-rows > div {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.35rem 0;
+  border-top: 1px dashed rgb(11 18 32 / 0.35);
+}
+
+.vb-receipt-rows dd {
+  margin: 0;
+  font-weight: 600;
+}
+
+.vb-receipt-foot {
+  color: #3b3f48;
+  font-size: 0.8125rem;
+  line-height: 1.4;
+}
+
+.vb-case[data-id="seet"] .vb-open-seet {
+  background: none;
+  padding-inline: 0;
+}
+
+/* The chat runs on its own phone: a midnight frame around chat paper. */
+.vb-case[data-id="seet"] .vb-art-seet {
+  max-width: 32rem;
+  padding: 1rem;
+  border-radius: 1.75rem;
+  background: #0b1220;
+  box-shadow: 0 1.5rem 3rem -1.5rem rgb(0 0 0 / 0.7);
+}
+
+.vb-case[data-id="seet"] .vb-art-seet .vb-art-chat {
+  padding: 0.9rem 0.75rem;
+  border-radius: 1rem;
+  background: #efe7d6;
+}
+
+.vb-case[data-id="seet"] .vb-art-seet .vb-art-chat li {
+  background: #fff;
+  color: #0b1220;
+  box-shadow: 0 1px 0 rgb(11 18 32 / 0.12);
+}
+
+.vb-case[data-id="seet"] .vb-art-seet .vb-art-chat li[data-who="brand"] {
+  background: #d7f5c9;
+}
+
+.vb-case[data-id="seet"] .vb-art-seet .vb-art-chat li[data-who="system"] {
+  justify-self: center;
+  max-width: 92%;
+  background: #f5dfa6;
+  text-align: center;
+}
+
+.vb-case[data-id="seet"] .vb-art-seet .vb-art-chat .vb-art-en {
+  color: #3b4654;
+}
+
+/* ---------- Kashta: the only night, its stars, and the dial ---------- */
+
+.vb-sky {
+  position: absolute;
+  inset: 0 0 20%;
+  pointer-events: none;
+}
+
+.vb-sky i {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  border-radius: 50%;
+  background: #f3ece0;
+  opacity: 0.75;
+}
+
+.vb-sky i:nth-child(3n) {
+  width: 3px;
+  height: 3px;
+  opacity: 0.9;
+}
+
+.vb-case[data-id="kashta"] .vb-case-hero::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0;
+  height: clamp(2rem, 6vw, 4.5rem);
+  background: var(--night);
+  clip-path: polygon(0 55%, 16% 20%, 33% 48%, 49% 8%, 68% 52%, 84% 22%, 100% 40%, 100% 100%, 0 100%);
+}
+
+.vb-case[data-id="kashta"] .vb-open-kashta {
+  background: #1d2440;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  column-gap: 1rem;
+}
+
+.vb-open-kashta > :not(.vb-gauge, .vb-open-title) {
+  grid-column: 1 / -1;
+}
+
+.vb-gauge {
+  width: 7.5rem;
+  overflow: visible;
+}
+
+.vb-gauge path {
+  fill: none;
+  stroke-width: 9;
+  stroke-linecap: round;
+}
+
+.vb-gauge-track {
+  stroke: color-mix(in srgb, #f3ece0 16%, transparent);
+}
+
+.vb-gauge-fill {
+  stroke: #f0945a;
+}
+
+.vb-gauge-needle {
+  transform-box: view-box;
+  transform-origin: 60px 62px;
+  rotate: var(--angle);
+}
+
+.vb-gauge-needle line {
+  stroke: #f3ece0;
+  stroke-width: 3;
+  stroke-linecap: round;
+}
+
+.vb-gauge circle {
+  fill: #f3ece0;
+}
+
+/* ---------- Amanah: the lost-property counter ---------- */
+
+.vb-obj-tag {
+  bottom: -2.5rem;
+  left: -3rem;
+  transform-origin: 50% 0;
+  rotate: 4deg;
+}
+
+.vb-obj-tag::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: calc(50% - 1px);
+  width: 2px;
+  height: 3.6rem;
+  background: #7a5a12;
+}
+
+.vb-obj-tag-card {
+  display: grid;
+  gap: 0.5rem;
+  width: 15rem;
+  margin-top: 3.1rem;
+  padding: 1.6rem 1.1rem 1.1rem;
+  background: #e7d9b8;
+  color: #0e3b2e;
+  clip-path: polygon(18% 0, 82% 0, 100% 14%, 100% 100%, 0 100%, 0 14%);
+  filter: drop-shadow(0 0.75rem 1rem rgb(14 59 46 / 0.25));
+}
+
+.vb-obj-tag-hole {
+  position: absolute;
+  top: 0.55rem;
+  left: calc(50% - 0.4rem);
+  width: 0.8rem;
+  height: 0.8rem;
+  border: 2px solid #7a5a12;
+  border-radius: 50%;
+  background: #f1ead9;
+}
+
+.vb-obj-tag-motto {
+  font-size: 1.45rem;
+  font-weight: 700;
+  line-height: 1.3;
+  text-align: center;
+}
+
+.vb-obj-tag-rows {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.15rem 0.7rem;
+  font-size: 0.8125rem;
+  line-height: 1.35;
+}
+
+/* The opening's two views lie on the counter as paper slips. */
+.vb-case[data-id="amanah"] .vb-open-amanah {
+  background: none;
+  padding-inline: 0;
+}
+
+.vb-case[data-id="amanah"] .vb-open-views {
+  padding: 0 0.75rem 1.35rem;
+  background: linear-gradient(to top, #9c6b40 0 0.35rem, #c08d5d 0.35rem 1rem, transparent 1rem);
+}
+
+.vb-case[data-id="amanah"] .vb-open-views > div {
+  border-radius: 0.15rem;
+  background: #fffdf6;
+  color: #0e3b2e;
+  box-shadow: 0 0.5rem 1rem -0.5rem rgb(14 59 46 / 0.45);
+}
+
+.vb-case[data-id="amanah"] .vb-open-views > div + div {
+  rotate: 1.2deg;
+  background: #fffdf6;
+  color: #0e3b2e;
+}
+
+/* The claim demo: two slips on the countertop, under the cabinet's green. */
+.vb-case[data-id="amanah"] .vb-demo-amanah {
+  --demo-surface: #fffdf6;
+  --demo-ink: #0e3b2e;
+  --demo-muted: #3b5546;
+  --demo-accent: #0e3b2e;
+  --demo-accent-ink: #f1ead9;
+  --demo-ok: #1d6b47;
+  --demo-danger: #a3392b;
+  --ember: #0e3b2e;
+  --sand-2: #3b5546;
+  padding-bottom: 2.25rem;
+  background: linear-gradient(to top, #9c6b40 0 0.4rem, #c08d5d 0.4rem 1.1rem, #f1ead9 1.1rem);
+  color: #0e3b2e;
+}
+
+.vb-case[data-id="amanah"] .vb-demo-amanah .vb-demo-view {
+  border-radius: 0.15rem;
+  box-shadow: 0 0.5rem 1rem -0.5rem rgb(14 59 46 / 0.45);
+}
+
+.vb .vb-case[data-id="amanah"] .vb-demo-amanah .vb-btn:not(.vb-btn-quiet) {
+  background: transparent;
+  box-shadow: inset 0 0 0 1px #3b5546;
+  color: #0e3b2e;
+}
+
+.vb .vb-case[data-id="amanah"] .vb-demo-amanah .vb-btn[aria-pressed="true"] {
+  background: #0e3b2e;
+  color: #f1ead9;
+}
+
+/* ---------- Gthrz: a black party invite with a ticket stub ---------- */
+
+.vb-case[data-id="gthrz"] .vb-case-hero-art::before {
+  content: "";
+  position: absolute;
+  top: 8%;
+  left: 50%;
+  width: min(28rem, 80%);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: #8b6cf0;
+  translate: -50% 0;
+}
+
+.vb-case[data-id="gthrz"] .vb-case-hero-art::after {
+  content: "";
+  position: absolute;
+  right: 4%;
+  bottom: 6%;
+  width: 4.5rem;
+  aspect-ratio: 1;
+  border: 0.6rem solid #cbbcff;
+  border-radius: 50%;
+}
+
+.vb-case[data-id="gthrz"] .vb-case-phones {
+  position: relative;
+  z-index: 1;
+}
+
+.vb-obj-ticket {
+  bottom: -1.5rem;
+  left: -1rem;
+  display: flex;
+  rotate: -3deg;
+  filter: drop-shadow(0 0.75rem 1rem rgb(0 0 0 / 0.45));
+}
+
+.vb-obj-ticket-main,
+.vb-obj-ticket-stub,
+.vb-seam[data-object="gthrz"] {
+  display: grid;
+  align-content: center;
+  padding: 0.75rem 1rem;
+  color: #141216;
+  font-size: 0.8125rem;
+  line-height: 1.35;
+}
+
+.vb-obj-ticket-main {
+  gap: 0.1rem;
+  border-radius: 0.6rem 0 0 0.6rem;
+  background: #f3eee6;
+}
+
+.vb-obj-ticket-main b {
+  font-size: 1.05rem;
+  letter-spacing: -0.01em;
+}
+
+.vb-obj-ticket-stub,
+.vb-seam[data-object="gthrz"] {
+  border-radius: 0 0.6rem 0.6rem 0;
+  background:
+    radial-gradient(circle, #141216 0.16rem, transparent 0.18rem) 0 0 / 0.45rem 0.6rem repeat-y,
+    #cbbcff;
+  font-weight: 700;
+}
+
+/* The event demo, printed on the invite card. */
+.vb-case[data-id="gthrz"] .vb-decision-artifact .vb-demo {
+  --demo-surface: #fff;
+  --demo-ink: #141216;
+  --demo-muted: #5a5160;
+  --demo-accent: #5b3fc4;
+  --demo-accent-ink: #fff;
+  --demo-line: #d8d0e6;
+  --demo-ok: #2d7a4f;
+  --demo-danger: #a3392b;
+  --ember: #5b3fc4;
+  --sand-2: #5a5160;
+  --night-3: #fff;
+  --night-2: #ece6f6;
+  background: #f3eee6;
+  color: #141216;
+  mask:
+    radial-gradient(circle at left, #0000 0.3rem, #000 0.32rem) 0 0 / 51% 1rem repeat-y,
+    linear-gradient(#000 0 0) 100% 0 / 50% 100% no-repeat;
+}
+
+.vb .vb-case[data-id="gthrz"] .vb-decision-artifact .vb-btn:not(.vb-btn-quiet) {
+  background: #5b3fc4;
+  color: #fff;
+}
+
+/* ---------- Handoffs: the next product's object on the seam ---------- */
+
+.vb-seam {
+  position: absolute;
+  top: 0;
+  left: var(--gutter);
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  translate: 0 -50%;
+  pointer-events: none;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+@media (min-width: 900px) {
+  .vb-case-next-link:last-child .vb-seam {
+    left: auto;
+    right: var(--gutter);
+  }
+}
+
+.vb-seam[data-object="naqah"] {
+  padding: 0.4rem 1rem 0.4rem 0.4rem;
+  border-radius: 999px;
+  background: #2f1c0e;
+  color: #efd7b3;
+}
+
+.vb-seam[data-object="naqah"] i {
+  width: 1.9rem;
+  height: 1.9rem;
+}
+
+.vb-seam[data-object="tammeni"] {
+  width: 5.5rem;
+  height: 3.75rem;
+  rotate: -3deg;
+  background:
+    linear-gradient(90deg, transparent 1rem, #d9645a 1rem, #d9645a calc(1rem + 2px), transparent 0),
+    linear-gradient(#d6e4dc 1px, transparent 1px) 0 0 / 100% 0.75rem,
+    linear-gradient(90deg, #d6e4dc 1px, transparent 1px) 0 0 / 0.75rem 100%,
+    #f7f3e8;
+}
+
+.vb-seam[data-object="tammeni"] i {
+  margin: 0.75rem 0 0 1.75rem;
+  width: 2.25rem;
+  height: 0.75rem;
+  background: #f3d98b;
+}
+
+.vb-seam[data-object="seet"] {
+  --zig: 0.35rem;
+  padding: 0.8rem 1.1rem calc(0.9rem + var(--zig));
+  rotate: 2deg;
+  background: #fffdf6;
+  color: #0b1220;
+  mask: conic-gradient(from -45deg at bottom, #0000, #000 1deg 89deg, #0000 90deg) 50% / calc(2 * var(--zig)) 100%;
+}
+
+.vb-seam[data-object="kashta"] {
+  padding: 0.6rem 0.8rem 0.5rem;
+  border-radius: 999px 999px 0.5rem 0.5rem;
+  background: #151b2e;
+}
+
+.vb-seam[data-object="kashta"] svg {
+  width: 4rem;
+  fill: none;
+  stroke: #f0945a;
+  stroke-width: 10;
+  stroke-linecap: round;
+}
+
+.vb-seam[data-object="kashta"] text {
+  fill: #f3ece0;
+  stroke: none;
+  font-family: var(--display);
+  font-size: 30px;
+  font-weight: 800;
+}
+
+.vb-seam[data-object="amanah"] {
+  flex-direction: column;
+  gap: 0.35rem;
+  padding: 0.5rem 0.9rem 0.7rem;
+  rotate: 6deg;
+  background: #e7d9b8;
+  color: #0e3b2e;
+  font-size: 1rem;
+  clip-path: polygon(22% 0, 78% 0, 100% 22%, 100% 100%, 0 100%, 0 22%);
+}
+
+.vb-seam[data-object="amanah"] i {
+  width: 0.6rem;
+  height: 0.6rem;
+  border: 2px solid #7a5a12;
+  border-radius: 50%;
+}
+
+.vb-seam[data-object="gthrz"] {
+  rotate: -4deg;
+  padding-left: 1.1rem;
+}
+
+.vb-seam[data-object="experiment"] {
+  width: 4rem;
+  height: 3.25rem;
+  padding: 0.6rem;
+  rotate: -2deg;
+  background: #fff;
+  box-shadow: 0.6rem 0.4rem 0 -0.1rem #f4f1ea;
+}
+
+.vb-seam[data-object="experiment"] i {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(#55534f 2px, transparent 2px) 0 0 / 100% 0.45rem;
+  opacity: 0.4;
+}
+
+/* ---------- Phones: the objects at their smallest ---------- */
+
+@media (max-width: 899px) {
+  .vb-obj-call {
+    left: auto;
+    right: 0.5rem;
+    bottom: -1.25rem;
+    width: 11.5rem;
+    padding: 0.7rem 0.8rem 0.8rem;
+    border-radius: 1.1rem;
+  }
+  .vb-obj-call-ar {
+    font-size: 1.15rem;
+  }
+  .vb-obj-call-keys {
+    margin-top: 0.3rem;
+  }
+  .vb-obj-call-keys i {
+    width: 1.9rem;
+    height: 1.9rem;
+  }
+  .vb-obj-tag {
+    top: -2.5rem;
+    right: 0.25rem;
+    bottom: auto;
+    left: auto;
+  }
+  .vb-obj-tag::before {
+    height: 2.8rem;
+  }
+  .vb-obj-tag-card {
+    width: 9.5rem;
+    margin-top: 2.4rem;
+    padding: 1.4rem 0.7rem 0.7rem;
+  }
+  .vb-obj-tag-motto {
+    font-size: 1.05rem;
+  }
+  .vb-obj-tag-rows {
+    display: none;
+  }
+  .vb-obj-ticket {
+    left: auto;
+    right: 0;
+    bottom: 0.5rem;
+  }
+  .vb-sky i:nth-child(even) {
+    display: none;
+  }
+  .vb-gauge {
+    width: 5.5rem;
+  }
+  .vb-case[data-id="tammeni"] .vb-case-hero-demo .vb-demo {
+    padding: 1rem 0.9rem 1rem 2.6rem;
+    background-position: -0.6rem 0, 0 0, 0 0, 0 0;
+  }
+}
+
+/* ---------- Motion: each object arrives once, then sits still ---------- */
+
+@keyframes vb-obj-rise {
+  from {
+    opacity: 0;
+    translate: 0 1.5rem;
+  }
+}
+
+@keyframes vb-obj-print {
+  from {
+    opacity: 0;
+    translate: 0 -1rem;
+  }
+}
+
+@keyframes vb-obj-swing {
+  from {
+    rotate: 14deg;
+  }
+  45% {
+    rotate: -2deg;
+  }
+}
+
+@keyframes vb-obj-sweep {
+  from {
+    rotate: -90deg;
+  }
+}
+
+@keyframes vb-obj-tear {
+  from {
+    rotate: 0deg;
+    translate: -0.4rem 0;
+  }
+}
+
+@keyframes vb-seam-drift {
+  from {
+    translate: 0 calc(-50% + 0.6rem);
+  }
+  to {
+    translate: 0 calc(-50% - 0.6rem);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .vb[data-motion="on"] :is(.vb-obj-call, .vb-obj-ticket) {
+    animation: vb-obj-rise 900ms var(--ease-expo) 250ms both;
+  }
+  .vb[data-motion="on"] .vb-case[data-id="tammeni"] .vb-case-hero-demo {
+    animation: vb-obj-rise 900ms var(--ease-expo) 150ms both;
+  }
+  .vb[data-motion="on"] .vb-receipt {
+    animation: vb-obj-print 900ms var(--ease-expo) 250ms both;
+  }
+  .vb[data-motion="on"] .vb-obj-tag {
+    animation: vb-obj-swing 1400ms var(--ease-out) 200ms both;
+  }
+  .vb[data-motion="on"] .vb-gauge-needle {
+    animation: vb-obj-sweep 1200ms var(--ease-expo) 300ms both;
+  }
+  .vb[data-motion="on"] .vb-obj-ticket-stub {
+    animation: vb-obj-tear 700ms var(--ease-out) 1000ms both;
+  }
+  @supports (animation-timeline: view()) {
+    .vb[data-motion="on"] .vb-seam {
+      animation: vb-seam-drift linear both;
+      animation-timeline: view();
+    }
+  }
+}
+
+.vb-obj-ticket-stub {
+  transform-origin: 0 100%;
+  rotate: 5deg;
+  translate: 0.15rem 0.15rem;
 }
