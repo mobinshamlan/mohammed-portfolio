@@ -586,8 +586,13 @@
   .vb-flow[data-view="views"] .vb-flow-cue:not([data-tone]) {
     background: color-mix(in srgb, var(--sand) 22%, transparent);
   }
+  /* A reading shared by both children fills both lanes, so the rows stay level. */
+  .vb-flow[data-lanes="2"] .vb-flow-cues {
+    grid-template-rows: repeat(2, minmax(2.25rem, auto));
+  }
   .vb-flow-cue[data-all] {
     display: flex;
+    align-self: stretch;
     align-items: center;
     gap: 0.3em;
     grid-row: span 2;
