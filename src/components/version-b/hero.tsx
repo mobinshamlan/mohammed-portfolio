@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { contact } from "@/lib/contact";
 import { callScript } from "@/lib/naqah-call";
+import { EVIDENCE_CHECKED, projects } from "@/lib/projects";
 import { publicUrl } from "@/lib/site";
 import { tonightInRiyadh, type Tonight } from "@/lib/riyadh";
 import { DayLine } from "./dayline";
@@ -141,6 +142,32 @@ function HeroArtifact() {
   );
 }
 
+/** Each live project's passing test count, read from its public repository. */
+const testCounts = projects.flatMap((project) => {
+  const tests = project.proof.evidence?.find((item) => item.kind === "tests");
+  return tests ? [{ id: project.id, name: project.name, value: tests.value, href: tests.source.href }] : [];
+});
+
+/** The checked numbers under the proof line, each linked to the repository it came from. */
+function HeroEvidence() {
+  return (
+    <div className="vb-hero-evidence" data-rise="3">
+      <p className="vb-hero-evidence-head">
+        Tests passing in the public repos, run {EVIDENCE_CHECKED}
+      </p>
+      <ul className="vb-hero-evidence-list">
+        {testCounts.map((item) => (
+          <li key={item.id}>
+            <a href={item.href} className="vb-hero-evidence-link" target="_blank" rel="noreferrer">
+              {item.name} <strong>{item.value}</strong>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
 export function VersionBHero() {
   return (
     <section id="home" className="vb-hero" aria-labelledby="hero-title">
@@ -154,9 +181,18 @@ export function VersionBHero() {
           <span lang="ar">أبني منتجات ذكاء اصطناعي، بالعربي أولاً، لحياة سعودية حقيقية</span>
         </p>
         <p className="vb-hero-proof" data-rise="3">
-          Lead contributor on Naqah: investor MVP, November 2026, with Vitest and
-          Playwright checks.
+          Lead contributor on Naqah, an investor MVP:{" "}
+          <a
+            href="https://github.com/justAbdulaziz10/Naqah/commits/main"
+            className="vb-hero-proof-link"
+            target="_blank"
+            rel="noreferrer"
+          >
+            128 of its 209 commits
+          </a>
+          , 5&ndash;13 November 2026.
         </p>
+        <HeroEvidence />
         <div className="vb-hero-actions" data-rise="4">
           <Link href="#work" className="vb-btn">
             View work

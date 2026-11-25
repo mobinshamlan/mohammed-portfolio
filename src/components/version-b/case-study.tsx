@@ -360,6 +360,28 @@ export function CaseBody({
             </figcaption>
           </figure>
         </Reveal>
+        {project.proof.evidence ? (
+          <Reveal delay={0.1}>
+            <section className="vb-evidence" aria-labelledby="evidence-title">
+              <h3 id="evidence-title" className="vb-evidence-title">
+                Checked in the public repository, {project.proof.evidence[0].checked}
+              </h3>
+              <dl className="vb-evidence-list">
+                {project.proof.evidence.map((item) => (
+                  <div key={item.label} className="vb-evidence-row">
+                    <dt>{item.value}</dt>
+                    <dd>
+                      {item.label}{" "}
+                      <a href={item.source.href} className="vb-evidence-source" target="_blank" rel="noreferrer">
+                        {item.source.label}
+                      </a>
+                    </dd>
+                  </div>
+                ))}
+              </dl>
+            </section>
+          </Reveal>
+        ) : null}
       </section>
 
       {children}

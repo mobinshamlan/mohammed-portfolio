@@ -414,18 +414,15 @@ html:has(.vb) {
 }
 
 /* Entrances exist only once JavaScript has marked the page as motion-capable.
-   Static HTML shows everything. */
+   Static HTML shows everything. Waiting content only sits lower; it is never
+   transparent, so contrast checks, find-in-page and screen readers always see it. */
 .vb[data-motion="on"] .vb-reveal[data-wait="true"] {
-  opacity: 0;
   transform: translateY(22px);
 }
 
 .vb[data-motion="on"] .vb-reveal[data-in="true"] {
-  opacity: 1;
   transform: none;
-  transition:
-    opacity var(--t-reveal) var(--ease-expo),
-    transform var(--t-reveal) var(--ease-expo);
+  transition: transform var(--t-reveal) var(--ease-expo);
 }
 
 .vb[data-motion="on"]:not([data-loaded="true"]) [data-rise] {

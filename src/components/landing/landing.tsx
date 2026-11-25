@@ -453,7 +453,10 @@ export function Landing() {
 
   return (
     <>
-      <main className="vl-main">
+      <a href="#experiment" className="vl-skip">
+        Skip to the experiment
+      </a>
+      <main id="experiment" className="vl-main" tabIndex={-1}>
         <header className="vl-head">
           <p className="vl-eyebrow">
             <Link href="/" prefetch={false}>
@@ -465,12 +468,26 @@ export function Landing() {
             <span>One brief.</span>
             <span>Two prompts.</span>
           </h1>
-          <p className="vl-intro">
-            The same portfolio, built twice. Version A came from one simple
-            prompt and is kept as it was. Version B came from structured
-            prompts, a design direction and rounds of refinement, and became
-            the site you arrived from. Open either, or compare both.
-          </p>
+          <div className="vl-lede">
+            <p className="vl-intro">
+              The same portfolio, built twice. Version A came from one simple
+              prompt and is kept as it was. Version B came from structured
+              prompts, a design direction and rounds of refinement, and became
+              the site you arrived from. Open either, or compare both.
+            </p>
+            <p className="vl-open">
+              {versions.map((version) => (
+                <Link
+                  key={version.side}
+                  href={version.href}
+                  prefetch={false}
+                  className={`vl-cta vl-open-${version.side}`}
+                >
+                  {version.cta}
+                </Link>
+              ))}
+            </p>
+          </div>
         </header>
 
         <div className="vl-stage" data-hover={hovered ?? undefined}>

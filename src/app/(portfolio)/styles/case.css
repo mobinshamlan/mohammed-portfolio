@@ -911,6 +911,68 @@
   background: var(--ember);
 }
 
+/* Numbers read from the public repository, each with its source. */
+.vb-evidence {
+  display: grid;
+  gap: 1rem;
+  max-width: 52rem;
+  margin-top: 3rem;
+}
+
+.vb-evidence-title {
+  color: var(--sand-2);
+  font-family: var(--text);
+  font-size: var(--step-small);
+  font-weight: 400;
+  letter-spacing: 0;
+}
+
+.vb-evidence-list {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  margin: 0;
+}
+
+.vb-evidence-row {
+  display: grid;
+  grid-column: 1 / -1;
+  grid-template-columns: subgrid;
+  gap: 0.25rem 1.5rem;
+  align-items: baseline;
+  padding: 0.9rem 0;
+  border-top: 1px solid color-mix(in srgb, var(--sand) 14%, transparent);
+}
+
+.vb-evidence-row dt {
+  font-family: var(--display);
+  font-size: clamp(1.4rem, 1.1rem + 1vw, 1.9rem);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.1;
+  color: var(--sand);
+}
+
+.vb-evidence-row dd {
+  margin: 0;
+  color: var(--sand-2);
+  text-wrap: pretty;
+}
+
+.vb .vb-evidence-source {
+  color: var(--sand);
+  white-space: nowrap;
+  text-decoration: underline;
+  text-decoration-color: var(--ember);
+  text-underline-offset: 0.22em;
+}
+
+@media (max-width: 599px) {
+  .vb-evidence-list,
+  .vb-evidence-row {
+    grid-template-columns: 1fr;
+  }
+}
+
 .vb-case-demo .vb-case-text {
   margin-bottom: 1.5rem;
 }

@@ -49,6 +49,16 @@ export type Decision = {
   changed: string;
 };
 
+/** A number checked in a public repository, with where and when it was read. */
+export type Evidence = {
+  kind: "tests" | "commits" | "scope";
+  value: string;
+  label: string;
+  source: ProjectLink;
+  /** When the number was read, e.g. "25 Nov 2026". */
+  checked: string;
+};
+
 export type Proof = {
   /** What the figure shows, in one line. */
   title: string;
@@ -56,6 +66,8 @@ export type Proof = {
   moments: { time: string; label: string }[];
   /** Annotations under the figure. */
   notes: string[];
+  /** Checked numbers from the public repository. Never traction claims. */
+  evidence?: Evidence[];
 };
 
 export type Project = {
@@ -108,6 +120,9 @@ export type Project = {
   credit?: string;
 };
 
+/** When the evidence numbers were read: test suites run on clean clones, commits counted with git log. */
+export const EVIDENCE_CHECKED = "25 Nov 2026";
+
 const browser = { width: 1000, height: 625, frame: "browser" } as const;
 const phone = { width: 440, height: 952, frame: "phone" } as const;
 
@@ -131,6 +146,22 @@ export const projects: Project[] = [
         "The worker's voice is processed live over the Twilio call and discarded. Nothing sensitive sits in a voice file.",
         "Each answer becomes a row against the ranch; the owner's evening call reads from those rows.",
         "Row-level security keeps one ranch to one owner.",
+      ],
+      evidence: [
+        {
+          kind: "tests",
+          value: "2,908",
+          label: "automated tests pass: 2,774 in Vitest and 134 for the voice bridge. 162 database tests need Postgres and were skipped.",
+          source: { label: "Test setup at fee47bd", href: "https://github.com/justAbdulaziz10/Naqah/blob/fee47bd/vitest.config.ts" },
+          checked: EVIDENCE_CHECKED,
+        },
+        {
+          kind: "commits",
+          value: "128 of 209",
+          label: "commits are mine, 5 to 13 Nov 2026, in a three-person team.",
+          source: { label: "Commit history", href: "https://github.com/justAbdulaziz10/Naqah/commits/main" },
+          checked: EVIDENCE_CHECKED,
+        },
       ],
     },
     flagship: true,
@@ -256,6 +287,22 @@ export const projects: Project[] = [
         "Every child and every topic has its own choice of timing and channel, stored per parent under row-level security.",
         "Lulwa delivers the update by call or text at the chosen time, then answers only from that child's record.",
         "Names here are from the fictional demo data.",
+      ],
+      evidence: [
+        {
+          kind: "tests",
+          value: "47",
+          label: "automated tests pass, covering alert schedules, call data and operator access.",
+          source: { label: "Tests at 3c6fb48", href: "https://github.com/mobinshamlan/Madrasati-AI-Assistant/tree/3c6fb48/tests" },
+          checked: EVIDENCE_CHECKED,
+        },
+        {
+          kind: "commits",
+          value: "47 of 59",
+          label: "commits are mine, 28 Oct to 25 Nov 2026.",
+          source: { label: "Commit history", href: "https://github.com/mobinshamlan/Madrasati-AI-Assistant/commits/main" },
+          checked: EVIDENCE_CHECKED,
+        },
       ],
     },
     flagship: true,
@@ -509,6 +556,29 @@ export const projects: Project[] = [
         "The formula is code in src/lib/score.ts and written out on the app's About page; Llama never computes it.",
         "A missing measurement gives no number at all, so a night is never ranked on a guess.",
       ],
+      evidence: [
+        {
+          kind: "scope",
+          value: "62",
+          label: "camping sites in 9 regions, taken from the NCVC Camping and Caravan Guide 2025, each scored for the next 7 nights.",
+          source: { label: "Site list at 2f29fad", href: "https://github.com/mobinshamlan/kashta/blob/2f29fad/src/lib/destinations.ts" },
+          checked: EVIDENCE_CHECKED,
+        },
+        {
+          kind: "tests",
+          value: "38",
+          label: "automated tests pass, covering the score, the AI guards, share links and the sky timeline.",
+          source: { label: "Tests at 2f29fad", href: "https://github.com/mobinshamlan/kashta/tree/2f29fad/tests" },
+          checked: EVIDENCE_CHECKED,
+        },
+        {
+          kind: "commits",
+          value: "52 of 52",
+          label: "commits are mine, 2 to 25 Nov 2026, for Project 4 (Meta × Startupbootcamp × Tuwaiq Academy).",
+          source: { label: "Commit history", href: "https://github.com/mobinshamlan/kashta/commits/main" },
+          checked: EVIDENCE_CHECKED,
+        },
+      ],
     },
     flagship: false,
     decision: {
@@ -535,7 +605,7 @@ export const projects: Project[] = [
     light: false,
     problem:
       "Picking a night for a kashta means checking wind, dust, cloud and the moon for each site by hand, and still not knowing whether a permit is needed.",
-    what: "Kashta compares real forecasts of temperature, wind, rain, cloud, dust and moonlight for 14 camping sites from the NCVC Camping Guide 2025, ranks the next seven nights with a transparent Kashta Score, shows permit information with its source, and has a Star Hunter page for stargazing nights. Meta Llama 4 Scout turns a trip description into settings and explains the results.",
+    what: "Kashta compares real forecasts of temperature, wind, rain, cloud, dust and moonlight for 62 camping sites in nine regions from the NCVC Camping Guide 2025, ranks the next seven nights with a transparent Kashta Score, shows permit information with its source, and has a Star Hunter page for stargazing nights. Meta Llama 4 Scout turns a trip description into settings and explains the results.",
     how: [
       {
         actor: "You",
@@ -639,6 +709,22 @@ export const projects: Project[] = [
       notes: [
         "The tracking credential lives in the URL fragment; the server stores only its SHA-256 hash.",
         "Every staff decision is appended to a log that cannot be rewritten.",
+      ],
+      evidence: [
+        {
+          kind: "tests",
+          value: "211",
+          label: "automated tests pass in 55 suites, covering matching, ownership questions, Gemini and rate limits.",
+          source: { label: "Tests at 2fdaa9d", href: "https://github.com/mobinshamlan/Amanah/tree/2fdaa9d/tests" },
+          checked: EVIDENCE_CHECKED,
+        },
+        {
+          kind: "commits",
+          value: "90 of 90",
+          label: "commits are mine, 23 Oct to 24 Nov 2026.",
+          source: { label: "Commit history", href: "https://github.com/mobinshamlan/Amanah/commits/main" },
+          checked: EVIDENCE_CHECKED,
+        },
       ],
     },
     flagship: false,
