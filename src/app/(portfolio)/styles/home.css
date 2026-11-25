@@ -1236,7 +1236,7 @@ td[data-on="true"] .vb-ladder-dot {
 /* ---------- About ---------- */
 
 .vb-about {
-  padding: clamp(5rem, 12vw, 11rem) var(--gutter);
+  padding: clamp(4rem, 8vw, 8rem) var(--gutter);
   scroll-margin-top: 4rem;
 }
 
@@ -1416,7 +1416,7 @@ td[data-on="true"] .vb-ladder-dot {
 /* ---------- Journey ---------- */
 
 .vb-journey {
-  padding: clamp(5rem, 12vw, 11rem) var(--gutter);
+  padding: clamp(4rem, 8vw, 8rem) var(--gutter);
   background: var(--night-2);
   scroll-margin-top: 4rem;
 }
@@ -1561,7 +1561,7 @@ td[data-on="true"] .vb-ladder-dot {
 .vb-skills {
   display: grid;
   gap: 3rem;
-  padding: clamp(5rem, 12vw, 11rem) var(--gutter);
+  padding: clamp(4rem, 8vw, 8rem) var(--gutter);
   scroll-margin-top: 4rem;
 }
 
@@ -1666,7 +1666,7 @@ td[data-on="true"] .vb-ladder-dot {
 .vb-certs {
   display: grid;
   gap: 2.5rem;
-  padding: clamp(5rem, 12vw, 11rem) var(--gutter);
+  padding: clamp(4rem, 8vw, 8rem) var(--gutter);
   background: var(--night-2);
   scroll-margin-top: 4rem;
 }
@@ -1781,7 +1781,7 @@ div.vb-certs-row {
 .vb-contact {
   display: grid;
   gap: 3rem;
-  padding: clamp(5rem, 12vw, 11rem) var(--gutter) clamp(4rem, 8vw, 7rem);
+  padding: clamp(4rem, 8vw, 8rem) var(--gutter) clamp(4rem, 8vw, 7rem);
   scroll-margin-top: 4rem;
 }
 
