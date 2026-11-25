@@ -48,7 +48,7 @@ function Cell({ job, id, selected, link }: { job: ResolvedJob; id: ProjectId; se
   );
 }
 
-/** What I work with: one row per job, with the tools and the projects that show it. */
+/** What I work with: one row per skill, with the tools and the projects that show it. */
 export function Toolkit() {
   // The project filter needs JavaScript; without it every job and project is still listed.
   const hydrated = useHydrated();
@@ -65,7 +65,7 @@ export function Toolkit() {
     <section id="skills" className="vb-tools" data-sel={selected} aria-labelledby="skills-title">
       <div className="vb-tools-head">
         <SectionTitle id="skills-title" en="What I work with." ar="أدواتي" />
-        <p className="vb-tools-lead">One row per job: what I did, the tools, and the projects that show it.</p>
+        <p className="vb-tools-lead">One row per skill: what I did with it, the tools, and the projects that show it.</p>
 
         {hydrated ? (
           <div className="vb-tools-filter">

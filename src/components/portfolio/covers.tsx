@@ -10,9 +10,17 @@ import { GthrzStatesDemo } from "./demos/gthrz-states";
 import { KashtaScoreDemo } from "./demos/kashta-score";
 import { TammeniScheduleDemo } from "./demos/tammeni-schedule";
 import { DeviceFrame } from "./device-frame";
+import { DocumentViewer } from "./document-viewer";
 import { GthrzImg } from "./gthrz-img";
 import { Reveal } from "./reveal";
 import { SectionTitle } from "./section-title";
+import { NaqahScene } from "./scenes/naqah-scene";
+import { TammeniScene } from "./scenes/tammeni-scene";
+import { SeetScene } from "./scenes/seet-scene";
+import { KashtaScene } from "./scenes/kashta-scene";
+import { AmanahScene } from "./scenes/amanah-scene";
+import { GthrzScene } from "./scenes/gthrz-scene";
+
 
 function projectHref(project: Project) {
   return project.href ?? `/projects/${project.id}`;
@@ -127,9 +135,21 @@ function Screen({
 }) {
   return (
     <figure className="vb-proj-screen" data-phone-only={phoneOnly ? "true" : undefined}>
-      <div className="vb-phone vb-phone-sm" data-ui="">
-        <Image src={shot.src} alt={shot.alt} width={shot.width} height={shot.height} sizes={sizes} className="vb-phone-img" />
-      </div>
+      <DocumentViewer
+        triggerClassName="vb-proj-zoom"
+        src={shot.src}
+        width={shot.width}
+        height={shot.height}
+        alt={shot.alt}
+        title={shot.alt}
+        subtitle="Screenshot from the live product"
+        href={shot.src}
+      >
+        <span className="vb-phone vb-phone-sm" data-ui="">
+          <Image src={shot.src} alt={shot.alt} width={shot.width} height={shot.height} sizes={sizes} className="vb-phone-img" />
+        </span>
+        <span className="vb-proj-zoom-hint">Enlarge</span>
+      </DocumentViewer>
       <figcaption>{caption}</figcaption>
     </figure>
   );
@@ -138,10 +158,12 @@ function Screen({
 function Section({
   id,
   layout,
+  scene,
   children,
 }: {
   id: ProjectId;
   layout: string;
+  scene?: ReactNode;
   children: ReactNode;
 }) {
   const project = projectById[id];
@@ -155,6 +177,11 @@ function Section({
       style={fieldStyle(project)}
       aria-labelledby={`proj-${id}`}
     >
+      {scene ? (
+        <div className="vb-proj-scene" aria-hidden="true">
+          {scene}
+        </div>
+      ) : null}
       <div className="vb-proj-inner">{children}</div>
     </article>
   );
@@ -173,7 +200,7 @@ function Phone({ shot, sizes }: { shot: Project["screens"][number]; sizes: strin
 function Naqah() {
   const project = projectById.naqah;
   return (
-    <Section id="naqah" layout="stage">
+    <Section id="naqah" scene={<NaqahScene />} layout="stage">
       <Head project={project} />
       <div className="vb-proj-art">
         <CallDemo compact id="naqah-demo" />
@@ -196,7 +223,7 @@ function Tammeni() {
   const project = projectById.tammeni;
   const phones = project.screens.filter((shot) => shot.frame === "phone").slice(0, 2);
   return (
-    <Section id="tammeni" layout="schedule">
+    <Section id="tammeni" scene={<TammeniScene />} layout="schedule">
       <Head project={project} />
       <div className="vb-proj-demo">
         <TammeniScheduleDemo compact />
@@ -225,7 +252,7 @@ function Seet() {
   const project = projectById.seet;
   const how = project.screens.find((shot) => shot.src.includes("how")) ?? project.cover;
   return (
-    <Section id="seet" layout="masthead">
+    <Section id="seet" scene={<SeetScene />} layout="masthead">
       <Head project={project} />
       <div className="vb-proj-art">
         <SeetChat compact />
@@ -253,7 +280,7 @@ function Seet() {
 function Kashta() {
   const project = projectById.kashta;
   return (
-    <Section id="kashta" layout="score">
+    <Section id="kashta" scene={<KashtaScene />} layout="score">
       <Head project={project} />
       <div className="vb-proj-demo">
         <KashtaScoreDemo compact />
@@ -274,7 +301,7 @@ function Amanah() {
   const project = projectById.amanah;
   const ownership = project.screens.find((shot) => shot.src.includes("ownership")) ?? project.cover;
   return (
-    <Section id="amanah" layout="views">
+    <Section id="amanah" scene={<AmanahScene />} layout="views">
       <Head project={project} />
       <div className="vb-proj-demo">
         <AmanahClaimDemo compact />
@@ -297,7 +324,7 @@ function Gthrz() {
   const project = projectById.gthrz;
   const shots = [gthrzShots.home, gthrzShots.details, gthrzShots.privacy];
   return (
-    <Section id="gthrz" layout="fan">
+    <Section id="gthrz" scene={<GthrzScene />} layout="fan">
       <Head project={project} />
       <div className="vb-proj-art vb-proj-fan" aria-hidden="true">
         {shots.map((shot) => (

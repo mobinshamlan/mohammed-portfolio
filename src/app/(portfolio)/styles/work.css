@@ -146,3 +146,44 @@
     max-width: 34rem;
   }
 }
+
+/* Each product's own world, drawn behind its chapter. Decorative; never above the content. */
+.vb-proj-scene {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.vb-proj-scene ~ .vb-proj-inner {
+  position: relative;
+  z-index: 1;
+}
+
+/* A product screen opens full size in the viewer: phones can read it. */
+.vb .vb-proj-zoom {
+  position: relative;
+  display: grid;
+  justify-items: start;
+  gap: 0.4rem;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-align: start;
+  cursor: zoom-in;
+}
+
+.vb-proj-zoom .vb-phone {
+  display: block;
+  width: 100%;
+}
+
+.vb-proj-zoom-hint {
+  font-size: 0.8125rem;
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+  color: var(--field-ink);
+}

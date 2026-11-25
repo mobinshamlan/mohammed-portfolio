@@ -808,6 +808,7 @@ html:has(.vb) {
 .vb-dialog {
   width: min(96vw, 1040px);
   max-height: 94dvh;
+  margin: auto;
   padding: 0;
   border: 0;
   border-radius: 0.75rem;

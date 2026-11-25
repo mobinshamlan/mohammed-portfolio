@@ -7,7 +7,9 @@ import { publicUrl } from "@/lib/site";
 import { useHydrated } from "@/lib/use-hydrated";
 import { SectionTitle } from "./section-title";
 
-const previewable = certificates.filter((item) => item.image);
+// The Eid volunteering certificate already sits beside its milestone in the London story.
+const listed = certificates.filter((item) => item.id !== "05");
+const previewable = listed.filter((item) => item.image);
 
 function meta(item: Certificate) {
   return item.completed
@@ -74,7 +76,7 @@ export function Certs() {
       <SectionTitle id="certs-title" en="Certificates." ar="الشهادات" />
 
       <ul className="vb-certs-rows">
-        {certificates.map((item) => (
+        {listed.map((item) => (
           <li key={item.id}>
             {hydrated && item.image ? (
               <button
