@@ -172,6 +172,12 @@
   font-size: 0.875rem;
 }
 
+@media (min-width: 900px) {
+  .vb-open-work-swipe {
+    display: none;
+  }
+}
+
 .vb-open-work-list {
   display: grid;
   grid-template-columns: repeat(6, minmax(0, 1fr));
@@ -344,7 +350,14 @@
   .vb-open-tile-shot {
     height: 4.5rem;
   }
+  .vb-open-work {
+    gap: 0.4rem;
+  }
   .vb-open-work-label {
+    order: 1;
+    text-align: right;
+  }
+  .vb-open-work-wide {
     display: none;
   }
 }

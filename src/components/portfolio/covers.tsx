@@ -40,6 +40,7 @@ function ProjectLinks({ project }: { project: Project }) {
           <li key={link.href}>
             <a href={link.href} className="vb-link" target="_blank" rel="noreferrer">
               {link.label}
+              <span className="vb-sr"> (opens in a new tab)</span>
             </a>
           </li>
         ),
@@ -78,6 +79,7 @@ function Evidence({ project }: { project: Project }) {
           {" · "}
           <a href={item.run?.href ?? item.source.href} className="vb-link" target="_blank" rel="noreferrer">
             {item.run ? "passing run" : item.source.label}
+            <span className="vb-sr"> (opens in a new tab)</span>
           </a>
         </li>
       ))}

@@ -417,7 +417,6 @@ export function CaseHero({
         <p className="vb-case-tagline">{project.tagline}</p>
         {opening ?? links}
       </div>
-      <div className="vb-case-hero-art">{art ?? <CoverShot project={project} />}</div>
       <div className="vb-case-hero-meta">
         {project.arabicTagline ? (
           <p className="vb-case-arabic" lang="ar">
@@ -449,6 +448,7 @@ export function CaseHero({
           <Link href="/#work">All work</Link>
         </p>
       </div>
+      <div className="vb-case-hero-art">{art ?? <CoverShot project={project} />}</div>
     </header>
   );
 }

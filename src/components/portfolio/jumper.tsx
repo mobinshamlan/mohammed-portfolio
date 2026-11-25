@@ -139,7 +139,7 @@ export function Jumper() {
           <path d="M15.5 15.5 21 21" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
         </svg>
         <span lang="ar" className="vb-jump-ar">وين؟</span> <span className="vb-jump-text">Jump to</span>
-        <kbd aria-hidden="true">⌘K</kbd>
+        <kbd aria-hidden="true">{/Mac|iPhone|iPad/.test(navigator.userAgent) ? "⌘K" : "Ctrl K"}</kbd>
       </button>
       <dialog
         ref={dialog}

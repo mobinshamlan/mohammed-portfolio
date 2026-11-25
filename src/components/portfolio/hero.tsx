@@ -75,7 +75,12 @@ export function Hero() {
       </figure>
 
       <nav className="vb-open-work" aria-label="The six products">
-        <p className="vb-open-work-label">Jump to a product</p>
+        <p className="vb-open-work-label">
+          <span className="vb-open-work-wide">Jump to a product</span>
+          <span className="vb-open-work-swipe" aria-hidden="true">
+            Swipe for all six →
+          </span>
+        </p>
         <ol className="vb-open-work-list">
           {work.map((project) => (
             <li key={project.id} style={fieldStyle(project)}>
