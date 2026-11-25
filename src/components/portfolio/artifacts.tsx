@@ -2,10 +2,10 @@
 
 import { useState } from "react";
 import { callScript } from "@/lib/naqah-call";
-import { gthrzVisibility } from "@/lib/gthrz";
 import type { ProjectId } from "@/lib/projects";
 import { useHydrated } from "@/lib/use-hydrated";
 import { AmanahClaimDemo } from "./demos/amanah-claim";
+import { GthrzStatesDemo } from "./demos/gthrz-states";
 import { KashtaScoreDemo } from "./demos/kashta-score";
 import { TammeniScheduleDemo } from "./demos/tammeni-schedule";
 
@@ -162,45 +162,6 @@ export function SeetChat({ compact = false }: { compact?: boolean }) {
   );
 }
 
-/* ---------- Gthrz: what a guest sees, by state ---------- */
-
-export function GthrzVisibility() {
-  const { rows, columns: cols } = gthrzVisibility;
-  return (
-    <div className="vb-art vb-art-gthrz" data-ui="">
-      <p className="vb-art-label">
-        What a guest can read at each state. The title, time and category are always visible. This
-        example assumes the host set &ldquo;reveal the address later&rdquo; and left guest names on;
-        the row-level security rules enforce it.
-      </p>
-      <table className="vb-art-table">
-        <thead>
-          <tr>
-            <th scope="col">State</th>
-            {cols.map((c) => (
-              <th key={c} scope="col">
-                {c}
-              </th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {rows.map((r) => (
-            <tr key={r.state}>
-              <th scope="row">{r.state}</th>
-              {r.values.map((v, i) => (
-                <td key={i} data-label={cols[i]} data-on={v ? "true" : undefined}>
-                  {v ? "Yes" : "No"}
-                </td>
-              ))}
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
-  );
-}
-
 export function DecisionArtifact({ id }: { id: ProjectId }) {
   switch (id) {
     case "naqah":
@@ -214,7 +175,7 @@ export function DecisionArtifact({ id }: { id: ProjectId }) {
     case "amanah":
       return <AmanahClaimDemo />;
     case "gthrz":
-      return <GthrzVisibility />;
+      return <GthrzStatesDemo />;
     default:
       return null;
   }

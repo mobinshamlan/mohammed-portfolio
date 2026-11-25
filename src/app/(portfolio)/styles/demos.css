@@ -414,6 +414,110 @@
   }
 }
 
+/* ---------- Gthrz: one event as a guest reads it, state by state ---------- */
+
+.vb-demo-steps {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.35rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.vb-demo-steps button {
+  width: 100%;
+  height: 100%;
+  min-height: 2.75rem;
+  padding: 0.35rem 0.5rem;
+  border: 1px solid var(--demo-line);
+  border-radius: 0.5rem;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.875rem;
+  line-height: 1.25;
+}
+
+.vb-demo-steps li[data-past="true"] button {
+  border-color: color-mix(in srgb, var(--demo-accent) 50%, transparent);
+}
+
+.vb-demo-steps li[data-on="true"] button {
+  border-color: var(--demo-accent);
+  background: var(--demo-accent);
+  color: var(--demo-accent-ink);
+  font-weight: 500;
+}
+
+.vb .vb-demo-next {
+  justify-self: start;
+  min-height: 2.75rem;
+  font-size: var(--step-small);
+}
+
+.vb-demo-event {
+  display: grid;
+  gap: 0.6rem;
+  padding: 0.9rem 1rem;
+  border-radius: 0.6rem;
+  background: var(--demo-surface);
+}
+
+.vb-demo-event-title {
+  font-family: var(--display);
+  font-size: 1.15rem;
+  font-weight: 700;
+}
+
+.vb-demo-event-title span {
+  display: block;
+  color: var(--demo-muted);
+  font-family: var(--text);
+  font-size: var(--step-small);
+  font-weight: 400;
+}
+
+.vb-demo-event dl {
+  display: grid;
+  gap: 0.45rem;
+  margin: 0;
+}
+
+.vb-demo-event dl > div {
+  display: grid;
+  grid-template-columns: 6.5rem minmax(0, 1fr);
+  gap: 0.6rem;
+  padding-top: 0.45rem;
+  border-top: 1px solid var(--demo-line);
+  font-size: var(--step-small);
+}
+
+.vb-demo-event dt {
+  font-weight: 500;
+}
+
+.vb-demo-event dd {
+  margin: 0;
+  color: var(--demo-muted);
+}
+
+.vb-demo-event div[data-on="true"] dd {
+  color: var(--demo-ink);
+}
+
+.vb-demo-status {
+  display: block;
+  color: var(--demo-muted);
+  font-size: 0.8125rem;
+  font-weight: 500;
+}
+
+.vb-demo-event div[data-on="true"] .vb-demo-status {
+  color: var(--ok);
+}
+
 @media (max-width: 599px) {
   .vb-demo-steps {
     grid-template-columns: repeat(2, minmax(0, 1fr));
