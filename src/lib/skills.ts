@@ -14,12 +14,15 @@ export type Skill = {
 
 export type SkillGroup = {
   title: string;
+  /** Words for the skills here that no project used. */
+  restLabel: string;
   skills: Skill[];
 };
 
 export const skillGroups: SkillGroup[] = [
   {
     title: "Languages",
+    restLabel: "Learned, not used in these projects",
     skills: [
       {
         name: "TypeScript",
@@ -34,6 +37,7 @@ export const skillGroups: SkillGroup[] = [
   },
   {
     title: "Web and mobile",
+    restLabel: "Learned, not used in these projects",
     skills: [
       {
         name: "Next.js",
@@ -52,6 +56,7 @@ export const skillGroups: SkillGroup[] = [
   },
   {
     title: "Backend and data",
+    restLabel: "Learned, not used in these projects",
     skills: [
       {
         name: "Supabase",
@@ -70,6 +75,7 @@ export const skillGroups: SkillGroup[] = [
   },
   {
     title: "AI",
+    restLabel: "Learned, not used in these projects",
     skills: [
       { name: "OpenAI Realtime voice", projects: ["naqah", "tammeni"] },
       { name: "Twilio Voice", projects: ["naqah", "tammeni"] },
@@ -83,6 +89,7 @@ export const skillGroups: SkillGroup[] = [
   },
   {
     title: "Tools and testing",
+    restLabel: "Also on the CV",
     skills: [
       { name: "Git and GitHub" },
       { name: "Vitest", projects: ["naqah"] },
@@ -93,6 +100,7 @@ export const skillGroups: SkillGroup[] = [
   },
   {
     title: "Coursework at QMUL",
+    restLabel: "Studied for the degree",
     skills: [
       { name: "Object-oriented programming" },
       { name: "Algorithms and data structures" },

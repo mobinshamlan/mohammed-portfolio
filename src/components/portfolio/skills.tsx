@@ -1,128 +1,210 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { projects, type ProjectId } from "@/lib/projects";
-import { skillGroups } from "@/lib/skills";
+import { skillGroups, type Skill } from "@/lib/skills";
 import { useHydrated } from "@/lib/use-hydrated";
-import { Collapsible } from "./collapsible";
-import { Reveal } from "./reveal";
 
-type Selection = ProjectId | "all";
+type Selection =
+  | { kind: "project"; id: ProjectId }
+  | { kind: "tool"; name: string }
+  | null;
+
+const used = (skill: Skill) => (skill.projects?.length ?? 0) > 0;
+const allSkills = skillGroups.flatMap((group) => group.skills);
+const usedCount = allSkills.filter(used).length;
+const restCount = allSkills.length - usedCount;
+
+/** Projects that at least one tool maps to, in portfolio order, with their tools. */
+const builtWith = projects
+  .map((project) => ({
+    project,
+    tools: allSkills.filter((skill) => skill.projects?.includes(project.id)),
+  }))
+  .filter((entry) => entry.tools.length > 0);
+
+/** Areas in three columns of similar height on wide screens; reading order stays by column. */
+const columns = [
+  ["Languages", "Web and mobile"],
+  ["Backend and data", "Tools and testing"],
+  ["AI", "Coursework at QMUL"],
+].map((titles) => skillGroups.filter((group) => titles.includes(group.title)));
+
+const nameOf = (id: ProjectId) => projects.find((item) => item.id === id)?.name ?? id;
+
+const keyOf = (selection: Selection) =>
+  selection ? (selection.kind === "project" ? selection.id : `tool:${selection.name}`) : "";
+
+function list(words: string[]) {
+  if (words.length < 2) {
+    return words.join("");
+  }
+  return `${words.slice(0, -1).join(", ")} and ${words[words.length - 1]}`;
+}
 
 export function Skills() {
-  // The project switch needs JavaScript; without it the groups still show what was used.
   const hydrated = useHydrated();
-  const [selected, setSelected] = useState<Selection>("all");
-  const project = projects.find((item) => item.id === selected);
-  const count =
-    selected === "all"
-      ? null
-      : skillGroups.reduce(
-          (sum, group) =>
-            sum +
-            group.skills.filter((skill) => skill.projects?.includes(selected))
-              .length,
-          0,
-        );
+  const [selected, setSelected] = useState<Selection>(null);
+  const map = useRef<HTMLDetailsElement>(null);
+
+  // The full map is open in the static HTML; phones fold it once the page runs.
+  useEffect(() => {
+    if (map.current && !window.matchMedia("(min-width: 900px)").matches) {
+      map.current.open = false;
+    }
+  }, []);
+
+  const pickedProject = selected?.kind === "project" ? selected.id : null;
+  const pickedTool =
+    selected?.kind === "tool"
+      ? allSkills.find((skill) => skill.name === selected.name)
+      : undefined;
+  const entry = builtWith.find((item) => item.project.id === pickedProject);
+
+  // Picking the same project or tool again clears the selection.
+  function toggle(next: NonNullable<Selection>) {
+    setSelected((current) => (keyOf(current) === keyOf(next) ? null : next));
+  }
 
   return (
     <section
       id="skills"
-      className="vb-skills"
-      data-sel={selected}
+      className="vb-skills cr-skills"
+      data-picked={selected?.kind}
       aria-labelledby="skills-title"
     >
-      <div className="vb-skills-side">
-        <Reveal>
-          <h2 id="skills-title" className="vb-section-head">
-            What I work with.
-          </h2>
-        </Reveal>
-        <Reveal delay={0.08}>
-          <p className="vb-lead">
-            {hydrated
-              ? "Pick a project to light up the tools it was built with."
-              : "Lit words were used in a project I built."}{" "}
-            The rest come from the degree, the bootcamp, or the CV.
-          </p>
-        </Reveal>
+      <div className="cr-skills-side">
+        <h2 id="skills-title" className="vb-section-head cr-head">
+          What I work with.
+        </h2>
 
         {hydrated ? (
           <>
-            <div
-              className="vb-skills-switch"
-              role="group"
-              aria-label="Show skills used in a project"
-            >
-              <button
-                type="button"
-                className="vb-skills-pick"
-                aria-pressed={selected === "all"}
-                onClick={() => setSelected("all")}
-              >
-                All
-              </button>
-              {projects.map((item) => (
+            <div className="cr-picker" role="group" aria-label="Show the tools a project used">
+              {builtWith.map(({ project, tools }) => (
                 <button
-                  key={item.id}
+                  key={project.id}
                   type="button"
-                  className="vb-skills-pick"
-                  aria-pressed={selected === item.id}
-                  onClick={() => setSelected(item.id)}
+                  className="cr-pick"
+                  aria-pressed={pickedProject === project.id}
+                  data-lit={
+                    pickedTool?.projects?.includes(project.id) ? "true" : undefined
+                  }
+                  onClick={() => toggle({ kind: "project", id: project.id })}
                 >
-                  {item.name}
+                  {project.name}
+                  <span className="cr-pick-count">
+                    {tools.length}
+                    <span className="vb-sr"> tools</span>
+                  </span>
                 </button>
               ))}
             </div>
 
-            <p className="vb-skills-note" aria-live="polite">
-              {project ? (
+            <p className="cr-note" aria-live="polite">
+              {entry ? (
                 <>
-                  {count} tools lit for {project.name}.{" "}
-                  <Link href={`/projects/${project.id}`} className="vb-link">
+                  <strong>{entry.project.name}</strong> used {entry.tools.length} of them:{" "}
+                  {entry.tools.map((tool) => tool.name).join(" · ")}.{" "}
+                  <Link href={`/projects/${entry.project.id}`} className="cr-note-link">
                     Read the case study
                   </Link>
                 </>
+              ) : pickedTool ? (
+                <>
+                  <strong>{pickedTool.name}</strong> was used in{" "}
+                  {list((pickedTool.projects ?? []).map(nameOf))}.
+                </>
               ) : (
-                "Lit words were used in a project I built. Dimmer ones are learned or studied."
+                <>
+                  {usedCount} tools across {builtWith.length} projects, {restCount} more
+                  learned or studied. Pick a project or a tool to trace it.
+                </>
               )}
             </p>
           </>
-        ) : null}
+        ) : (
+          <p className="cr-note">
+            Each tool lists the projects that used it. {restCount} more are
+            learned or studied, and labelled that way.
+          </p>
+        )}
       </div>
 
-      <Collapsible
-        className="vb-skills-groups"
-        summary={
-          <span className="vb-skills-summary">All the tools, by group</span>
-        }
-      >
-        {skillGroups.map((group) => (
-          <div key={group.title} className="vb-skills-group">
-            <h3 className="vb-skills-label">{group.title}</h3>
-            <ul className="vb-skills-words">
-              {group.skills.map((skill) => {
-                const used = skill.projects && skill.projects.length > 0;
-                const lit =
-                  selected === "all"
-                    ? used
-                    : (skill.projects?.includes(selected) ?? false);
+      <details ref={map} className="cr-map" open>
+        <summary className="vb-details-summary cr-map-summary">
+          All {allSkills.length} tools, by area
+        </summary>
+        <div className="cr-areas">
+          {columns.map((column, index) => (
+            <div key={index} className="cr-column">
+              {column.map((group) => {
+                const tools = group.skills.filter(used);
+                const learning = group.skills.filter((skill) => skill.learning);
+                const rest = group.skills.filter((skill) => !used(skill) && !skill.learning);
                 return (
-                  <li
-                    key={skill.name}
-                    className="vb-skills-word"
-                    data-lit={lit ? "true" : undefined}
-                    data-learning={skill.learning ? "true" : undefined}
-                  >
-                    {skill.name}
-                  </li>
+                  <div key={group.title} className="cr-area">
+                    <h3 className="cr-area-title">{group.title}</h3>
+                    {tools.length > 0 ? (
+                      <ul className="cr-tools">
+                        {tools.map((skill) => {
+                          const lit = pickedProject
+                            ? skill.projects?.includes(pickedProject)
+                            : pickedTool?.name === skill.name;
+                          const body = (
+                            <>
+                              <span className="cr-tool-name">{skill.name}</span>
+                              <span className="cr-tool-projects">
+                                {skill.projects?.map((id) => (
+                                  <span
+                                    key={id}
+                                    data-on={pickedProject === id ? "true" : undefined}
+                                  >
+                                    {nameOf(id)}
+                                  </span>
+                                ))}
+                              </span>
+                            </>
+                          );
+                          return (
+                            <li key={skill.name} data-lit={lit ? "true" : undefined}>
+                              {hydrated ? (
+                                <button
+                                  type="button"
+                                  className="cr-tool"
+                                  aria-pressed={pickedTool?.name === skill.name}
+                                  onClick={() => toggle({ kind: "tool", name: skill.name })}
+                                >
+                                  {body}
+                                </button>
+                              ) : (
+                                <div className="cr-tool">{body}</div>
+                              )}
+                            </li>
+                          );
+                        })}
+                      </ul>
+                    ) : null}
+                    {learning.length > 0 ? (
+                      <p className="cr-rest" data-learning="true">
+                        <span className="cr-rest-label">Learning now at Tuwaiq Academy</span>
+                        {learning.map((skill) => skill.name).join(" · ")}
+                      </p>
+                    ) : null}
+                    {rest.length > 0 ? (
+                      <p className="cr-rest">
+                        <span className="cr-rest-label">{group.restLabel}</span>
+                        {rest.map((skill) => skill.name).join(" · ")}
+                      </p>
+                    ) : null}
+                  </div>
                 );
               })}
-            </ul>
-          </div>
-        ))}
-      </Collapsible>
+            </div>
+          ))}
+        </div>
+      </details>
     </section>
   );
 }
