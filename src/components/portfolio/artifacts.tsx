@@ -2,15 +2,18 @@
 
 import { useState } from "react";
 import { callScript } from "@/lib/naqah-call";
-import { gthrzVisibility } from "@/lib/gthrz";
-import { kashtaExample } from "@/lib/kashta-example";
 import type { ProjectId } from "@/lib/projects";
 import { useHydrated } from "@/lib/use-hydrated";
+import { AmanahClaimDemo } from "./demos/amanah-claim";
+import { GthrzStatesDemo } from "./demos/gthrz-states";
+import { KashtaScoreDemo } from "./demos/kashta-score";
+import { TammeniScheduleDemo } from "./demos/tammeni-schedule";
 
 /**
  * Product artifacts that sit beside each project's decision: small, honest
- * pieces of the product itself. Simulations are labelled as such. Before
- * hydration each one renders its complete, read-only content.
+ * pieces of the product itself, most of them a short demo to try (see ./demos).
+ * Simulations are labelled as such. Before hydration each one renders its
+ * complete, read-only content.
  */
 
 /* ---------- Naqah: the facts a call leaves behind ---------- */
@@ -55,104 +58,6 @@ export function NaqahFacts({ compact = false }: { compact?: boolean }) {
           <strong>{owner.time}</strong> {owner.text}
         </p>
       ) : null}
-    </div>
-  );
-}
-
-/* ---------- Tammeni: per-child, per-topic schedules ---------- */
-
-type Timing = "right away" | "daily" | "weekly" | "off";
-type Channel = "call" | "text";
-const timings: Timing[] = ["right away", "daily", "weekly", "off"];
-const topics = ["Attendance", "Grades", "Exams"] as const;
-const children = ["Reem", "Nawaf"] as const;
-type Cell = { timing: Timing; channel: Channel };
-
-const initial: Record<string, Cell> = {
-  "Reem:Attendance": { timing: "right away", channel: "text" },
-  "Reem:Grades": { timing: "weekly", channel: "call" },
-  "Reem:Exams": { timing: "daily", channel: "call" },
-  "Nawaf:Attendance": { timing: "off", channel: "text" },
-  "Nawaf:Grades": { timing: "weekly", channel: "text" },
-  "Nawaf:Exams": { timing: "daily", channel: "call" },
-};
-
-export function TammeniSchedule() {
-  const hydrated = useHydrated();
-  const [cells, setCells] = useState(initial);
-  function set(key: string, patch: Partial<Cell>) {
-    setCells((c) => ({ ...c, [key]: { ...c[key], ...patch } }));
-  }
-  const calls = Object.values(cells).filter((c) => c.timing !== "off" && c.channel === "call").length;
-  const texts = Object.values(cells).filter((c) => c.timing !== "off" && c.channel === "text").length;
-  return (
-    <div className="vb-art vb-art-tammeni" data-ui="">
-      <p className="vb-art-label">
-        The schedule grid, recreated. Fictional children from the demo
-        {hydrated ? "; change any cell." : "."}
-      </p>
-      <table className="vb-art-table">
-        <thead>
-          <tr>
-            <th scope="col">Topic</th>
-            {children.map((child) => (
-              <th key={child} scope="col">
-                {child}
-              </th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {topics.map((topic) => (
-            <tr key={topic}>
-              <th scope="row">{topic}</th>
-              {children.map((child) => {
-                const key = `${child}:${topic}`;
-                const cell = cells[key];
-                if (!hydrated) {
-                  return (
-                    <td key={key}>
-                      {cell.timing === "off" ? "off" : `${cell.timing}, by ${cell.channel}`}
-                    </td>
-                  );
-                }
-                return (
-                  <td key={key}>
-                    <label className="vb-art-sr" htmlFor={`${key}-t`}>
-                      {child}, {topic}: when
-                    </label>
-                    <select
-                      id={`${key}-t`}
-                      value={cell.timing}
-                      onChange={(e) => set(key, { timing: e.target.value as Timing })}
-                    >
-                      {timings.map((t) => (
-                        <option key={t} value={t}>
-                          {t}
-                        </option>
-                      ))}
-                    </select>
-                    <button
-                      type="button"
-                      className="vb-art-toggle"
-                      aria-pressed={cell.channel === "call"}
-                      disabled={cell.timing === "off"}
-                      onClick={() => set(key, { channel: cell.channel === "call" ? "text" : "call" })}
-                      aria-label={`${child}, ${topic}: by ${cell.channel}. Switch channel`}
-                    >
-                      {cell.channel === "call" ? "Call" : "Text"}
-                    </button>
-                  </td>
-                );
-              })}
-            </tr>
-          ))}
-        </tbody>
-      </table>
-      <p className="vb-art-sum" aria-live="polite">
-        This family gets {calls} kind{calls === 1 ? "" : "s"} of news by call and {texts} by text.
-        Each cell is one row per parent, child and topic under row-level security.
-      </p>
     </div>
   );
 }
@@ -207,14 +112,16 @@ export function SeetChat({ compact = false }: { compact?: boolean }) {
   const state = [...shown].reverse().find((m) => m.state)?.state ?? "Enquiry";
   const done = visible >= last;
   return (
-    <div className={`vb-art vb-art-seet ${compact ? "vb-art-compact" : ""}`} data-ui="">
-      <p className="vb-art-label">
-        Simulated WhatsApp thread with made-up prices{hydrated ? ". Step through it." : "."}
+    <div className={`vb-art vb-demo vb-art-seet ${compact ? "vb-art-compact" : ""}`} data-ui="">
+      <p className="vb-demo-hint">
+        <span className="vb-demo-tag">Simulated</span>
+        {hydrated ? "Press Next to take the booking to confirmed." : "A WhatsApp booking with made-up prices."}
       </p>
       <div className="vb-art-state">
         {["Enquiry", "Held", "Deposit", "Confirmed"].map((s) => (
           <span key={s} data-on={s === state ? "true" : undefined}>
             {s}
+            {s === state ? <span className="vb-art-sr"> (now)</span> : null}
           </span>
         ))}
       </div>
@@ -258,156 +165,20 @@ export function SeetChat({ compact = false }: { compact?: boolean }) {
   );
 }
 
-/* ---------- Kashta: a worked score ---------- */
-
-export function KashtaScore() {
-  const total = kashtaExample.rows.reduce((sum, r) => sum + r.score * r.weight, 0);
-  return (
-    <div className="vb-art vb-art-kashta" data-ui="">
-      <p className="vb-art-label">
-        A worked Kashta Score. Limits and weights are the app&rsquo;s own (src/lib/score.ts, covered
-        by node:test unit tests); the five values are what the live app showed for this night.
-      </p>
-      <p className="vb-art-h">
-        {kashtaExample.site}, {kashtaExample.night}
-      </p>
-      <table className="vb-art-table vb-art-score">
-        <thead>
-          <tr>
-            <th scope="col">Factor</th>
-            <th scope="col">Forecast</th>
-            <th scope="col">Rule</th>
-            <th scope="col">0–100</th>
-            <th scope="col">Weight</th>
-          </tr>
-        </thead>
-        <tbody>
-          {kashtaExample.rows.map((row) => (
-            <tr key={row.factor}>
-              <th scope="row">{row.factor}</th>
-              <td data-label="Forecast">{row.value}</td>
-              <td data-label="Rule">{row.rule}</td>
-              <td data-label="Score">{row.score}</td>
-              <td data-label="Weight">{row.weight}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-      <p className="vb-art-sum">
-        Weighted sum: 0.3 × 100 + 0.3 × 100 + 0.2 × 100 + 0.15 × 93 + 0.05 × 100 ={" "}
-        {total.toFixed(2)}, rounded to <strong>{Math.round(total)}</strong>. The live app showed{" "}
-        <strong>{kashtaExample.liveScore}</strong>. No reading crossed a danger limit, so the 35-point
-        cap did not apply; a missing measurement would have given no number at all.
-      </p>
-    </div>
-  );
-}
-
-/* ---------- Amanah: proving ownership privately ---------- */
-
-export function AmanahQuestions() {
-  const hydrated = useHydrated();
-  const [answered, setAnswered] = useState<string | null>(null);
-  const options = ["Yellow", "Black", "Wooden"];
-  const after =
-    "If it matches, staff may ask one more question or approve; the finder's report is never shown to the owner, and the link credential is stored only as a SHA-256 hash.";
-  return (
-    <div className="vb-art vb-art-amanah" data-ui="">
-      <p className="vb-art-label">
-        Simulated ownership step, after the guided demo. Staff may ask up to two questions about a
-        match; this is the first of them, chosen from what the finder reported. Your answer is a
-        sample.
-      </p>
-      <p className="vb-art-h">
-        <span lang="ar">وش لون المقبض؟</span> What colour is the handle?
-      </p>
-      {hydrated ? (
-        <>
-          <div className="vb-art-options" role="group" aria-label="Sample answer">
-            {options.map((o) => (
-              <button
-                key={o}
-                type="button"
-                className="vb-btn vb-btn-quiet"
-                aria-pressed={answered === o}
-                onClick={() => setAnswered(o)}
-              >
-                {o}
-              </button>
-            ))}
-          </div>
-          <p className="vb-art-sum" aria-live="polite">
-            {answered
-              ? `Simulated: "${answered}" goes to staff on the private tracking link. ${after}`
-              : "Pick a sample answer. In the product the answer goes to staff, not to the finder; a second question is asked only if staff want more certainty."}
-          </p>
-        </>
-      ) : (
-        <>
-          <p className="vb-art-sum">
-            Sample answers: {options.join(", ")}. Whichever the owner picks goes to staff on the
-            private tracking link, not to the finder.
-          </p>
-          <p className="vb-art-sum">{after}</p>
-        </>
-      )}
-    </div>
-  );
-}
-
-/* ---------- Gthrz: what a guest sees, by state ---------- */
-
-export function GthrzVisibility() {
-  const { rows, columns: cols } = gthrzVisibility;
-  return (
-    <div className="vb-art vb-art-gthrz" data-ui="">
-      <p className="vb-art-label">
-        What a guest can read at each state. The title, time and category are always visible. This
-        example assumes the host set &ldquo;reveal the address later&rdquo; and left guest names on;
-        the row-level security rules enforce it.
-      </p>
-      <table className="vb-art-table">
-        <thead>
-          <tr>
-            <th scope="col">State</th>
-            {cols.map((c) => (
-              <th key={c} scope="col">
-                {c}
-              </th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {rows.map((r) => (
-            <tr key={r.state}>
-              <th scope="row">{r.state}</th>
-              {r.values.map((v, i) => (
-                <td key={i} data-label={cols[i]} data-on={v ? "true" : undefined}>
-                  {v ? "Yes" : "No"}
-                </td>
-              ))}
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
-  );
-}
-
 export function DecisionArtifact({ id }: { id: ProjectId }) {
   switch (id) {
     case "naqah":
       return <NaqahFacts />;
     case "tammeni":
-      return <TammeniSchedule />;
+      return <TammeniScheduleDemo />;
     case "seet":
       return <SeetChat />;
     case "kashta":
-      return <KashtaScore />;
+      return <KashtaScoreDemo />;
     case "amanah":
-      return <AmanahQuestions />;
+      return <AmanahClaimDemo />;
     case "gthrz":
-      return <GthrzVisibility />;
+      return <GthrzStatesDemo />;
     default:
       return null;
   }

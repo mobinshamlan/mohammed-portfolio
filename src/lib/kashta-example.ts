@@ -50,3 +50,58 @@ export const kashtaExample = {
     },
   ],
 };
+
+/*
+ * The parts of score.ts the interactive score needs, mirrored line for line
+ * (kashta @2f29fad, src/lib/score.ts): the "kashta" weights, medium wind
+ * tolerance, the straight-line ramp and the 35-point cap for a dangerous night.
+ */
+export const kashtaLimits = {
+  wind: { good: 30, bad: 55 }, // strongest gust, km/h (medium tolerance)
+  rain: { good: 10, bad: 70 }, // highest chance, %
+  dust: { good: 60, bad: 400 }, // peak surface dust, µg/m³
+  cloud: { good: 10, bad: 80 }, // mean cover 20:00–04:00, %
+  cap: 35,
+} as const;
+
+export const kashtaWeights = { temp: 0.3, wind: 0.3, rain: 0.2, dust: 0.15, cloud: 0.05 } as const;
+
+/** The 25 Nov night's raw readings, which the sliders start from. */
+export const kashtaNight = { wind: 11.5, rain: 0, dust: 85, cloud: 0, tempScore: 100 } as const;
+
+/** 100 at or below `good`, 0 at or above `bad`, linear between. */
+export function kashtaRamp(value: number, good: number, bad: number) {
+  if (value <= good) return 100;
+  if (value >= bad) return 0;
+  return Math.round(100 * (1 - (value - good) / (bad - good)));
+}
+
+export type KashtaInputs = { wind: number; dust: number; cloud: number };
+
+export function kashtaScore({ wind, dust, cloud }: KashtaInputs) {
+  const factors = {
+    temp: kashtaNight.tempScore,
+    wind: kashtaRamp(wind, kashtaLimits.wind.good, kashtaLimits.wind.bad),
+    rain: kashtaRamp(kashtaNight.rain, kashtaLimits.rain.good, kashtaLimits.rain.bad),
+    dust: kashtaRamp(dust, kashtaLimits.dust.good, kashtaLimits.dust.bad),
+    cloud: kashtaRamp(cloud, kashtaLimits.cloud.good, kashtaLimits.cloud.bad),
+  };
+  const sum = (Object.keys(kashtaWeights) as (keyof typeof kashtaWeights)[]).reduce(
+    (acc, k) => acc + factors[k] * kashtaWeights[k],
+    0,
+  );
+  const dangers: string[] = [];
+  if (wind >= kashtaLimits.wind.bad) dangers.push("wind");
+  if (dust >= kashtaLimits.dust.bad) dangers.push("dust");
+  const uncapped = Math.max(0, Math.min(100, Math.round(sum)));
+  const score = dangers.length ? Math.min(uncapped, kashtaLimits.cap) : uncapped;
+  return { factors, uncapped, score, dangers };
+}
+
+/** score.ts's rating() bands. */
+export function kashtaRating(score: number) {
+  if (score >= 80) return "excellent";
+  if (score >= 65) return "good";
+  if (score >= 50) return "fair";
+  return "poor";
+}
