@@ -1,5 +1,5 @@
 import Link from "next/link";
-import type { ReactNode } from "react";
+import type { CSSProperties, ReactNode } from "react";
 import { fieldStyle, nextProject, previousProject, type Project } from "@/lib/projects";
 import { amanahViews } from "@/lib/amanah-views";
 import { kashtaExample } from "@/lib/kashta-example";
@@ -9,6 +9,7 @@ import { DeviceFrame } from "./device-frame";
 import { Footer } from "./footer";
 import { Nav } from "./nav";
 import { MotionRoot, Reveal } from "./reveal";
+import { Thread } from "./thread";
 
 /** How it works: actors and actions drawn as a flow, left to right on wide screens. */
 export function Flow({ project }: { project: Project }) {
@@ -513,13 +514,19 @@ export function CasePage({
         field={project.field}
         fieldInk={project.fieldInk}
       />
-      <main id="case" className="vb-case">
+      {/* On the night, a light field's accent is too dark to see; its field colour carries the thread. */}
+      <main
+        id="case"
+        className="vb-case"
+        style={{ "--thread": project.light ? project.field : project.accent } as CSSProperties}
+      >
         <CaseHero project={project} art={art} />
         <CaseBody project={project} before={before}>
           {children}
         </CaseBody>
       </main>
       <Footer />
+      <Thread variant="case" />
     </>
   );
 }

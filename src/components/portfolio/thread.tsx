@@ -23,7 +23,7 @@ type Node = { x: number; y: number; at: number; color: string };
 const DESKTOP = 900;
 const HEAD = 0.72; // the drawing tip follows this fraction of the viewport
 
-export function Thread() {
+export function Thread({ variant = "home" }: { variant?: "home" | "case" }) {
   const wrap = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -45,7 +45,7 @@ export function Thread() {
 
     function measure() {
       frame = 0;
-      const built = build(root!);
+      const built = variant === "case" ? buildCase(root!) : build(root!);
       if (!built) {
         svg.replaceChildren();
         pieces = [];
@@ -124,7 +124,7 @@ export function Thread() {
       window.removeEventListener("resize", onLayout);
       reduce.removeEventListener("change", onLayout);
     };
-  }, []);
+  }, [variant]);
 
   return (
     <div ref={wrap} className="vb-thread" aria-hidden="true">
@@ -135,7 +135,8 @@ export function Thread() {
 
 /* ---------- Measuring the route ---------- */
 
-function build(root: HTMLElement) {
+/** Boxes relative to the thread's root, and the queries the routes share. */
+function measuring(root: HTMLElement) {
   const base = root.getBoundingClientRect();
   const box = (el: Element | null) => {
     if (!el) {
@@ -149,6 +150,11 @@ function build(root: HTMLElement) {
   };
   const q = (sel: string) => root.querySelector(sel);
   const qa = (sel: string) => [...root.querySelectorAll(sel)].map(box).filter((b) => b !== null);
+  return { box, q, qa };
+}
+
+function build(root: HTMLElement) {
+  const { box, q, qa } = measuring(root);
 
   const width = root.clientWidth;
   const inner = q(".vb-proj-inner");
@@ -271,6 +277,121 @@ function build(root: HTMLElement) {
       const seg = b && segs.find((s) => !s.flat && s.x0 === s.x1 && s.y0 <= b.top + 72 && s.y1 >= b.top + 72);
       if (b && seg && el.dataset.id !== "seet") {
         marks.push([seg.x0, b.top + 72]);
+      }
+    });
+  }
+  return slice(segs, zones, marks);
+}
+
+/*
+ * A case study: the line leaves the project's name in the hero, runs down the
+ * margin past each chapter's heading (a moment at each), crosses the page
+ * above the decision and again above the screens, and hands over to the next
+ * project, ending on its "Next" label. In the hero it takes the accent; on the
+ * night it takes the project's own colour (--thread on the case main); in the
+ * previous and next fields, theirs. Phones get a single rail on the left.
+ */
+function buildCase(root: HTMLElement) {
+  const { box, q } = measuring(root);
+  const main = q(".vb-case");
+  const hero = q(".vb-case-hero");
+  const nav = q(".vb-case-next");
+  const heroBox = box(hero);
+  const navBox = box(nav);
+  const label = box(q(".vb-case-next-link:last-child > span:first-child"));
+  if (!main || !hero || !nav || !heroBox || !navBox || !label) {
+    return null;
+  }
+
+  const width = root.clientWidth;
+  const gutter = parseFloat(getComputedStyle(hero).paddingLeft) || 16;
+  const night = getComputedStyle(main).getPropertyValue("--thread").trim() || "#e9a24a";
+  const accentOf = (el: Element) => getComputedStyle(el).getPropertyValue("--accent").trim() || night;
+  const xL = Math.round(gutter / 2);
+  const xR = Math.round(width - gutter / 2);
+  const desktop = width >= DESKTOP;
+
+  // Colour zones: the hero and the two neighbour fields carry their accents.
+  // The body's rounded top rises over the hero, so the night begins at its edge.
+  const body = box(hero.nextElementSibling);
+  const zones: Zone[] = [{ top: -Infinity, color: accentOf(hero) }, { top: body?.top ?? heroBox.bottom, color: night }];
+  for (const link of nav.querySelectorAll(".vb-case-next-link")) {
+    const b = box(link);
+    if (b) {
+      zones.push({ top: b.top, color: accentOf(link) });
+    }
+  }
+  zones.sort((a, b) => a.top - b.top);
+
+  // Where each chapter's heading sits, ignoring any entrance transform still waiting.
+  const layoutTop = (el: HTMLElement) => {
+    let y = 0;
+    let node: HTMLElement | null = el;
+    while (node && node !== root) {
+      y += node.offsetTop;
+      node = node.offsetParent as HTMLElement | null;
+    }
+    return node === root ? y : null;
+  };
+  const headings: number[] = [];
+  for (const section of main.querySelectorAll<HTMLElement>(":scope > section")) {
+    const h = section.querySelector<HTMLElement>("h2");
+    const top = h && h.offsetHeight ? layoutTop(h) : null;
+    if (h && top !== null) {
+      headings.push(Math.round(top + Math.min(h.offsetHeight, 48) / 2));
+    }
+  }
+
+  const name = box(q(".vb-case-name"));
+  const startY = Math.round(name ? name.top + Math.min(name.bottom - name.top, 120) / 2 : heroBox.top + 48);
+  const endY = Math.round(label.cy);
+  const pts: Pt[] = [];
+  const marks: Pt[] = [];
+
+  if (!desktop) {
+    pts.push([xL, startY], [xL, endY]);
+    marks.push([xL, startY], [xL, endY]);
+    headings.forEach((y) => marks.push([xL, y]));
+  } else {
+    let side: "L" | "R" = "L";
+    const x = () => (side === "L" ? xL : xR);
+    const cross = (sel: string) => {
+      const el = q(sel);
+      const b = box(el);
+      if (!el || !b) {
+        return;
+      }
+      const pad = parseFloat(getComputedStyle(el).paddingTop) || 64;
+      const y = Math.round(b.top + Math.min(pad * 0.45, 64));
+      pts.push([x(), y]);
+      side = side === "L" ? "R" : "L";
+      pts.push([x(), y]);
+    };
+
+    // From beside the name, down the margin.
+    pts.push([xL, startY]);
+    marks.push([xL, startY]);
+    cross(".vb-case > .vb-case-decision");
+    cross(".vb-case > .vb-case-screens");
+    // Hand over above the neighbours, and end on "Next" at the right.
+    if (side === "L") {
+      const y = Math.round(navBox.top - Math.min(48, gutter));
+      pts.push([xL, y], [xR, y]);
+    }
+    pts.push([xR, endY]);
+    marks.push([xR, endY]);
+  }
+
+  const segs = route(pts, desktop ? 40 : 0);
+  if (!segs.length) {
+    return null;
+  }
+  // On desktop, a moment on the rail beside each chapter heading.
+  if (desktop) {
+    headings.forEach((y) => {
+      const seg = segs.find((s) => !s.flat && s.x0 === s.x1 && Math.min(s.y0, s.y1) <= y && Math.max(s.y0, s.y1) >= y);
+      if (seg) {
+        marks.push([seg.x0, y]);
       }
     });
   }
