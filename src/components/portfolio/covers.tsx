@@ -2,8 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { gthrzShots } from "@/lib/gthrz";
-import { publicUrl } from "@/lib/site";
-import { fieldStyle, projectById, type Project, type ProjectId } from "@/lib/projects";
+import { fieldStyle, projectById, projects, type Project, type ProjectId } from "@/lib/projects";
 import { SeetChat } from "./artifacts";
 import { CallDemo } from "./call-demo";
 import { DayLine } from "./dayline";
@@ -14,18 +13,18 @@ import { TammeniScheduleDemo } from "./demos/tammeni-schedule";
 import { DeviceFrame } from "./device-frame";
 import { GthrzImg } from "./gthrz-img";
 import { Reveal } from "./reveal";
-import { NightTable } from "./night-table";
-import { MoonFacts, NightMark } from "./sky";
+import { SaduBand, type SaduVariant } from "./sadu";
 
 function projectHref(project: Project) {
   return project.href ?? `/projects/${project.id}`;
 }
 
 /*
- * Every project gets its own section on its own colour field. The parts are
- * shared (name, the decision in one line, status, actions); the composition
- * comes from the product: a call, a schedule, a chat, a score, two views, phones.
- * Each section's centrepiece is a small working demo of that one decision.
+ * Every project gets its own section on its own colour field, opened by its
+ * own woven band. The parts are shared (name, the decision in one line,
+ * status, actions); the composition and the band come from the product: a
+ * call, a schedule, a chat, a score, two views, phones. Each section's
+ * centrepiece is a small working demo of that one decision.
  */
 
 function ProjectLinks({ project }: { project: Project }) {
@@ -63,6 +62,7 @@ function Head({ project, hook }: { project: Project; hook: ReactNode }) {
         </Link>
       </h3>
       <p className="vb-proj-tagline">{project.tagline}</p>
+      <SaduBand variant={project.id as SaduVariant} size="s" className="vb-proj-tab" />
       <p className="vb-proj-hook">{hook}</p>
     </Reveal>
   );
@@ -106,6 +106,7 @@ function Section({
       style={fieldStyle(project)}
       aria-labelledby={`proj-${id}`}
     >
+      <SaduBand variant={id as SaduVariant} className="vb-proj-band" />
       <div className="vb-proj-inner">{children}</div>
     </article>
   );
@@ -261,7 +262,8 @@ function Experiment() {
     { src: project.cover.src.replace("a-desktop", "b-desktop"), label: "Version B: this site", width: 800, height: 3333 },
   ];
   return (
-    <aside className="vb-exp" aria-labelledby="exp-title" style={fieldStyle(project)}>
+    <aside className="vb-exp" data-id="experiment" aria-labelledby="exp-title" style={fieldStyle(project)}>
+      <SaduBand variant="experiment" size="s" className="vb-exp-band" />
       <div className="vb-exp-copy">
         <p className="vb-proj-kind">The seventh project</p>
         <h3 id="exp-title" className="vb-exp-name">
@@ -284,38 +286,31 @@ function Experiment() {
   );
 }
 
-/* ---------- Midnight: the darkest point of the night, before the desert planner ---------- */
+/* ---------- The sampler: every project as a strip of its own weave ---------- */
 
-const sky = {
-  src640: publicUrl("/images/projects/credits/alula-night-sky-640.jpg"),
-  src1000: publicUrl("/images/projects/credits/alula-night-sky-1000.jpg"),
-  alt: "The Milky Way seen through a gap between two sandstone cliffs at night in AlUla, Saudi Arabia.",
-  width: 1067,
-  height: 1600,
-};
+const sampled = projects.filter((project) => project.id !== "experiment");
 
-function Midnight() {
+function Sampler() {
   return (
-    <div className="vb-midnight">
-      <div className="vb-midnight-copy">
-        <NightMark part="midnight" className="vb-midnight-hour" />
-        <MoonFacts />
-      </div>
-      <figure className="vb-midnight-sky">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src={sky.src640}
-          srcSet={`${sky.src640} 640w, ${sky.src1000} 1000w`}
-          sizes="(max-width: 899px) 1px, 45vw"
-          alt={sky.alt}
-          width={sky.width}
-          height={sky.height}
-          loading="lazy"
-          decoding="async"
-        />
-        <figcaption>The sky over AlUla. Photo: Saudi Press Agency.</figcaption>
-      </figure>
-    </div>
+    <nav className="vb-sampler" aria-label="Projects">
+      <ul className="vb-sampler-list">
+        {sampled.map((project) => (
+          <li key={project.id} className="vb-sample" data-id={project.id} style={fieldStyle(project)}>
+            <a href={`#proj-${project.id}`} className="vb-sample-link">
+              <SaduBand variant={project.id as SaduVariant} size="s" className="vb-sample-band" />
+              <span className="vb-sample-text">
+                <span className="vb-sample-name">
+                  {project.name}
+                  {project.arabic ? <span lang="ar">{project.arabic}</span> : null}
+                </span>
+                <span className="vb-sample-kind">{project.kind}</span>
+                <span className="vb-sample-dates">{project.dates}</span>
+              </span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
   );
 }
 
@@ -324,7 +319,6 @@ export function Covers() {
     <section id="work" className="vb-work" aria-labelledby="work-title">
       <div className="vb-work-head">
         <div className="vb-work-intro">
-          <NightMark part="nightfall" />
           <Reveal>
             <h2 id="work-title" className="vb-section-head">
               Six products, one decision each.
@@ -333,16 +327,15 @@ export function Covers() {
           <Reveal delay={0.1}>
             <p className="vb-lead vb-work-lead">
               A ranch, a school, an ads inbox, a desert night, a lost umbrella and a private party.
-              Each section shows the choice that shaped the product.
+              Each one is woven in its own colours, around the choice that shaped it.
             </p>
           </Reveal>
         </div>
-        <NightTable />
+        <Sampler />
       </div>
       <Naqah />
       <Tammeni />
       <Seet />
-      <Midnight />
       <Kashta />
       <Amanah />
       <Gthrz />

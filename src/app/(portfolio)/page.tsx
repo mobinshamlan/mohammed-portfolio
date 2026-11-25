@@ -27,8 +27,8 @@ export default function HomePage() {
       <main>
         <Hero />
         <Covers />
-        <About />
         <Journey />
+        <About />
         <Skills />
         <Certs />
         <Contact />

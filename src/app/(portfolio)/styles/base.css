@@ -1,25 +1,39 @@
 /* Portfolio: tokens, frame, navigation, buttons, footer, dialogs.
-   One night in Riyadh, from sunset to sunrise: the ground moves from dusk
-   through night to dawn, the ink is moonlit sand, the accent is ember.
-   Each project brings its own flat field colour, rising over the last as a dune. */
+   Woven like a Sadu tent: white wool at the front, black goat hair behind,
+   madder red for what to do next. Each project brings its own field colours
+   and its own band, and woven bands join one section to the next. */
 
 .vb {
-  /* The night, hour by hour. */
-  --dusk: #221719;
-  --dusk-2: #2e2022;
-  --dusk-3: #44302f;
-  --nightfall: #111421;
-  --night: #0b0e14;
-  --predawn: #121b2b;
-  --dawn: #f1d9b3;
-  --dawn-ink: #2a1a0e;
-  --dawn-muted: #644630;
-  --night-2: #131823;
-  --night-3: #1c2231;
-  --sand: #efe6d3;
-  --sand-2: #b9b0a0;
-  --ember: #e9a24a;
-  --ember-ink: #1a1206;
+  /* Al Sadu: shared colours for every section. Undyed white wool, black goat
+     hair, madder red and natural camel. Bands take their roles from these
+     unless a section sets its own (see sadu.css). */
+  --sadu-red: #9e2a2b;
+  --sadu-red-hi: #d0493d;
+  --sadu-ink: #1c1613;
+  --sadu-ink-2: #2a211c;
+  --sadu-ink-3: #3a2e27;
+  --sadu-wool: #f2eadb;
+  --sadu-wool-2: #e5d8c1;
+  --sadu-wool-muted: #5e4c3f;
+  --sadu-sand: #c8a27a;
+  --sadu-sand-2: #a9805a;
+
+  /* Older names, kept so every rule reads from the Sadu colours. */
+  --dusk: var(--sadu-ink);
+  --dusk-2: var(--sadu-ink-2);
+  --dusk-3: var(--sadu-ink-3);
+  --nightfall: var(--sadu-ink-2);
+  --night: var(--sadu-ink);
+  --predawn: var(--sadu-ink-2);
+  --dawn: var(--sadu-wool);
+  --dawn-ink: var(--sadu-ink);
+  --dawn-muted: var(--sadu-wool-muted);
+  --night-2: var(--sadu-ink-2);
+  --night-3: var(--sadu-ink-3);
+  --sand: var(--sadu-wool);
+  --sand-2: #cbbda7;
+  --ember: var(--sadu-sand);
+  --ember-ink: var(--sadu-ink);
   --danger: #ff8a7a;
   --ok: #8fd3a5;
 
@@ -31,12 +45,7 @@
   --measure: 62ch;
   --nav-h: 4.25rem;
 
-  /* Dune crests: a long windward slope, a sharp crest, a short slip face. */
   --edge: clamp(1.25rem, 5vw, 4.5rem);
-  --crest-1: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 100' preserveAspectRatio='none'%3E%3Cpath d='M0 100V74C220 66 470 40 690 12Q712 7 726 12C770 34 820 54 920 62C1030 70 1120 66 1200 62V100Z'/%3E%3C/svg%3E");
-  --crest-2: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 100' preserveAspectRatio='none'%3E%3Cpath d='M0 100V60C90 52 170 34 228 22Q240 20 250 26C290 52 360 70 520 74C760 78 940 52 1060 20Q1076 16 1088 22C1130 46 1170 58 1200 62V100Z'/%3E%3C/svg%3E");
-  --crest-3: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 100' preserveAspectRatio='none'%3E%3Cpath d='M0 100V40C30 44 70 52 140 60C330 80 560 76 760 52C860 40 920 26 960 14Q974 10 986 16C1040 44 1120 62 1200 66V100Z'/%3E%3C/svg%3E");
-  --crest-4: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 100' preserveAspectRatio='none'%3E%3Cpath d='M0 100V62C80 66 170 70 280 62C380 54 430 34 474 12Q488 7 510 12C730 40 980 66 1200 74V100Z'/%3E%3C/svg%3E");
 
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
   --ease-expo: cubic-bezier(0.16, 1, 0.3, 1);
@@ -63,7 +72,7 @@
 }
 
 html:has(.vb) {
-  background: #0b0e14;
+  background: #1c1613;
   scroll-padding-top: 5rem;
 }
 
@@ -360,8 +369,8 @@ html:has(.vb) {
   padding: 0 1.4rem;
   border: 0;
   border-radius: 999px;
-  background: var(--ember);
-  color: var(--ember-ink);
+  background: var(--sadu-red);
+  color: var(--sadu-wool);
   cursor: pointer;
   font-family: var(--text);
   font-size: var(--step-body);
@@ -373,7 +382,7 @@ html:has(.vb) {
 }
 
 .vb .vb-btn:hover {
-  background: #f3b161;
+  background: #b5332f;
 }
 
 .vb-btn:active {
@@ -424,155 +433,6 @@ html:has(.vb) {
   font-size: var(--step-lead);
   line-height: 1.35;
   text-wrap: pretty;
-}
-
-/* A part of tonight: the moon at its height, the Arabic name, the English name and its time. */
-.vb-hour {
-  --alt: 0.5;
-  display: grid;
-  grid-template-columns: auto minmax(0, auto);
-  grid-template-areas: "sky ar" "sky en";
-  column-gap: 0.8rem;
-  align-items: center;
-  justify-content: start;
-  width: fit-content;
-  max-width: 100%;
-}
-
-.vb-hour[data-part="sunset"] {
-  --alt: 0.05;
-}
-
-.vb-hour[data-part="nightfall"] {
-  --alt: 0.45;
-}
-
-.vb-hour[data-part="midnight"] {
-  --alt: 1;
-}
-
-.vb-hour[data-part="lastThird"] {
-  --alt: 0.7;
-}
-
-.vb-hour[data-part="dawn"] {
-  --alt: 0.2;
-}
-
-.vb-hour-sky {
-  grid-area: sky;
-  position: relative;
-  width: 2.5rem;
-  height: 3rem;
-  overflow: hidden;
-}
-
-/* A short dune line under the moon. */
-.vb-hour-sky::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 0.7rem;
-  background: var(--hour-dune, color-mix(in srgb, currentColor 28%, transparent));
-  mask: var(--crest-1) 0 0 / 100% 100% no-repeat;
-}
-
-.vb-hour-moon,
-.vb-hour-sun {
-  position: absolute;
-  left: 50%;
-  bottom: calc(0.2rem + var(--alt) * var(--rise, 1.1rem));
-  translate: -50% 0;
-}
-
-.vb-hour-moon {
-  width: var(--moon-size, 1.6rem);
-  height: var(--moon-size, 1.6rem);
-}
-
-/* A larger sky for the marks set at display size. */
-@media (min-width: 900px) {
-  :is(.vb-midnight-hour, .vb-footer-hour) .vb-hour-sky {
-    --moon-size: 2.6rem;
-    --rise: 1.6rem;
-    width: 3.75rem;
-    height: 4.75rem;
-  }
-
-  :is(.vb-midnight-hour, .vb-footer-hour) .vb-hour-sky::after {
-    height: 1rem;
-  }
-
-  .vb-footer-hour .vb-hour-sun {
-    width: 2.8rem;
-    height: 2.8rem;
-    bottom: -0.4rem;
-  }
-}
-
-.vb-hour-sun {
-  bottom: -0.2rem;
-  width: 1.7rem;
-  height: 1.7rem;
-  border-radius: 50%;
-  background: var(--ember);
-}
-
-.vb-hour-ar {
-  grid-area: ar;
-  justify-self: start;
-  color: var(--hour-ink, var(--ember));
-  font-size: 1.45rem;
-  font-weight: 700;
-  line-height: 1.35;
-}
-
-.vb-hour-en {
-  grid-area: en;
-  color: var(--hour-muted, var(--sand-2));
-  font-size: var(--step-small);
-  line-height: 1.35;
-}
-
-@media (max-width: 899px) {
-  .vb-hour-sky {
-    height: 2.6rem;
-  }
-  .vb-hour-ar {
-    font-size: 1.25rem;
-  }
-}
-
-.vb-hour-en time {
-  color: var(--hour-time, var(--sand));
-  font-variant-numeric: tabular-nums;
-}
-
-.vb-moon-dark {
-  fill: var(--moon-dark, var(--night-3));
-}
-
-.vb-moon-lit {
-  fill: var(--moon-lit, var(--sand));
-}
-
-/* The moon climbs to its height as the mark comes into view. */
-@keyframes vb-climb {
-  from {
-    transform: translateY(1.1rem);
-  }
-}
-
-@supports (animation-timeline: view()) {
-  @media (prefers-reduced-motion: no-preference) {
-    .vb[data-motion="on"] :is(.vb-hour-moon, .vb-hour-sun) {
-      animation: vb-climb linear both;
-      animation-timeline: view();
-      animation-range: entry 0% cover 45%;
-    }
-  }
 }
 
 .vb-muted {
@@ -780,57 +640,24 @@ html:has(.vb) {
   }
 }
 
-/* ---------- Footer: sunrise ---------- */
+/* ---------- Footer: the back wall of the tent ---------- */
 
 .vb-footer {
-  --crest-fill: var(--dawn);
-  --hour-ink: var(--dawn-ink);
-  --hour-muted: var(--dawn-muted);
-  --hour-time: var(--dawn-ink);
-  --hour-dune: color-mix(in srgb, var(--dawn-ink) 30%, transparent);
-  position: relative;
-  isolation: isolate;
-  padding: clamp(2.5rem, 6vw, 5rem) var(--gutter) 2rem;
-  background: var(--dawn);
-  color: var(--dawn-ink);
+  background: var(--sadu-ink);
+  color: var(--sadu-wool);
 }
 
-/* The footer rises over the night as the last dune, with the sun just behind it. */
-.vb-footer::before {
-  content: "";
-  position: absolute;
-  z-index: 1;
-  left: 0;
-  right: 0;
-  bottom: calc(100% - 1px);
-  height: var(--edge);
-  background: var(--dawn);
-  mask: var(--crest-3) 0 0 / 100% 100% no-repeat;
+.vb-footer-band {
+  --sb-ground: var(--sadu-red);
+  --sb-motif: var(--sadu-ink);
+  --sb-light: var(--sadu-wool);
 }
 
-.vb-footer-sun {
-  position: absolute;
-  z-index: 0;
-  right: 21%;
-  bottom: calc(100% + var(--edge) * -0.2);
-  width: clamp(4rem, 9vw, 8rem);
-  aspect-ratio: 1;
-  border-radius: 50%;
-  background: var(--ember);
-}
-
-.vb-footer-hour .vb-hour-ar {
-  font-size: clamp(2.4rem, 1rem + 5vw, 5.5rem);
-  line-height: 1.2;
-}
-
-.vb-footer-hour .vb-hour-sky {
-  align-self: end;
-  margin-bottom: 1rem;
+.vb-footer-body {
+  padding: clamp(2rem, 5vw, 4rem) var(--gutter) 2rem;
 }
 
 .vb-footer-name {
-  margin-top: clamp(1.5rem, 4vw, 3rem);
   font-family: var(--display);
   font-size: clamp(1.4rem, 1rem + 1.5vw, 2.2rem);
   font-weight: 800;
@@ -841,13 +668,13 @@ html:has(.vb) {
 .vb-footer-name span[lang="ar"] {
   margin-left: 0.6rem;
   font-weight: 700;
-  color: var(--dawn-muted);
+  color: var(--sadu-sand);
 }
 
 .vb-footer-grid {
   display: grid;
-  gap: 2rem;
-  margin-top: 2rem;
+  gap: 1rem;
+  margin-top: 1.5rem;
   font-size: var(--step-small);
 }
 
@@ -872,7 +699,7 @@ html:has(.vb) {
 
 .vb-footer-credit {
   max-width: 70ch;
-  color: var(--dawn-muted);
+  color: var(--sand-2);
   font-size: var(--step-small);
   line-height: 1.5;
 }
@@ -880,50 +707,15 @@ html:has(.vb) {
 .vb-footer-credit a {
   display: inline;
   padding: 0;
-  color: var(--dawn-ink);
+  color: var(--sadu-wool);
   text-decoration: underline;
-}
-
-.vb-footer :focus-visible {
-  outline-color: var(--dawn-ink);
-}
-
-@media (max-width: 899px) {
-  .vb-footer {
-    padding-top: 1.75rem;
-  }
-  .vb-footer-hour .vb-hour-ar {
-    font-size: 2.2rem;
-  }
-  .vb-footer-name {
-    margin-top: 1rem;
-  }
-  .vb-footer-grid {
-    gap: 0.75rem;
-    margin-top: 1rem;
-  }
 }
 
 @media (min-width: 900px) {
   .vb-footer-grid {
     grid-template-columns: 1fr 1fr 1.4fr;
     align-items: start;
-  }
-}
-
-@supports (animation-timeline: view()) {
-  @media (prefers-reduced-motion: no-preference) {
-    .vb[data-motion="on"] .vb-footer-sun {
-      animation: vb-sunrise linear both;
-      animation-timeline: view();
-      animation-range: entry 0% entry 100%;
-    }
-  }
-}
-
-@keyframes vb-sunrise {
-  from {
-    transform: translateY(70%);
+    gap: 2rem;
   }
 }
 

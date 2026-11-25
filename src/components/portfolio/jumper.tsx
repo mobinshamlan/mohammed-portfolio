@@ -10,9 +10,9 @@ type Item = { label: string; hint: string; href: string };
 
 const sections: Item[] = [
   { label: "Work", hint: "Section", href: "/#work" },
-  { label: "About", hint: "Section", href: "/#about" },
   { label: "Journey", hint: "Section", href: "/#journey" },
   { label: "Skills", hint: "Section", href: "/#skills" },
+  { label: "Certificates", hint: "Section", href: "/#certificates" },
   { label: "Contact", hint: "Section", href: "/#contact" },
   { label: "How this site was built", hint: "Experiment", href: "/experiment" },
 ];
@@ -155,7 +155,7 @@ export function Jumper() {
       >
         <div className="vb-jump-body">
           <label htmlFor={`${listId}-q`} className="vb-jump-label">
-            Where to tonight? <span lang="ar">وين الليلة؟</span>
+            Where to? <span lang="ar">وين؟</span>
           </label>
           <input
             ref={input}

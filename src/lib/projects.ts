@@ -1009,12 +1009,3 @@ export function previousProject(id: ProjectId) {
   const index = projects.findIndex((project) => project.id === id);
   return projects[(index - 1 + projects.length) % projects.length];
 }
-
-/** Third-party pictures used on the site, credited in the footer. */
-export const photoCredits = [
-  {
-    file: "alula-night-sky.jpg",
-    text: "Night sky between the mountains of AlUla, Saudi Press Agency, CC BY-SA 4.0, via Wikimedia Commons",
-    href: "https://commons.wikimedia.org/wiki/File:%D8%A7%D9%84%D8%B3%D9%85%D8%A7%D8%A1_%D9%85%D9%86_%D8%A8%D9%8A%D9%86_%D8%AC%D8%A8%D8%A7%D9%84_%D8%A7%D9%84%D8%B9%D9%84%D8%A7.jpg",
-  },
-];
