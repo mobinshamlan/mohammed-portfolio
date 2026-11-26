@@ -20,13 +20,13 @@ export const gthrzShots = {
   },
   home: {
     src: publicUrl("/images/projects/gthrz/home.webp"),
-    alt: "Gthrz home screen with upcoming events and create controls.",
+    alt: "Gthrz home screen with upcoming events and a button to create an event.",
     caption: "Home",
     ...phone,
   },
   discover: {
     src: publicUrl("/images/projects/gthrz/discover.webp"),
-    alt: "Gthrz Discover screen browsing public events.",
+    alt: "Gthrz Discover screen showing public events.",
     caption: "Discover",
     ...phone,
   },
@@ -38,13 +38,13 @@ export const gthrzShots = {
   },
   details: {
     src: publicUrl("/images/projects/gthrz/event-details.webp"),
-    alt: "Gthrz event details with delayed location reveal, capacity, and RSVP approval.",
+    alt: "Gthrz event details showing when the address is shared and whether guests need approval.",
     caption: "Event details",
     ...phone,
   },
   detailsMore: {
     src: publicUrl("/images/projects/gthrz/event-details2.webp"),
-    alt: "Gthrz event details continued, with lineup and guest claims.",
+    alt: "Gthrz event page showing the lineup and what guests are bringing.",
     caption: "Guest planning",
     ...phone,
   },
@@ -56,7 +56,7 @@ export const gthrzShots = {
   },
   privacy: {
     src: publicUrl("/images/projects/gthrz/create-event-settings.webp"),
-    alt: "Gthrz privacy settings for location reveal, guest names, and photos.",
+    alt: "Gthrz settings for sharing the address, guest names and photos.",
     caption: "Privacy controls",
     ...phone,
   },
@@ -86,7 +86,7 @@ export const gthrzShots = {
   },
   profile: {
     src: publicUrl("/images/projects/gthrz/Profile.webp"),
-    alt: "Gthrz profile with saved events and events created.",
+    alt: "Gthrz profile with saved and hosted events.",
     caption: "Profile",
     ...phone,
   },
@@ -95,14 +95,14 @@ export const gthrzShots = {
 /**
  * What a guest can read at each state, for an event whose host chose
  * "reveal the address later" and left guest names on. Title, time and
- * category are always visible; row-level security enforces the rest.
+ * category are always visible. The database checks access to the other details.
  */
 export const gthrzVisibility = {
-  columns: ["Address", "Exact pin", "Guest list"],
+  columns: ["Area", "Exact address", "Guest list"],
   rows: [
-    { state: "Discovered", values: [false, false, false] },
-    { state: "Requested", values: [false, false, false] },
+    { state: "Event found", values: [false, false, false] },
+    { state: "Request sent", values: [false, false, false] },
     { state: "Approved", values: [true, false, true] },
-    { state: "Revealed by host", values: [true, true, true] },
+    { state: "Address shared", values: [true, true, true] },
   ],
 } as const;

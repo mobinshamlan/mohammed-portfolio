@@ -1,0 +1,135 @@
+/* ---------- Seet: Riyadh at dusk on a Sadu band, along the chapter's foot ---------- */
+
+.seet-scene {
+  --seet-lamp: color-mix(in srgb, var(--field) 45%, #fff8e6);
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: var(--edge);
+}
+
+/* The towers stand in the free corner under the facts; the low city runs on past
+   the right edge, so the picture keeps its scale and never stretches. */
+.seet-city {
+  display: block;
+  width: 100%;
+  height: min(20.83vw, 18.75rem);
+  overflow: visible;
+}
+
+.seet-far {
+  fill: color-mix(in srgb, var(--field-ink) 11%, var(--field));
+}
+
+.seet-towers {
+  fill: color-mix(in srgb, var(--field-ink) 20%, var(--field));
+}
+
+.seet-near {
+  fill: color-mix(in srgb, var(--field-ink) 28%, var(--field));
+}
+
+.seet-lit {
+  fill: var(--seet-lamp);
+}
+
+.seet-held {
+  fill: none;
+  stroke: var(--seet-lamp);
+  stroke-width: 1;
+}
+
+.seet-confirm {
+  fill: var(--seet-lamp);
+  opacity: 0;
+}
+
+.seet-beacon {
+  fill: var(--seet-lamp);
+}
+
+.seet-beacon-halo {
+  fill: var(--seet-lamp);
+  opacity: 0.25;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.seet-sadu {
+  display: block;
+  margin-top: -1px;
+}
+
+.seet-sadu-ground {
+  fill: color-mix(in srgb, var(--field-ink) 82%, var(--field));
+}
+
+.seet-sadu-teeth {
+  fill: var(--field);
+}
+
+.seet-sadu-diamond {
+  fill: var(--field);
+}
+
+.seet-sadu-half {
+  fill: color-mix(in srgb, var(--field) 70%, var(--field-ink));
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  /* Held, then the deposit lands and the window fills; a few seconds later it starts over. */
+  .seet-confirm {
+    animation: seet-confirm 9s ease-out infinite;
+  }
+
+  .seet-beacon-halo {
+    animation: seet-beacon 4.5s ease-in-out infinite;
+  }
+
+  .seet-scene[data-play="false"] :is(.seet-confirm, .seet-beacon-halo) {
+    animation-play-state: paused;
+  }
+}
+
+@keyframes seet-confirm {
+  0%,
+  45% {
+    opacity: 0;
+  }
+  52%,
+  88% {
+    opacity: 1;
+  }
+  96%,
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes seet-beacon {
+  0%,
+  100% {
+    opacity: 0.12;
+    transform: scale(0.9);
+  }
+  50% {
+    opacity: 0.4;
+    transform: scale(1.5);
+  }
+}
+
+/* Phones: content runs the full width, so the chapter keeps a little more room
+   at its foot and a smaller city stands there, clear of the last line. */
+@media (max-width: 899px) {
+  .vb-proj[data-id="seet"] .vb-proj-inner {
+    padding-bottom: calc(1.75rem + var(--edge) + 3.75rem);
+  }
+
+  .seet-scene {
+    bottom: calc(var(--edge) * 0.6);
+  }
+
+  .seet-city {
+    height: 3.5rem;
+  }
+}

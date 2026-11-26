@@ -3,6 +3,23 @@ import "./styles/base.css";
 import "./styles/home.css";
 import "./styles/case.css";
 import "./styles/demos.css";
+import "./styles/opening.css";
+import "./styles/work.css";
+import "./styles/story.css";
+import "./styles/toolkit.css";
+import "./styles/certs.css";
+import "./styles/scenes-naqah.css";
+import "./styles/scenes-tammeni.css";
+import "./styles/scenes-seet.css";
+import "./styles/scenes-kashta.css";
+import "./styles/scenes-amanah.css";
+import "./styles/scenes-gthrz.css";
+import "./styles/proof-naqah.css";
+import "./styles/proof-tammeni.css";
+import "./styles/proof-seet.css";
+import "./styles/proof-kashta.css";
+import "./styles/proof-amanah.css";
+import "./styles/proof-gthrz.css";
 
 // The portfolio: one display face and one text face, both Arabic and Latin.
 const display = Alexandria({

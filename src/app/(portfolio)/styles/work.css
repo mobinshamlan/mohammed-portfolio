@@ -1,0 +1,597 @@
+/* ---------- Work chapters: name, one try-it, a few short answers, the links ---------- */
+
+.vb-proj {
+  scroll-margin-top: 0;
+}
+
+.vb-proj[data-light="true"]:not([data-id="amanah"]) {
+  --focus: var(--field-ink);
+}
+
+/* The heading and lead sit side by side; the products are reached from the opening's tiles. */
+@media (min-width: 900px) {
+  .vb-work-head {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .vb-work-intro {
+    grid-template-columns: minmax(0, 6fr) minmax(0, 5fr);
+    column-gap: clamp(2rem, 5vw, 6rem);
+    align-items: end;
+  }
+  .vb-work-intro .vb-title {
+    grid-column: 1 / -1;
+  }
+  .vb-work-lead {
+    margin: 0;
+  }
+}
+
+/* Each product's own world, drawn behind its chapter. Decorative; never above the content. */
+.vb-proj-scene {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.vb-proj-scene ~ .vb-proj-inner {
+  position: relative;
+  z-index: 1;
+}
+
+/* ---------- The answers: a few short lines hung off one stitched seam ----------
+   The seam is sewn in the product's own colour; a small knot marks each
+   question. Labels are mine (the trouble, what it does, my part, the line I
+   drew), answers are one or two plain lines. */
+.vb-proj-answers {
+  --answer-thread: var(--accent);
+  display: grid;
+  gap: 1.05rem;
+  max-width: 32rem;
+  margin: 0;
+  padding-inline-start: 1.25rem;
+  border-inline-start: 2px dashed color-mix(in srgb, var(--answer-thread) 70%, transparent);
+}
+
+.vb-proj-answers > div {
+  position: relative;
+  display: grid;
+  gap: 0.2rem;
+}
+
+/* The knot on the seam. */
+.vb-proj-answers > div::before {
+  content: "";
+  position: absolute;
+  top: 0.5rem;
+  left: calc(-1.25rem - 1px);
+  width: 0.55rem;
+  height: 0.55rem;
+  translate: -50% 0;
+  rotate: 45deg;
+  background: var(--answer-thread);
+  box-shadow: 0 0 0 3px var(--field);
+}
+
+.vb-proj-answers dt {
+  color: var(--accent);
+  font-family: var(--display);
+  font-size: 0.9375rem;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.vb-proj-answers dd {
+  margin: 0;
+  max-width: 44ch;
+  color: var(--field-ink);
+  font-size: 1rem;
+  line-height: 1.5;
+  text-wrap: pretty;
+}
+
+/* The last answer is the rule I set for the product: it carries a little more weight. */
+.vb-proj-answers > div:last-child dd {
+  font-family: var(--display);
+  font-weight: 600;
+  line-height: 1.45;
+}
+
+/* Light fields (Naqah, Seet): the knot keeps a halo of the field, the seam stays readable. */
+.vb-proj[data-light="true"] .vb-proj-answers {
+  border-inline-start-color: color-mix(in srgb, var(--answer-thread) 65%, transparent);
+}
+
+/* ---------- Wide: the same parts, a different composition for each chapter ---------- */
+.vb-proj .vb-proj-visual {
+  min-width: 0;
+}
+
+@media (min-width: 900px) {
+  .vb-proj .vb-proj-inner {
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    grid-template-areas: "head visual" "foot visual";
+    grid-template-rows: auto 1fr;
+    column-gap: clamp(2.5rem, 5vw, 6rem);
+    row-gap: 1.75rem;
+    align-items: start;
+  }
+  .vb-proj .vb-proj-head {
+    grid-area: head;
+  }
+  .vb-proj .vb-proj-foot {
+    grid-area: foot;
+  }
+  .vb-proj .vb-proj-visual {
+    grid-area: visual;
+    align-self: center;
+  }
+
+  /* Naqah: the call on the right, the trough beside it; a steady, mid-height room. */
+  .vb-proj[data-id="naqah"] .vb-proj-inner {
+    grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
+  }
+
+  /* Tammeni: a compact page of the exercise book. The phone sits left, the
+     answers right; the chapter closes the Work section, so it keeps room for
+     the night's crest under its links. */
+  .vb-proj[data-id="tammeni"] .vb-proj-inner {
+    grid-template-columns: minmax(0, 6fr) minmax(0, 5fr);
+    grid-template-areas: "visual head" "visual foot";
+    padding-top: clamp(3rem, 5vw, 5rem);
+    padding-bottom: calc(clamp(3rem, 5vw, 5rem) + var(--edge));
+  }
+
+  /* Seet: opens on a masthead; the chat stands on the right, the answers under
+     the name on the left, and the towers rise in the free corner under them. */
+  .vb-proj[data-id="seet"] .vb-proj-inner {
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    grid-template-areas: "head head" "foot visual";
+    grid-template-rows: auto auto;
+    row-gap: 1.5rem;
+    padding-bottom: calc(clamp(3.5rem, 7vw, 7rem) + var(--edge) + 7rem);
+  }
+  .vb-proj[data-id="seet"] .vb-proj-head {
+    grid-template-columns: subgrid;
+    align-items: end;
+    column-gap: normal;
+    padding-bottom: 1.25rem;
+    border-bottom: 1px solid var(--field-ink);
+  }
+  .vb-proj[data-id="seet"] .vb-proj-name {
+    font-size: clamp(5rem, 2rem + 7vw, 10rem);
+  }
+  .vb-proj[data-id="seet"] .vb-proj-foot {
+    align-self: start;
+  }
+
+  /* Kashta: the desert night earns the whole window. The week sits on the
+     left in the open sky; the camp and the Milky Way have room below and
+     behind it, and the answers stand on the quiet right. */
+  .vb-proj[data-id="kashta"] .vb-proj-inner {
+    min-height: min(100svh, 62rem);
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+    grid-template-rows: auto auto 1fr;
+    grid-template-areas: "visual head" "visual foot" "visual .";
+    align-content: start;
+    padding-top: clamp(4.5rem, 8vw, 8rem);
+    padding-bottom: clamp(7rem, 14vw, 13rem);
+  }
+  .vb-proj[data-id="kashta"] .vb-proj-visual {
+    align-self: start;
+  }
+
+  /* Amanah: the name on the wall beside the cabinet; my part at the left of
+     the counter and the claim standing on it, overlapping the desk's edge. */
+  .vb-proj[data-id="amanah"] .vb-proj-inner {
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    grid-template-areas: "head ." "foot visual";
+    grid-template-rows: auto auto;
+    row-gap: 3rem;
+    padding-bottom: calc(clamp(3.5rem, 7vw, 7rem) + 7rem);
+  }
+  .vb-proj[data-id="amanah"] .vb-proj-visual {
+    align-self: end;
+    justify-self: end;
+    width: min(100%, 46rem);
+    margin-bottom: -5.5rem;
+  }
+  .vb-proj[data-id="amanah"] .vb-proj-foot {
+    align-self: end;
+    padding-bottom: 0.5rem;
+  }
+
+  /* Gthrz: the phone and the host's card on the left, the answers beside;
+     short and close, with room under the links for Amanah's crest. */
+  .vb-proj[data-id="gthrz"] .vb-proj-inner {
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+    grid-template-areas: "visual head" "visual foot";
+    align-items: center;
+    padding-top: clamp(3rem, 5vw, 5rem);
+    padding-bottom: calc(clamp(3rem, 5vw, 5rem) + var(--edge));
+  }
+  .vb-proj[data-id="gthrz"] .vb-proj-head {
+    align-self: end;
+  }
+  .vb-proj[data-id="gthrz"] .vb-proj-foot {
+    align-self: start;
+  }
+}
+
+/* ---------- Phones: name, the try-it, then the answers and the links ---------- */
+@media (max-width: 899px) {
+  .vb-proj .vb-proj-head {
+    order: 0;
+  }
+  .vb-proj .vb-proj-visual {
+    order: 1;
+  }
+  .vb-proj .vb-proj-foot {
+    order: 2;
+  }
+  .vb .vb-proj .vb-proj-inner {
+    row-gap: 1.5rem;
+    padding-block-start: clamp(2rem, 8vw, 3.25rem);
+  }
+  /* Kashta: the camp gets its own strip under the links. */
+  .vb-proj[data-id="kashta"] .vb-proj-inner {
+    padding-bottom: 8rem;
+  }
+  .vb-proj-answers {
+    --answer-thread: var(--ribbon);
+    gap: 0.9rem;
+  }
+  .vb-proj-actions {
+    gap: 0.25rem 1.25rem;
+  }
+  .vb .vb-proj-actions .vb-btn-field {
+    min-height: 2.75rem;
+    padding: 0;
+    background: none;
+    color: var(--field-ink);
+    font-weight: 700;
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+  }
+}
+
+/* Amanah: the lost-property office is deep green, so the chapter's text turns
+   to cream and brass; the counter at the foot needs room under the content. */
+.vb-proj[data-id="amanah"] {
+  background: #0f3328;
+}
+
+.vb-proj[data-id="amanah"] .vb-proj-inner {
+  --field: #0f3328;
+  --field-ink: #f2ecdf;
+  --field-muted: #b5c7bb;
+  --accent: #e0bb66;
+  color: var(--field-ink);
+  padding-bottom: calc(clamp(3.5rem, 7vw, 7rem) + 5rem);
+}
+
+/* Tammeni keeps its exercise-book page; its school-day line would cross the links. */
+.vb-proj[data-id="tammeni"] .vb-proj-scene > * {
+  display: none;
+}
+
+/* ---------- The flow line that joins one product to the next ---------- */
+.vb-work {
+  position: relative;
+}
+
+.vb-work-thread {
+  position: absolute;
+  inset: 0 auto auto 0;
+  z-index: 2;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.vb-work-thread path {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* The route ahead, pricked out faintly in the same red so it reads on cream and night alike. */
+.vb-flow-ghost {
+  stroke: var(--ribbon);
+  stroke-width: 1.5;
+  stroke-dasharray: 1 9;
+  opacity: 0.22;
+}
+
+/* Short even stitches, like a seam sewn through each chapter. */
+/* Red as the ribbon on the degree scroll: the one thread that runs through all of it. */
+.vb-flow-line {
+  stroke: var(--ribbon);
+  stroke-width: 2;
+  stroke-dasharray: 7 7;
+  opacity: 0.7;
+}
+
+.vb-flow-reveal {
+  stroke: #fff;
+  stroke-width: 12;
+}
+
+/* The needle: a small Sadu diamond with a soft halo, moved on its own layer. */
+.vb-flow-head {
+  will-change: transform;
+  transition: opacity 200ms ease;
+}
+
+.vb-flow-head-mark {
+  fill: var(--ribbon);
+  stroke: #f2ecdf;
+  stroke-width: 1.5;
+  transform-box: fill-box;
+  transform-origin: center;
+  rotate: 45deg;
+}
+
+.vb-flow-head-halo {
+  fill: var(--ribbon);
+  opacity: 0.22;
+}
+
+/* The knots: one waits, drawn in outline, where the thread meets each try-it;
+   it fills red and gives one ring when the thread arrives and ties. */
+.vb-flow-knot-mark {
+  fill: transparent;
+  stroke: color-mix(in srgb, var(--ribbon) 55%, transparent);
+  stroke-width: 1.5;
+  transform-box: fill-box;
+  transform-origin: center;
+  rotate: 45deg;
+  transition:
+    fill 300ms ease,
+    stroke 300ms ease;
+}
+
+.vb-flow-knot[data-tied="true"] .vb-flow-knot-mark {
+  fill: var(--ribbon);
+  stroke: #f2ecdf;
+}
+
+.vb-flow-knot-ring {
+  fill: none;
+  stroke: var(--ribbon);
+  stroke-width: 1.5;
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+@keyframes vb-flow-tie {
+  from {
+    opacity: 0.8;
+    scale: 0.4;
+  }
+  to {
+    opacity: 0;
+    scale: 3.2;
+  }
+}
+
+/* The knot pulls tight: a little over, then settles. */
+@keyframes vb-flow-knot {
+  from {
+    scale: 0.4;
+  }
+  55% {
+    scale: 1.18;
+  }
+  to {
+    scale: 1;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .vb-flow-knot[data-tied="true"] .vb-flow-knot-ring {
+    animation: vb-flow-tie 1s var(--ease-out) both;
+  }
+  .vb-flow-knot[data-tied="true"] .vb-flow-knot-mark {
+    animation: vb-flow-knot 600ms var(--ease-expo) both;
+  }
+}
+
+/* The thread is drawn separately from the proof. The proof stays readable throughout. */
+@media (min-width: 900px) and (prefers-reduced-motion: no-preference) {
+  .vb[data-motion="on"] .vb-work[data-flow="on"] .vb-proj .vb-proj-visual > * {
+    transition: translate var(--t-reveal) var(--ease-out);
+  }
+
+  .vb[data-motion="on"] .vb-work[data-flow="on"] .vb-proj:not([data-sewn="true"]) .vb-proj-visual:not(:focus-within) > * {
+    translate: 0 0.5rem;
+  }
+}
+
+@media (max-width: 899px) {
+  .vb-work-thread {
+    display: none;
+  }
+}
+
+/* The return address and local time sit on the other half of the postcard. */
+.vb .vb-talk {
+  display: block;
+  padding: clamp(2rem, 5vw, 4.5rem) var(--gutter) clamp(3.25rem, 7vw, 6rem);
+}
+
+.vb-talk-panel {
+  --talk-seam: color-mix(in srgb, var(--ribbon) 75%, var(--sand));
+  display: grid;
+  background: var(--dusk-2);
+  border-radius: 0.4rem;
+}
+
+.vb-talk-main,
+.vb-talk-postmark {
+  display: grid;
+  align-content: start;
+  justify-items: start;
+  gap: 1.25rem;
+  min-width: 0;
+  padding: clamp(1.5rem, 5vw, 4.5rem);
+}
+
+.vb-talk-title {
+  font-size: clamp(2.15rem, 1.4rem + 4vw, 5rem);
+  font-weight: 800;
+  line-height: 1.02;
+  letter-spacing: -0.04em;
+  text-wrap: balance;
+}
+
+.vb-talk-lead {
+  max-width: 40ch;
+  color: var(--sand);
+  font-size: clamp(1rem, 0.91rem + 0.55vw, 1.35rem);
+  line-height: 1.5;
+  text-wrap: pretty;
+}
+
+.vb-talk-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: start;
+  gap: 0.55rem 0.75rem;
+}
+
+.vb .vb-talk-mail,
+.vb .vb-talk-copy {
+  min-height: 3rem;
+  padding: 0.5rem 1.15rem;
+  border-radius: 0.25rem;
+  font-family: var(--text);
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.vb .vb-talk-copy {
+  border: 1px solid var(--ember);
+  background: transparent;
+  color: var(--sand);
+  cursor: pointer;
+}
+
+.vb .vb-talk-copy:hover {
+  background: var(--dusk-3);
+}
+
+.vb-talk-mailbox {
+  max-width: 100%;
+  color: var(--sand-2);
+  font-size: var(--step-small);
+  overflow-wrap: anywhere;
+}
+
+.vb-talk-feedback {
+  color: var(--ember);
+}
+
+.vb .vb-talk-feedback:not(:empty) {
+  margin-top: 0.35rem;
+}
+
+.vb-talk-postmark {
+  gap: 0.4rem;
+  border-top: 1px dashed var(--talk-seam);
+  border-radius: 0 0 0.4rem 0.4rem;
+  background: var(--dusk);
+}
+
+.vb-talk-city {
+  color: var(--sand);
+  font-family: var(--display);
+  font-size: clamp(1.65rem, 1.1rem + 2vw, 3rem);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.025em;
+}
+
+.vb-talk-city span {
+  display: block;
+  margin-top: 0.4rem;
+  color: var(--sand-2);
+  font-family: var(--text);
+  font-size: var(--step-small);
+  font-weight: 400;
+  letter-spacing: normal;
+}
+
+.vb-talk-time {
+  color: var(--ember);
+  font-size: var(--step-small);
+  font-variant-numeric: tabular-nums;
+}
+
+.vb-talk-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 1.4rem;
+  margin: 0.7rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.vb-talk-links a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
+  color: var(--sand);
+  font-size: 1rem;
+  text-decoration: underline;
+  text-underline-offset: 0.22em;
+}
+
+.vb-talk-links a:hover {
+  color: var(--ember);
+}
+
+@media (min-width: 850px) {
+  .vb-talk-panel {
+    grid-template-columns: minmax(0, 7fr) minmax(0, 4fr);
+  }
+
+  .vb-talk-postmark {
+    align-content: center;
+    padding-inline: clamp(1.75rem, 4vw, 3.5rem);
+    border-top: 0;
+    border-inline-start: 1px dashed var(--talk-seam);
+    border-radius: 0 0.4rem 0.4rem 0;
+  }
+}
+
+/* Phones: the first name only, so it never runs under Jump to. */
+.vb-wordmark-short {
+  display: none;
+}
+
+@media (max-width: 479px) {
+  .vb-wordmark-full {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+  }
+  .vb-wordmark-short {
+    display: inline;
+  }
+}
+
+/* A shared cue for links that open an external tab. */
+:is(.vb-proj-links, .vb-talk-links, .vb-case-links, .vb-footer-grid, .vb-dialog-foot) a[target="_blank"]::after {
+  content: "";
+  display: inline-block;
+  width: 0.7em;
+  height: 0.7em;
+  margin-inline-start: 0.3em;
+  background: currentColor;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' fill='none' stroke='black' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 2h6v6M10 2 2.5 9.5'/%3E%3C/svg%3E") center / contain no-repeat;
+  opacity: 0.75;
+}

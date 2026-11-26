@@ -1,0 +1,426 @@
+/* Amanah on the home page: the staff review, standing on the counter. The
+   found umbrella hangs on its paper tag at the left with the finder's note
+   pinned under it, sealed; the claim runs in the product's own green screen at
+   the right. Answer, and the note opens and the stamp lands on the tag:
+   approved in the office green, or held in red ink. */
+
+.vb-ap {
+  --paper: #f6f0e2;
+  --paper-ink: #0e3b2e;
+  --paper-muted: #4f6a5c;
+  --screen: #0b2a21;
+  --screen-edge: rgb(201 160 82 / 0.32);
+  --brass: #c9a052;
+  --approve: #0e3b2e;
+  --held: #a3302a;
+  width: 100%;
+  max-width: 46rem;
+  text-align: start;
+}
+
+.vb-ap-desk {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 11.5rem) minmax(0, 1fr);
+  align-items: end;
+  gap: 1.25rem clamp(1.25rem, 3vw, 2.25rem);
+  margin: 0;
+}
+
+/* ---------- The found item ---------- */
+
+.vb-ap-found {
+  position: relative;
+  display: grid;
+  justify-items: center;
+  gap: 0.8rem;
+  align-self: end;
+}
+
+/* The string runs up out of the figure to the shelf above. */
+.vb-ap-string {
+  position: absolute;
+  bottom: calc(100% - 1.1rem);
+  left: 50%;
+  width: 2px;
+  height: 7rem;
+  background: var(--brass);
+  translate: -50% 0;
+}
+
+/* The hook the string hangs from: a brass nail head in the wall. */
+.vb-ap-string::before {
+  content: "";
+  position: absolute;
+  top: -0.3rem;
+  left: 50%;
+  width: 0.7rem;
+  height: 0.7rem;
+  border-radius: 50%;
+  background: var(--brass);
+  box-shadow: inset 0 -2px 0 #8f6a2a;
+  translate: -50% 0;
+}
+
+.vb-ap-tagart {
+  position: relative;
+  width: 100%;
+  max-width: 10rem;
+  transform-origin: 50% 0;
+}
+
+.vb-ap-tagart svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  filter: drop-shadow(0 1rem 1rem rgb(0 0 0 / 0.42));
+}
+
+/* The stamp: round, inked, a little off true. */
+.vb-ap-stamp {
+  position: absolute;
+  top: 44%;
+  left: 50%;
+  display: grid;
+  place-items: center;
+  width: 6.6rem;
+  height: 6.6rem;
+  border: 4px double var(--approve);
+  border-radius: 50%;
+  color: var(--approve);
+  font-family: var(--display);
+  font-size: 1.1rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  opacity: 0;
+  transform: translate(-50%, -50%) rotate(-14deg) scale(1.5);
+  pointer-events: none;
+  mix-blend-mode: multiply;
+}
+
+.vb-ap-desk[data-verdict="match"] .vb-ap-stamp {
+  opacity: 0.92;
+  transform: translate(-50%, -50%) rotate(-14deg) scale(1);
+}
+
+.vb-ap-desk[data-verdict="miss"] .vb-ap-stamp {
+  border-color: var(--held);
+  color: var(--held);
+  opacity: 0.9;
+  transform: translate(-50%, -50%) rotate(9deg) scale(1);
+}
+
+/* The finder's note: a slip of paper pinned under the tag, torn along the foot. */
+.vb-ap-note {
+  position: relative;
+  display: grid;
+  gap: 0.2rem;
+  width: 100%;
+  margin: 0;
+  padding: 0.7rem 0.75rem 0.95rem;
+  background: var(--paper);
+  clip-path: polygon(
+    0 0, 100% 0, 100% calc(100% - 6px),
+    94% 100%, 88% calc(100% - 6px), 82% 100%, 76% calc(100% - 6px), 70% 100%, 64% calc(100% - 6px),
+    58% 100%, 52% calc(100% - 6px), 46% 100%, 40% calc(100% - 6px), 34% 100%, 28% calc(100% - 6px),
+    22% 100%, 16% calc(100% - 6px), 10% 100%, 4% calc(100% - 6px), 0 100%
+  );
+  color: var(--paper-muted);
+  font-size: 0.75rem;
+  line-height: 1.35;
+}
+
+.vb-ap-note-head {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  white-space: nowrap;
+}
+
+.vb-ap-note strong {
+  color: var(--paper-ink);
+  font-family: var(--display);
+  font-size: 0.9375rem;
+  line-height: 1.3;
+}
+
+/* Sealed: the answer line is a faint dotted blank; opened, it is written in. */
+.vb-ap-desk[data-verdict="open"] .vb-ap-note strong {
+  color: var(--paper-muted);
+  font-weight: 600;
+}
+
+.vb-ap-desk:not([data-verdict="open"]) .vb-ap-note {
+  background: #fbf7ec;
+}
+
+/* ---------- The product's screen ---------- */
+
+.vb-ap-screen {
+  display: grid;
+  gap: 0.85rem;
+  padding: 1rem 1.15rem 1.15rem;
+  border-radius: 14px;
+  background: var(--screen);
+  box-shadow:
+    inset 0 0 0 1px var(--screen-edge),
+    0 1.6rem 2rem -1.2rem rgb(0 0 0 / 0.7);
+  color: var(--paper);
+}
+
+.vb-ap-top {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 0.25rem 1rem;
+  margin: 0;
+  color: color-mix(in srgb, var(--paper) 72%, var(--screen));
+  font-size: 0.8125rem;
+}
+
+.vb-ap-mark {
+  color: var(--brass);
+  font-family: var(--display);
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.vb-ap-mark [lang="ar"] {
+  margin-inline-end: 0.35rem;
+}
+
+.vb-ap-chat {
+  display: grid;
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.vb-ap-msg {
+  position: relative;
+  display: grid;
+  gap: 0.2rem;
+  max-width: 88%;
+  padding: 0.6rem 0.85rem 0.65rem;
+  border-radius: 12px;
+  font-size: 0.9375rem;
+  line-height: 1.4;
+}
+
+.vb-ap-msg[data-from="amanah"] {
+  justify-self: start;
+  margin-inline-start: 1.9rem;
+  border-start-start-radius: 4px;
+  background: var(--paper);
+  color: var(--paper-ink);
+}
+
+/* The staff mark beside each of Amanah's messages: a cream disc with the keyhole. */
+.vb-ap-msg[data-from="amanah"]::before {
+  content: "";
+  position: absolute;
+  top: 0.15rem;
+  left: -1.9rem;
+  width: 1.4rem;
+  height: 1.4rem;
+  border-radius: 50%;
+  background: var(--paper);
+  box-shadow: inset 0 0 0 1.5px var(--brass);
+}
+
+.vb-ap-msg[data-from="amanah"]::after {
+  content: "";
+  position: absolute;
+  top: 0.55rem;
+  left: -1.5rem;
+  width: 0.6rem;
+  height: 0.6rem;
+  background: var(--paper-ink);
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 10'%3E%3Ccircle cx='5' cy='3.6' r='2.4'/%3E%3Cpath d='M3.8 5 H6.2 L7 10 H3 Z'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+
+.vb-ap-msg[data-from="owner"] {
+  justify-self: end;
+  border-end-end-radius: 4px;
+  background: var(--brass);
+  color: #1f1605;
+  font-weight: 600;
+}
+
+.vb-ap-ask [lang="ar"] {
+  font-family: var(--display);
+  font-size: 1.45rem;
+  font-weight: 700;
+  line-height: 1.45;
+  text-align: end;
+}
+
+.vb-ap-ask > span:last-child {
+  color: var(--paper-muted);
+  font-size: 0.875rem;
+}
+
+/* ---------- The one control: the handle colour ---------- */
+
+.vb-ap-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+
+.vb .vb-ap-chips button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 2.75rem;
+  padding: 0 1.05rem 0 0.8rem;
+  border: 1.5px solid rgb(246 240 226 / 0.42);
+  border-radius: 999px;
+  background: rgb(246 240 226 / 0.06);
+  color: var(--paper);
+  font: inherit;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    background-color 180ms var(--ease-out),
+    border-color 180ms var(--ease-out),
+    color 180ms var(--ease-out),
+    transform 180ms var(--ease-out);
+}
+
+.vb .vb-ap-chips button::before {
+  content: "";
+  width: 0.85rem;
+  height: 0.85rem;
+  border-radius: 50%;
+  background: var(--swatch);
+  box-shadow: 0 0 0 1.5px rgb(246 240 226 / 0.6);
+}
+
+.vb .vb-ap-chips button:hover {
+  border-color: var(--paper);
+  background: rgb(246 240 226 / 0.12);
+}
+
+.vb .vb-ap-chips button:active {
+  transform: scale(0.97);
+}
+
+.vb .vb-ap-chips button[aria-pressed="true"] {
+  border-color: var(--paper);
+  background: var(--paper);
+  color: var(--paper-ink);
+}
+
+.vb .vb-ap-chips button[aria-pressed="true"]::before {
+  box-shadow: 0 0 0 1.5px var(--paper-ink);
+}
+
+.vb .vb-ap-chips button:focus-visible {
+  outline: 2px solid var(--brass);
+  outline-offset: 3px;
+}
+
+.vb-ap-result {
+  margin: 0;
+  color: color-mix(in srgb, var(--paper) 78%, var(--screen));
+  font-size: 0.9375rem;
+  line-height: 1.45;
+}
+
+.vb-ap-result strong {
+  color: var(--paper);
+}
+
+.vb-ap-desk[data-verdict="match"] .vb-ap-result strong {
+  color: #8fd3a9;
+}
+
+.vb-ap-desk[data-verdict="miss"] .vb-ap-result strong {
+  color: #f1a49c;
+}
+
+/* ---------- Motion ---------- */
+
+@media (prefers-reduced-motion: no-preference) {
+  .vb-ap-stamp {
+    transition:
+      opacity 200ms var(--ease-out),
+      transform 340ms var(--ease-expo);
+  }
+  .vb-ap-desk[data-verdict="match"] .vb-ap-tagart,
+  .vb-ap-desk[data-verdict="miss"] .vb-ap-tagart {
+    animation: vb-ap-knock 700ms var(--ease-out);
+  }
+  .vb-ap-desk:not([data-verdict="open"]) .vb-ap-note strong,
+  .vb-ap-msg[data-from="owner"],
+  .vb-ap-result {
+    animation: vb-ap-in 320ms var(--ease-expo);
+  }
+
+  @keyframes vb-ap-knock {
+    20% {
+      transform: rotate(-2.5deg);
+    }
+    55% {
+      transform: rotate(1.5deg);
+    }
+    100% {
+      transform: rotate(0);
+    }
+  }
+  @keyframes vb-ap-in {
+    from {
+      opacity: 0;
+      transform: translateY(0.3rem);
+    }
+  }
+}
+
+/* ---------- Phones: the screen first, then the tag with its note beside it ---------- */
+
+@media (max-width: 599px) {
+  .vb-ap-desk {
+    grid-template-columns: minmax(0, 1fr);
+    justify-items: stretch;
+    gap: 1rem;
+  }
+  .vb-ap-found {
+    order: 2;
+    grid-template-columns: 7rem minmax(0, 1fr);
+    align-items: center;
+    justify-items: start;
+    gap: 0.75rem 1rem;
+  }
+  .vb-ap-string {
+    display: none;
+  }
+  .vb-ap-tagart {
+    max-width: 7rem;
+  }
+  .vb-ap-stamp {
+    width: 5.2rem;
+    height: 5.2rem;
+    font-size: 0.9rem;
+  }
+  .vb-ap-screen {
+    padding: 0.9rem 0.9rem 1rem;
+  }
+  .vb-ap-msg {
+    max-width: 100%;
+  }
+  .vb-ap-chips {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.4rem;
+  }
+  .vb .vb-ap-chips button {
+    justify-content: center;
+    gap: 0.35rem;
+    padding: 0 0.4rem;
+  }
+}

@@ -16,7 +16,7 @@
 .vb-proj .vb-demo {
   --demo-surface: color-mix(in srgb, var(--field) 14%, transparent);
   --demo-ink: var(--field);
-  --demo-muted: color-mix(in srgb, var(--field) 75%, var(--field-ink));
+  --demo-muted: color-mix(in srgb, var(--field) 86%, var(--field-ink));
   --demo-accent: var(--field);
   --demo-accent-ink: var(--field-ink);
   --demo-line: color-mix(in srgb, var(--field) 24%, transparent);
@@ -152,7 +152,7 @@
   --zones: linear-gradient(
     to right,
     var(--ok) 0 var(--good),
-    var(--ember) var(--good) var(--bad),
+    var(--caution) var(--good) var(--bad),
     var(--danger) var(--bad) 100%
   );
   width: 100%;

@@ -1,0 +1,382 @@
+/* Where I come from: a flight route, Riyadh to London and back. Three stops on
+   one thread; each is marked by its airport code and the thing it left behind. */
+.vb-story {
+  --route-thread: color-mix(in srgb, var(--ribbon) 78%, var(--sand));
+  --route-pin-size: 0.8rem;
+  --route-pin-center: calc(var(--route-pin-size) / 2);
+  --route-rise: 3.5rem;
+  padding: clamp(3.5rem, 7vw, 6.5rem) var(--gutter) clamp(2.5rem, 4vw, 4rem);
+  background: var(--predawn);
+}
+
+.vb-route {
+  position: relative;
+  display: grid;
+  margin: clamp(2rem, 4vw, 4rem) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.vb-route-stop {
+  position: relative;
+  display: grid;
+  grid-template-areas: "head" "body" "art";
+  align-content: start;
+  gap: 0.8rem;
+  min-width: 0;
+  padding: 0 0 2rem 1.6rem;
+}
+
+.vb-route-stop:last-child {
+  padding-bottom: 0;
+}
+
+/* The thread. On phones it runs down the left edge; on wide screens it arcs stop to stop. */
+.vb-route-leg {
+  position: absolute;
+  inset: calc(0.5rem + var(--route-pin-center)) auto calc(-0.5rem - var(--route-pin-center)) var(--route-pin-center);
+  border-inline-start: 1px dashed var(--route-thread);
+  pointer-events: none;
+}
+
+.vb-route-arc,
+.vb-route-flight {
+  display: none;
+}
+
+.vb-route-pin {
+  position: absolute;
+  z-index: 1;
+  inset: 0.5rem auto auto 0;
+  width: var(--route-pin-size);
+  height: var(--route-pin-size);
+  border: 1.5px solid var(--route-thread);
+  border-radius: 50%;
+  background: var(--predawn);
+}
+
+.vb-route-stop[data-kind="return"] .vb-route-pin {
+  background: var(--route-thread);
+}
+
+.vb-route-head {
+  display: grid;
+  grid-area: head;
+  gap: 0.3rem;
+}
+
+.vb-route-code {
+  margin-inline-end: 0.25em;
+  color: var(--sand-2);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.vb-route-place {
+  font-size: clamp(1.625rem, 1.2rem + 1.2vw, 2.4rem);
+  line-height: 1.1;
+  letter-spacing: -0.028em;
+}
+
+.vb-route-when {
+  color: var(--ember);
+  font-size: var(--step-small);
+  font-weight: 500;
+}
+
+.vb-route-art {
+  grid-area: art;
+  min-width: 0;
+}
+
+.vb-route-body {
+  display: grid;
+  grid-area: body;
+  gap: 0.5rem;
+  max-width: 44ch;
+}
+
+.vb-route-line,
+.vb-route-note {
+  color: var(--sand-2);
+  font-size: 1rem;
+  line-height: 1.45;
+  text-wrap: pretty;
+}
+
+.vb-route-line strong {
+  color: var(--sand);
+  font-weight: 600;
+}
+
+.vb-route-note {
+  font-size: var(--step-small);
+  color: color-mix(in srgb, var(--sand-2) 80%, var(--night));
+}
+
+/* Stop 1: the photo is the artefact, beside the words on phones. */
+.vb-route-stop[data-kind="home"] {
+  grid-template-areas: "head art";
+  grid-template-columns: minmax(0, 1fr) minmax(5.5rem, 32%);
+  column-gap: 1rem;
+}
+
+.vb-route-head,
+.vb-route-body {
+  align-self: start;
+}
+
+.vb .vb-route-child {
+  width: 100%;
+  max-width: 10rem;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  object-position: 50% 32%;
+  border-radius: 0.2rem;
+}
+
+/* Stop 2: the degree certificate on cream paper opens in the viewer. */
+.vb .vb-route-doc {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.85rem;
+  min-height: 2.75rem;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--sand);
+  font: inherit;
+  font-size: var(--step-small);
+  text-align: start;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.vb-route-doc-img {
+  display: block;
+  flex: none;
+  height: 5.5rem;
+  padding: 0.2rem;
+  border-radius: 0.2rem;
+  background: var(--sand);
+  transition: transform var(--t-hover) var(--ease-out);
+}
+
+.vb .vb-route-doc-img img {
+  width: auto;
+  height: 100%;
+  border-radius: 0.1rem;
+}
+
+.vb-route-doc:hover .vb-route-doc-img,
+.vb-route-doc:focus-visible .vb-route-doc-img {
+  transform: translateY(-2px) rotate(-1deg);
+}
+
+.vb-route-doc-cap,
+.vb-route-chip-text strong {
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, var(--ember) 60%, transparent);
+  text-underline-offset: 0.2em;
+}
+
+.vb-route-doc:hover .vb-route-doc-cap,
+.vb-route-chip:hover strong {
+  text-decoration-color: var(--ember);
+}
+
+/* Stop 3: the products are the artefact. */
+.vb-route-work {
+  display: grid;
+  gap: 0.25rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.vb-route-chip {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-height: 2.75rem;
+  color: var(--sand);
+  text-decoration: none;
+}
+
+.vb-route-swatch {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 3.6rem;
+  height: 2.35rem;
+  border: 1px solid color-mix(in srgb, var(--chip-ink) 25%, transparent);
+  border-radius: 0.3rem;
+  background: var(--chip);
+  color: var(--chip-ink);
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1;
+}
+
+.vb-route-chip-text {
+  display: grid;
+  gap: 0.12rem;
+  font-size: var(--step-small);
+  line-height: 1.25;
+}
+
+.vb-route-chip-text span {
+  color: var(--sand-2);
+}
+
+.vb-story-music {
+  margin-top: clamp(1.75rem, 3vw, 2.75rem);
+}
+
+@media (max-width: 1023px) {
+  .vb-route-flight {
+    position: absolute;
+    top: 50%;
+    left: -1px;
+    display: grid;
+    place-items: center;
+    width: 1.25rem;
+    height: 1.55rem;
+    translate: -50% -50%;
+    background: var(--predawn);
+    color: var(--route-thread);
+  }
+
+  .vb-route-plane {
+    width: 0.85rem;
+    height: 0.85rem;
+    rotate: 180deg;
+  }
+}
+
+@media (min-width: 600px) and (max-width: 1023px) {
+  .vb-route-stop {
+    grid-template-areas: "head head" "body art";
+    grid-template-columns: minmax(0, 1fr) auto;
+    column-gap: 2rem;
+  }
+
+  .vb-route-stop[data-kind="home"] {
+    grid-template-columns: minmax(0, 1fr) 11rem;
+  }
+
+  .vb .vb-route-child {
+    max-width: 11rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .vb-route {
+    --route-gap: clamp(2.5rem, 4vw, 5rem);
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr) minmax(0, 1fr);
+    column-gap: var(--route-gap);
+    margin-top: clamp(3.5rem, 5vw, 5rem);
+  }
+
+  /* Heads line up across the three columns; words and artefacts flow below each one. */
+  .vb-route-stop,
+  .vb-route-stop[data-kind="home"] {
+    grid-row: 1;
+    grid-template-areas: "head" "body" "art";
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto auto 1fr;
+    row-gap: 1rem;
+    column-gap: 0;
+    padding: 1.9rem 0 0;
+  }
+
+  .vb-route-art {
+    align-self: start;
+  }
+
+  .vb-route-stop[data-kind="home"] {
+    grid-column: 1;
+    grid-template-areas: "head" "art";
+    grid-template-rows: auto auto;
+  }
+
+  .vb-route-stop[data-kind="london"] {
+    grid-column: 2;
+  }
+
+  .vb-route-stop[data-kind="return"] {
+    grid-column: 3;
+  }
+
+  .vb-route-pin {
+    top: 0;
+  }
+
+  /* The leg: an arc from this pin to the next, with the plane that flies it. */
+  .vb-route-leg {
+    inset: auto calc(-1 * (var(--route-gap) + var(--route-pin-center))) auto var(--route-pin-center);
+    top: calc(var(--route-pin-center) - var(--route-rise));
+    height: var(--route-rise);
+    border: 0;
+  }
+
+  .vb-route-arc {
+    display: block;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+    fill: none;
+    stroke: var(--route-thread);
+    stroke-width: 1.5;
+    stroke-dasharray: 3 4;
+    stroke-linecap: round;
+  }
+
+  .vb .vb-route-child {
+    max-width: 14rem;
+  }
+
+  .vb-route-doc-img {
+    height: clamp(5.5rem, 8vw, 7.5rem);
+  }
+
+  .vb-route-stop[data-kind="london"] .vb-route-note {
+    max-width: 40ch;
+  }
+}
+
+/* The route stays legible while a plane flies each leg once. */
+@media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
+  .vb-route[data-wait="false"] .vb-route-flight {
+    position: absolute;
+    inset: auto 0 -0.35rem;
+    display: block;
+    color: var(--sand);
+    animation: vb-fly-across 1.15s linear both;
+  }
+
+  .vb-route[data-wait="false"] .vb-route-plane {
+    display: block;
+    width: 1.1rem;
+    height: 1.1rem;
+    margin-inline-start: -0.55rem;
+    animation: vb-fly-over 1.15s ease-in-out both;
+  }
+
+  .vb-route-stop[data-kind="london"] :is(.vb-route-flight, .vb-route-plane) {
+    animation-delay: 1s;
+  }
+}
+
+@keyframes vb-fly-across {
+  from { transform: translateX(0); }
+  to { transform: translateX(100%); }
+}
+
+@keyframes vb-fly-over {
+  0% { opacity: 0; transform: translateY(0) rotate(55deg); }
+  12% { opacity: 1; }
+  50% { transform: translateY(calc(-0.78 * var(--route-rise))) rotate(90deg); }
+  85% { opacity: 1; }
+  100% { opacity: 0; transform: translateY(0) rotate(125deg); }
+}

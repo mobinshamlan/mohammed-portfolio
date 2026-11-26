@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { publicUrl } from "@/lib/site";
+import { keepDialogTab } from "@/lib/dialog";
 import { useHydrated } from "@/lib/use-hydrated";
 
 type DocumentViewerProps = {
@@ -13,13 +14,12 @@ type DocumentViewerProps = {
   height: number;
   alt: string;
   title: string;
-  subtitle: string;
+  subtitle?: string;
   href: string;
 };
 
 /**
- * A document opened in a native modal dialog. Escape and the close button come
- * from the browser; focus returns to the trigger when the viewer closes.
+ * An image in a native modal dialog. Focus returns to the trigger on dismissal.
  */
 export function DocumentViewer({
   children,
@@ -44,14 +44,10 @@ export function DocumentViewer({
     }
     if (open && !node.open) {
       node.showModal();
-      document.body.style.overflow = "hidden";
     }
     if (!open && node.open) {
       node.close();
     }
-    return () => {
-      document.body.style.overflow = "";
-    };
   }, [open]);
 
   // Without JavaScript the trigger is a plain link to the file.
@@ -78,7 +74,9 @@ export function DocumentViewer({
       <dialog
         ref={dialog}
         className="vb-dialog"
+        data-format={height > width ? "portrait" : "landscape"}
         aria-label={title}
+        onKeyDown={keepDialogTab}
         onClose={() => {
           setOpen(false);
           trigger.current?.focus();
@@ -93,7 +91,7 @@ export function DocumentViewer({
           <header className="vb-dialog-head">
             <div>
               <h3>{title}</h3>
-              <p>{subtitle}</p>
+              {subtitle ? <p>{subtitle}</p> : null}
             </div>
             <button
               type="button"
@@ -115,7 +113,8 @@ export function DocumentViewer({
           ) : null}
           <footer className="vb-dialog-foot">
             <a href={publicUrl(href)} target="_blank" rel="noreferrer">
-              Open the image in a new tab
+              Open larger image
+              <span className="vb-sr"> (opens in a new tab)</span>
             </a>
           </footer>
         </div>

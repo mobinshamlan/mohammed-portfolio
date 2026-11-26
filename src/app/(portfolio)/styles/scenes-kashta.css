@@ -1,0 +1,228 @@
+/* Kashta: the app's desert night behind the chapter. A row of tents stands in
+   real depth on the dunes; scrolling pulls the camera back, so the camp falls
+   away toward the horizon and the sky opens, as the app does for stargazing.
+   Text sits over the dark ground and the quiet right of the sky; the bright
+   Milky Way and the camp stay behind the demo and in the open lower left. */
+
+.vb-proj[data-id="kashta"] {
+  view-timeline: --kashta block;
+}
+
+.ks {
+  --vp-x: 44%;
+  --k: 1;
+  position: absolute;
+  inset: 0;
+}
+
+.ks-sky,
+.ks-band {
+  position: absolute;
+  inset: 0 0 auto;
+  width: 100%;
+  height: 82%;
+}
+
+/* The sky is drawn with its bright side on the right; mirrored, the Milky Way
+   stands over the demo and the stars stay faint behind the name and facts. */
+.ks-sky,
+.ks-band {
+  transform: scaleX(-1);
+}
+
+.ks-sky {
+  mask-image: linear-gradient(to right, rgb(0 0 0 / 0.45) 0 24%, #000 42%);
+}
+
+.ks-band {
+  mask-image: linear-gradient(to right, transparent 0 30%, #000 56%);
+}
+
+/* ---------- The camp ---------- */
+
+.ks-camp {
+  position: absolute;
+  inset: auto 0 0;
+  height: clamp(17rem, 36%, 28rem);
+  perspective: 700px;
+  /* The vanishing point sits on the horizon line drawn in the dunes (9%). */
+  perspective-origin: var(--vp-x) 9%;
+}
+
+.ks-dunes {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* Warm air over the far ridge, kept off the facts on the right. */
+.ks-horizon {
+  position: absolute;
+  inset: auto 0 91%;
+  height: 4.5rem;
+  background: linear-gradient(transparent, rgb(106 66 50 / 0.55));
+  mask-image: linear-gradient(to left, transparent 0 34%, #000 56%);
+}
+
+.ks-row {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+}
+
+.ks-obj {
+  position: absolute;
+  bottom: 12%;
+  left: calc(var(--vp-x) + var(--dx) * var(--k) * 1px);
+  transform: translateX(-50%) translateZ(calc(var(--z) * -1px));
+}
+
+.ks-tent {
+  width: calc(15rem * var(--k));
+}
+
+.ks-tent svg {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+/* Firelight spilling out of the open door onto the sand. */
+.ks-glow {
+  position: absolute;
+  left: 50%;
+  bottom: -55%;
+  width: 120%;
+  height: 120%;
+  translate: -50% 0;
+  background: radial-gradient(
+    ellipse 50% 40% at 50% 50%,
+    rgb(232 137 74 / 0.5),
+    rgb(232 137 74 / 0.14) 55%,
+    transparent 100%
+  );
+}
+
+.ks-lantern {
+  width: calc(1.1rem * var(--k));
+  aspect-ratio: 1;
+  background: radial-gradient(circle, #ffd9a0 0 16%, rgb(232 137 74 / 0.5) 30%, transparent 70%);
+}
+
+/* ---------- Motion: the pull-back, a few glints, the fires breathing ---------- */
+
+@keyframes ks-dolly {
+  from {
+    transform: translateZ(300px);
+  }
+  to {
+    transform: translateZ(-420px);
+  }
+}
+
+@keyframes ks-sky-rise {
+  from {
+    translate: 0 1.5rem;
+  }
+  to {
+    translate: 0 -1.5rem;
+  }
+}
+
+@keyframes ks-twinkle {
+  0%,
+  100% {
+    opacity: 0.85;
+  }
+  50% {
+    opacity: 0.2;
+  }
+}
+
+@keyframes ks-flicker {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  35% {
+    opacity: 0.72;
+  }
+  60% {
+    opacity: 0.94;
+  }
+}
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .vb[data-motion="on"] .ks-row {
+      animation: ks-dolly linear both;
+      animation-timeline: --kashta;
+      animation-range: cover 0% cover 100%;
+    }
+    .vb[data-motion="on"] :is(.ks-sky, .ks-band) {
+      animation: ks-sky-rise linear both;
+      animation-timeline: --kashta;
+      animation-range: cover 0% cover 100%;
+    }
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .vb[data-motion="on"] .ks[data-live="true"] .ks-glint[data-twinkle] {
+    animation: ks-twinkle 4.4s ease-in-out infinite;
+  }
+  .vb[data-motion="on"] .ks[data-live="true"] .ks-glint[data-twinkle="2"] {
+    animation-duration: 5.8s;
+    animation-delay: -2.1s;
+  }
+  .vb[data-motion="on"] .ks[data-live="true"] .ks-glint[data-twinkle="3"] {
+    animation-duration: 3.6s;
+    animation-delay: -1.2s;
+  }
+  .vb[data-motion="on"] .ks[data-live="true"] .ks-glow {
+    animation: ks-flicker 2.8s ease-in-out infinite;
+  }
+}
+
+/* ---------- Narrower screens ---------- */
+
+@media (max-width: 1199px) {
+  .ks {
+    --k: 0.8;
+    --vp-x: 40%;
+  }
+}
+
+/* Phones: the camp shows in the open strip beside the app screenshot, the
+   Milky Way is left out and the stars stay sparse behind the copy. */
+@media (max-width: 899px) {
+  .ks {
+    --k: 0.55;
+    --vp-x: 64%;
+  }
+  .ks-horizon {
+    mask-image: linear-gradient(to right, transparent 0 55%, #000 75%);
+  }
+  .ks-band {
+    display: none;
+  }
+  .ks-sky {
+    height: 60%;
+    transform: none;
+    mask-image: linear-gradient(to bottom, rgb(0 0 0 / 0.55), rgb(0 0 0 / 0.35) 60%, transparent);
+  }
+  .ks-camp {
+    bottom: 0;
+    height: 12rem;
+  }
+}
+
+@media (max-width: 899px) {
+  /* The ground colours sit close to the field; fade the lower edge into it. */
+  .ks-dunes {
+    mask-image: linear-gradient(#000 65%, transparent);
+  }
+}

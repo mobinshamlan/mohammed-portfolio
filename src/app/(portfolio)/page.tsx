@@ -1,36 +1,34 @@
 import type { Metadata } from "next";
-import { About } from "@/components/portfolio/about";
 import { Certs } from "@/components/portfolio/certs";
 import { Contact } from "@/components/portfolio/contact";
 import { Covers } from "@/components/portfolio/covers";
 import { Footer } from "@/components/portfolio/footer";
 import { Hero } from "@/components/portfolio/hero";
-import { Journey } from "@/components/portfolio/journey";
 import { Nav } from "@/components/portfolio/nav";
 import { MotionRoot } from "@/components/portfolio/reveal";
-import { Skills } from "@/components/portfolio/skills";
+import { Story } from "@/components/portfolio/story";
+import { Toolkit } from "@/components/portfolio/toolkit";
 
 export const metadata: Metadata = {
-  title: { absolute: "Mohammed Bin Shamlan — AI products for real Saudi life" },
+  title: { absolute: "Mohammed Bin Shamlan — Software & AI product developer" },
   description:
-    "Software developer in Saudi Arabia building Arabic-first AI products: Naqah, Tammeni, Seet, Kashta, Amanah and Gthrz. Case studies, journey, skills and contact.",
+    "Software and AI products by Mohammed Bin Shamlan in Riyadh. Explore Naqah, Gthrz, Amanah, Kashta, Seet and Tammeni.",
 };
 
 export default function HomePage() {
   return (
     <>
-      <a href="#home" className="vb-skip">
+      <a href="#main-content" className="vb-skip">
         Skip to content
       </a>
       <MotionRoot />
       <Nav />
-      <main>
+      <main id="main-content" tabIndex={-1}>
         <Hero />
         <Covers />
-        <About />
-        <Journey />
-        <Skills />
+        <Story />
         <Certs />
+        <Toolkit />
         <Contact />
       </main>
       <Footer />

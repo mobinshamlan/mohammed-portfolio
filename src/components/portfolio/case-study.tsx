@@ -1,6 +1,6 @@
 import Link from "next/link";
 import type { CSSProperties, ReactNode } from "react";
-import { fieldStyle, nextProject, previousProject, type Project, type ProjectId } from "@/lib/projects";
+import { fieldStyle, nextProject, previousProject, projectPage, type Project, type ProjectId } from "@/lib/projects";
 import { amanahViews } from "@/lib/amanah-views";
 import { kashtaExample } from "@/lib/kashta-example";
 import { callScript } from "@/lib/naqah-call";
@@ -10,7 +10,6 @@ import { DeviceFrame } from "./device-frame";
 import { Footer } from "./footer";
 import { Nav } from "./nav";
 import { MotionRoot, Reveal } from "./reveal";
-import { NightMark } from "./sky";
 
 /** One reading on a step: a time, a state, or who can see it. `off` dims it; `all` covers every lane. */
 type Cue = { text: string; tone?: "off" | "held" | "done"; all?: boolean };
@@ -21,7 +20,7 @@ type Cue = { text: string; tone?: "off" | "held" | "done"; all?: boolean };
  * one cue per step; `null` leaves that step without one.
  */
 type HowView = {
-  kind: "timetable" | "states" | "nights" | "views" | "guest" | "children";
+  kind: "timetable" | "states" | "nights" | "views" | "children";
   caption?: string;
   lanes: { label: string; cues: (Cue | null)[] }[];
 };
@@ -100,22 +99,6 @@ const howViews: Partial<Record<ProjectId, HowView>> = {
       },
     ],
   },
-  gthrz: {
-    kind: "guest",
-    caption: "What a guest can read, for one made-up event.",
-    lanes: [
-      {
-        label: "Guest",
-        cues: [
-          { text: "No guest yet", tone: "off" },
-          { text: "No guest yet", tone: "off" },
-          { text: "Requested: title and time" },
-          { text: "Approved: address, guest list", tone: "done" },
-          { text: "Host only", tone: "off" },
-        ],
-      },
-    ],
-  },
   tammeni: {
     kind: "children",
     caption: "Attendance alerts for the fictional children above.",
@@ -159,6 +142,7 @@ export function Flow({ project }: { project: Project }) {
         className="vb-flow"
         data-view={view?.kind}
         data-lanes={view?.lanes.length}
+        style={{ "--flow-steps": project.how.length } as CSSProperties}
         aria-label={`How ${project.name} works`}
       >
         {project.how.map((step, index) => {
@@ -232,6 +216,8 @@ const arrangements: Partial<Record<ProjectId, Arrangement>> = {
   tammeni: { demoInHero: true, proofLine: false },
   // The chat steps through the same four states the proof would draw.
   seet: { proofWithDecision: true, plates: true },
+  // The guest demo already shows what people can see at each step.
+  gthrz: { proofWithDecision: true },
   kashta: { plates: true },
 };
 
@@ -381,7 +367,9 @@ export function CaseHero({
   const opening = hasOpening(project) ? <CaseOpening project={project} /> : null;
   const links = (
     <div className="vb-case-links">
-      <span className="vb-chip">{project.statusChip}</span>
+      {project.links.some(({ label }) => label === project.statusChip) ? null : (
+        <span className="vb-chip">{project.statusChip}</span>
+      )}
       {project.links.map((link) =>
         link.href.startsWith("/") ? (
           <Link key={link.href} href={link.href} className="vb-btn vb-btn-field">
@@ -395,7 +383,7 @@ export function CaseHero({
             target="_blank"
             rel="noreferrer"
           >
-            {link.label}
+            {link.label}<span className="vb-sr"> (opens in a new tab)</span>
           </a>
         ),
       )}
@@ -411,6 +399,9 @@ export function CaseHero({
       data-light={project.light ? "true" : undefined}
     >
       <div className="vb-case-hero-copy">
+        <p className="vb-crumbs">
+          <Link href="/#work"><span aria-hidden="true">← </span>All work</Link>
+        </p>
         <h1 className="vb-case-name">
           {project.name}
           {project.arabic ? <span lang="ar">{project.arabic}</span> : null}
@@ -446,9 +437,6 @@ export function CaseHero({
             <dd>{project.contribution}</dd>
           </div>
         </dl>
-        <p className="vb-crumbs">
-          <Link href="/#work">All work</Link>
-        </p>
       </div>
     </header>
   );
@@ -474,7 +462,7 @@ export function CaseBody({
   const arrangement = arrangementOf(project);
   const next = nextProject(project.id);
   const previous = previousProject(project.id);
-  const hrefOf = (item: Project) => item.href ?? `/projects/${item.id}`;
+  const hrefOf = (item: Project) => projectPage(item);
   // The experiment page brings its own fonts; only fetch them when someone goes there.
   // The cover already showed the first screen; do not repeat it unless it would leave one.
   const unrepeated = project.screens.filter((shot) => shot.src !== project.cover.src);
@@ -494,16 +482,13 @@ export function CaseBody({
 
       <section className="vb-case-section vb-case-problem" aria-labelledby="problem-title">
         <Reveal>
-          <NightMark part="nightfall" className="vb-case-hour" />
           <h2 id="problem-title" className="vb-case-h2">
             The problem
           </h2>
-        </Reveal>
-        <Reveal delay={0.06}>
           <p className="vb-case-statement">{project.problem}</p>
         </Reveal>
-        <Reveal delay={0.12}>
-          <h2 className="vb-case-h2">What it is</h2>
+        <Reveal delay={0.06}>
+          <h2 className="vb-case-h2">The app</h2>
           <p className="vb-case-text">{project.what}</p>
         </Reveal>
       </section>
@@ -547,7 +532,7 @@ export function CaseBody({
               <dd>{project.decision.changed}</dd>
             </div>
           </dl>
-          {arrangement.proofWithDecision ? (
+          {arrangement.proofWithDecision && project.proof.notes.length > 0 ? (
             <section className="vb-decision-proof" aria-labelledby="proof-title">
               <h3 id="proof-title" className="vb-decision-proof-title">
                 {project.proof.title}
@@ -667,24 +652,30 @@ export function CaseBody({
         </section>
       ) : null}
 
-      <section className="vb-case-section vb-case-under" aria-labelledby="under-title">
+      <section
+        className="vb-case-section vb-case-under"
+        aria-labelledby="under-title"
+        data-stack-only={project.id === "gthrz" || undefined}
+      >
+        {project.id === "gthrz" ? null : (
+          <div>
+            <Reveal>
+              <h2 id="under-title" className="vb-case-h2">
+                Decisions worth knowing
+              </h2>
+            </Reveal>
+            <Reveal delay={0.06}>
+              <ul className="vb-decisions">
+                {project.decisions.map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
+              </ul>
+            </Reveal>
+          </div>
+        )}
         <div>
           <Reveal>
-            <h2 id="under-title" className="vb-case-h2">
-              Decisions worth knowing
-            </h2>
-          </Reveal>
-          <Reveal delay={0.06}>
-            <ul className="vb-decisions">
-              {project.decisions.map((item) => (
-                <li key={item}>{item}</li>
-              ))}
-            </ul>
-          </Reveal>
-        </div>
-        <div>
-          <Reveal>
-            <h2 className="vb-case-h2">Stack</h2>
+            <h2 id={project.id === "gthrz" ? "under-title" : undefined} className="vb-case-h2">Tools I used</h2>
           </Reveal>
           <Reveal delay={0.06}>
             <ul className="vb-stack">
@@ -761,7 +752,7 @@ export function CasePage({
         field={project.field}
         fieldInk={project.fieldInk}
       />
-      <main id="case" className="vb-case">
+      <main id="case" className="vb-case" tabIndex={-1}>
         <CaseHero project={project} art={heroArt} />
         <CaseBody project={project} before={before} lead={lead} coverShown={!heroArt}>
           {children}

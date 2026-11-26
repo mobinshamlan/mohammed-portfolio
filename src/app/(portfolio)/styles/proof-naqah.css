@@ -1,0 +1,603 @@
+/* ======================================================================
+   The shared iPhone (.pf-ip) used by the Naqah, Tammeni and Gthrz try-its,
+   then Naqah's own chapter. The phone keeps real proportions (393 x 852),
+   a thin even bezel, the Dynamic Island, a status bar, side buttons and the
+   home indicator. Each screen sets its own --ip-bg and --ip-ink.
+   ====================================================================== */
+
+.pf-ip-wrap {
+  --ip-w: 15.5rem;
+  display: grid;
+  justify-items: center;
+  gap: 0.6rem;
+  width: min(var(--ip-w), 100%);
+}
+
+.pf-ip-label {
+  margin: 0;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  color: var(--field-muted);
+}
+
+.pf-ip {
+  --ip-r: calc(var(--ip-w) * 0.145);
+  --ip-bezel: calc(var(--ip-w) * 0.026);
+  position: relative;
+  width: 100%;
+  aspect-ratio: 393 / 852;
+  padding: var(--ip-bezel);
+  border-radius: var(--ip-r);
+  background: linear-gradient(160deg, #3a3a3f, #141417 45%, #2b2b30);
+  box-shadow:
+    inset 0 0 0 1px rgb(255 255 255 / 0.22),
+    0 0 0 1px rgb(0 0 0 / 0.55),
+    0 2.2rem 3.5rem -1.6rem rgb(0 0 0 / 0.75);
+}
+
+/* Side buttons: action and volume on the left, power on the right. */
+.pf-ip-btn {
+  position: absolute;
+  width: 3px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, #35353a, #1b1b1f);
+}
+
+.pf-ip-btn-action,
+.pf-ip-btn-up,
+.pf-ip-btn-down {
+  left: -3px;
+}
+
+.pf-ip-btn-action {
+  top: 17%;
+  height: 4%;
+}
+
+.pf-ip-btn-up {
+  top: 24%;
+  height: 7.5%;
+}
+
+.pf-ip-btn-down {
+  top: 33%;
+  height: 7.5%;
+}
+
+.pf-ip-btn-side {
+  right: -3px;
+  top: 27%;
+  height: 11.5%;
+  background: linear-gradient(270deg, #35353a, #1b1b1f);
+}
+
+.pf-ip-screen {
+  --ip-bg: #000;
+  --ip-ink: #fff;
+  position: relative;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  height: 100%;
+  overflow: hidden;
+  border-radius: calc(var(--ip-r) - var(--ip-bezel));
+  background: var(--ip-bg);
+  color: var(--ip-ink);
+  box-shadow: inset 0 0 0 1px rgb(0 0 0 / 0.6);
+}
+
+.pf-ip-island {
+  position: absolute;
+  top: calc(var(--ip-w) * 0.03);
+  left: 50%;
+  z-index: 2;
+  width: calc(var(--ip-w) * 0.31);
+  height: calc(var(--ip-w) * 0.092);
+  border-radius: 999px;
+  background: #000;
+  translate: -50% 0;
+}
+
+.pf-ip-status {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: calc(var(--ip-w) * 0.15);
+  margin: 0;
+  padding: calc(var(--ip-w) * 0.03) calc(var(--ip-w) * 0.1) 0;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.01em;
+}
+
+.pf-ip-icons {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.pf-ip-icons svg {
+  display: block;
+  height: 0.65rem;
+  fill: currentColor;
+}
+
+.pf-ip-signal {
+  width: 1rem;
+}
+
+.pf-ip-wifi {
+  width: 0.85rem;
+}
+
+.pf-ip-battery {
+  width: 1.45rem;
+  height: 0.7rem;
+}
+
+.pf-ip-body {
+  position: relative;
+  display: grid;
+  min-height: 0;
+}
+
+.pf-ip-home {
+  justify-self: center;
+  width: calc(var(--ip-w) * 0.36);
+  height: 4px;
+  margin: 0.3rem 0 0.5rem;
+  border-radius: 999px;
+  background: var(--ip-ink);
+  opacity: 0.9;
+}
+
+/* The iOS call buttons: red Decline or End, green Accept or Call again. */
+.pf-ip-calls {
+  display: flex;
+  justify-content: center;
+  gap: calc(var(--ip-w) * 0.28);
+}
+
+.vb .pf-ip-call {
+  display: grid;
+  justify-items: center;
+  gap: 0.3rem;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--ip-ink);
+  font: inherit;
+  font-size: 0.75rem;
+  font-weight: 500;
+  line-height: 1;
+}
+
+.pf-ip-call i {
+  display: grid;
+  place-items: center;
+  width: 3.25rem;
+  height: 3.25rem;
+  border-radius: 50%;
+  color: #fff;
+  transition: transform var(--t-ui) var(--ease-out);
+}
+
+.pf-ip-call svg {
+  width: 1.6rem;
+  height: 1.6rem;
+}
+
+.pf-ip-call-end i {
+  background: #ff3b30;
+}
+
+.pf-ip-call-go i {
+  background: #34c759;
+}
+
+.vb button.pf-ip-call {
+  cursor: pointer;
+}
+
+.vb button.pf-ip-call:hover i {
+  transform: scale(1.06);
+}
+
+.vb button.pf-ip-call:active i {
+  transform: scale(0.96);
+}
+
+.vb button.pf-ip-call:focus-visible {
+  outline: none;
+}
+
+.vb button.pf-ip-call:focus-visible i {
+  outline: 2px solid var(--ip-ink);
+  outline-offset: 3px;
+}
+
+/* Before the page is interactive the phone simply shows the incoming call. */
+.pf-ip-call:disabled {
+  cursor: default;
+}
+
+/* ======================================================================
+   Naqah: the herd board on the ranch's sand, and the owner's phone ringing
+   at seven. Accept it and the report is read out; the one camel that didn't
+   drink lights on the board as it is named.
+   ====================================================================== */
+
+.pf-nq {
+  container-type: inline-size;
+  width: 100%;
+}
+
+.pf-nq-fig {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 15.5rem;
+  align-items: center;
+  gap: 1.5rem clamp(1.25rem, 3vw, 2.5rem);
+  margin: 0;
+}
+
+/* ---------- The herd board ---------- */
+
+.pf-nq-herd {
+  display: grid;
+  gap: 0.9rem;
+  align-content: start;
+}
+
+.pf-nq-herd-title {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.25rem 0.75rem;
+  margin: 0;
+  font-family: var(--display);
+  font-size: 1.0625rem;
+  font-weight: 700;
+  color: var(--field-ink);
+}
+
+.pf-nq-herd-title > span {
+  font-family: var(--text);
+  font-size: 0.8125rem;
+  font-weight: 400;
+  color: var(--field-muted);
+}
+
+.pf-nq-marks {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 0.6rem 0.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.pf-nq-marks li {
+  position: relative;
+  display: grid;
+  justify-items: center;
+  padding: 0.55rem 0.35rem 0.5rem;
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--field-ink) 7%, var(--field));
+  color: var(--field-ink);
+}
+
+.naqah-mark {
+  display: block;
+  width: 100%;
+  max-width: 3.1rem;
+  height: auto;
+  fill: currentColor;
+}
+
+/* Every mark but Wadha's drank: full ink. Wadha stands outlined until the call names her. */
+.pf-nq-marks li[data-wadha="true"] {
+  color: color-mix(in srgb, var(--field-ink) 32%, var(--field));
+  box-shadow: inset 0 0 0 2px color-mix(in srgb, var(--accent) 55%, transparent);
+}
+
+.pf-nq-marks li[data-lit="true"] {
+  color: var(--field);
+  background: var(--accent);
+  box-shadow: 0 0.6rem 1.2rem -0.5rem color-mix(in srgb, var(--accent) 70%, transparent);
+}
+
+.pf-nq-name {
+  margin-top: 0.2rem;
+  font-family: var(--display);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--field-ink);
+}
+
+.pf-nq-marks li[data-lit="true"] .pf-nq-name {
+  color: var(--field);
+}
+
+.pf-nq-source {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.2rem 0.4rem;
+  margin: 0;
+  color: var(--field-muted);
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.pf-nq-source strong {
+  color: var(--field-ink);
+  font-family: var(--display);
+  font-variant-numeric: tabular-nums;
+}
+
+.pf-nq-source [lang="ar"] {
+  color: var(--field-ink);
+  font-family: var(--display);
+  font-weight: 600;
+}
+
+.pf-nq-source-en {
+  width: 100%;
+  font-size: 0.8125rem;
+}
+
+/* ---------- The owner's phone: the iOS call screen ---------- */
+
+.pf-nq-screen {
+  --ip-bg: radial-gradient(120% 70% at 50% 0%, #4a2a16 0%, #1b1008 55%, #0d0804 100%);
+  --ip-ink: #f6e9d2;
+  --screen-muted: #c2a888;
+}
+
+.pf-nq-screen .pf-ip-body {
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  gap: 0.5rem;
+  padding: 0.5rem 0.85rem 0.6rem;
+}
+
+.pf-nq-caller {
+  display: grid;
+  justify-items: center;
+  gap: 0.25rem;
+  text-align: center;
+  line-height: 1.2;
+}
+
+.pf-nq-caller strong {
+  font-family: var(--display);
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.pf-nq-sub {
+  font-size: 0.75rem;
+  font-variant-numeric: tabular-nums;
+  color: var(--screen-muted);
+}
+
+.pf-nq-fig[data-state="live"] .pf-nq-sub {
+  color: #8fd3a5;
+}
+
+.pf-nq-avatar {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 3.4rem;
+  height: 3.4rem;
+  margin-bottom: 0.3rem;
+  border-radius: 50%;
+  background: var(--accent);
+  color: var(--ip-ink);
+}
+
+.pf-nq-avatar .naqah-mark {
+  width: 2.1rem;
+}
+
+/* While it rings, the avatar sends out rings. */
+.pf-nq-fig[data-state="ringing"] .pf-nq-avatar::after {
+  content: "";
+  position: absolute;
+  inset: -0.25rem;
+  border: 2px solid var(--accent);
+  border-radius: 50%;
+  opacity: 0.7;
+}
+
+/* What Naqah says, as live captions on the call. */
+.pf-nq-lines {
+  display: grid;
+  align-content: safe end;
+  gap: 0.4rem;
+  min-height: 0;
+  margin: 0;
+  padding: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  scrollbar-color: var(--screen-muted) transparent;
+  list-style: none;
+}
+
+.pf-nq-fig[data-state="ringing"] .pf-nq-lines {
+  align-content: start;
+}
+
+.pf-nq-lines:focus-visible {
+  outline-color: var(--ip-ink);
+  outline-offset: -2px;
+}
+
+.pf-nq-lines li {
+  display: grid;
+  gap: 0.1rem;
+  padding: 0.35rem 0.6rem 0.4rem;
+  border-radius: 14px 14px 14px 4px;
+  background: rgb(246 233 210 / 0.1);
+}
+
+.pf-nq-lines [lang="ar"] {
+  font-family: var(--display);
+  font-size: 0.875rem;
+  font-weight: 600;
+  line-height: 1.45;
+  text-align: end;
+}
+
+.pf-nq-en {
+  font-size: 0.6875rem;
+  line-height: 1.35;
+  color: var(--screen-muted);
+}
+
+/* Once the call is live the caller block makes room for the captions. */
+.pf-nq-fig:not([data-state="ringing"]) .pf-nq-avatar {
+  width: 2.6rem;
+  height: 2.6rem;
+  margin-bottom: 0.1rem;
+}
+
+.pf-nq-fig:not([data-state="ringing"]) .pf-nq-avatar .naqah-mark {
+  width: 1.6rem;
+}
+
+.pf-nq-fig:not([data-state="ringing"]) .pf-nq-caller strong {
+  font-size: 1.25rem;
+}
+
+/* The line that matters, in the ranch's accent. */
+.pf-nq-lines li[data-flag="true"] {
+  background: var(--accent);
+}
+
+.pf-nq-lines li[data-flag="true"] .pf-nq-en {
+  color: color-mix(in srgb, var(--ip-ink) 85%, var(--accent));
+}
+
+.pf-nq-note {
+  font-size: 0.75rem;
+  line-height: 1.4;
+  text-align: center;
+  color: var(--screen-muted);
+  background: none !important;
+}
+
+.pf-nq-lines .pf-nq-note {
+  padding: 0.25rem;
+}
+
+.pf-nq-dock {
+  display: grid;
+  justify-items: center;
+  gap: 0.6rem;
+  padding-bottom: 0.4rem;
+}
+
+/* Five bars that move while Naqah speaks. */
+.pf-nq-wave {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  height: 1.5rem;
+}
+
+.pf-nq-wave i {
+  display: block;
+  width: 0.3rem;
+  height: 1.4rem;
+  border-radius: 999px;
+  background: var(--screen-muted);
+  transform: scaleY(0.25);
+}
+
+.pf-nq-wave[data-on="true"] i {
+  background: #8fd3a5;
+}
+
+
+/* ---------- Motion ---------- */
+
+@media (prefers-reduced-motion: no-preference) {
+  .pf-nq-fig[data-state="ringing"]:is(:hover, :focus-within) .pf-nq-avatar::after {
+    animation: pf-nq-ring 1.6s var(--ease-out) 2;
+  }
+  .pf-nq-lines li {
+    animation: pf-nq-in 420ms var(--ease-expo) both;
+  }
+  .pf-nq-marks li {
+    transition:
+      background-color 300ms var(--ease-out),
+      color 300ms var(--ease-out);
+  }
+  .pf-nq-wave[data-on="true"] i {
+    animation: pf-nq-wave 700ms ease-in-out infinite alternate;
+  }
+  .pf-nq-wave[data-on="true"] i:nth-child(2) { animation-delay: -120ms; }
+  .pf-nq-wave[data-on="true"] i:nth-child(3) { animation-delay: -240ms; }
+  .pf-nq-wave[data-on="true"] i:nth-child(4) { animation-delay: -360ms; }
+  .pf-nq-wave[data-on="true"] i:nth-child(5) { animation-delay: -480ms; }
+
+  @keyframes pf-nq-ring {
+    from {
+      transform: scale(1);
+      opacity: 0.7;
+    }
+    to {
+      transform: scale(1.7);
+      opacity: 0;
+    }
+  }
+  @keyframes pf-nq-in {
+    from {
+      opacity: 0;
+      transform: translateY(0.4rem);
+    }
+  }
+  @keyframes pf-nq-wave {
+    from { transform: scaleY(0.25); }
+    to { transform: scaleY(1); }
+  }
+}
+
+/* Speaking without motion: the bars stand tall. */
+@media (prefers-reduced-motion: reduce) {
+  .pf-nq-wave[data-on="true"] i {
+    transform: scaleY(0.75);
+  }
+}
+
+/* ---------- Narrow columns: the phone first, the board under it ---------- */
+
+@container (max-width: 599px) {
+  .pf-nq-fig {
+    grid-template-columns: minmax(0, 1fr);
+    justify-items: center;
+  }
+  .pf-nq-phone {
+    order: -1;
+  }
+  .pf-nq-herd {
+    width: 100%;
+  }
+  .pf-nq-marks {
+    gap: 0.4rem;
+  }
+  .pf-nq-marks li {
+    padding: 0.4rem 0.2rem;
+  }
+}
+
+.pf-nq-clock {
+  font-size: 0.75rem;
+  font-variant-numeric: tabular-nums;
+  color: var(--screen-muted);
+}

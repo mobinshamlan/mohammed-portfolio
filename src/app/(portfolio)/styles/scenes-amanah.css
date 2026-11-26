@@ -1,0 +1,182 @@
+/* Amanah: the lost-property desk at closing time, behind the chapter. A deep
+   green office wall, the cabinet of tagged items at the upper right, a brass
+   clock, and the wooden counter along the foot that the claim stands on. The
+   lamp over the counter comes on as the chapter scrolls in; with reduced
+   motion it is simply on. */
+
+.vb-proj[data-id="amanah"] {
+  view-timeline: --amanah block;
+}
+
+.am {
+  --wall: #0f3328;
+  --wall-deep: #0a241c;
+  --wood: #b8865a;
+  --wood-edge: #d9a66f;
+  --wood-shade: #8d6239;
+  --front: #0b2820;
+  --counter-top: 6rem;
+  --counter-front: 4.5rem;
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+/* The room: darker toward the corners, so the wall has depth. */
+.am-wall {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(120% 90% at 50% 20%, transparent 40%, rgb(0 0 0 / 0.42) 100%),
+    var(--wall);
+}
+
+/* Lamp light: a warm pool over the counter and the claim, and a glow up the wall. */
+.am-lamp {
+  position: absolute;
+  inset: 0;
+  opacity: 1;
+  background:
+    radial-gradient(46% 50% at 66% 70%, rgb(255 206 132 / 0.3), transparent 70%),
+    radial-gradient(32% 24% at 68% 100%, rgb(255 190 110 / 0.42), transparent 70%);
+  mix-blend-mode: screen;
+}
+
+/* ---------- The wall ---------- */
+
+.am-clock {
+  position: absolute;
+  top: clamp(1.5rem, 4vw, 3rem);
+  right: calc(var(--gutter) + 2rem);
+  width: clamp(3rem, 4.5vw, 4.5rem);
+  height: auto;
+  filter: drop-shadow(0 0.5rem 0.6rem rgb(0 0 0 / 0.35));
+}
+
+.am-shelf {
+  position: absolute;
+  top: clamp(5rem, 12vw, 9.5rem);
+  right: calc(var(--gutter) + 0.5rem);
+  width: clamp(16rem, 23vw, 22rem);
+  height: auto;
+  filter: drop-shadow(0 1.2rem 1rem rgb(0 0 0 / 0.4));
+}
+
+/* ---------- The counter ---------- */
+
+.am-counter {
+  position: absolute;
+  inset: auto 0 0;
+  height: calc(var(--counter-top) + var(--counter-front));
+}
+
+.am-counter-top {
+  position: absolute;
+  inset: 0 0 auto;
+  height: var(--counter-top);
+  background:
+    /* The grain: long, faint, uneven stripes. */
+    repeating-linear-gradient(
+      178deg,
+      transparent 0 9px,
+      rgb(0 0 0 / 0.045) 9px 11px,
+      transparent 11px 23px,
+      rgb(255 255 255 / 0.035) 23px 24px
+    ),
+    linear-gradient(rgb(255 255 255 / 0.1), transparent 30%, rgb(0 0 0 / 0.08)),
+    var(--wood);
+  box-shadow: inset 0 0.35rem 0 var(--wood-edge);
+}
+
+.am-counter-front {
+  position: absolute;
+  inset: auto 0 0;
+  height: var(--counter-front);
+  background:
+    linear-gradient(rgb(0 0 0 / 0.35), transparent 35%),
+    var(--front);
+}
+
+.am-desk {
+  position: absolute;
+  bottom: calc(var(--counter-front) + 0.4rem);
+  left: calc(var(--gutter) + 1rem);
+  width: clamp(14rem, 22vw, 20rem);
+  height: auto;
+}
+
+/* ---------- Motion: the lamp comes on, the shelf tags settle ---------- */
+
+@keyframes am-lamp-on {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes am-swing {
+  0% {
+    rotate: calc(var(--swing) * 8deg);
+  }
+  20% {
+    rotate: calc(var(--swing) * -5deg);
+  }
+  40% {
+    rotate: calc(var(--swing) * 3deg);
+  }
+  60% {
+    rotate: calc(var(--swing) * -1.5deg);
+  }
+  80% {
+    rotate: calc(var(--swing) * 0.6deg);
+  }
+  100% {
+    rotate: 0deg;
+  }
+}
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .vb[data-motion="on"] .am-lamp {
+      animation: am-lamp-on linear both;
+      animation-timeline: --amanah;
+      animation-range: entry 10% entry 70%;
+    }
+    .vb[data-motion="on"] .am-shelf-tag {
+      animation: am-swing linear both;
+      animation-timeline: --amanah;
+      animation-range: entry 0% cover 40%;
+    }
+  }
+}
+
+/* ---------- Smaller screens: the wall and the counter stay; the cabinet goes ---------- */
+
+@media (max-width: 1199px) {
+  .am-shelf {
+    width: clamp(13rem, 24vw, 18rem);
+  }
+}
+
+@media (max-width: 899px) {
+  .am {
+    --counter-top: 3.75rem;
+    --counter-front: 2.5rem;
+  }
+  .am-shelf,
+  .am-clock {
+    display: none;
+  }
+  .am-lamp {
+    background:
+      radial-gradient(60% 40% at 60% 60%, rgb(255 206 132 / 0.16), transparent 70%),
+      radial-gradient(50% 20% at 60% 100%, rgb(255 190 110 / 0.26), transparent 70%);
+  }
+  .am-desk {
+    left: auto;
+    right: 1rem;
+    width: 11rem;
+  }
+}

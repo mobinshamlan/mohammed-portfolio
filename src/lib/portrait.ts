@@ -27,5 +27,5 @@ export const degree = {
   src: publicUrl("/images/education/degree-certificate.jpg"),
   width: 1131,
   height: 1600,
-  alt: "Queen Mary University of London award certificate, Bachelor of Science with Honours in Computer Science. The classification is omitted from this display copy.",
+  alt: "Queen Mary University of London award certificate, Bachelor of Science with Honours in Computer Science.",
 } as const;

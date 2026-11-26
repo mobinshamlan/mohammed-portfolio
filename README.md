@@ -16,7 +16,7 @@ Pushing to `main` deploys to GitHub Pages (`.github/workflows/pages.yml`).
 ## Routes
 
 - `/` — the portfolio: hero with the Naqah call example, a section for each project, the Work Line index, about, journey, skills, certificates and contact. Press ⌘K or `/` to jump to a project.
-- `/projects/naqah`, `/projects/tammeni`, `/projects/seet`, `/projects/kashta`, `/projects/amanah`, `/projects/gthrz` — case studies.
+- `/projects/gthrz` — Gthrz, the one product not yet deployed. The others open on the home page and link to their live apps.
 - `/experiment` — the prompt experiment: one brief, two prompts. Choose Version A or Version B.
 - `/version-a` — the weak-prompt baseline, kept exactly as it was.
 - `/version-b/` and `/version-b/projects/<slug>/` — old links; each is a small page that forwards to the new path.
@@ -45,7 +45,6 @@ Education:
 - BSc Computer Science (Hons)
 - Queen Mary University of London
 - Graduated in 2026
-- Upper Second-Class Honours (2:1)
 
 Current education:
 - AI Bootcamp at Tuwaiq Academy

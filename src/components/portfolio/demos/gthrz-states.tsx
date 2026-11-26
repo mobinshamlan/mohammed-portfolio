@@ -7,11 +7,11 @@ import { useHydrated } from "@/lib/use-hydrated";
 // A made-up event. What each field shows once the guest may read it.
 const reveal = [
   { hidden: "Shown after approval", shown: "Al-Malqa, Riyadh" },
-  { hidden: "Shown when the host reveals it", shown: "Pinned: gate 2, villa 14" },
+  { hidden: "Shared at the time the host chooses", shown: "Gate 2, villa 14" },
   { hidden: "Shown after approval", shown: "Sara, Faisal, Nouf and 9 more" },
 ];
 
-const steps = ["Request to join", "Host approves", "Host reveals the pin", "Start again"];
+const steps = ["Request to join", "Approve the guest", "Share the address", "Start again"];
 
 /**
  * A guest's view of one event at each state, from the visibility table in
@@ -30,8 +30,7 @@ export function GthrzStatesDemo({ compact = false }: { compact?: boolean }) {
     return (
       <div className="vb-art vb-art-gthrz vb-demo" data-ui="" data-compact={compact ? "true" : undefined}>
         <p className="vb-demo-hint">
-          <span className="vb-demo-tag">Simulated</span>
-          What a guest can read at each state.
+          Pizza Night · Sample guest view
         </p>
         <table className="vb-art-table">
           <thead>
@@ -65,10 +64,7 @@ export function GthrzStatesDemo({ compact = false }: { compact?: boolean }) {
   return (
     <div className="vb-art vb-demo vb-demo-gthrz" data-ui="" data-compact={compact ? "true" : undefined}>
       <p className="vb-demo-hint">
-        <span className="vb-demo-tag">Simulated</span>
-        {compact
-          ? "Choose the guest\u2019s state."
-          : "Move the guest along and watch what they can read."}
+        Sample guest view
       </p>
 
       <ol className="vb-demo-steps" aria-label="Guest state">
@@ -93,7 +89,7 @@ export function GthrzStatesDemo({ compact = false }: { compact?: boolean }) {
 
       <div className="vb-demo-event">
         <p className="vb-demo-event-title">
-          Rooftop dinner <span>Thu 8:30 pm · Food</span>
+          Pizza Night <span>Sunday, 10 pm</span>
         </p>
         <dl aria-live="polite">
           {columns.map((c, i) => {
@@ -122,8 +118,7 @@ export function GthrzStatesDemo({ compact = false }: { compact?: boolean }) {
 function Note() {
   return (
     <p className="vb-art-note">
-      Made-up event. Title, time and category are always visible. The host chose &ldquo;reveal the address
-      later&rdquo; and left guest names on; row-level security enforces each state.
+      For this event, approved guests can see the guest list. They get the exact address two hours before it starts.
     </p>
   );
 }

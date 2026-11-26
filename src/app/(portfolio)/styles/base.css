@@ -1,27 +1,34 @@
 /* Portfolio: tokens, frame, navigation, buttons, footer, dialogs.
-   One night in Riyadh, from sunset to sunrise: the ground moves from dusk
-   through night to dawn, the ink is moonlit sand, the accent is ember.
-   Each project brings its own flat field colour, rising over the last as a dune. */
+   Warm dark grounds, sand-coloured ink and one ember accent. Each project
+   brings its own flat field colour, rising over the last as a dune. */
 
 .vb {
-  /* The night, hour by hour. */
-  --dusk: #221719;
-  --dusk-2: #2e2022;
-  --dusk-3: #44302f;
-  --nightfall: #111421;
-  --night: #0b0e14;
-  --predawn: #121b2b;
-  --dawn: #f1d9b3;
-  --dawn-ink: #2a1a0e;
-  --dawn-muted: #644630;
-  --night-2: #131823;
-  --night-3: #1c2231;
-  --sand: #efe6d3;
-  --sand-2: #b9b0a0;
-  --ember: #e9a24a;
-  --ember-ink: #1a1206;
+  /* Colours taken from the graduation portrait: the navy of the studio
+     backdrop for every ground, cream for the ink, and the blue of the
+     hood as the one accent. Names are roles, kept from the first version:
+     dusk = the raised ground of the opening, night = the base ground,
+     dawn = the footer, sand = ink, ember = the accent. */
+  --dusk: #111c36;
+  --dusk-2: #1a2848;
+  --dusk-3: #2b3d66;
+  --nightfall: #0d1527;
+  --night: #0a0f1d;
+  --predawn: #0f1930;
+  --dawn: #16223f;
+  --dawn-ink: #f2ecdf;
+  --dawn-muted: #aeb8cc;
+  --night-2: #101a2f;
+  --night-3: #1b2742;
+  --sand: #f2ecdf;
+  --sand-2: #aeb8cc;
+  --ember: #86a9f5;
+  --ember-ink: #08122b;
+  /* The ribbon red, used sparingly. */
+  --ribbon: #e0574e;
   --danger: #ff8a7a;
   --ok: #8fd3a5;
+  /* Between good and dangerous on a scale, such as a forecast reading. */
+  --caution: #e9a24a;
 
   --display: var(--font-vb-display), "Alexandria", "IBM Plex Sans Arabic", "Segoe UI", sans-serif;
   --text: var(--font-vb-text), "Readex Pro", "IBM Plex Sans Arabic", "Segoe UI", sans-serif;
@@ -64,6 +71,7 @@
 
 html:has(.vb) {
   background: #0b0e14;
+  scroll-behavior: auto;
   scroll-padding-top: 5rem;
 }
 
@@ -79,9 +87,8 @@ html:has(.vb) {
 }
 
 .vb :focus-visible {
-  outline: 2px solid var(--ember);
+  outline: 2px solid var(--focus, var(--ember));
   outline-offset: 3px;
-  border-radius: 2px;
 }
 
 .vb img {
@@ -133,7 +140,7 @@ html:has(.vb) {
 }
 
 .vb-skip {
-  position: absolute;
+  position: fixed;
   left: var(--gutter);
   top: 0.75rem;
   z-index: 60;
@@ -142,11 +149,13 @@ html:has(.vb) {
   color: var(--ember-ink);
   font-weight: 500;
   text-decoration: none;
-  transform: translateY(-200%);
+  opacity: 0;
+  pointer-events: none;
 }
 
 .vb-skip:focus {
-  transform: none;
+  opacity: 1;
+  pointer-events: auto;
 }
 
 /* ---------- Navigation ---------- */
@@ -161,13 +170,19 @@ html:has(.vb) {
   justify-content: space-between;
   gap: 1rem;
   padding: 0 var(--gutter);
-  background: var(--night);
+  /* The studio navy of the portrait, with the diploma ribbon along the top
+     edge and a tone step below, so the bar reads the same over cream, black,
+     green, navy and gold chapters. */
+  border-block-start: 3px solid var(--ribbon);
+  background: var(--dusk);
   color: var(--sand);
+  box-shadow: 0 1px 0 color-mix(in srgb, var(--sand) 10%, transparent);
 }
 
 .vb-nav[data-tone="light"] {
   background: var(--field, var(--night));
   color: var(--field-ink, var(--sand));
+  box-shadow: 0 1px 0 color-mix(in srgb, var(--field-ink, var(--sand)) 14%, transparent);
 }
 
 .vb-brand {
@@ -178,7 +193,9 @@ html:has(.vb) {
 }
 
 .vb-wordmark {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
   padding: 0.5rem 0;
   font-family: var(--display);
   font-size: 1.1rem;
@@ -186,12 +203,6 @@ html:has(.vb) {
   letter-spacing: -0.02em;
   text-decoration: none;
   white-space: nowrap;
-}
-
-.vb-wordmark span[lang="ar"] {
-  margin-left: 0.75rem;
-  font-weight: 500;
-  opacity: 0.75;
 }
 
 .vb-nav-links {
@@ -208,14 +219,24 @@ html:has(.vb) {
   display: inline-block;
   padding: 0.6rem 0;
   text-decoration: none;
-  opacity: 0.8;
-  transition: opacity var(--t-hover) ease;
+  color: color-mix(in srgb, currentColor 82%, transparent);
+  text-underline-offset: 0.45em;
+  text-decoration-thickness: 2px;
+  transition: color var(--t-hover) ease;
 }
 
-.vb-nav-links a:hover,
-.vb-nav-links a[aria-current="page"] {
-  opacity: 1;
+.vb-nav-links a:hover {
+  color: inherit;
+}
+
+.vb-nav-links a:is([aria-current="page"], [aria-current="location"]) {
+  color: inherit;
   text-decoration: underline;
+  text-decoration-color: var(--ember);
+}
+
+.vb-nav[data-tone="light"] .vb-nav-links a:is([aria-current="page"], [aria-current="location"]) {
+  text-decoration-color: currentColor;
 }
 
 .vb-nav-actions {
@@ -263,7 +284,8 @@ html:has(.vb) {
   margin: 0;
   padding: 0 var(--gutter) 2rem;
   border: 0;
-  background: var(--night);
+  border-block-start: 3px solid var(--ribbon);
+  background: var(--dusk);
   color: var(--sand);
 }
 
@@ -304,8 +326,11 @@ html:has(.vb) {
   text-decoration: none;
 }
 
-.vb-menu-list a[aria-current="page"] {
+.vb-menu-list a:is([aria-current="page"], [aria-current="location"]) {
   color: var(--ember);
+  text-decoration: underline;
+  text-decoration-thickness: 0.06em;
+  text-underline-offset: 0.16em;
 }
 
 .vb-menu-foot {
@@ -426,152 +451,10 @@ html:has(.vb) {
   text-wrap: pretty;
 }
 
-/* A part of tonight: the moon at its height, the Arabic name, the English name and its time. */
-.vb-hour {
-  --alt: 0.5;
-  display: grid;
-  grid-template-columns: auto minmax(0, auto);
-  grid-template-areas: "sky ar" "sky en";
-  column-gap: 0.8rem;
-  align-items: center;
-  justify-content: start;
-  width: fit-content;
-  max-width: 100%;
-}
-
-.vb-hour[data-part="sunset"] {
-  --alt: 0.05;
-}
-
-.vb-hour[data-part="nightfall"] {
-  --alt: 0.45;
-}
-
-.vb-hour[data-part="midnight"] {
-  --alt: 1;
-}
-
-.vb-hour[data-part="lastThird"] {
-  --alt: 0.7;
-}
-
-.vb-hour[data-part="dawn"] {
-  --alt: 0.2;
-}
-
-.vb-hour-sky {
-  grid-area: sky;
-  position: relative;
-  width: 2.5rem;
-  height: 3rem;
-  overflow: hidden;
-}
-
-/* A short dune line under the moon. */
-.vb-hour-sky::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 0.7rem;
-  background: var(--hour-dune, color-mix(in srgb, currentColor 28%, transparent));
-  mask: var(--crest-1) 0 0 / 100% 100% no-repeat;
-}
-
-.vb-hour-moon,
-.vb-hour-sun {
-  position: absolute;
-  left: 50%;
-  bottom: calc(0.2rem + var(--alt) * var(--rise, 1.1rem));
-  translate: -50% 0;
-}
-
-.vb-hour-moon {
-  width: var(--moon-size, 1.6rem);
-  height: var(--moon-size, 1.6rem);
-}
-
-/* A larger sky for the marks set at display size. */
-@media (min-width: 900px) {
-  :is(.vb-midnight-hour, .vb-footer-hour) .vb-hour-sky {
-    --moon-size: 2.6rem;
-    --rise: 1.6rem;
-    width: 3.75rem;
-    height: 4.75rem;
-  }
-
-  :is(.vb-midnight-hour, .vb-footer-hour) .vb-hour-sky::after {
-    height: 1rem;
-  }
-
-  .vb-footer-hour .vb-hour-sun {
-    width: 2.8rem;
-    height: 2.8rem;
-    bottom: -0.4rem;
-  }
-}
-
-.vb-hour-sun {
-  bottom: -0.2rem;
-  width: 1.7rem;
-  height: 1.7rem;
-  border-radius: 50%;
-  background: var(--ember);
-}
-
-.vb-hour-ar {
-  grid-area: ar;
-  justify-self: start;
-  color: var(--hour-ink, var(--ember));
-  font-size: 1.45rem;
-  font-weight: 700;
-  line-height: 1.35;
-}
-
-.vb-hour-en {
-  grid-area: en;
-  color: var(--hour-muted, var(--sand-2));
-  font-size: var(--step-small);
-  line-height: 1.35;
-}
-
-@media (max-width: 899px) {
-  .vb-hour-sky {
-    height: 2.6rem;
-  }
-  .vb-hour-ar {
-    font-size: 1.25rem;
-  }
-}
-
-.vb-hour-en time {
-  color: var(--hour-time, var(--sand));
-  font-variant-numeric: tabular-nums;
-}
-
-.vb-moon-dark {
-  fill: var(--moon-dark, var(--night-3));
-}
-
-.vb-moon-lit {
-  fill: var(--moon-lit, var(--sand));
-}
-
 /* The moon climbs to its height as the mark comes into view. */
 @keyframes vb-climb {
   from {
     transform: translateY(1.1rem);
-  }
-}
-
-@supports (animation-timeline: view()) {
-  @media (prefers-reduced-motion: no-preference) {
-    .vb[data-motion="on"] :is(.vb-hour-moon, .vb-hour-sun) {
-      animation: vb-climb linear both;
-      animation-timeline: view();
-      animation-range: entry 0% cover 45%;
-    }
   }
 }
 
@@ -582,13 +465,14 @@ html:has(.vb) {
 /* Entrances exist only once JavaScript has marked the page as motion-capable.
    Static HTML shows everything. Waiting content only sits lower; it is never
    transparent, so contrast checks, find-in-page and screen readers always see it. */
-.vb[data-motion="on"] .vb-reveal[data-wait="true"] {
-  transform: translateY(22px);
-}
+@media (min-width: 900px) and (prefers-reduced-motion: no-preference) {
+  .vb[data-motion="on"] .vb-reveal[data-wait="true"]:not([data-in], :focus-within) {
+    transform: translateY(0.625rem);
+  }
 
-.vb[data-motion="on"] .vb-reveal[data-in="true"] {
-  transform: none;
-  transition: transform var(--t-reveal) var(--ease-expo);
+  .vb[data-motion="on"] .vb-reveal[data-in="true"]:not(:focus-within) {
+    transition: transform var(--t-reveal) var(--ease-expo);
+  }
 }
 
 .vb[data-motion="on"]:not([data-loaded="true"]) [data-rise] {
@@ -676,44 +560,80 @@ html:has(.vb) {
   font-weight: 500;
 }
 
+@media (min-width: 900px) {
+  .vb-jump-icon {
+    display: none;
+  }
+}
+
+@media (max-width: 899px) {
+  .vb-jump-icon {
+    width: 1rem;
+    height: 1rem;
+  }
+}
+
 .vb-jump-open kbd {
   font-family: var(--text);
   font-size: 0.8125rem;
 }
 
 .vb-jump {
-  width: min(94vw, 34rem);
-  margin: 10vh auto;
+  width: min(calc(100% - 2rem), 32rem);
+  max-height: calc(100dvh - 3rem);
+  margin: min(5dvh, 2.5rem) auto auto;
+  overflow: hidden;
   padding: 0;
   border: 0;
-  border-radius: 0.75rem;
-  background: var(--night-2);
+  border-radius: 0.9rem;
+  background: var(--dusk);
   color: var(--sand);
+  box-shadow: 0 24px 60px -20px rgba(2, 4, 10, 0.8);
 }
 
 .vb-jump::backdrop {
-  background: rgba(4, 6, 10, 0.7);
+  background: rgba(4, 6, 12, 0.72);
 }
 
 .vb-jump-body {
-  display: grid;
-  gap: 0.75rem;
-  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  max-height: calc(100dvh - 3rem);
+  padding: 0.75rem;
 }
 
-.vb-jump-label {
-  font-family: var(--display);
-  font-weight: 700;
+/* One search row: glass, field, Esc. */
+.vb-jump-head {
+  position: relative;
+  display: flex;
+  align-items: center;
+  flex: none;
+  gap: 0.5rem;
+}
+
+.vb-jump-glass {
+  position: absolute;
+  inset-inline-start: 0.9rem;
+  inline-size: 1.15rem;
+  block-size: 1.15rem;
+  color: var(--ember);
+  pointer-events: none;
 }
 
 .vb-jump-input {
-  width: 100%;
-  padding: 0.8rem 0.9rem;
-  border: 1px solid var(--night-3);
-  border-radius: 0.4rem;
+  flex: 1;
+  min-width: 0;
+  min-height: 3rem;
+  padding: 0.65rem 0.9rem 0.65rem 2.75rem;
+  border: 0;
+  border-radius: 0.55rem;
   background: var(--night);
   color: var(--sand);
   font: inherit;
+}
+
+.vb-jump-input::placeholder {
+  color: var(--sand-2);
 }
 
 .vb-jump-input:focus-visible {
@@ -721,24 +641,69 @@ html:has(.vb) {
   outline-offset: 0;
 }
 
+.vb-jump-input::-webkit-search-cancel-button {
+  appearance: none;
+}
+
+.vb-jump-close {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.75rem;
+  min-width: 2.75rem;
+  padding: 0 0.7rem;
+  border: 0;
+  border-radius: 0.55rem;
+  background: var(--night);
+  color: var(--sand-2);
+  font: inherit;
+  font-size: var(--step-small);
+  cursor: pointer;
+  transition: color var(--t-hover) ease;
+}
+
+.vb-jump-close:hover {
+  color: var(--sand);
+}
+
 .vb-jump-list {
   display: grid;
-  gap: 0.15rem;
-  max-height: 50vh;
-  margin: 0;
+  gap: 0.5rem;
+  min-height: 0;
+  margin: 0.5rem 0 0;
   padding: 0;
   overflow-y: auto;
+  overscroll-behavior: contain;
   list-style: none;
+  scrollbar-width: thin;
+  scrollbar-color: var(--dusk-3) transparent;
+}
+
+.vb-jump-list[hidden] {
+  display: none;
+}
+
+.vb-jump-rows {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.vb-jump-group-title {
+  padding: 0.35rem 0.8rem 0.25rem;
+  color: var(--sand-2);
+  font-family: var(--display);
+  font-size: 0.875rem;
+  font-weight: 700;
 }
 
 .vb-jump-item {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  gap: 0.25rem 1rem;
+  align-items: center;
+  gap: 0.7rem;
   min-height: 2.75rem;
-  padding: 0.6rem 0.8rem;
-  border-radius: 0.4rem;
+  padding: 0.45rem 0.8rem;
+  border-radius: 0.55rem;
   cursor: pointer;
 }
 
@@ -747,31 +712,105 @@ html:has(.vb) {
   color: var(--ember-ink);
 }
 
+/* The product's colour, as a small square beside its name. */
+.vb-jump-mark {
+  flex: none;
+  inline-size: 0.7rem;
+  block-size: 0.7rem;
+  border-radius: 0.2rem;
+  background: var(--thread-colour, var(--sand-2));
+}
+
+.vb-jump-item[aria-selected="true"] .vb-jump-mark {
+  outline: 2px solid var(--ember-ink);
+  outline-offset: 1px;
+}
+
 .vb-jump-name {
+  display: flex;
+  flex: 1;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0 0.6rem;
+  min-width: 0;
   font-weight: 500;
 }
 
-.vb-jump-hint,
-.vb-jump-foot,
-.vb-jump-empty {
-  font-size: var(--step-small);
+.vb-jump-arabic {
+  font-size: 0.9375rem;
+  font-weight: 500;
   opacity: 0.8;
 }
 
-.vb-jump-empty:not(:empty) {
-  padding: 0.75rem 0.9rem;
+.vb-jump-note {
+  flex: none;
+  font-size: 0.8125rem;
+  opacity: 0.75;
 }
 
-@media (min-width: 900px) {
+.vb-jump-empty {
+  font-size: var(--step-small);
+  color: var(--sand-2);
+}
+
+.vb-jump-empty:not(:empty) {
+  padding: 1rem 0.8rem 0.5rem;
+}
+
+/* Key hints, in one short row. */
+.vb-jump-foot {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 1.25rem;
+  padding: 0.6rem 0.8rem 0.4rem;
+  color: var(--sand-2);
+  font-size: 0.8125rem;
+}
+
+.vb-jump-foot span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.vb-jump-foot kbd {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.4rem;
+  padding: 0 0.3rem;
+  border-radius: 0.3rem;
+  background: color-mix(in srgb, var(--sand) 12%, transparent);
+  color: var(--sand);
+  font-family: var(--text);
+  font-size: 0.75rem;
+  line-height: 1.4rem;
+}
+
+/* Phones keep the shorter control labels and use the space for destinations. */
+.vb-jump-open {
+  display: inline-flex;
+}
+
+@media (max-width: 899px) {
   .vb-jump-open {
-    display: inline-flex;
+    justify-content: center;
+    gap: 0.35rem;
+    padding: 0 0.85rem;
+  }
+  .vb-jump-open kbd {
+    display: none;
+  }
+  .vb-nav .vb-wordmark {
+    font-size: 0.95rem;
+  }
+  .vb-jump-foot {
+    display: none;
   }
 }
 
-/* 900–1199: the links, Jump to and GitHub share one row with the name, so the
-   Arabic name and the shortcut hint step aside and the links close up. */
+/* The keyboard shortcut steps aside when the navigation gets narrower. */
 @media (min-width: 900px) and (max-width: 1199px) {
-  .vb-wordmark span[lang="ar"],
   .vb-jump-open kbd {
     display: none;
   }
@@ -780,22 +819,23 @@ html:has(.vb) {
   }
 }
 
-/* ---------- Footer: sunrise ---------- */
+/* ---------- Footer: the last dune ---------- */
 
 .vb-footer {
-  --crest-fill: var(--dawn);
+  --footer-ground: var(--dusk-2);
+  --crest-fill: var(--footer-ground);
   --hour-ink: var(--dawn-ink);
   --hour-muted: var(--dawn-muted);
   --hour-time: var(--dawn-ink);
   --hour-dune: color-mix(in srgb, var(--dawn-ink) 30%, transparent);
   position: relative;
   isolation: isolate;
-  padding: clamp(2.5rem, 6vw, 5rem) var(--gutter) 2rem;
-  background: var(--dawn);
+  padding: clamp(2rem, 5vw, 4rem) var(--gutter) 2rem;
+  background: var(--footer-ground);
   color: var(--dawn-ink);
 }
 
-/* The footer rises over the night as the last dune, with the sun just behind it. */
+/* The footer rises over the night as the last dune. */
 .vb-footer::before {
   content: "";
   position: absolute;
@@ -804,120 +844,87 @@ html:has(.vb) {
   right: 0;
   bottom: calc(100% - 1px);
   height: var(--edge);
-  background: var(--dawn);
+  background: var(--footer-ground);
   mask: var(--crest-3) 0 0 / 100% 100% no-repeat;
 }
 
-.vb-footer-sun {
-  position: absolute;
-  z-index: 0;
-  right: 21%;
-  bottom: calc(100% + var(--edge) * -0.2);
-  width: clamp(4rem, 9vw, 8rem);
-  aspect-ratio: 1;
-  border-radius: 50%;
-  background: var(--ember);
-}
-
-.vb-footer-hour .vb-hour-ar {
-  font-size: clamp(2.4rem, 1rem + 5vw, 5.5rem);
-  line-height: 1.2;
-}
-
-.vb-footer-hour .vb-hour-sky {
-  align-self: end;
-  margin-bottom: 1rem;
+.vb-footer-top {
+  display: grid;
+  gap: 0.5rem;
 }
 
 .vb-footer-name {
-  margin-top: clamp(1.5rem, 4vw, 3rem);
   font-family: var(--display);
-  font-size: clamp(1.4rem, 1rem + 1.5vw, 2.2rem);
+  font-size: clamp(1.6rem, 1rem + 2vw, 2.6rem);
   font-weight: 800;
-  line-height: 1.1;
-  letter-spacing: -0.02em;
+  line-height: 1.05;
+  letter-spacing: -0.025em;
 }
 
-.vb-footer-name span[lang="ar"] {
-  margin-left: 0.6rem;
-  font-weight: 700;
+.vb-footer-place {
   color: var(--dawn-muted);
+  font-size: var(--step-small);
 }
 
 .vb-footer-grid {
   display: grid;
-  gap: 2rem;
-  margin-top: 2rem;
+  gap: 1.5rem 2rem;
+  margin-top: clamp(1.5rem, 3vw, 2.5rem);
+  padding-top: clamp(1.25rem, 2.5vw, 1.75rem);
+  border-top: 1px solid color-mix(in srgb, var(--dawn-ink) 12%, transparent);
   font-size: var(--step-small);
 }
 
 .vb-footer-grid ul {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.4rem 1.5rem;
+  gap: 0.25rem 1.5rem;
   margin: 0;
   padding: 0;
   list-style: none;
 }
 
 .vb-footer-grid a {
-  display: inline-block;
-  padding: 0.6rem 0;
-  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
+  color: var(--dawn-ink);
+  font-weight: 500;
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, var(--ember) 55%, transparent);
+  text-underline-offset: 0.25em;
+  transition: text-decoration-color var(--t-hover) ease;
 }
 
 .vb-footer-grid a:hover {
-  text-decoration: underline;
-}
-
-.vb-footer-credit {
-  max-width: 70ch;
-  color: var(--dawn-muted);
-  font-size: var(--step-small);
-  line-height: 1.5;
-}
-
-.vb-footer-credit a {
-  display: inline;
-  padding: 0;
-  color: var(--dawn-ink);
-  text-decoration: underline;
-}
-
-.vb-footer :focus-visible {
-  outline-color: var(--dawn-ink);
+  text-decoration-color: var(--ember);
+  text-decoration-thickness: 2px;
 }
 
 @media (max-width: 899px) {
-  .vb-footer {
-    padding-top: 1.75rem;
-  }
-  .vb-footer-hour .vb-hour-ar {
-    font-size: 2.2rem;
-  }
-  .vb-footer-name {
-    margin-top: 1rem;
-  }
   .vb-footer-grid {
-    gap: 0.75rem;
-    margin-top: 1rem;
+    gap: 0.15rem;
+    margin-top: 1.25rem;
+    padding-top: 0.75rem;
+  }
+
+  .vb-footer-grid ul {
+    column-gap: 1rem;
+  }
+
+  .vb-footer-city {
+    display: block;
+  }
+
+  .vb-footer-dot {
+    display: none;
   }
 }
 
 @media (min-width: 900px) {
   .vb-footer-grid {
-    grid-template-columns: 1fr 1fr 1.4fr;
+    grid-template-columns: 1fr auto;
     align-items: start;
-  }
-}
-
-@supports (animation-timeline: view()) {
-  @media (prefers-reduced-motion: no-preference) {
-    .vb[data-motion="on"] .vb-footer-sun {
-      animation: vb-sunrise linear both;
-      animation-timeline: view();
-      animation-range: entry 0% entry 100%;
-    }
   }
 }
 
@@ -929,14 +936,27 @@ html:has(.vb) {
 
 /* ---------- Dialogs ---------- */
 
+html:has(.vb dialog:modal) {
+  overflow: hidden;
+}
+
+.vb :is(.vb-dialog, .vb-jump, .vb-menu) {
+  overscroll-behavior: contain;
+}
+
 .vb-dialog {
-  width: min(96vw, 1040px);
-  max-height: 94dvh;
+  width: min(calc(100% - 2rem), 58rem);
+  max-height: calc(100dvh - 2rem);
+  margin: auto;
   padding: 0;
   border: 0;
   border-radius: 0.75rem;
   background: var(--night-2);
   color: var(--sand);
+}
+
+.vb-dialog[data-format="portrait"] {
+  width: min(calc(100% - 2rem), 32rem);
 }
 
 .vb-dialog::backdrop {
@@ -945,7 +965,6 @@ html:has(.vb) {
 
 .vb-dialog-body {
   display: flex;
-  max-height: 94dvh;
   flex-direction: column;
 }
 
@@ -975,11 +994,23 @@ html:has(.vb) {
   height: auto;
   max-height: 70dvh;
   object-fit: contain;
-  background: #000;
+  background: var(--nightfall);
 }
 
 .vb-dialog-foot {
+  flex-wrap: wrap;
+  padding-block: 0.55rem;
   font-size: var(--step-small);
+}
+
+.vb-dialog-foot :is(a, button) {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
+}
+
+.vb-dialog-foot :is(a, button):hover {
+  color: var(--ember);
 }
 
 .vb-dialog-foot a {
@@ -1013,4 +1044,21 @@ html:has(.vb) {
     opacity: 1 !important;
     transform: none !important;
   }
+}
+
+/* ---------- Bilingual chapter heading: English, then Arabic in the accent ---------- */
+
+.vb-title {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0 0.5em;
+}
+
+.vb-title-ar {
+  color: var(--ember);
+  font-size: 0.62em;
+  font-weight: 700;
+  letter-spacing: 0;
+  line-height: 1.4;
 }

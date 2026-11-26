@@ -1,0 +1,187 @@
+/* Skills: the tool ledger on its own ground, a navy lifted towards the
+   hood blue so it sits between the green certificate wall and the
+   night of Get in touch. Cream names, hood-blue marks and group titles, and
+   every product in its own colour. */
+.vb-tools {
+  --tools-ground: #172a53;
+  --tools-raise: #203768;
+  --tools-rule: color-mix(in srgb, var(--sand) 10%, transparent);
+  padding: clamp(3rem, 6vw, 5.5rem) var(--gutter) clamp(3.5rem, 7vw, 6.5rem);
+  background: var(--tools-ground);
+  color: var(--sand);
+}
+
+/* The title, with the six products as a colour key on the far side. */
+.vb-tools-cover {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  justify-content: space-between;
+  gap: 1.25rem 2.5rem;
+  min-inline-size: 0;
+  margin-block-end: clamp(1.75rem, 3.5vw, 3rem);
+}
+
+.vb-tools-title {
+  color: var(--sand);
+  font-size: clamp(3.25rem, 1.75rem + 5vw, 6rem);
+  letter-spacing: -0.04em;
+  line-height: 0.95;
+}
+
+.vb-tools-key {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 0.5rem;
+  margin: 0;
+  padding: 0 0 0.35rem;
+  list-style: none;
+}
+
+.vb .vb-tools-key-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  min-block-size: 2.75rem;
+  padding: 0 0.75rem 0 0.55rem;
+  border-radius: 999px;
+  background: var(--tools-raise);
+  color: var(--sand);
+  font-family: var(--display);
+  font-size: 0.875rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: background-color var(--t-hover) ease;
+}
+
+.vb .vb-tools-key-item:hover {
+  background: color-mix(in srgb, var(--tools-raise) 70%, var(--thread-colour));
+}
+
+.vb-tools-key-dot {
+  inline-size: 0.6rem;
+  block-size: 0.6rem;
+  border-radius: 50%;
+  background: var(--thread-colour);
+}
+
+/* A tool and the products that use it share one row. */
+.vb-tools-index {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: clamp(2rem, 3.5vw, 3rem) clamp(1.5rem, 3vw, 2.5rem);
+  min-inline-size: 0;
+}
+
+.vb-tools-group {
+  min-inline-size: 0;
+}
+
+.vb-tools-group-title {
+  margin: 0 0 0.75rem;
+  padding-block-end: 0.65rem;
+  border-block-end: 2px solid var(--ember);
+  color: var(--ember);
+  font-family: var(--display);
+  font-size: 1.0625rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.vb-tools-rows,
+.vb-tools-uses {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.vb-tools-row {
+  display: grid;
+  gap: 0.1rem;
+  padding-block: 0.4rem;
+  border-block-end: 1px solid var(--tools-rule);
+}
+
+.vb-tools-row:last-child {
+  border-block-end: 0;
+}
+
+.vb-tools-name {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: var(--display);
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.vb-tools-mark {
+  flex: none;
+  inline-size: 1.2rem;
+  block-size: 1.2rem;
+  color: var(--ember);
+  fill: currentColor;
+}
+
+.vb-tools-uses {
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: 0.6rem;
+  padding-inline-start: 1.8rem;
+}
+
+.vb .vb-tools-project {
+  display: inline-flex;
+  align-items: center;
+  min-block-size: 2rem;
+  min-inline-size: 1.5rem;
+  color: var(--thread-colour);
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1.3;
+  text-decoration: underline;
+  text-underline-offset: 0.22em;
+  text-decoration-thickness: 1px;
+  text-decoration-color: color-mix(in srgb, currentColor 45%, transparent);
+  transition: text-decoration-color var(--t-hover) ease;
+}
+
+.vb .vb-tools-project:is(:hover, :focus-visible) {
+  text-decoration-color: currentColor;
+  text-decoration-thickness: 2px;
+}
+
+@media (max-width: 899px) {
+  .vb-tools-index {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 599px) {
+  /* Phones: one column, with the products beside each tool to keep it short. */
+  .vb-tools-cover {
+    align-items: start;
+  }
+  .vb-tools-key {
+    gap: 0.35rem;
+    padding: 0;
+  }
+  .vb-tools-index {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .vb-tools-row {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);
+    align-items: start;
+    column-gap: 0.65rem;
+  }
+  .vb-tools-uses {
+    justify-content: end;
+    padding-inline-start: 0;
+    text-align: end;
+  }
+  .vb-tools-name {
+    min-block-size: 2rem;
+  }
+}
