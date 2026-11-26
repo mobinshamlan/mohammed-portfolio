@@ -14,11 +14,11 @@ import { Reveal } from "../reveal";
  */
 
 const WEEK = [
-  { day: "Sun", n: 9, taken: "Reel" },
-  { day: "Mon", n: 10 },
-  { day: "Tue", n: 11, slot: true },
-  { day: "Wed", n: 12 },
-  { day: "Thu", n: 13 },
+  { day: "Sun", taken: "Reel" },
+  { day: "Mon" },
+  { day: "Tue", slot: true },
+  { day: "Wed" },
+  { day: "Thu" },
 ] as const;
 
 function Ticks({ read }: { read?: boolean }) {
@@ -55,7 +55,7 @@ export function SeetProof() {
             </span>
             <p className="pf-seet-who">
               <strong>Mathaq restaurant</strong>
-              <span>online · sample chat</span>
+              <span>Sample chat</span>
             </p>
             <span className="pf-seet-wa-icons" aria-hidden="true">
               <svg viewBox="0 0 24 24">
@@ -91,7 +91,6 @@ export function SeetProof() {
               <small>A Snapchat Story is SAR 4,500 and Tuesday is free. I&rsquo;ve held it for you; it&rsquo;s confirmed once the SAR 2,250 deposit is paid.</small>
               <span className="pf-seet-linkcard" aria-hidden="true">
                 <b>Deposit link · SAR 2,250</b>
-                <i>seet.app/pay/mathaq-tue</i>
               </span>
               <time>
                 9:14 <Ticks read />
@@ -126,23 +125,21 @@ export function SeetProof() {
               disabled={!hydrated}
               aria-hidden={hydrated ? undefined : "true"}
             >
-              {paid ? "Start the sample again" : "Pay the SAR 2,250 deposit"}
+              {paid ? "Reset sample" : "Simulate deposit"}
             </button>
-            <p className="pf-seet-wa-note">{paid ? "The brand paid. Nothing else was needed." : "Sample: this button stands in for the brand paying the link."}</p>
           </div>
         </div>
 
         {/* The influencer's calendar in Seet: the week, and Tuesday on it. */}
-        <figcaption className="pf-seet-cal">
+        <figcaption className="pf-seet-cal" data-ui="">
           <p className="pf-seet-cal-head">
             <strong>Calendar</strong>
-            <span>Sample dashboard · Nov</span>
+            <span>Sample week</span>
           </p>
           <ol className="pf-seet-week" aria-hidden="true">
             {WEEK.map((d) => (
               <li key={d.day} data-slot={"slot" in d ? "true" : undefined} data-taken={"taken" in d ? "true" : undefined}>
-                <span>{d.day}</span>
-                <b>{d.n}</b>
+                <b>{d.day}</b>
                 {"slot" in d ? <i>{paid ? "Booked" : "Held"}</i> : "taken" in d ? <i>{d.taken}</i> : null}
               </li>
             ))}
@@ -150,12 +147,12 @@ export function SeetProof() {
           <div className="pf-seet-day" role="status" aria-atomic="true">
             <span className="pf-seet-pill" key={paid ? "booked" : "held"}>
               {paid ? <CheckIcon /> : null}
-              {paid ? "Booked" : "Held, not booked"}
+              {paid ? "Booked" : "Held for deposit"}
             </span>
-            <strong>Tue 11 · Snapchat Story</strong>
+            <strong>Tuesday · Snapchat Story</strong>
             <span className="pf-seet-day-who">Mathaq restaurant · SAR 4,500</span>
             <span className="pf-seet-day-money">
-              {paid ? "Deposit paid SAR 2,250 · SAR 2,250 due after the story" : "Waiting for the SAR 2,250 deposit · hold ends in 24h"}
+              {paid ? "Deposit paid SAR 2,250 · SAR 2,250 due after the story" : "SAR 2,250 deposit due within 24 hours"}
             </span>
           </div>
         </figcaption>

@@ -19,42 +19,35 @@ const WADHA = 7;
 const lines = [
   { at: 1, ar: "مساء الخير يا أبو فهد، تقرير الليلة.", en: "Good evening, Abu Fahad. Tonight's report." },
   { at: 4, ar: "وضحى ما شربت، والباقي بخير.", en: "Wadha hasn't drunk. The rest are fine.", flag: true },
-  { at: 7, ar: "سجلت إحدى عشر من اثنا عشر شربت.", en: "Logged: 11 of 12 drank." },
+  { at: 7, ar: "سجّلت إن ١١ من ١٢ شربت.", en: "Logged: 11 of 12 drank." },
 ] as const;
 
 const CALL_LENGTH = 10;
 
 export function NaqahProof() {
   const hydrated = useHydrated();
-  // -1: the phone is ringing. 0..CALL_LENGTH: seconds into the call. Past that: ended.
   const [tick, setTick] = useState(-1);
-  const timer = useRef<number | null>(null);
-
-  const stop = () => {
-    if (timer.current !== null) window.clearInterval(timer.current);
-    timer.current = null;
-  };
-
-  useEffect(() => stop, []);
-
-  const answer = () => {
-    stop();
-    setTick(0);
-    timer.current = window.setInterval(() => {
-      setTick((t) => {
-        if (t + 1 >= CALL_LENGTH) stop();
-        return t + 1;
-      });
-    }, 1000);
-  };
-
+  const transcript = useRef<HTMLOListElement>(null);
   const ringing = tick < 0;
   const ended = tick >= CALL_LENGTH;
   const live = !ringing && !ended;
+
+  useEffect(() => {
+    if (!live) return;
+    const timer = window.setInterval(() => setTick((seconds) => seconds + 1), 1000);
+    return () => window.clearInterval(timer);
+  }, [live]);
+
   const said = lines.filter((l) => !ringing && tick >= l.at);
+  const lineCount = said.length;
+  useEffect(() => {
+    const log = transcript.current;
+    if (log && lineCount > 0) log.scrollTop = log.scrollHeight;
+  }, [lineCount, ended]);
+
   const flagged = said.some((l) => "flag" in l);
   const speaking = live && lines.some((l) => tick >= l.at && tick < l.at + 2);
-  const clock = `${Math.floor(Math.min(tick, CALL_LENGTH) / 60)}:${String(Math.max(tick, 0) % 60).padStart(2, "0")}`;
+  const clock = `0:${String(Math.min(tick, CALL_LENGTH)).padStart(2, "0")}`;
   const state = ringing ? "ringing" : ended ? "ended" : "live";
 
   return (
@@ -73,7 +66,7 @@ export function NaqahProof() {
                   <CamelMark />
                   <span className="vb-sr">{wadha ? "Wadha, did not drink" : `Camel ${i + 1}, drank`}</span>
                   {wadha ? (
-                    <span className="pf-nq-name" aria-hidden="true">
+                    <span className="pf-nq-name" lang="ar" aria-hidden="true">
                       وضحى
                     </span>
                   ) : null}
@@ -95,12 +88,19 @@ export function NaqahProof() {
             </span>
             <strong>Naqah</strong>
             <span className="pf-nq-sub" role="status" aria-atomic="true">
-              {ringing ? "Ranch report · incoming call" : live ? `On the call · ${clock}` : `Call ended · ${clock}`}
+              {ringing ? "Sample incoming call" : live ? "Call in progress" : "Call ended"}
             </span>
+            {live ? <span className="pf-nq-clock" aria-hidden="true">{clock}</span> : null}
           </div>
 
-          <ol className="pf-nq-lines" aria-live="polite" aria-atomic="false">
-            {ringing ? <li className="pf-nq-note">Tonight&rsquo;s report is ready. The owner gets this call every evening at seven.</li> : null}
+          <ol
+            ref={transcript}
+            className="pf-nq-lines"
+            tabIndex={ringing ? undefined : 0}
+            aria-label="Call transcript"
+            aria-live="polite"
+          >
+            {ringing ? <li className="pf-nq-note">The evening report for Abu Fahad&rsquo;s ranch.</li> : null}
             {said.map((l) => (
               <li key={l.at} data-flag={"flag" in l ? "true" : undefined}>
                 <span lang="ar" dir="rtl">
@@ -109,53 +109,26 @@ export function NaqahProof() {
                 <span className="pf-nq-en">{l.en}</span>
               </li>
             ))}
-            {ended ? <li className="pf-nq-note">Saved to the ranch&rsquo;s record. The website has the full day.</li> : null}
+            {ended ? <li className="pf-nq-note">Saved to the ranch&rsquo;s record.</li> : null}
           </ol>
 
           <div className="pf-nq-dock">
             {live ? (
-              <>
-                <span className="pf-nq-wave" data-on={speaking ? "true" : undefined} aria-hidden="true">
-                  <i />
-                  <i />
-                  <i />
-                  <i />
-                  <i />
-                </span>
-                <span className="pf-nq-status">Naqah is speaking in Saudi Arabic</span>
-              </>
+              <span className="pf-nq-wave" data-on={speaking ? "true" : undefined} aria-hidden="true">
+                <i /><i /><i /><i /><i />
+              </span>
             ) : null}
             <div className="pf-ip-calls">
-              {ringing ? (
-                <>
-                  <span className="pf-ip-call pf-ip-call-end" aria-hidden="true">
-                    <i>
-                      <CallEndIcon />
-                    </i>
-                    Decline
-                  </span>
-                  <button type="button" className="pf-ip-call pf-ip-call-go" onClick={answer} disabled={!hydrated}>
-                    <i>
-                      <CallIcon />
-                    </i>
-                    Accept
-                  </button>
-                </>
-              ) : live ? (
-                <span className="pf-ip-call pf-ip-call-end" aria-hidden="true">
-                  <i>
-                    <CallEndIcon />
-                  </i>
-                  End
-                </span>
-              ) : (
-                <button type="button" className="pf-ip-call pf-ip-call-go" onClick={answer}>
-                  <i>
-                    <CallIcon />
-                  </i>
-                  Call again
+              {hydrated ? (
+                <button
+                  type="button"
+                  className={`pf-ip-call ${live ? "pf-ip-call-end" : "pf-ip-call-go"}`}
+                  onClick={() => setTick(live ? CALL_LENGTH : 0)}
+                >
+                  <i>{live ? <CallEndIcon /> : <CallIcon />}</i>
+                  {ringing ? "Accept" : live ? "End call" : "Call again"}
                 </button>
-              )}
+              ) : null}
             </div>
           </div>
         </IPhone>

@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { gthrzShots } from "@/lib/gthrz";
+import { useHydrated } from "@/lib/use-hydrated";
 import { GthrzImg } from "../gthrz-img";
 import { Reveal } from "../reveal";
 import { IPhone } from "./iphone";
@@ -57,6 +58,7 @@ function CheckIcon() {
 }
 
 export function GthrzProof() {
+  const hydrated = useHydrated();
   const [approved, setApproved] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
@@ -86,19 +88,23 @@ export function GthrzProof() {
             <span className="vb-gz-avatar" aria-hidden="true">
               S
             </span>
-            <p className="vb-gz-req-who" role="status" aria-atomic="true">
+            <p className="vb-gz-req-who">
               <strong>Sara A.</strong>
-              <span key={approved ? "ok" : "ask"}>{approved ? "Approved to attend" : "Asked to join"}</span>
+              <span>{approved ? "Approved to attend" : "Asked to join"}</span>
             </p>
             <button
               type="button"
               className="vb-gz-approve"
+              disabled={!hydrated}
               aria-label={approved ? "Undo approval for Sara" : "Approve Sara"}
               onClick={() => setApproved((a) => !a)}
             >
               {approved ? "Undo" : "Approve"}
             </button>
           </div>
+          <p className="vb-gz-host-result" role="status">
+            {approved ? "Area shared. Exact address still hidden." : ""}
+          </p>
         </div>
 
         {/* The guest's side: Sara's iPhone on the real event screen. */}
@@ -129,12 +135,12 @@ export function GthrzProof() {
                 <span>Approval</span>
               </p>
               <p className="vb-gz-title">Pizza Night</p>
-              <p className="vb-gz-when">Gathering · Sun · SEP 5 · 10:00 PM</p>
-              <p className="vb-gz-reveal">Location revealed 2h before</p>
+              <p className="vb-gz-when">Gathering · Sunday, 10 pm</p>
+              <p className="vb-gz-reveal">Location shared 2 hours before</p>
             </div>
           </div>
           <div className="vb-gz-under">
-            <p className="vb-gz-where" role="status" aria-atomic="true">
+            <p className="vb-gz-where">
               {approved ? <PinIcon /> : <LockIcon />}
               <span className="vb-gz-where-text" key={approved ? "area" : "hidden"}>
                 <span className="vb-gz-label">Location</span>

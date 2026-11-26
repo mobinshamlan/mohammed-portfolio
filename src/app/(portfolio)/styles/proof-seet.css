@@ -209,7 +209,6 @@
   gap: 0.05rem;
   margin-top: 0.2rem;
   padding: 0.4rem 0.55rem;
-  border-left: 3px solid var(--seet-gold);
   border-radius: 6px;
   background: rgb(0 0 0 / 0.22);
   font-family: var(--text);
@@ -220,12 +219,6 @@
   font-size: 0.75rem;
   font-weight: 700;
   color: var(--seet-gold);
-}
-
-.pf-seet-linkcard i {
-  font-size: 0.6875rem;
-  font-style: normal;
-  color: color-mix(in srgb, var(--wa-ink) 65%, transparent);
 }
 
 /* The payment lands from outside the chat: a green line in the middle. */
@@ -261,12 +254,7 @@
   background: var(--wa-bar);
 }
 
-.pf-seet-wa-note {
-  font-size: 0.75rem;
-  line-height: 1.35;
-  text-align: center;
-  color: var(--wa-muted);
-}
+
 
 .pf-seet .pf-seet-pay {
   min-height: 2.9rem;

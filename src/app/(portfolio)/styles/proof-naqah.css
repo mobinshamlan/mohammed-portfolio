@@ -313,7 +313,7 @@
   font-size: 0.8125rem;
   font-weight: 700;
   line-height: 1.2;
-  color: var(--accent);
+  color: var(--field-ink);
 }
 
 .pf-nq-marks li[data-lit="true"] .pf-nq-name {
@@ -358,7 +358,7 @@
 
 .pf-nq-screen .pf-ip-body {
   grid-template-rows: auto minmax(0, 1fr) auto;
-  gap: 0.75rem;
+  gap: 0.5rem;
   padding: 0.5rem 0.85rem 0.6rem;
 }
 
@@ -416,12 +416,15 @@
 /* What Naqah says, as live captions on the call. */
 .pf-nq-lines {
   display: grid;
-  align-content: end;
+  align-content: safe end;
   gap: 0.4rem;
   min-height: 0;
   margin: 0;
   padding: 0;
-  overflow: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  scrollbar-color: var(--screen-muted) transparent;
   list-style: none;
 }
 
@@ -429,16 +432,15 @@
   align-content: start;
 }
 
-/* Captions scroll up like a transcript: the oldest fades at the top when
-   the screen runs out of room. */
-.pf-nq-fig:not([data-state="ringing"]) .pf-nq-lines {
-  mask-image: linear-gradient(to bottom, transparent, #000 1.75rem);
+.pf-nq-lines:focus-visible {
+  outline-color: var(--ip-ink);
+  outline-offset: -2px;
 }
 
 .pf-nq-lines li {
   display: grid;
   gap: 0.1rem;
-  padding: 0.45rem 0.6rem 0.5rem;
+  padding: 0.35rem 0.6rem 0.4rem;
   border-radius: 14px 14px 14px 4px;
   background: rgb(246 233 210 / 0.1);
 }
@@ -487,7 +489,10 @@
   text-align: center;
   color: var(--screen-muted);
   background: none !important;
-  padding-inline: 0.25rem !important;
+}
+
+.pf-nq-lines .pf-nq-note {
+  padding: 0.25rem;
 }
 
 .pf-nq-dock {
@@ -508,29 +513,22 @@
 .pf-nq-wave i {
   display: block;
   width: 0.3rem;
-  height: 0.35rem;
+  height: 1.4rem;
   border-radius: 999px;
   background: var(--screen-muted);
-  transition: height 200ms var(--ease-out);
+  transform: scaleY(0.25);
 }
 
 .pf-nq-wave[data-on="true"] i {
   background: #8fd3a5;
 }
 
-.pf-nq-status {
-  font-size: 0.75rem;
-  color: var(--screen-muted);
-}
 
 /* ---------- Motion ---------- */
 
 @media (prefers-reduced-motion: no-preference) {
-  .pf-nq-fig[data-state="ringing"] .pf-nq-avatar::after {
-    animation: pf-nq-ring 1.6s var(--ease-out) infinite;
-  }
-  .pf-nq-fig[data-state="ringing"] .pf-ip-call-go:not(:disabled) i {
-    animation: pf-nq-nudge 1.6s var(--ease-soft) infinite;
+  .pf-nq-fig[data-state="ringing"]:is(:hover, :focus-within) .pf-nq-avatar::after {
+    animation: pf-nq-ring 1.6s var(--ease-out) 2;
   }
   .pf-nq-lines li {
     animation: pf-nq-in 420ms var(--ease-expo) both;
@@ -558,15 +556,6 @@
       opacity: 0;
     }
   }
-  @keyframes pf-nq-nudge {
-    0%,
-    100% {
-      transform: translateY(0);
-    }
-    50% {
-      transform: translateY(-3px);
-    }
-  }
   @keyframes pf-nq-in {
     from {
       opacity: 0;
@@ -574,19 +563,15 @@
     }
   }
   @keyframes pf-nq-wave {
-    from {
-      height: 0.35rem;
-    }
-    to {
-      height: 1.4rem;
-    }
+    from { transform: scaleY(0.25); }
+    to { transform: scaleY(1); }
   }
 }
 
 /* Speaking without motion: the bars stand tall. */
 @media (prefers-reduced-motion: reduce) {
   .pf-nq-wave[data-on="true"] i {
-    height: 1rem;
+    transform: scaleY(0.75);
   }
 }
 
@@ -609,4 +594,10 @@
   .pf-nq-marks li {
     padding: 0.4rem 0.2rem;
   }
+}
+
+.pf-nq-clock {
+  font-size: 0.75rem;
+  font-variant-numeric: tabular-nums;
+  color: var(--screen-muted);
 }

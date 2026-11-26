@@ -4,6 +4,10 @@
   scroll-margin-top: 0;
 }
 
+.vb-proj[data-light="true"]:not([data-id="amanah"]) {
+  --focus: var(--field-ink);
+}
+
 /* The heading and lead sit side by side; the products are reached from the opening's tiles. */
 @media (min-width: 900px) {
   .vb-work-head {
@@ -41,12 +45,13 @@
    question. Labels are mine (the trouble, what it does, my part, the line I
    drew), answers are one or two plain lines. */
 .vb-proj-answers {
+  --answer-thread: var(--accent);
   display: grid;
   gap: 1.05rem;
   max-width: 32rem;
   margin: 0;
   padding-inline-start: 1.25rem;
-  border-inline-start: 2px dashed color-mix(in srgb, var(--accent) 65%, transparent);
+  border-inline-start: 2px dashed color-mix(in srgb, var(--answer-thread) 70%, transparent);
 }
 
 .vb-proj-answers > div {
@@ -65,7 +70,7 @@
   height: 0.55rem;
   translate: -50% 0;
   rotate: 45deg;
-  background: var(--accent);
+  background: var(--answer-thread);
   box-shadow: 0 0 0 3px var(--field);
 }
 
@@ -95,7 +100,7 @@
 
 /* Light fields (Naqah, Seet): the knot keeps a halo of the field, the seam stays readable. */
 .vb-proj[data-light="true"] .vb-proj-answers {
-  border-inline-start-color: color-mix(in srgb, var(--accent) 55%, transparent);
+  border-inline-start-color: color-mix(in srgb, var(--answer-thread) 65%, transparent);
 }
 
 /* ---------- Wide: the same parts, a different composition for each chapter ---------- */
@@ -225,14 +230,16 @@
   .vb-proj .vb-proj-foot {
     order: 2;
   }
-  .vb-proj:is([data-id="tammeni"], [data-id="gthrz"]) .vb-proj-inner {
-    padding-block: clamp(3rem, 8vw, 4rem);
+  .vb .vb-proj .vb-proj-inner {
+    row-gap: 1.5rem;
+    padding-block-start: clamp(2rem, 8vw, 3.25rem);
   }
   /* Kashta: the camp gets its own strip under the links. */
   .vb-proj[data-id="kashta"] .vb-proj-inner {
-    padding-bottom: 11rem;
+    padding-bottom: 8rem;
   }
   .vb-proj-answers {
+    --answer-thread: var(--ribbon);
     gap: 0.9rem;
   }
   .vb-proj-actions {
@@ -274,7 +281,7 @@
   position: relative;
 }
 
-.vb-flow {
+.vb-work-thread {
   position: absolute;
   inset: 0 auto auto 0;
   z-index: 2;
@@ -282,7 +289,7 @@
   pointer-events: none;
 }
 
-.vb-flow path {
+.vb-work-thread path {
   fill: none;
   stroke-linecap: round;
   stroke-linejoin: round;
@@ -391,23 +398,19 @@
   }
 }
 
-/* Each try-it waits in the half-light and comes forward as the thread ties to
-   it. The move sits on the try-it itself, so the wrapper the thread measures
-   keeps its place. Wide screens with the thread drawn, and no reduced motion. */
+/* The thread is drawn separately from the proof. The proof stays readable throughout. */
 @media (min-width: 900px) and (prefers-reduced-motion: no-preference) {
   .vb[data-motion="on"] .vb-work[data-flow="on"] .vb-proj .vb-proj-visual > * {
-    transition:
-      opacity 900ms var(--ease-expo),
-      translate 1100ms var(--ease-expo);
+    transition: translate var(--t-reveal) var(--ease-out);
   }
-  .vb[data-motion="on"] .vb-work[data-flow="on"] .vb-proj:not([data-sewn="true"]) .vb-proj-visual > * {
-    opacity: 0.4;
-    translate: 0 1.25rem;
+
+  .vb[data-motion="on"] .vb-work[data-flow="on"] .vb-proj:not([data-sewn="true"]) .vb-proj-visual:not(:focus-within) > * {
+    translate: 0 0.5rem;
   }
 }
 
 @media (max-width: 899px) {
-  .vb-flow {
+  .vb-work-thread {
     display: none;
   }
 }
@@ -569,7 +572,7 @@
 }
 
 @media (max-width: 479px) {
-  .vb-wordmark-first {
+  .vb-wordmark-full {
     position: absolute;
     width: 1px;
     height: 1px;
@@ -581,9 +584,8 @@
   }
 }
 
-/* A visible cue on links that leave the site (they open in a new tab). */
-.vb-proj-links a[target="_blank"]::after,
-.vb-talk-links a[target="_blank"]::after {
+/* A shared cue for links that open an external tab. */
+:is(.vb-proj-links, .vb-talk-links, .vb-case-links, .vb-footer-grid, .vb-dialog-foot) a[target="_blank"]::after {
   content: "";
   display: inline-block;
   width: 0.7em;

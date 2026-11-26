@@ -63,12 +63,7 @@
   line-height: 1.2;
 }
 
-.pf-tm-rule-grade {
-  font-family: var(--text);
-  font-size: 0.8125rem;
-  font-weight: 500;
-  color: color-mix(in srgb, var(--field) 70%, var(--field-ink));
-}
+
 
 .pf-tm-rule-what {
   font-size: 0.9375rem;
@@ -161,19 +156,13 @@
   padding-top: 0.75rem;
 }
 
-/* The lock screen's date and big clock. */
+/* The time on the lock screen. */
 .pf-tm-clock {
   display: grid;
   justify-items: center;
   gap: 0.15rem;
   padding-top: 0.5rem;
   line-height: 1;
-}
-
-.pf-tm-date {
-  font-size: 0.8125rem;
-  font-weight: 600;
-  color: var(--tm-muted);
 }
 
 .pf-tm-time {

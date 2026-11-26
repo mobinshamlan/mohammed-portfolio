@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, type CSSProperties } from "react";
+import { useHydrated } from "@/lib/use-hydrated";
 import { Reveal } from "../reveal";
 import { Tag } from "../scenes/amanah-scene";
 
@@ -31,6 +32,7 @@ function Lock() {
 }
 
 export function AmanahProof() {
+  const hydrated = useHydrated();
   const [answer, setAnswer] = useState<AnswerId | null>(null);
   const verdict = answer === null ? "open" : answer === truth ? "match" : "miss";
   const chosen = answers.find((a) => a.id === answer);
@@ -68,10 +70,10 @@ export function AmanahProof() {
               <span>The AI matched your report to a blue umbrella found at the library desk.</span>
             </li>
             <li className="vb-ap-msg vb-ap-ask" data-from="amanah">
-              <span lang="ar" dir="rtl" id="amanah-q">
+              <span lang="ar" dir="rtl">
                 وش لون المقبض؟
               </span>
-              <span>What colour is the handle? Only the owner would know.</span>
+              <span id="amanah-q">What colour is the handle?</span>
             </li>
             {chosen ? (
               <li className="vb-ap-msg" data-from="owner" key={chosen.id}>
@@ -85,6 +87,7 @@ export function AmanahProof() {
               <button
                 key={a.id}
                 type="button"
+                disabled={!hydrated}
                 aria-pressed={answer === a.id}
                 onClick={() => setAnswer(a.id)}
                 style={{ "--swatch": a.swatch } as CSSProperties}
@@ -96,9 +99,7 @@ export function AmanahProof() {
 
           <figcaption className="vb-ap-result" role="status" aria-atomic="true">
             {verdict === "open" ? (
-              <>
-                <strong>Waiting for the answer.</strong> Staff decide; the AI only suggests.
-              </>
+              <strong>Waiting for the owner&rsquo;s answer.</strong>
             ) : verdict === "match" ? (
               <>
                 <strong>Matches the finder&rsquo;s note.</strong> Staff stamp the tag and hand it over.

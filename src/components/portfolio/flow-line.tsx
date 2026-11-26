@@ -231,7 +231,7 @@ export function FlowLine() {
   return (
     <svg
       ref={svg}
-      className="vb-flow"
+      className="vb-work-thread"
       width={shape.w}
       height={shape.h}
       viewBox={`0 0 ${shape.w} ${shape.h}`}

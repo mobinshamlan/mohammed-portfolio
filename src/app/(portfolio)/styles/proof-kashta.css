@@ -155,9 +155,7 @@
   height: calc(var(--score) * 1%);
   border-radius: 4px 4px 2px 2px;
   background: rgb(243 236 224 / 0.28);
-  transition:
-    height 500ms var(--ease-out),
-    background-color 200ms var(--ease-out);
+  transition: background-color 200ms var(--ease-out);
 }
 
 .vb .vb-kp-week button[aria-pressed="true"] .vb-kp-bar {

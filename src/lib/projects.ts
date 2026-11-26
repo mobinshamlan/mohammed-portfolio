@@ -198,7 +198,7 @@ export const projects: Project[] = [
       changed:
         "The worker needs nothing new. The owner gets one short call with what matters and can check the full record later, which is what an investor demo now shows as a labelled in-browser simulation.",
     },
-    tagline: "A camel ranch that phones its owner.",
+    tagline: "Daily phone reports for camel ranchers.",
     arabicTagline: "اطمئنان، دون انشغال",
     status: "Investor MVP",
     year: "2026",
@@ -296,7 +296,7 @@ export const projects: Project[] = [
     arabic: "",
     statusChip: "Code on GitHub",
     dates: "Mar–Sep 2026",
-    contribution: "Solo: the React Native app, the Supabase schema with row-level security and the Smart Planner.",
+    contribution: "I built the app, the AI planner and the rules that protect guest and event details.",
     answers: [
       { label: "The trouble", text: "Event apps show a host's address and guest list to more people than the host meant." },
       { label: "What it does", text: "Guests ask to join, the host approves, and the address is shared only when the host says so." },
@@ -318,15 +318,15 @@ export const projects: Project[] = [
     },
     decision: {
       constraint:
-        "A host's address and guest list should not be visible to everyone who can see the event exists.",
+        "Someone can discover an event without seeing where it is or who is going.",
       tradeoff:
-        "Delayed location reveal and approval make an event harder to discover and slower to join than an open invite. We chose the host's control over reach.",
+        "Requiring approval adds a step for guests. I kept it to give hosts control over private details.",
       shipped:
-        "Privacy set per event: address now or later, guest names and photos on or off, RSVP approval and capacity, enforced with row-level security.",
+        "I added per-event settings for the address, names and photos. Supabase checks those rules every time the app requests event data.",
       changed:
-        "Only approved guests ever see the exact location, and the host decides when. The Smart Planner drafts the event but never publishes it.",
+        "Only approved guests see the exact location once the host releases it.",
     },
-    tagline: "Private gatherings where the host decides who comes and when the address is shared.",
+    tagline: "Event planning with a guest list and address the host controls.",
     status: "Built · open source",
     year: "2025",
     kind: "Mobile app · React Native",
@@ -337,16 +337,16 @@ export const projects: Project[] = [
     accent: "#8b6cf0",
     light: false,
     problem:
-      "Public event tools show a host's address, guest list and photos to more people than the host meant. Private gatherings need invitations, approval and a location that stays hidden until the host says so.",
-    what: "Gthrz is a mobile app for creating and running events with host control: guests request to join, hosts approve RSVPs, capacity is enforced, and the location can stay hidden until the host reveals it. A Smart Planner drafts the event from a sentence.",
+      "Sharing an event can expose a home address or guest list before the host knows who is coming.",
+    what: "Guests request to join or use an invite code. The host approves requests, sets capacity and can delay sharing the location.",
     how: [
       {
         actor: "Host",
-        action: "Creates the event: title, time, category, capacity.",
+        action: "Sets the event title, time and capacity.",
       },
       {
         actor: "Host",
-        action: "Sets privacy per event: address now or later, guest names, guest photos.",
+        action: "Sets when the address is shared and who can see names and photos.",
       },
       {
         actor: "Guest",
@@ -354,8 +354,7 @@ export const projects: Project[] = [
       },
       {
         actor: "Host",
-        action: "Approves. The exact location is revealed to approved guests only.",
-        note: "Supabase row-level security enforces who sees what.",
+        action: "Approves guests. The exact address appears at the time the host chose.",
       },
       {
         actor: "Smart Planner",
@@ -430,7 +429,7 @@ export const projects: Project[] = [
       changed:
         "Nothing about an item is public at any point. A visitor can follow the whole flow in the guided demo in about a minute.",
     },
-    tagline: "Private lost and found for one organisation. AI suggests, staff decide.",
+    tagline: "A private lost-and-found desk for organisations.",
     arabicTagline: "كل مفقود أمانة",
     status: "MVP · live",
     year: "2026",
@@ -584,7 +583,7 @@ export const projects: Project[] = [
       changed:
         "Any night's score can be checked by hand against the forecast. The AI is useful and never the reason a trip went wrong.",
     },
-    tagline: "Finds the best night and campsite near Riyadh from the real weather forecast.",
+    tagline: "A weather-based camping guide for Riyadh and nearby areas.",
     arabicTagline: "أحسن ليلة لكشتتك، وأنسب مكان لها",
     status: "Live",
     year: "2026",
@@ -721,7 +720,7 @@ export const projects: Project[] = [
       changed:
         "On the demo data, a second hold on the same slot is refused by the Postgres trigger under a per-workspace lock, not by the prompt. The dashboard shows holds and confirmations as two different things.",
     },
-    tagline: "Answers brands on an influencer's WhatsApp and books their ads.",
+    tagline: "Ad bookings for creators, handled over WhatsApp.",
     arabicTagline: "صيت يرد على المعلنين عنك",
     status: "Live demo on sample data",
     year: "2026",
@@ -776,7 +775,7 @@ export const projects: Project[] = [
       "WhatsApp Cloud API",
     ],
     links: [
-      { label: "Live app", href: "https://seet-app.vercel.app" },
+      { label: "Live site", href: "https://seet-app.vercel.app" },
     ],
     linkNote: "Code is private",
     cover: {
@@ -863,7 +862,7 @@ export const projects: Project[] = [
       changed:
         "A parent can get one phone call a week and still ask a follow-up on it. The operator studio lets us replay the whole flow in front of a room.",
     },
-    tagline: "School news for parents, by phone call or text, on their own schedule.",
+    tagline: "School updates for parents by text or phone call.",
     arabicTagline: "وش صار مع عيالك اليوم؟",
     status: "Demo",
     year: "2026",

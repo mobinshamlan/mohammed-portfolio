@@ -2,6 +2,7 @@
 
 import { useState, type CSSProperties } from "react";
 import { kashtaExample, kashtaLimits, kashtaRamp, kashtaRating, kashtaWeights } from "@/lib/kashta-example";
+import { useHydrated } from "@/lib/use-hydrated";
 import { Reveal } from "../reveal";
 
 /*
@@ -22,11 +23,10 @@ type Night = {
   /** Mean cloud cover 20:00–04:00, %. */
   cloud: number;
   why: string;
-  real?: boolean;
 };
 
 const nights: Night[] = [
-  { day: "Wed", wind: 11.5, rain: 0, dust: 85, cloud: 0, real: true, why: "Calm wind, no rain, a clear sky. The best night of the week." },
+  { day: "Wed", wind: 11.5, rain: 0, dust: 85, cloud: 0, why: "Calm wind, no rain, a clear sky. The best night of the week." },
   { day: "Thu", wind: 38, rain: 0, dust: 220, cloud: 15, why: "Gusts near 38 km/h and some dust take a few points. Still a good kashta." },
   { day: "Fri", wind: 58, rain: 0, dust: 390, cloud: 40, why: "Gusts of 58 km/h are dangerous, so the score is held at 35 whatever else is good." },
   { day: "Sat", wind: 44, rain: 45, dust: 300, cloud: 60, why: "Gusty, dusty, and a 45% chance of rain. Possible, not pleasant." },
@@ -135,6 +135,7 @@ function Camp() {
  * it shows the best night, scored.
  */
 export function KashtaProof() {
+  const hydrated = useHydrated();
   const [picked, setPicked] = useState(bestIndex);
   const night = scored[picked];
   const weather = {
@@ -148,16 +149,17 @@ export function KashtaProof() {
       <figure className="vb-kp-card" data-wind={windWord(night.wind)} data-ui="" style={weather}>
         <p className="vb-kp-site">
           <strong>{kashtaExample.site}</strong>
-          <span>Next 7 nights, ranked by the app</span>
+          <span>Sample forecast</span>
         </p>
 
         <Camp />
 
-        <div className="vb-kp-week" role="group" aria-label="Pick a night">
+        <div className="vb-kp-week" role="group" aria-label="Forecast nights">
           {scored.map((n, index) => (
             <button
               key={n.day}
               type="button"
+              disabled={!hydrated}
               aria-pressed={picked === index}
               data-best={index === bestIndex ? "true" : undefined}
               data-capped={n.dangerous ? "true" : undefined}
@@ -168,10 +170,6 @@ export function KashtaProof() {
               <i className="vb-kp-bar" aria-hidden="true" />
               <b>{n.score}</b>
               <span>{n.day}</span>
-              <span className="vb-sr">
-                , Kashta Score {n.score}
-                {index === bestIndex ? ", best night" : ""}
-              </span>
             </button>
           ))}
         </div>
@@ -183,13 +181,13 @@ export function KashtaProof() {
             <span>{night.dangerous ? `Held at ${kashtaLimits.cap}: dangerous` : ratingWords[kashtaRating(night.score)]}</span>
           </p>
           <p className="vb-kp-why" key={picked}>
-            <span className="vb-kp-why-label">Why, in the AI&rsquo;s words</span>
+            <span className="vb-kp-why-label">AI forecast summary</span>
             {night.why}
           </p>
         </div>
 
         <figcaption className="vb-kp-foot">
-          Wednesday is the real {kashtaExample.shortNight} forecast; the other nights are a sample. All seven are scored by the app&rsquo;s own rule. The AI never scores, it only explains.
+          Wednesday uses a recorded forecast. The other six nights are examples scored by Kashta.
         </figcaption>
       </figure>
     </Reveal>

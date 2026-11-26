@@ -402,3 +402,10 @@
     }
   }
 }
+
+.vb .vb-gz-host-result:not(:empty) {
+  margin-top: 0.75rem;
+  color: var(--gz-ink, #eee9f2);
+  font-size: 0.8125rem;
+  line-height: 1.4;
+}

@@ -1,8 +1,9 @@
 "use client";
 
 import { useId, useState } from "react";
+import { useHydrated } from "@/lib/use-hydrated";
 import { Reveal } from "../reveal";
-import { CallEndIcon, CallIcon, IPhone } from "./iphone";
+import { IPhone } from "./iphone";
 
 function TextIcon() {
   return (
@@ -62,6 +63,7 @@ const ways = [
  * on the lock screen, or Lulwa calling. Without JavaScript it shows the text.
  */
 export function TammeniProof() {
+  const hydrated = useHydrated();
   const [way, setWay] = useState<(typeof ways)[number]["id"]>("text");
   const id = useId();
   const shown = ways.find((w) => w.id === way) ?? ways[0];
@@ -70,10 +72,10 @@ export function TammeniProof() {
     <Reveal className="pf-tammeni">
       <div className="pf-tammeni-stage">
         {/* The rule, as the parent set it in Tammeni. */}
-        <fieldset className="pf-tm-rule">
+        <fieldset className="pf-tm-rule" data-ui="" disabled={!hydrated}>
           <legend className="pf-tm-rule-head">
             <span className="pf-tm-rule-who">
-              Reem <span className="pf-tm-rule-grade">Grade 5</span>
+              Reem
             </span>
             <span className="pf-tm-rule-what">Get an update when Reem arrives</span>
           </legend>
@@ -88,7 +90,7 @@ export function TammeniProof() {
               </label>
             ))}
           </div>
-          <p className="pf-tm-rule-note">Sample family. Choose text or call for each child and type of update.</p>
+          <p className="pf-tm-rule-note">Sample family</p>
         </fieldset>
 
         {/* The parent's phone, one minute after the school marked Reem present. */}
@@ -101,7 +103,6 @@ export function TammeniProof() {
           {shown.id === "text" ? (
             <div className="pf-tm-lock" key="text">
               <p className="pf-tm-clock" aria-hidden="true">
-                <span className="pf-tm-date">Sunday 9 November</span>
                 <span className="pf-tm-time">7:06</span>
               </p>
               <div className="pf-tm-banner">
@@ -137,7 +138,7 @@ export function TammeniProof() {
                   </span>
                 </span>
                 <strong>Lulwa</strong>
-                <span>Tammeni · incoming call</span>
+                <span>Tammeni · sample call</span>
               </div>
               <div className="pf-tm-saying">
                 <span className="pf-tm-wave" aria-hidden="true">
@@ -151,20 +152,6 @@ export function TammeniProof() {
                   {shown.ar}
                 </span>
                 <p className="pf-tm-gloss">{shown.en}</p>
-              </div>
-              <div className="pf-ip-calls" aria-hidden="true">
-                <span className="pf-ip-call pf-ip-call-end">
-                  <i>
-                    <CallEndIcon />
-                  </i>
-                  Decline
-                </span>
-                <span className="pf-ip-call pf-ip-call-go">
-                  <i>
-                    <CallIcon />
-                  </i>
-                  Accept
-                </span>
               </div>
             </div>
           )}
