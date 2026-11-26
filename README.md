@@ -45,7 +45,6 @@ Education:
 - BSc Computer Science (Hons)
 - Queen Mary University of London
 - Graduated in 2026
-- Upper Second-Class Honours (2:1)
 
 Current education:
 - AI Bootcamp at Tuwaiq Academy

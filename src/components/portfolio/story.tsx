@@ -72,7 +72,7 @@ export function Story() {
         >
           <p className="vb-route-line">
             <strong>BSc Computer Science, Queen Mary University of London.</strong> Graduated
-            July 2026 with a 2:1, on a full Saudi government scholarship.
+            July 2026, on a full Saudi government scholarship.
           </p>
           <p className="vb-route-note">
             Before that: six months of English in Brighton and a foundation year at Kaplan
