@@ -309,8 +309,11 @@
 
 /* Scenes in the shared layout. Amanah's picture is already its tags, so the
    hanging tags step aside; Seet's skyline gets its own band under the content. */
-.vb-proj[data-id="amanah"] .vb-proj-scene {
-  display: none;
+/* Amanah's hanging tags only where its centred column leaves room for them. */
+@media (max-width: 1199px) {
+  .vb-proj[data-id="amanah"] .vb-proj-scene {
+    display: none;
+  }
 }
 
 @media (min-width: 900px) {
@@ -727,4 +730,9 @@
   .vb-proj[data-layout="uniform"] .vb-proj-stand {
     order: 2;
   }
+}
+
+/* The thread runs down Amanah's left margin; the key tag that sat in its way steps aside. */
+.vb-proj[data-id="amanah"] .am-tag[data-slot="2"] {
+  display: none;
 }
