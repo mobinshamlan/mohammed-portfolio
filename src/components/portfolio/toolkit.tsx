@@ -1,11 +1,6 @@
 import type { CSSProperties, ReactNode } from "react";
 import { projectById } from "@/lib/projects";
-import {
-  toolkitGroups,
-  toolkitProjects,
-  type ToolkitMark,
-  type ToolkitProjectId,
-} from "@/lib/toolkit";
+import { projectThreads, toolkitGroups, toolkitProjects, type ToolkitMark } from "@/lib/toolkit";
 
 const toolMarks: Record<ToolkitMark, ReactNode> = {
   next: (
@@ -114,39 +109,24 @@ const toolMarks: Record<ToolkitMark, ReactNode> = {
   ),
 };
 
-const projectThreads: Record<ToolkitProjectId, string> = {
-  naqah: `color-mix(in srgb, ${projectById.naqah.field} 76%, ${projectById.naqah.accent})`,
-  tammeni: `color-mix(in srgb, ${projectById.tammeni.field} 40%, ${projectById.tammeni.fieldInk})`,
-  seet: projectById.seet.field,
-  kashta: projectById.kashta.accent,
-  amanah: projectById.amanah.field,
-  gthrz: `color-mix(in srgb, ${projectById.gthrz.accent} 72%, var(--sand))`,
-};
-
-const weavePositions = [
-  [48, 44], [144, 44], [240, 44],
-  [240, 116], [144, 116], [48, 116],
-];
-const weaveDiamond =
-  "M-40-4h8v-7h8v-7h8v-7h8v-7H8v7h8v7h8v7h8v7h8v8h-8v7h-8v7h-8v7H8v7H-8v-7h-8v-7h-8v-7h-8v-7h-8Z M0-15l18 15L0 15-18 0Z";
-
-function ProjectWeave() {
+/* Legend beside the title: the six products in the colours their names take
+   in the ledger below. Each one links to its chapter. */
+function ProjectKey() {
   return (
-    <svg className="vb-tools-weave" viewBox="0 0 288 160" aria-hidden="true" focusable="false">
-      <path className="vb-tools-stitch" d="M0 44h260l24 20v32l-24 20H0" />
-      {toolkitProjects.map((id, index) => {
-        const [x, y] = weavePositions[index];
-        return (
-          <path
-            key={id}
-            d={weaveDiamond}
-            transform={`translate(${x} ${y})`}
-            fill={projectThreads[id]}
-            fillRule="evenodd"
-          />
-        );
-      })}
-    </svg>
+    <ul className="vb-tools-key" aria-label="Products, in the colours used below">
+      {toolkitProjects.map((id) => (
+        <li key={id}>
+          <a
+            className="vb-tools-key-item"
+            href={`#${id}`}
+            style={{ "--thread-colour": projectThreads[id] } as CSSProperties}
+          >
+            <span className="vb-tools-key-dot" aria-hidden="true" />
+            {projectById[id].name}
+          </a>
+        </li>
+      ))}
+    </ul>
   );
 }
 
@@ -157,7 +137,7 @@ export function Toolkit() {
         <h2 id="skills-title" className="vb-section-head vb-tools-title">
           Skills
         </h2>
-        <ProjectWeave />
+        <ProjectKey />
       </div>
 
       <div className="vb-tools-index">

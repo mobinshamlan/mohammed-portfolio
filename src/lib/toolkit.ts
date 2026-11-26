@@ -9,6 +9,20 @@ function isWorkChapter(id: ProjectId): id is ToolkitProjectId {
 
 export const toolkitProjects = projects.map(({ id }) => id).filter(isWorkChapter);
 
+/**
+ * Each product's thread colour: its own field or accent, lifted where the
+ * field itself is too dark to read on navy. Used wherever a product is named
+ * in colour outside its chapter: the Skills ledger and the Jump to dialog.
+ */
+export const projectThreads: Record<ToolkitProjectId, string> = {
+  naqah: `color-mix(in srgb, ${projectById.naqah.field} 76%, ${projectById.naqah.accent})`,
+  tammeni: `color-mix(in srgb, ${projectById.tammeni.field} 40%, ${projectById.tammeni.fieldInk})`,
+  seet: projectById.seet.field,
+  kashta: projectById.kashta.accent,
+  amanah: projectById.amanah.field,
+  gthrz: `color-mix(in srgb, ${projectById.gthrz.accent} 72%, var(--sand))`,
+};
+
 const projectEvidence = new Map(
   skillGroups.flatMap(({ skills }) =>
     skills.map(({ name, projects = [] }) => [name, projects.filter(isWorkChapter)] as const),
