@@ -178,7 +178,7 @@ export function Story() {
             </ul>
           </RouteStop>
 
-          <RouteStop id="story-next" kind="next" en="A first role" when="Next">
+          <RouteStop id="story-next" kind="next" en="Next" when="A first role">
             <p className="vb-route-line">In software or AI engineering.</p>
           </RouteStop>
         </ol>

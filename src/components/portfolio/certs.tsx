@@ -5,7 +5,6 @@ import { useEffect, useRef, useState } from "react";
 import { certificates, type Certificate } from "@/lib/certificates";
 import { publicUrl } from "@/lib/site";
 import { useHydrated } from "@/lib/use-hydrated";
-import { SectionTitle } from "./section-title";
 
 // The Eid volunteering certificate already sits beside its milestone in the London story.
 const listed = certificates.filter((item) => item.id !== "05");
@@ -73,7 +72,13 @@ export function Certs() {
 
   return (
     <section id="certificates" className="vb-certs vb-certs-compact" aria-labelledby="certs-title">
-      <SectionTitle id="certs-title" en="Certificates." />
+      <details className="vb-certs-more">
+        <summary className="vb-certs-more-summary">
+          <h2 id="certs-title" className="vb-certs-more-title">
+            More credentials
+          </h2>
+          <span className="vb-certs-more-count">{listed.length} certificates</span>
+        </summary>
 
       <ul className="vb-certs-rows">
         {listed.map((item) => (
@@ -104,6 +109,7 @@ export function Certs() {
           </li>
         ))}
       </ul>
+      </details>
 
       <dialog
         ref={dialog}

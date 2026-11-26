@@ -547,6 +547,13 @@ html:has(.vb) {
   }
 }
 
+@media (max-width: 899px) {
+  .vb-jump-icon {
+    width: 1rem;
+    height: 1rem;
+  }
+}
+
 .vb-jump-open kbd {
   font-family: var(--text);
   font-size: 0.8125rem;
@@ -663,10 +670,10 @@ html:has(.vb) {
   }
   .vb-jump-open {
     justify-content: center;
-    min-width: 2.75rem;
-    padding: 0;
+    gap: 0.35rem;
+    padding: 0 0.85rem;
   }
-  .vb-jump-open :is(.vb-jump-text, .vb-jump-ar, kbd) {
+  .vb-jump-open kbd {
     display: none;
   }
   .vb-nav .vb-wordmark {

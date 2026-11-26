@@ -126,3 +126,49 @@ a.vb-cert:hover .vb-cert-name {
     display: block;
   }
 }
+
+/* One quiet line between the story and the tools; the list opens on request. */
+.vb .vb-certs.vb-certs-compact {
+  padding-block: clamp(1.5rem, 3vw, 2.5rem);
+}
+
+.vb-certs-more-summary {
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+  min-height: 2.75rem;
+  cursor: pointer;
+  list-style: none;
+}
+
+.vb-certs-more-summary::-webkit-details-marker {
+  display: none;
+}
+
+.vb-certs-more-summary::before {
+  content: "+";
+  color: var(--ember);
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 1.4rem;
+  line-height: 1;
+}
+
+.vb-certs-more[open] .vb-certs-more-summary::before {
+  content: "−";
+}
+
+.vb-certs-more-title {
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: clamp(1.25rem, 1rem + 0.8vw, 1.6rem);
+}
+
+.vb-certs-more-count {
+  color: var(--sand-2);
+  font-size: var(--step-small);
+}
+
+.vb-certs-more .vb-certs-rows {
+  margin-top: 1.25rem;
+}

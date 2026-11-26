@@ -73,6 +73,14 @@ export function Contact() {
   }
 
   async function copyNote() {
+    // The same checks as sending: never copy, or report, a half-written note.
+    const next = validate(fields);
+    setErrors(next);
+    const first = (["name", "email", "message"] as FieldName[]).find((key) => next[key]);
+    if (first) {
+      setInvalid((current) => ({ field: first, attempt: (current?.attempt ?? 0) + 1 }));
+      return;
+    }
     try {
       await navigator.clipboard.writeText(mail.body);
       setStatus("copied");
