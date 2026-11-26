@@ -3,14 +3,16 @@
 import { useEffect, useRef, useState } from "react";
 
 /**
- * One line through the Work chapter: it leaves the foot of each product's
- * picture, crosses the seam between chapters and enters the next picture,
- * drawing itself as the page scrolls. Decorative; wide screens only.
+ * One stitched thread through the Work chapter, like the seam of a Sadu
+ * weave, in the red of the graduation ribbon: it leaves the foot of each
+ * product's picture and crosses into the next, sewing itself as the page
+ * scrolls, led by a small Sadu diamond. Decorative; wide screens only.
  */
 export function FlowLine() {
   const svg = useRef<SVGSVGElement>(null);
   const path = useRef<SVGPathElement>(null);
-  const head = useRef<SVGCircleElement>(null);
+  const reveal = useRef<SVGPathElement>(null);
+  const head = useRef<SVGRectElement>(null);
   const [shape, setShape] = useState<{ d: string; w: number; h: number } | null>(null);
 
   // Build the path from where the pictures actually sit.
@@ -55,7 +57,8 @@ export function FlowLine() {
       const last = points[points.length - 1];
       d += ` M ${last.exit.x} ${last.exit.y} L ${last.exit.x} ${last.seam - 40}`;
       d = d.trim();
-      setShape({ d, w: box.width, h: work.offsetHeight });
+      const height = work.offsetHeight;
+      setShape({ d, w: box.width, h: height });
     }
 
     build();
@@ -70,7 +73,7 @@ export function FlowLine() {
 
   // Draw it up to the point level with the lower part of the screen.
   useEffect(() => {
-    const line = path.current;
+    const line = reveal.current;
     const dot = head.current;
     const frame = svg.current;
     if (!shape || !line || !dot || !frame) return;
@@ -104,8 +107,7 @@ export function FlowLine() {
       }
       line.style.strokeDashoffset = `${total - len}`;
       const p = line.getPointAtLength(len);
-      dot.setAttribute("cx", `${p.x}`);
-      dot.setAttribute("cy", `${p.y}`);
+      dot.setAttribute("transform", `translate(${p.x} ${p.y}) rotate(45)`);
       dot.style.opacity = len > 0 && len < total - 12 ? "1" : "0";
     }
     function onScroll() {
@@ -130,9 +132,14 @@ export function FlowLine() {
       aria-hidden="true"
       focusable="false"
     >
+      <defs>
+        <mask id="vb-flow-mask" maskUnits="userSpaceOnUse" x="0" y="0" width={shape.w} height={shape.h}>
+          <path ref={reveal} d={shape.d} className="vb-flow-reveal" />
+        </mask>
+      </defs>
       <path d={shape.d} className="vb-flow-ghost" />
-      <path ref={path} d={shape.d} className="vb-flow-line" />
-      <circle ref={head} r="6" className="vb-flow-head" />
+      <path ref={path} d={shape.d} className="vb-flow-line" mask="url(#vb-flow-mask)" />
+      <rect ref={head} x="-5" y="-5" width="10" height="10" className="vb-flow-head" />
     </svg>
   );
 }

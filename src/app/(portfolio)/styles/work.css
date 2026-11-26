@@ -400,21 +400,29 @@
 }
 
 .vb-flow-ghost {
-  stroke: rgba(242, 236, 223, 0.14);
+  stroke: rgba(242, 236, 223, 0.12);
   stroke-width: 1.5;
-  stroke-dasharray: 2 7;
+  stroke-dasharray: 1 9;
 }
 
+/* Short even stitches, like a seam sewn through each chapter. */
+/* Red as the ribbon on the degree scroll: the one thread that runs through all of it. */
 .vb-flow-line {
-  stroke: color-mix(in srgb, var(--ember) 70%, #f2ecdf);
-  stroke-width: 2;
-  opacity: 0.75;
-  filter: drop-shadow(0 0 3px rgba(134, 169, 245, 0.35));
+  stroke: var(--ribbon);
+  stroke-width: 3;
+  stroke-dasharray: 10 6;
 }
 
+.vb-flow-reveal {
+  stroke: #fff;
+  stroke-width: 12;
+}
+
+/* The needle: a small Sadu diamond. */
 .vb-flow-head {
-  fill: #f2ecdf;
-  filter: drop-shadow(0 0 8px rgba(134, 169, 245, 0.9));
+  fill: var(--ribbon);
+  stroke: #f2ecdf;
+  stroke-width: 1.5;
   transition: opacity 200ms ease;
 }
 
