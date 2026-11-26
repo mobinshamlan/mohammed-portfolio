@@ -1,16 +1,28 @@
-/* Three milestones on one thread: the childhood photo, the degree, the products built at home. */
+/* Where I come from: a flight route, Riyadh to London and back. Three stops on
+   one thread; each is marked by its airport code and the thing it left behind. */
 .vb-story {
-  --route-thread: color-mix(in srgb, var(--ribbon) 75%, var(--sand));
-  --route-pin-size: 0.75rem;
+  --route-thread: color-mix(in srgb, var(--ribbon) 78%, var(--sand));
+  --route-pin-size: 0.8rem;
   --route-pin-center: calc(var(--route-pin-size) / 2);
-  padding: clamp(3.5rem, 7vw, 6.5rem) var(--gutter) clamp(2rem, 4vw, 3.5rem);
+  --route-rise: 3.5rem;
+  --route-code: color-mix(in srgb, var(--sand) 26%, transparent);
+  padding: clamp(3.5rem, 7vw, 6.5rem) var(--gutter) clamp(2.5rem, 4vw, 4rem);
+  background: var(--predawn);
   scroll-margin-top: 4rem;
+}
+
+.vb .vb-story-sub {
+  margin-top: 0.75rem;
+  color: var(--sand-2);
+  font-size: var(--step-lead);
+  line-height: 1.3;
+  text-wrap: pretty;
 }
 
 .vb-route {
   position: relative;
   display: grid;
-  margin: clamp(1.75rem, 4vw, 3.75rem) 0 0;
+  margin: clamp(2rem, 4vw, 4rem) 0 0;
   padding: 0;
   list-style: none;
 }
@@ -20,9 +32,9 @@
   display: grid;
   grid-template-areas: "head" "body" "art";
   align-content: start;
-  gap: 0.7rem;
+  gap: 0.8rem;
   min-width: 0;
-  padding: 0 0 1.75rem 1.5rem;
+  padding: 0 0 2.25rem 1.6rem;
   scroll-margin-top: 5rem;
 }
 
@@ -30,22 +42,29 @@
   padding-bottom: 0;
 }
 
-.vb-route-stop:not(:last-child)::before {
-  content: "";
+/* The thread. On phones it runs down the left edge; on wide screens it arcs stop to stop. */
+.vb-route-leg {
   position: absolute;
-  inset: calc(0.42rem + var(--route-pin-center)) auto calc(-0.42rem - var(--route-pin-center)) var(--route-pin-center);
+  inset: calc(0.5rem + var(--route-pin-center)) auto calc(-0.5rem - var(--route-pin-center)) var(--route-pin-center);
   border-inline-start: 1px dashed var(--route-thread);
+  pointer-events: none;
+}
+
+.vb-route-arc,
+.vb-route-plane,
+.vb-route-leg-cap {
+  display: none;
 }
 
 .vb-route-pin {
   position: absolute;
   z-index: 1;
-  inset: 0.42rem auto auto 0;
+  inset: 0.5rem auto auto 0;
   width: var(--route-pin-size);
   height: var(--route-pin-size);
-  border: 1px solid var(--route-thread);
+  border: 1.5px solid var(--route-thread);
   border-radius: 50%;
-  background: var(--night);
+  background: var(--predawn);
 }
 
 .vb-route-stop[data-kind="return"] .vb-route-pin {
@@ -55,7 +74,18 @@
 .vb-route-head {
   display: grid;
   grid-area: head;
-  gap: 0.2rem;
+  gap: 0.15rem;
+}
+
+/* The airport code: the typographic mark of the place, read like a departures board. */
+.vb-route-code {
+  font-family: var(--display);
+  font-size: clamp(2.4rem, 1.6rem + 2.4vw, 4rem);
+  font-weight: 800;
+  line-height: 0.95;
+  letter-spacing: -0.02em;
+  color: var(--route-code);
+  font-variant-numeric: tabular-nums;
 }
 
 .vb-route-place {
@@ -65,10 +95,18 @@
 }
 
 .vb-route-when {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.2rem 0.75rem;
   color: var(--ember);
   font-size: var(--step-small);
   font-weight: 500;
   font-variant-numeric: tabular-nums;
+}
+
+.vb-route-fact {
+  color: var(--sand-2);
+  font-weight: 400;
 }
 
 .vb-route-art {
@@ -104,7 +142,7 @@
 /* Stop 1: the photo is the artefact, beside the words on phones. */
 .vb-route-stop[data-kind="home"] {
   grid-template-areas: "head art" "body art";
-  grid-template-columns: minmax(0, 1fr) minmax(5.5rem, 30%);
+  grid-template-columns: minmax(0, 1fr) minmax(5.5rem, 32%);
   grid-template-rows: auto 1fr;
   column-gap: 1rem;
 }
@@ -116,7 +154,7 @@
 
 .vb .vb-route-child {
   width: 100%;
-  max-width: 9rem;
+  max-width: 10rem;
   aspect-ratio: 4 / 5;
   object-fit: cover;
   object-position: 50% 32%;
@@ -143,7 +181,7 @@
 .vb-route-doc-img {
   display: block;
   flex: none;
-  height: 5rem;
+  height: 5.5rem;
   padding: 0.2rem;
   border-radius: 0.2rem;
   background: var(--sand);
@@ -219,7 +257,7 @@
 }
 
 .vb-story-music {
-  margin-top: clamp(1.5rem, 3vw, 2.5rem);
+  margin-top: clamp(2rem, 4vw, 3rem);
 }
 
 @media (min-width: 600px) and (max-width: 1023px) {
@@ -231,15 +269,20 @@
 
   .vb-route-stop[data-kind="home"] {
     grid-template-areas: "head art" "body art";
-    grid-template-columns: minmax(0, 1fr) 9rem;
+    grid-template-columns: minmax(0, 1fr) 11rem;
+  }
+
+  .vb .vb-route-child {
+    max-width: 11rem;
   }
 }
 
 @media (min-width: 1024px) {
   .vb-route {
-    --route-gap: clamp(2rem, 4vw, 4.5rem);
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr) minmax(0, 1fr);
+    --route-gap: clamp(2.5rem, 4vw, 5rem);
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr) minmax(0, 1fr);
     column-gap: var(--route-gap);
+    margin-top: clamp(4rem, 6vw, 6.5rem);
   }
 
   /* Heads line up across the three columns; words and artefacts flow below each one. */
@@ -249,9 +292,9 @@
     grid-template-areas: "head" "body" "art";
     grid-template-columns: minmax(0, 1fr);
     grid-template-rows: auto auto 1fr;
-    row-gap: 1.1rem;
+    row-gap: 1.2rem;
     column-gap: 0;
-    padding: 1.6rem 0 0;
+    padding: 1.9rem 0 0;
   }
 
   .vb-route-art {
@@ -270,16 +313,43 @@
     grid-column: 3;
   }
 
-  .vb-route-stop:not(:last-child)::before {
-    --route-start: scaleX(0);
-    inset: var(--route-pin-center) calc(-1 * var(--route-gap)) auto var(--route-pin-center);
-    border-inline-start: 0;
-    border-top: 1px dashed var(--route-thread);
-    transform-origin: left;
-  }
-
   .vb-route-pin {
     top: 0;
+  }
+
+  /* The leg: an arc from this pin to the next, with the plane that flies it. */
+  .vb-route-leg {
+    inset: auto calc(-1 * var(--route-gap)) auto var(--route-pin-center);
+    top: calc(var(--route-pin-center) - var(--route-rise));
+    height: var(--route-rise);
+    border: 0;
+  }
+
+  .vb-route-arc {
+    display: block;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+    fill: none;
+    stroke: var(--route-thread);
+    stroke-width: 1.5;
+    stroke-dasharray: 3 4;
+    stroke-linecap: round;
+  }
+
+  .vb-route-leg-cap {
+    position: absolute;
+    top: -1.1rem;
+    left: 50%;
+    display: block;
+    transform: translateX(-50%);
+    color: var(--sand-2);
+    font-size: var(--step-small);
+    white-space: nowrap;
+  }
+
+  .vb-route-code {
+    margin-bottom: 0.25rem;
   }
 
   .vb-route-place {
@@ -287,7 +357,7 @@
   }
 
   .vb .vb-route-child {
-    max-width: 16rem;
+    max-width: 18rem;
   }
 
   .vb .vb-route-doc {
@@ -297,7 +367,7 @@
   }
 
   .vb-route-doc-img {
-    height: clamp(10rem, 12vw, 13rem);
+    height: clamp(11rem, 13vw, 14rem);
     padding: 0.3rem;
   }
 
@@ -306,16 +376,62 @@
   }
 }
 
+/* Motion: once the route is in view, each leg draws on and a plane flies it, once. */
 @media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
-  .vb[data-motion="on"] .vb-route[data-wait] .vb-route-stop:not(:last-child)::before {
-    transition: transform 420ms var(--ease-out);
+  .vb[data-motion="on"] .vb-route[data-wait] .vb-route-arc {
+    clip-path: inset(-1rem 0 -1rem 0);
+    transition: clip-path 1300ms linear;
   }
 
-  .vb[data-motion="on"] .vb-route[data-wait] .vb-route-stop[data-kind="london"]::before {
-    transition-delay: 330ms;
+  .vb[data-motion="on"] .vb-route[data-wait="true"] .vb-route-arc {
+    clip-path: inset(-1rem 100% -1rem 0);
   }
 
-  .vb[data-motion="on"] .vb-route[data-wait="true"] .vb-route-stop:not(:last-child)::before {
-    transform: var(--route-start);
+  .vb[data-motion="on"] .vb-route[data-wait] .vb-route-stop[data-kind="london"] .vb-route-arc {
+    transition-delay: 1450ms;
+  }
+
+  .vb[data-motion="on"] .vb-route[data-wait="false"] .vb-route-plane {
+    position: absolute;
+    bottom: -0.55rem;
+    left: 0;
+    display: block;
+    width: 1.1rem;
+    height: 1.1rem;
+    color: var(--sand);
+    opacity: 0;
+    animation:
+      vb-fly-x 1300ms linear forwards,
+      vb-fly-y 1300ms ease-in-out forwards;
+  }
+
+  .vb[data-motion="on"] .vb-route[data-wait="false"] .vb-route-stop[data-kind="london"] .vb-route-plane {
+    animation-delay: 1450ms;
+  }
+}
+
+@keyframes vb-fly-x {
+  from {
+    left: 0;
+  }
+  to {
+    left: calc(100% - 1.1rem);
+  }
+}
+
+@keyframes vb-fly-y {
+  0% {
+    opacity: 1;
+    transform: translateY(0) rotate(50deg);
+  }
+  50% {
+    transform: translateY(calc(-0.82 * var(--route-rise))) rotate(90deg);
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(0) rotate(130deg);
   }
 }

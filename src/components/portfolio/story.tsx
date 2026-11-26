@@ -14,6 +14,11 @@ const homeWork: { id: ProjectId; use: string }[] = [
   { id: "naqah", use: "Checking in on a ranch" },
 ];
 
+/*
+ * Where I come from: a flight route, Riyadh to London and back. Each stop is
+ * marked by its airport code, its light (latitude and clock), and the one thing
+ * it left behind: a childhood photo, a degree, the products built at home.
+ */
 export function Story() {
   return (
     <section id="about" className="vb-story" aria-labelledby="about-title">
@@ -23,8 +28,11 @@ export function Story() {
         <RouteStop
           id="story-home"
           kind="home"
+          code="RUH"
           place="Saudi Arabia"
           when="Where I grew up"
+          fact="24°N · GMT+3"
+          leg="About 4,900 km"
           art={
             <Image
               className="vb-route-child"
@@ -32,17 +40,19 @@ export function Story() {
               alt={childhood.alt}
               width={childhood.width}
               height={childhood.height}
-              sizes="(min-width: 1024px) 18rem, (min-width: 600px) 9rem, 7rem"
+              sizes="(min-width: 1024px) 18rem, (min-width: 600px) 10rem, 7.5rem"
             />
           }
-        >
-        </RouteStop>
+        />
 
         <RouteStop
           id="journey"
           kind="london"
+          code="LHR"
           place="London"
           when="2022–2026"
+          fact="51°N · GMT"
+          leg=""
           art={
             <DocumentViewer
               triggerClassName="vb-route-doc"
@@ -60,7 +70,7 @@ export function Story() {
                   alt=""
                   width={degree.width}
                   height={degree.height}
-                  sizes="(min-width: 1024px) 11rem, 6rem"
+                  sizes="(min-width: 1024px) 12rem, 6.5rem"
                 />
               </span>
               <span className="vb-route-doc-cap">Open the degree certificate</span>
@@ -80,8 +90,10 @@ export function Story() {
         <RouteStop
           id="story-now"
           kind="return"
+          code="RUH"
           place="Back home"
           when="Riyadh · 2026"
+          fact="24°N · GMT+3"
           art={
             <ul className="vb-route-work" aria-label="Products built for life in Saudi Arabia">
               {homeWork.map(({ id, use }) => {

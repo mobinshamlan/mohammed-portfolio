@@ -2,6 +2,11 @@
 
 import { useEffect, useRef, type ReactNode } from "react";
 
+/**
+ * The route holds the three stops. On wide screens, with motion allowed, the two
+ * legs draw on and a plane flies each one once the route scrolls into view.
+ * Static HTML, phones and reduced motion show the finished route.
+ */
 export function RouteMap({ children }: { children: ReactNode }) {
   const ref = useRef<HTMLOListElement>(null);
 
@@ -12,12 +17,15 @@ export function RouteMap({ children }: { children: ReactNode }) {
       return;
     }
 
-    const observer = new IntersectionObserver(([entry]) => {
-      if (entry.isIntersecting) {
-        route.dataset.wait = "false";
-        observer.disconnect();
-      }
-    });
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          route.dataset.wait = "false";
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.35 },
+    );
     route.dataset.wait = "true";
     observer.observe(route);
 
@@ -25,7 +33,7 @@ export function RouteMap({ children }: { children: ReactNode }) {
   }, []);
 
   return (
-    <ol ref={ref} className="vb-route" aria-label="Three milestones: Saudi Arabia, London, and back home">
+    <ol ref={ref} className="vb-route" aria-label="Three stops: Saudi Arabia, London, and back home">
       {children}
     </ol>
   );
