@@ -25,8 +25,8 @@ export type Job = {
 const jobs: Job[] = [
   {
     id: "ai",
-    title: "AI kept on a leash",
-    line: "The model suggests, drafts or explains. Code, the database or a person makes the decision.",
+    title: "AI that helps people decide",
+    line: "Draft replies, explain choices and suggest matches, with facts checked before a booking or match is confirmed.",
     tools: [
       "Guarding model output with schemas",
       "Zod",
@@ -38,38 +38,38 @@ const jobs: Job[] = [
     notes: [
       {
         project: "seet",
-        text: "Claude replies through tools the server runs, so every price and date comes from the database. Only the payment callback can confirm a booking.",
+        text: "Seet reads prices and dates from the creator’s records. A booking is confirmed when the payment provider reports that the deposit arrived.",
       },
       {
         project: "kashta",
-        text: "Code ranks the camping sites from seven nights of Open-Meteo forecast and SunCalc moonlight. Llama turns a trip into settings that must parse against a Zod schema, then explains the ranking; a sentence with a number not in the forecast is cut.",
+        text: "Kashta compares sites using seven nights of weather and moonlight. AI explains the results, and the app removes any numbers it can’t verify.",
       },
       {
         project: "amanah",
-        text: "Gemini compares lost and found reports privately and suggests matches. Staff approve or reject each one.",
+        text: "AI suggests which lost and found reports go together. Staff check the match before the item is handed back.",
       },
     ],
   },
   {
     id: "calls",
     title: "Phone calls in Arabic",
-    line: "A real call on an ordinary phone, with a live voice that listens and speaks in Arabic.",
+    line: "Give families and ranch workers a way to get or share updates in Arabic over an ordinary phone call.",
     tools: ["Twilio Voice", "OpenAI Realtime voice", "Python"],
     notes: [
       {
         project: "naqah",
-        text: "Phones the ranch worker at the owner's chosen time, asks one question at a time and keeps the answers, never the audio.",
+        text: "Naqah calls the ranch worker at the time the owner chooses. It saves the answers and discards the audio.",
       },
       {
         project: "tammeni",
-        text: "Lulwa calls a parent at the time they chose, then answers follow-ups only from that child's record. The voice service is Python, on Railway.",
+        text: "Lulwa calls parents when they choose and answers questions using their own child’s records.",
       },
     ],
   },
   {
     id: "data",
-    title: "Private data, database rules",
-    line: "Postgres decides who can read a record and when a booking is allowed, not the app.",
+    title: "Protect private information",
+    line: "Give people access only to the records they’re allowed to see, such as school updates for their own children.",
     tools: [
       "Supabase",
       "PostgreSQL and row-level security",
@@ -79,38 +79,38 @@ const jobs: Job[] = [
       "FastAPI",
     ],
     notes: [
-      { project: "naqah", text: "Supabase Auth and row-level security keep one ranch to one owner." },
+      { project: "naqah", text: "Ranch owners see records for their own ranch." },
       {
         project: "tammeni",
-        text: "Row-level security scopes every record to the parent. A FastAPI service serves the demo's fictional school data.",
+        text: "Parents can only see their own child’s records. The demo uses fictional school records.",
       },
       {
         project: "seet",
-        text: "A Postgres trigger under a per-workspace lock refuses a second hold on the same slot. The WhatsApp webhook checks its signature before anything is read.",
+        text: "Seet avoids double-bookings and checks that messages really came through WhatsApp.",
       },
-      { project: "amanah", text: "Row-level security scopes every report to its organisation." },
+      { project: "amanah", text: "Each organisation can only see its own lost and found reports." },
       {
         project: "gthrz",
-        text: "Row-level security enforces each event's privacy: the address now or later, guest names and photos on or off.",
+        text: "Hosts choose when to share the address and whether guests can see names or photos.",
       },
     ],
   },
   {
     id: "web",
-    title: "Arabic-first web apps",
-    line: "Right to left from the start, in Saudi Arabic, on Vercel. TypeScript throughout, the phone app too.",
+    title: "Websites for Arabic readers",
+    line: "Build websites in Saudi Arabic with layouts that read naturally from right to left.",
     tools: ["Next.js", "React", "Tailwind CSS", "Arabic-first, RTL interfaces", "zustand", "TypeScript", "Vercel and Railway"],
   },
   {
     id: "mobile",
-    title: "A phone app",
-    line: "iPhone and Android, for private events: the host approves guests and decides when the address shows.",
+    title: "Apps for iPhone and Android",
+    line: "Build for both phones, like an event app where hosts approve guests and choose when to share the address.",
     tools: ["React Native and Expo"],
   },
   {
     id: "tests",
-    title: "Tests that run",
-    line: "Vitest covers Naqah's question flow; Playwright walks the owner's website end to end.",
+    title: "Catch problems before release",
+    line: "Automate checks that repeat tasks like answering Naqah’s questions or reviewing updates on the owner’s website.",
     tools: ["Vitest", "Playwright"],
     tests: true,
   },
@@ -132,7 +132,7 @@ export type ResolvedJob = Omit<Job, "tools"> & {
   tools: Tool[];
   /** Every project these tools, notes or tests touched, in portfolio order. */
   projects: ProjectId[];
-  testCounts: { project: ProjectId; value: string; label: string }[];
+  testCounts: { project: ProjectId; value: string }[];
 };
 
 const order = projects.map((project) => project.id);
@@ -144,7 +144,7 @@ function testCounts(job: Job) {
   return projects.flatMap((project) =>
     (project.proof.evidence ?? [])
       .filter((item) => item.kind === "tests")
-      .map((item) => ({ project: project.id, value: item.value, label: item.label })),
+      .map((item) => ({ project: project.id, value: item.value })),
   );
 }
 
