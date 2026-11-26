@@ -5,7 +5,6 @@ import { childhood, degree } from "@/lib/portrait";
 import { projects, type ProjectId } from "@/lib/projects";
 import { DocumentViewer } from "./document-viewer";
 import { MusicShelf } from "./music-shelf";
-import { Reveal } from "./reveal";
 import { SectionTitle } from "./section-title";
 import { RouteMap } from "./story-map";
 import { RouteStop } from "./story-route";
@@ -23,32 +22,21 @@ const homeWork: { id: ProjectId; life: string }[] = [
 export function Story() {
   return (
     <section id="about" className="vb-story" aria-labelledby="about-title">
-      <header className="vb-story-head">
-        <SectionTitle id="about-title" en="Where I come from." />
-        <Reveal delay={0.08}>
-          <p className="vb-lead">Home, four years in London, and home again.</p>
-        </Reveal>
-      </header>
+      <SectionTitle id="about-title" en="Where I come from." />
 
       <RouteMap>
-        <ol className="vb-route" aria-label="The route, stop by stop">
-          <RouteStop
-            id="story-home"
-            kind="home"
-            en="Saudi Arabia"
-            when="Where I grew up"
-            aside={
-              <Image
-                className="vb-route-child"
-                src={childhood.src}
-                alt={childhood.alt}
-                width={childhood.width}
-                height={childhood.height}
-                sizes="(min-width: 1100px) 12rem, 7rem"
-                style={{ objectPosition: "50% 30%" }}
-              />
-            }
-          />
+        <ol className="vb-route" aria-label="From Saudi Arabia to London and home again">
+          <RouteStop id="story-home" kind="home" en="Saudi Arabia" when="Where I grew up">
+            <Image
+              className="vb-route-child"
+              src={childhood.src}
+              alt={childhood.alt}
+              width={childhood.width}
+              height={childhood.height}
+              sizes="(min-width: 1100px) 12rem, 7rem"
+              style={{ objectPosition: "50% 30%" }}
+            />
+          </RouteStop>
 
           <RouteStop id="story-brighton" kind="short" en="Brighton" when="About six months">
             <p className="vb-route-line">English language studies.</p>
@@ -77,8 +65,7 @@ export function Story() {
                       alt=""
                       width={degree.width}
                       height={degree.height}
-                      sizes="5rem"
-                      style={{ objectPosition: "50% 0%" }}
+                      sizes="7rem"
                     />
                   </span>
                   <span className="vb-route-doc-cap">Degree</span>
@@ -100,7 +87,7 @@ export function Story() {
                         alt=""
                         width={eid.image.width}
                         height={eid.image.height}
-                        sizes="9rem"
+                        sizes="10rem"
                       />
                     </span>
                     <span className="vb-route-doc-cap">Eid volunteer</span>
@@ -109,30 +96,24 @@ export function Story() {
               </div>
             }
           >
-            <p className="vb-route-line">
-              Custodian of the Two Holy Mosques Scholarship, Imdad track.
+            <p className="vb-route-grant">
+              On the Custodian of the Two Holy Mosques Scholarship, Imdad track.
             </p>
             <ul className="vb-route-facts">
               <li>
                 <span className="vb-route-year">2022–23</span>
-                <span>
-                  <strong>Kaplan International College London</strong> Foundation,
-                  Science and Engineering
-                </span>
+                <span>Foundation year, Kaplan International College London</span>
               </li>
               <li>
                 <span className="vb-route-year">2023–26</span>
                 <span>
-                  <strong>Queen Mary University of London</strong> BSc Computer
-                  Science, 2:1, awarded 9 July 2026
+                  <strong>BSc Computer Science, Queen Mary University of London</strong> 2:1,
+                  graduated July 2026
                 </span>
               </li>
               <li>
                 <span className="vb-route-year">2026</span>
-                <span>
-                  <strong>Volunteer</strong> London Saudi Club Eid al-Fitr, and the
-                  Language Intelligence Conference
-                </span>
+                <span>Volunteer, London Saudi Club Eid al-Fitr</span>
               </li>
             </ul>
           </RouteStop>
@@ -184,19 +165,13 @@ export function Story() {
         </ol>
       </RouteMap>
 
-      <div className="vb-story-off">
-        <p className="vb-muted">
-          Off the keyboard: music, Call of Duty: Black Ops 4, and a kashta (a
-          desert night out) when the forecast is right.
-        </p>
-        {/* Always starts closed; the shelf is a side note, not part of the route. */}
-        <details className="vb-details vb-story-music">
-          <summary className="vb-details-summary">On repeat: twelve artists</summary>
-          <div className="vb-details-body">
-            <MusicShelf />
-          </div>
-        </details>
-      </div>
+      {/* Always starts closed; the shelf is a side note, not part of the route. */}
+      <details className="vb-details vb-story-music">
+        <summary className="vb-details-summary">On repeat: twelve artists</summary>
+        <div className="vb-details-body">
+          <MusicShelf />
+        </div>
+      </details>
     </section>
   );
 }

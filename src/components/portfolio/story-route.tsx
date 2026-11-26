@@ -3,9 +3,9 @@ import type { ReactNode } from "react";
 type StopKind = "home" | "short" | "long" | "now" | "next";
 
 /**
- * One stop on the route: the place, when, and what happened there. On wide
- * screens the stop hangs from its point on the arc (see RouteMap); on phones
- * the stops stack along a rail, each with its own pin.
+ * One stop on the route: the place, when, and what happened there. Each stop
+ * owns its stretch of the rail and its pin: across the top on wide screens,
+ * down the left edge on phones.
  */
 export function RouteStop({
   id,
