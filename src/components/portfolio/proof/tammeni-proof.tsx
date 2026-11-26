@@ -58,7 +58,7 @@ export function TammeniProof() {
             <span className="pf-tm-rule-who">
               Reem <span className="pf-tm-rule-grade">Grade 5</span>
             </span>
-            <span className="pf-tm-rule-what">Attendance · right away, by</span>
+            <span className="pf-tm-rule-what">Get an update when Reem arrives</span>
           </legend>
           <div className="pf-tm-seg">
             {ways.map((w) => (
@@ -71,7 +71,7 @@ export function TammeniProof() {
               </label>
             ))}
           </div>
-          <p className="pf-tm-rule-note">Sample family. Every child and topic can have its own rule.</p>
+          <p className="pf-tm-rule-note">Sample family. Choose text or call for each child and type of update.</p>
         </fieldset>
 
         {/* The parent's phone, one minute after the school marked Reem present. */}
@@ -113,7 +113,7 @@ export function TammeniProof() {
                 </span>
                 <span className="pf-tm-caller">
                   <strong>Lulwa</strong>
-                  <span>Tammeni · voice</span>
+                  <span>Incoming call from Tammeni</span>
                 </span>
                 <span className="pf-tm-wave" aria-hidden="true">
                   <i />

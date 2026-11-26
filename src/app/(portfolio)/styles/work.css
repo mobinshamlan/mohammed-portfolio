@@ -316,12 +316,6 @@
   }
 }
 
-@media (min-width: 900px) {
-  .vb-proj[data-id="seet"] .vb-proj-inner {
-    padding-bottom: calc(clamp(3.5rem, 7vw, 7rem) + var(--edge) + 11rem);
-  }
-}
-
 /* Tammeni keeps its exercise-book page; its school-day line would cross the links. */
 .vb-proj[data-id="tammeni"] .vb-proj-scene > * {
   display: none;
@@ -340,20 +334,22 @@
     grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
     grid-template-areas: "head head" "visual foot";
     grid-template-rows: auto auto;
+    /* Leave room for the heading reveal so the thread stays beside the sample. */
+    row-gap: 1.5rem;
+    padding-bottom: calc(clamp(3.5rem, 7vw, 7rem) + var(--edge) + 7rem);
   }
   .vb-proj[data-id="seet"] .vb-proj-head {
-    grid-template-columns: auto minmax(0, 30rem);
-    justify-content: space-between;
+    grid-template-columns: subgrid;
     align-items: end;
-    column-gap: 3rem;
-    padding-bottom: 2rem;
-    border-bottom: 2px solid var(--field-ink);
+    column-gap: normal;
+    padding-bottom: 1.25rem;
+    border-bottom: 1px solid var(--field-ink);
   }
   .vb-proj[data-id="seet"] .vb-proj-name {
     font-size: clamp(5rem, 2rem + 7vw, 10rem);
   }
   .vb-proj[data-id="seet"] .vb-proj-foot {
-    align-self: center;
+    align-self: start;
   }
 
   .vb-proj[data-id="amanah"] .vb-proj-inner {
@@ -444,116 +440,125 @@
   }
 }
 
-/* ---------- Let's talk: one panel to close the page ---------- */
-.vb-talk {
-  padding: clamp(3rem, 7vw, 6rem) var(--gutter) calc(clamp(3rem, 6vw, 5rem) + var(--edge));
+/* The return address and local time sit on the other half of the postcard. */
+.vb .vb-talk {
+  display: block;
+  padding: clamp(2rem, 5vw, 4.5rem) var(--gutter) clamp(3.25rem, 7vw, 6rem);
 }
 
 .vb-talk-panel {
-  position: relative;
+  --talk-seam: color-mix(in srgb, var(--ribbon) 75%, var(--sand));
   display: grid;
-  justify-items: center;
+  background: var(--dusk-2);
+  border-radius: 0.4rem;
+}
+
+.vb-talk-main,
+.vb-talk-postmark {
+  display: grid;
+  align-content: start;
+  justify-items: start;
   gap: 1.25rem;
-  max-width: 56rem;
-  margin-inline: auto;
-  padding: clamp(2.5rem, 6vw, 4.5rem) clamp(1.25rem, 4vw, 3rem);
-  overflow: hidden;
-  border-radius: 1.5rem;
-  background: linear-gradient(160deg, #16244a, #0d1630 70%);
-  box-shadow: 0 2rem 4rem -2rem rgba(0, 0, 0, 0.6);
-  text-align: center;
-}
-
-.vb-talk-glow {
-  position: absolute;
-  inset: -40% 15% auto;
-  height: 80%;
-  border-radius: 50%;
-  background: radial-gradient(closest-side, rgba(134, 169, 245, 0.35), transparent);
-  filter: blur(2rem);
-  pointer-events: none;
-}
-
-.vb-talk-panel > :not(.vb-talk-glow) {
-  position: relative;
-}
-
-/* The six products' colours, the end of the line that joined them. */
-.vb-talk-swatches {
-  display: flex;
-  gap: 0.4rem;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.vb-talk-swatches li {
-  width: 0.8rem;
-  height: 0.8rem;
-  border-radius: 50%;
-  box-shadow: 0 0 0 1px rgba(242, 236, 223, 0.25);
+  min-width: 0;
+  padding: clamp(1.5rem, 5vw, 4.5rem);
 }
 
 .vb-talk-title {
-  font-family: var(--display);
+  font-size: clamp(2.15rem, 1.4rem + 4vw, 5rem);
   font-weight: 800;
-  font-size: clamp(2.4rem, 1.2rem + 5vw, 5rem);
-  line-height: 0.95;
-  letter-spacing: -0.035em;
+  line-height: 1.02;
+  letter-spacing: -0.04em;
   text-wrap: balance;
 }
 
 .vb-talk-lead {
-  color: var(--sand-2);
-  font-size: var(--step-lead);
+  max-width: 40ch;
+  color: var(--sand);
+  font-size: clamp(1rem, 0.91rem + 0.55vw, 1.35rem);
+  line-height: 1.5;
+  text-wrap: pretty;
 }
 
 .vb-talk-actions {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-  gap: 0.75rem;
-  margin-top: 0.5rem;
+  align-items: start;
+  gap: 0.55rem 0.75rem;
 }
 
-.vb .vb-talk-mail {
-  min-height: 3.25rem;
-  padding-inline: 2rem;
-  font-size: 1.1rem;
+.vb .vb-talk-mail,
+.vb .vb-talk-copy {
+  min-height: 3rem;
+  padding: 0.5rem 1.15rem;
+  border-radius: 0.25rem;
+  font-family: var(--text);
+  font-size: 1rem;
+  font-weight: 600;
 }
 
 .vb .vb-talk-copy {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.75rem;
-  min-height: 3.25rem;
-  padding: 0 0.5rem 0 1.25rem;
-  border: 1px solid rgba(242, 236, 223, 0.18);
-  border-radius: 999px;
-  background: rgba(242, 236, 223, 0.04);
+  border: 1px solid var(--ember);
+  background: transparent;
   color: var(--sand);
-  font: inherit;
   cursor: pointer;
-  transition: border-color var(--t-hover) ease;
 }
 
 .vb .vb-talk-copy:hover {
-  border-color: var(--ember);
+  background: var(--dusk-3);
 }
 
-.vb-talk-copy-hint {
-  padding: 0.35rem 0.8rem;
-  border-radius: 999px;
-  background: rgba(134, 169, 245, 0.16);
+.vb-talk-mailbox {
+  max-width: 100%;
+  color: var(--sand-2);
+  font-size: var(--step-small);
+  overflow-wrap: anywhere;
+}
+
+.vb-talk-feedback {
+  color: var(--ember);
+}
+
+.vb .vb-talk-feedback:not(:empty) {
+  margin-top: 0.35rem;
+}
+
+.vb-talk-postmark {
+  gap: 0.4rem;
+  border-top: 1px dashed var(--talk-seam);
+  border-radius: 0 0 0.4rem 0.4rem;
+  background: var(--dusk);
+}
+
+.vb-talk-city {
+  color: var(--sand);
+  font-family: var(--display);
+  font-size: clamp(1.65rem, 1.1rem + 2vw, 3rem);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.025em;
+}
+
+.vb-talk-city span {
+  display: block;
+  margin-top: 0.4rem;
+  color: var(--sand-2);
+  font-family: var(--text);
+  font-size: var(--step-small);
+  font-weight: 400;
+  letter-spacing: normal;
+}
+
+.vb-talk-time {
   color: var(--ember);
   font-size: var(--step-small);
+  font-variant-numeric: tabular-nums;
 }
 
 .vb-talk-links {
   display: flex;
-  gap: 1.75rem;
-  margin: 0;
+  flex-wrap: wrap;
+  gap: 0 1.4rem;
+  margin: 0.7rem 0 0;
   padding: 0;
   list-style: none;
 }
@@ -563,41 +568,27 @@
   align-items: center;
   min-height: 2.75rem;
   color: var(--sand);
+  font-size: 1rem;
   text-decoration: underline;
-  text-underline-offset: 0.25em;
-  text-decoration-color: rgba(242, 236, 223, 0.35);
+  text-underline-offset: 0.22em;
 }
 
 .vb-talk-links a:hover {
-  text-decoration-color: var(--ember);
+  color: var(--ember);
 }
 
-.vb-talk-status {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-  gap: 0.5rem;
-  color: var(--sand-2);
-  font-size: var(--step-small);
-}
-
-@media (max-width: 599px) {
-  .vb .vb-talk-copy {
-    max-width: 100%;
-    font-size: 0.9rem;
+@media (min-width: 850px) {
+  .vb-talk-panel {
+    grid-template-columns: minmax(0, 7fr) minmax(0, 4fr);
   }
-}
 
-.vb .vb-contact.vb-talk {
-  display: block;
-}
-
-.vb-talk-time {
-  margin-top: -0.75rem;
-  color: var(--sand-2);
-  font-size: 0.8125rem;
-  opacity: 0.8;
+  .vb-talk-postmark {
+    align-content: center;
+    padding-inline: clamp(1.75rem, 4vw, 3.5rem);
+    border-top: 0;
+    border-inline-start: 1px dashed var(--talk-seam);
+    border-radius: 0 0.4rem 0.4rem 0;
+  }
 }
 
 /* Phones: the first name only, so it never runs under Jump to. */
@@ -615,17 +606,6 @@
   }
   .vb-wordmark-short {
     display: inline;
-  }
-}
-
-/* Seet: the facts sit level with the booking track, not floating above an empty corner. */
-@media (min-width: 900px) {
-  .vb-proj[data-id="seet"] .vb-proj-inner {
-    padding-bottom: calc(clamp(3.5rem, 7vw, 7rem) + var(--edge) + 7rem);
-  }
-  .vb-proj[data-id="seet"] .vb-proj-foot {
-    align-self: end;
-    padding-bottom: 1rem;
   }
 }
 
@@ -660,6 +640,21 @@
   }
   .vb-proj[data-layout="uniform"] .vb-proj-stand {
     order: 2;
+  }
+}
+
+/* On phones, keep the sample and the project links in reading order. */
+@media (max-width: 899px) {
+  .vb-proj[data-layout="uniform"]:is(#tammeni, #seet, #gthrz) .vb-proj-foot {
+    display: grid;
+  }
+
+  .vb-proj[data-layout="uniform"]:is(#tammeni, #seet, #gthrz) .vb-proj-stand {
+    order: 0;
+  }
+
+  .vb-proj[data-layout="uniform"]:is(#tammeni, #seet, #gthrz) .vb-proj-actions {
+    margin-top: 0.35rem;
   }
 }
 

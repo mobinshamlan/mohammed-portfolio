@@ -53,7 +53,7 @@ export function GthrzProof() {
           </p>
           <p className="vb-gz-rule">
             <LockIcon />
-            Address: reveal later, going guests only
+            Only approved guests get the address, 2 hours before the event.
           </p>
           <div className="vb-gz-req" data-state={approved ? "approved" : "waiting"}>
             <span className="vb-gz-avatar" aria-hidden="true">
@@ -61,12 +61,12 @@ export function GthrzProof() {
             </span>
             <p className="vb-gz-req-who" role="status" aria-atomic="true">
               <strong>Sara A.</strong>
-              <span key={approved ? "ok" : "ask"}>{approved ? "Approved · going, 7 of 7" : "Asked to join · 2 min ago"}</span>
+              <span key={approved ? "ok" : "ask"}>{approved ? "Approved to attend" : "Asked to join"}</span>
             </p>
             <button
               type="button"
               className="vb-gz-approve"
-              aria-pressed={approved}
+              aria-label={approved ? "Undo approval for Sara" : "Approve Sara"}
               onClick={() => setApproved((a) => !a)}
             >
               {approved ? "Undo" : "Approve"}
@@ -85,8 +85,8 @@ export function GthrzProof() {
               {approved ? <PinIcon /> : <LockIcon />}
               <span className="vb-gz-where-text" key={approved ? "area" : "hidden"}>
                 <span className="vb-gz-label">Location</span>
-                <strong>{approved ? "Al-Malqa, Riyadh" : "Hidden until the host approves you"}</strong>
-                {approved ? <span className="vb-gz-fine">Exact pin 2 h before, when the host reveals it</span> : null}
+                <strong>{approved ? "Al-Malqa, Riyadh" : "Hidden until the host approves Sara"}</strong>
+                {approved ? <span className="vb-gz-fine">Exact address appears 2 hours before the event</span> : null}
               </span>
             </p>
             <p className="vb-gz-going" aria-hidden="true">

@@ -124,7 +124,7 @@
   border: 0;
   border-radius: 12px;
   background: var(--accent);
-  color: #fff;
+  color: var(--field);
   font: inherit;
   font-size: 0.9375rem;
   font-weight: 700;
@@ -142,13 +142,13 @@
   transform: scale(0.97);
 }
 
-.vb-gz .vb-gz-approve[aria-pressed="true"] {
+.vb-gz-req[data-state="approved"] .vb-gz-approve {
   background: transparent;
   box-shadow: inset 0 0 0 1.5px color-mix(in srgb, var(--gz-ink) 30%, transparent);
   color: var(--gz-ink);
 }
 
-.vb-gz .vb-gz-approve[aria-pressed="true"]:hover {
+.vb-gz-req[data-state="approved"] .vb-gz-approve:hover {
   background: color-mix(in srgb, var(--gz-ink) 8%, transparent);
 }
 

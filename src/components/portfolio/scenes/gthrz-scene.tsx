@@ -1,9 +1,8 @@
 /*
  * Gthrz keeps the address hidden until the host reveals it. Behind the phones
  * lies a quiet street map in the app's violet; one area of it is fogged and
- * ringed, with only a dashed outline where the pin will be. As the chapter
- * scrolls in, the ring closes on the spot and the pin drops in: the reveal.
- * With reduced motion it stays in the hidden state, which is the app's default.
+ * ringed, with a dashed map pin. Approving the request brings the area into
+ * view while the exact address still waits for the host’s chosen time.
  */
 
 function seeded(seed: number) {
@@ -82,10 +81,6 @@ export function GthrzScene() {
         </svg>
         <svg className="gz-ghost" viewBox="-20 -50 40 54" focusable="false">
           <path d={PIN} fill="none" stroke="#a48ff5" strokeWidth="1.6" strokeDasharray="3 3" />
-        </svg>
-        <svg className="gz-pin" viewBox="-20 -50 40 54" focusable="false">
-          <path d={PIN} fill="#8b6cf0" />
-          <circle cy="-30" r="6.5" fill="#141216" />
         </svg>
       </div>
     </div>

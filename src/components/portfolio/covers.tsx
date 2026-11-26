@@ -169,10 +169,10 @@ function Tammeni() {
   return (
     <Section id="tammeni" scene={<TammeniScene />} layout="uniform">
       <Head project={project} />
-      <Foot project={project} />
       <div className="vb-proj-visual">
         <TammeniProof />
       </div>
+      <Foot project={project} />
     </Section>
   );
 }
@@ -182,10 +182,10 @@ function Seet() {
   return (
     <Section id="seet" scene={<SeetScene />} layout="uniform">
       <Head project={project} />
-      <Foot project={project} />
       <div className="vb-proj-visual">
         <SeetProof />
       </div>
+      <Foot project={project} />
     </Section>
   );
 }
@@ -221,10 +221,10 @@ function Gthrz() {
   return (
     <Section id="gthrz" scene={<GthrzScene />} layout="uniform">
       <Head project={project} />
-      <Foot project={project} />
       <div className="vb-proj-visual">
         <GthrzProof />
       </div>
+      <Foot project={project} />
     </Section>
   );
 }
