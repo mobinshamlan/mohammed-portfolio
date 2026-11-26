@@ -77,8 +77,16 @@ export function GthrzProof() {
         {/* The guest's side: the real event screen, and what Sara can see under it. */}
         <div className="vb-gz-guest" data-ui="" data-state={approved ? "approved" : "waiting"}>
           <p className="vb-gz-guest-tag">Sara&rsquo;s phone</p>
+          {/* Two slices of the real Pizza Night screen: the cover photo, then
+              the chips, title and date. The cover's printed title band in
+              between is skipped so the art reads clean at this size. */}
           <div className="vb-gz-shot" aria-hidden="true">
-            <GthrzImg shot={gthrzShots.details} sizes="(max-width: 599px) 70vw, 280px" decorative />
+            <div className="vb-gz-slice vb-gz-slice-cover">
+              <GthrzImg shot={gthrzShots.details} sizes="(max-width: 599px) 70vw, 280px" decorative />
+            </div>
+            <div className="vb-gz-slice vb-gz-slice-rows">
+              <GthrzImg shot={gthrzShots.details} sizes="(max-width: 599px) 70vw, 280px" decorative />
+            </div>
           </div>
           <div className="vb-gz-under">
             <p className="vb-gz-where" role="status" aria-atomic="true">

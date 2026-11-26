@@ -182,19 +182,42 @@
   translate: -50% 0;
 }
 
-/* The crop: the cover, chips, title and date of the real Pizza Night screen. */
+/* The crop: two slices of the real Pizza Night screen (455 px wide, screen
+   area 373 px wide from x = 42). The cover photo is clean from y 142 to 290;
+   its printed title band is skipped; the chips, title and date rows follow
+   from y 495 to 645. Both slices scale with the phone's width. */
 .vb-gz-shot {
-  overflow: hidden;
-  aspect-ratio: 373 / 470;
+  display: grid;
+  background: #0e0d10;
 }
 
-.vb-gz-shot img {
+.vb-gz-slice {
+  overflow: hidden;
+}
+
+.vb-gz-slice img {
   display: block;
   width: calc(455 / 373 * 100%);
   max-width: none;
   height: auto;
   margin-left: calc(-42 / 373 * 100%);
-  margin-top: calc(-140 / 373 * 100%);
+}
+
+.vb-gz-slice-cover {
+  aspect-ratio: 373 / 148;
+  border-radius: 0 0 14px 14px;
+}
+
+.vb-gz-slice-cover img {
+  margin-top: calc(-142 / 373 * 100%);
+}
+
+.vb-gz-slice-rows {
+  aspect-ratio: 373 / 150;
+}
+
+.vb-gz-slice-rows img {
+  margin-top: calc(-495 / 373 * 100%);
 }
 
 .vb-gz-under {
