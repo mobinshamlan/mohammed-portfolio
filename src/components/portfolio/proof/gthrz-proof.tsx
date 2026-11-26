@@ -1,33 +1,20 @@
+"use client";
+
+import { useId, useState } from "react";
 import { Reveal } from "../reveal";
 
 /*
- * Gthrz on the home page: one invitation, as the guest sees it at each step.
- * The address stays hidden until the host approves, then shows the area, and
- * the exact pin only when the host reveals it (lib/gthrz.ts gthrzVisibility).
- * A made-up event, labelled as an example.
+ * Gthrz on the home page: one invitation, and what the guest can see of the
+ * address at each of the host's decisions (lib/gthrz.ts gthrzVisibility):
+ * hidden until approved, then the area, then the exact pin. A made-up event.
  */
 
 type Stage = "hidden" | "area" | "pin";
 
-const steps: { stage: Stage; when: string; sees: string; detail: string }[] = [
-  {
-    stage: "hidden",
-    when: "Guest asks to join",
-    sees: "Hidden until the host approves",
-    detail: "No address, no guest list.",
-  },
-  {
-    stage: "area",
-    when: "Host approves",
-    sees: "Al-Malqa, Riyadh",
-    detail: "The area and who else is going.",
-  },
-  {
-    stage: "pin",
-    when: "Host reveals the pin",
-    sees: "Gate 2, villa 14",
-    detail: "The exact location, when the host chooses.",
-  },
+const stages: { id: Stage; label: string; sees: string }[] = [
+  { id: "hidden", label: "Waiting", sees: "Hidden until the host approves" },
+  { id: "area", label: "Approved", sees: "Al-Malqa, Riyadh" },
+  { id: "pin", label: "Pin revealed", sees: "Gate 2, villa 14" },
 ];
 
 /** A small map tile: the same streets each time, and what the guest can see on them. */
@@ -60,29 +47,48 @@ function MapTile({ stage }: { stage: Stage }) {
   );
 }
 
+/**
+ * The host's three decisions as one control; the address line under the
+ * invitation answers. Without JavaScript it shows the hidden address.
+ */
 export function GthrzProof() {
+  const [stage, setStage] = useState<Stage>("hidden");
+  const id = useId();
+  const shown = stages.find((s) => s.id === stage) ?? stages[0];
+
   return (
     <Reveal className="vb-gz">
       <figure className="vb-gz-card">
-        <div className="vb-gz-event">
+        <figcaption className="vb-gz-event">
           <p className="vb-gz-title">Rooftop dinner</p>
-          <p className="vb-gz-meta">Thu 8:30 pm &middot; Location, as the guest sees it</p>
-        </div>
+          <p className="vb-gz-meta">
+            Thu 8:30 pm
+            <span className="vb-gz-note">
+              <span className="vb-sr">. </span>Example
+            </span>
+          </p>
+        </figcaption>
 
-        <ol className="vb-gz-steps">
-          {steps.map((step) => (
-            <li key={step.stage} data-stage={step.stage}>
-              <MapTile stage={step.stage} />
-              <div className="vb-gz-text">
-                <p className="vb-gz-when">{step.when}</p>
-                <p className="vb-gz-sees">{step.sees}</p>
-                <p className="vb-gz-detail">{step.detail}</p>
-              </div>
-            </li>
-          ))}
-        </ol>
+        <p className="vb-gz-where" role="status" aria-atomic="true" data-stage={stage}>
+          <MapTile stage={stage} />
+          <span className="vb-gz-text" key={stage}>
+            <span className="vb-gz-label">Location</span>
+            <span className="vb-sr">: </span>
+            <strong>{shown.sees}</strong>
+          </span>
+        </p>
 
-        <figcaption className="vb-gz-caption">Example event.</figcaption>
+        <fieldset className="vb-gz-host">
+          <legend>The host&rsquo;s decision</legend>
+          <div className="vb-gz-seg">
+            {stages.map((s) => (
+              <label key={s.id}>
+                <input type="radio" name={`${id}-stage`} value={s.id} checked={stage === s.id} onChange={() => setStage(s.id)} />
+                <span>{s.label}</span>
+              </label>
+            ))}
+          </div>
+        </fieldset>
       </figure>
     </Reveal>
   );

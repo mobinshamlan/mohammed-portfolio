@@ -1,302 +1,172 @@
-/* Seet on the home page: a booking's four states on one track. The first three
-   are Seet's to reach; the last is a dark strip only the payment can enter. */
+/* Seet on the home page: one WhatsApp reply that holds Tuesday, and under it
+   the booking's state. The AI's words can only hold; the deposit button is
+   the one thing that turns Held into Confirmed. Navy ink on the gold field. */
 
 .pf-seet {
-  container-type: inline-size;
-  --pf-node: 1.5rem;
-  --pf-grow: scaleY(0);
+  width: 100%;
+  max-width: 36rem;
+  margin-inline: auto;
 }
 
-.pf-seet-fig {
+.pf-seet-card {
   display: grid;
-  gap: 1rem;
+  gap: 0.9rem;
   margin: 0;
-}
-
-.pf-seet-flow {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  /* Phones: the message sits between the enquiry and the hold it creates. */
-  grid-template-areas: "s1" "bubble" "s2" "s3" "ai" "s4" "pay";
-}
-
-.pf-seet-track {
-  display: contents;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-/* One message from the chat, pointing at the state it creates. */
-.pf-seet-bubble {
-  grid-area: bubble;
-  position: relative;
-  display: grid;
-  gap: 0.35rem;
-  margin-bottom: 1.4rem;
-  padding: 0.85rem 1rem 0.9rem;
-  border-radius: 16px;
-  background: color-mix(in srgb, #fff 70%, var(--field));
-  color: var(--field-ink);
-  box-shadow: 0 0.9rem 1.6rem -1.2rem color-mix(in srgb, var(--field-ink) 60%, transparent);
-}
-
-.pf-seet-bubble::after {
-  content: "";
-  position: absolute;
-  inset-inline-start: calc(var(--pf-node) / 2 - 7px);
-  bottom: -7px;
-  width: 14px;
-  height: 14px;
-  background: inherit;
-  transform: rotate(45deg);
-}
-
-.pf-seet-bubble p {
-  margin: 0;
-}
-
-.pf-seet-from {
-  color: var(--field-muted);
-  font-size: 0.8125rem;
-  font-weight: 600;
-}
-
-.pf-seet-bubble [lang="ar"] {
-  font-family: var(--display);
-  font-size: 1.125rem;
-  font-weight: 500;
-  line-height: 1.6;
-}
-
-.pf-seet-gloss {
-  color: var(--field-muted);
-  font-size: 0.875rem;
-  line-height: 1.45;
-}
-
-/* The states. */
-.pf-seet-state {
-  position: relative;
-  display: grid;
-  align-content: start;
-  gap: 0.2rem;
-  padding: 0 0 1.25rem calc(var(--pf-node) + 0.9rem);
-}
-
-.pf-seet-state:nth-child(1) { grid-area: s1; }
-.pf-seet-state:nth-child(2) { grid-area: s2; }
-.pf-seet-state:nth-child(3) { grid-area: s3; }
-.pf-seet-state:nth-child(4) { grid-area: s4; }
-
-.pf-seet-node {
-  position: absolute;
-  inset-inline-start: 0;
-  top: 0;
-  display: grid;
-  place-items: center;
-  width: var(--pf-node);
-  height: var(--pf-node);
-  border: 2px solid var(--field-ink);
-  border-radius: 50%;
-  background: var(--field-ink);
-  box-shadow: inset 0 0 0 4px var(--field);
-}
-
-/* The track between states; it stops at the deposit link. */
-.pf-seet-state:nth-child(-n + 2)::after {
-  content: "";
-  position: absolute;
-  inset-inline-start: calc(var(--pf-node) / 2 - 1px);
-  top: var(--pf-node);
-  width: 2px;
-  height: calc(100% - var(--pf-node));
-  background: var(--field-ink);
-  transform-origin: top;
-}
-
-.pf-seet-state strong {
-  color: var(--field-ink);
-  font-family: var(--display);
-  font-size: 1.125rem;
-  font-weight: 700;
-  line-height: var(--pf-node);
-  letter-spacing: -0.01em;
-}
-
-.pf-seet-what {
-  max-width: 34ch;
-  color: var(--field-muted);
-  font-size: 0.875rem;
-  line-height: 1.4;
-}
-
-/* Confirmed: a dark strip, joined to the rule beneath it. */
-.pf-seet-state[data-final="true"] {
-  padding: 1rem 1rem 0.6rem calc(var(--pf-node) + 1.9rem);
-  border-radius: 14px 14px 0 0;
-  background: var(--field-ink);
-}
-
-.pf-seet-state[data-final="true"] .pf-seet-node {
-  inset-inline-start: 1rem;
-  top: 1rem;
-  border-color: var(--field);
-  background: var(--field);
-  box-shadow: none;
+  padding: clamp(0.85rem, 2vw, 1.1rem);
+  border-radius: 18px;
+  background: color-mix(in srgb, var(--field) 90%, var(--field-ink));
   color: var(--field-ink);
 }
 
-.pf-seet-node svg {
-  width: 0.85rem;
-  height: 0.85rem;
+.pf-seet svg {
+  flex: none;
+  width: 1.05rem;
+  height: 1.05rem;
   fill: none;
   stroke: currentColor;
-  stroke-width: 2.25;
+  stroke-width: 1.9;
   stroke-linecap: round;
   stroke-linejoin: round;
 }
 
-.pf-seet-state[data-final="true"] strong {
-  color: var(--field);
-}
-
-.pf-seet-state[data-final="true"] .pf-seet-what {
-  color: color-mix(in srgb, var(--field) 85%, var(--field-ink));
-}
-
-/* The rule, said under the track. */
-.pf-seet-rule {
+.pf-seet p {
   margin: 0;
-  font-size: 0.9375rem;
-  line-height: 1.35;
 }
 
-.pf-seet-rule[data-by="ai"] {
-  grid-area: ai;
-  position: relative;
-  margin-bottom: 1.25rem;
-  padding: 0.6rem 0 0;
-  border-top: 2px solid var(--field-ink);
-  color: var(--field-ink);
-  font-weight: 600;
+/* The reply, as it lands in the brand's chat. */
+.pf-seet-bubble {
+  display: grid;
+  gap: 0.2rem;
+  padding: 0.8rem 1.05rem 0.9rem;
+  border-radius: 4px 16px 16px 16px;
+  background: color-mix(in srgb, #fff 72%, var(--field));
+  box-shadow: 0 0.6rem 1.2rem -0.9rem color-mix(in srgb, var(--field-ink) 50%, transparent);
 }
 
-/* Bracket ends, so the line reads as "this far". */
-.pf-seet-rule[data-by="ai"]::before,
-.pf-seet-rule[data-by="ai"]::after {
-  content: "";
-  position: absolute;
-  top: -0.55rem;
-  width: 2px;
-  height: 0.55rem;
-  background: var(--field-ink);
-}
-
-.pf-seet-rule[data-by="ai"]::before {
-  inset-inline-start: 0;
-}
-
-.pf-seet-rule[data-by="ai"]::after {
-  inset-inline-end: 0;
-}
-
-.pf-seet-rule[data-by="pay"] {
-  grid-area: pay;
-  padding: 0.35rem 1rem 1rem calc(var(--pf-node) + 1.9rem);
-  border-radius: 0 0 14px 14px;
-  background: var(--field-ink);
-  color: var(--field);
-  font-family: var(--display);
-  font-size: 1.0625rem;
+.pf-seet-from {
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
+  padding-bottom: 0.15rem;
+  font-size: 0.8125rem;
   font-weight: 700;
 }
 
 .pf-seet-note {
-  margin: 0;
+  font-weight: 400;
   color: var(--field-muted);
-  font-size: 0.8125rem;
 }
 
-/* Wide enough for the track to run left to right. */
-@container (min-width: 560px) {
-  .pf-seet {
-    --pf-grow: scaleX(0);
-  }
+.pf-seet-ar {
+  font-family: var(--display);
+  font-size: 1.1875rem;
+  font-weight: 700;
+  line-height: 1.5;
+  text-align: right;
+}
 
-  .pf-seet-flow {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    grid-template-areas:
-      "bubble bubble bubble ."
-      "s1 s2 s3 s4"
-      "ai ai ai pay";
-  }
+.pf-seet-gloss {
+  font-size: 0.875rem;
+  line-height: 1.4;
+  color: var(--field-muted);
+}
 
-  .pf-seet-bubble::after {
-    inset-inline-start: calc(100% / 3 + var(--pf-node) / 2 - 7px);
-  }
+/* The booking's state, and the one action that can change it. */
+.pf-seet-foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem 1rem;
+}
 
-  .pf-seet-state {
-    padding: calc(1rem + var(--pf-node) + 0.75rem) 1rem 1rem 0;
-  }
+.pf-seet-status {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.35rem 0.65rem;
+  font-size: 0.9375rem;
+  line-height: 1.35;
+}
 
-  .pf-seet-node {
-    top: 1rem;
-  }
+.pf-seet-status strong {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  min-height: 2.25rem;
+  padding: 0 0.9rem 0 0.7rem;
+  border: 1.5px dashed var(--field-ink);
+  border-radius: 999px;
+  font-size: 0.9375rem;
+  font-weight: 700;
+}
 
-  .pf-seet-state:nth-child(-n + 3)::after {
-    content: "";
-    position: absolute;
-    inset-inline-start: var(--pf-node);
-    top: calc(1rem + var(--pf-node) / 2 - 1px);
-    width: calc(100% - var(--pf-node));
-    height: 2px;
-    background: var(--field-ink);
-    transform-origin: left;
-  }
+.pf-seet-status[data-paid="true"] strong {
+  border-style: solid;
+  background: var(--field-ink);
+  color: var(--field);
+}
 
-  .pf-seet-state[data-final="true"] {
-    padding: calc(1rem + var(--pf-node) + 0.75rem) 1rem 0.6rem;
-  }
+.pf-seet-by {
+  font-weight: 600;
+}
 
-  .pf-seet-rule[data-by="ai"] {
-    margin: 0.25rem 1rem 0 0;
-  }
+.pf-seet .pf-seet-pay {
+  min-height: 2.75rem;
+  padding: 0 1.15rem;
+  border: 1.5px solid var(--field-ink);
+  border-radius: 999px;
+  background: var(--field-ink);
+  color: var(--field);
+  font: inherit;
+  font-size: 0.9375rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition:
+    background-color 180ms var(--ease-out),
+    color 180ms var(--ease-out);
+}
 
-  .pf-seet-rule[data-by="pay"] {
-    padding: 0.35rem 1rem 1rem;
+.pf-seet .pf-seet-pay:hover {
+  background: color-mix(in srgb, var(--field-ink) 82%, var(--field));
+}
+
+.pf-seet .pf-seet-status[data-paid="true"] + .pf-seet-pay {
+  background: transparent;
+  color: var(--field-ink);
+}
+
+.pf-seet .pf-seet-status[data-paid="true"] + .pf-seet-pay:hover {
+  background: color-mix(in srgb, var(--field-ink) 10%, transparent);
+}
+
+.pf-seet-pay:focus-visible {
+  outline: 2px solid var(--field-ink);
+  outline-offset: 3px;
+}
+
+/* Without JavaScript the hold stands on its own. */
+.pf-seet-pay:disabled {
+  visibility: hidden;
+}
+
+/* Phones: the button takes the full width under the state. */
+@media (max-width: 479px) {
+  .pf-seet-pay {
+    flex: 1 1 100%;
   }
 }
 
-/* On entry: the message lands, the track draws state by state, then the strip rises. */
+/* The state locks in. Reduced motion: it simply changes. */
 @media (prefers-reduced-motion: no-preference) {
-  .vb[data-motion="on"] .pf-seet[data-wait="true"]:not([data-in]) .pf-seet-state::after {
-    transform: var(--pf-grow);
+  .pf-seet-status strong {
+    animation: pf-seet-lock 420ms var(--ease-expo);
   }
 
-  .vb[data-motion="on"] .pf-seet[data-wait="true"]:not([data-in]) .pf-seet-node {
-    transform: scale(0.4);
+  @keyframes pf-seet-lock {
+    from {
+      opacity: 0.3;
+      transform: scale(0.92);
+    }
   }
-
-  .vb[data-motion="on"] .pf-seet[data-wait="true"]:not([data-in]) :is(.pf-seet-bubble, .pf-seet-state[data-final="true"], .pf-seet-rule[data-by="pay"]) {
-    transform: translateY(12px);
-  }
-
-  .vb[data-motion="on"] .pf-seet[data-in="true"] :is(.pf-seet-bubble, .pf-seet-state, .pf-seet-node, .pf-seet-rule) {
-    transition: transform 0.6s var(--ease-expo);
-  }
-
-  .vb[data-motion="on"] .pf-seet[data-in="true"] .pf-seet-state::after {
-    transition: transform 0.5s var(--ease-out);
-  }
-
-  .vb[data-motion="on"] .pf-seet[data-in="true"] .pf-seet-state:nth-child(1) .pf-seet-node { transition-delay: 0.15s; }
-  .vb[data-motion="on"] .pf-seet[data-in="true"] .pf-seet-state:nth-child(1)::after { transition-delay: 0.25s; }
-  .vb[data-motion="on"] .pf-seet[data-in="true"] .pf-seet-state:nth-child(2) .pf-seet-node { transition-delay: 0.45s; }
-  .vb[data-motion="on"] .pf-seet[data-in="true"] .pf-seet-state:nth-child(2)::after { transition-delay: 0.55s; }
-  .vb[data-motion="on"] .pf-seet[data-in="true"] .pf-seet-state:nth-child(3) .pf-seet-node { transition-delay: 0.75s; }
-  .vb[data-motion="on"] .pf-seet[data-in="true"] .pf-seet-state:nth-child(3)::after { transition-delay: 0.85s; }
-  .vb[data-motion="on"] .pf-seet[data-in="true"] .pf-seet-state[data-final="true"],
-  .vb[data-motion="on"] .pf-seet[data-in="true"] .pf-seet-rule[data-by="pay"] { transition-delay: 1.1s; }
-  .vb[data-motion="on"] .pf-seet[data-in="true"] .pf-seet-state[data-final="true"] .pf-seet-node { transition-delay: 1.2s; }
 }

@@ -1,3 +1,6 @@
+"use client";
+
+import { useId, useState } from "react";
 import { Reveal } from "../reveal";
 
 function TextIcon() {
@@ -16,76 +19,69 @@ function CallIcon() {
   );
 }
 
-const rules = [
-  { topic: "Attendance", how: "Text", when: "Right away", icon: <TextIcon />, sent: "text" },
-  { topic: "Grades", how: "Call", when: "Weekly", icon: <CallIcon />, sent: "call" },
-  { topic: "Exams", how: "Call", when: "Daily", icon: <CallIcon /> },
+/* The same news, two ways: the parent picks, per child and per topic. */
+const ways = [
+  {
+    id: "text",
+    label: "Text",
+    icon: <TextIcon />,
+    from: "Text · 7:05 am",
+    ar: "ريم وصلت المدرسة الساعة ٧:٠٥ الصبح.",
+    en: "Reem got to school at 7:05 this morning.",
+  },
+  {
+    id: "call",
+    label: "Call",
+    icon: <CallIcon />,
+    from: "Lulwa calling · 7:05 am",
+    ar: "هلا، معك لولوة. ريم وصلت المدرسة الساعة ٧:٠٥.",
+    en: "Hi, it’s Lulwa. Reem got to school at 7:05.",
+  },
 ] as const;
 
 /**
- * Tammeni on the home page: one parent's choices for one child, and what
- * those choices send. The same words (text, right away; call, weekly) tie
- * each rule to its message. No controls; the live demo is a link away.
+ * Tammeni on the home page: the parent chooses how Reem's attendance news
+ * reaches them, and the message below changes to match. Without JavaScript
+ * it shows the text.
  */
 export function TammeniProof() {
+  const [way, setWay] = useState<(typeof ways)[number]["id"]>("text");
+  const id = useId();
+  const shown = ways.find((w) => w.id === way) ?? ways[0];
+
   return (
     <Reveal className="pf-tammeni">
-      <figure className="pf-tammeni-fig">
-        <div className="pf-tammeni-board">
-          <div className="pf-tammeni-rules">
-            <p className="pf-tammeni-who">
-              <strong>Reem&rsquo;s alerts</strong>
-              <span>chosen by her parent</span>
-            </p>
-            <table>
-              <caption className="vb-sr">How and when Reem&rsquo;s parent hears each kind of school news</caption>
-              <thead className="vb-sr">
-                <tr>
-                  <th scope="col">News</th>
-                  <th scope="col">How</th>
-                  <th scope="col">When</th>
-                </tr>
-              </thead>
-              <tbody>
-                {rules.map((rule) => (
-                  <tr key={rule.topic} data-sent={"sent" in rule ? rule.sent : undefined}>
-                    <th scope="row">{rule.topic}</th>
-                    <td className="pf-tammeni-how">
-                      {rule.icon}
-                      {rule.how}
-                    </td>
-                    <td className="pf-tammeni-when">{rule.when}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-            <p className="pf-tammeni-other">Her brother Nawaf has his own rules: no attendance alerts at all.</p>
+      <figure className="pf-tammeni-card">
+        <fieldset className="pf-tammeni-pick">
+          <legend>How should Reem&rsquo;s attendance news reach you?</legend>
+          <div className="pf-tammeni-seg">
+            {ways.map((w) => (
+              <label key={w.id}>
+                <input type="radio" name={`${id}-way`} value={w.id} checked={way === w.id} onChange={() => setWay(w.id)} />
+                <span>
+                  {w.icon}
+                  {w.label}
+                </span>
+              </label>
+            ))}
           </div>
+        </fieldset>
 
-          <ul className="pf-tammeni-sent" aria-label="What those choices send">
-            <li data-kind="text">
-              <p className="pf-tammeni-meta">
-                <TextIcon />
-                Text, right away · 7:05 am
-              </p>
-              <p lang="ar" dir="rtl">
-                ريم وصلت المدرسة الساعة ٧:٠٥ الصبح.
-              </p>
-              <p className="pf-tammeni-gloss">Reem got to school at 7:05 this morning.</p>
-            </li>
-            <li data-kind="call">
-              <p className="pf-tammeni-meta">
-                <CallIcon />
-                Call, weekly · Lulwa speaking
-              </p>
-              <p lang="ar" dir="rtl">
-                هلا، معك لولوة. هذا ملخص درجات ريم لهالأسبوع.
-              </p>
-              <p className="pf-tammeni-gloss">Hi, it&rsquo;s Lulwa. Here is Reem&rsquo;s grades summary for the week.</p>
-            </li>
-          </ul>
-        </div>
-        <figcaption className="pf-tammeni-note">Example family.</figcaption>
+        <figcaption className="pf-tammeni-live" role="status" aria-atomic="true">
+          <div className="pf-tammeni-msg" data-kind={shown.id} key={shown.id}>
+            <p className="pf-tammeni-from">
+              {shown.icon}
+              {shown.from}
+              <span className="pf-tammeni-note">
+                <span className="vb-sr">. </span>Example
+              </span>
+            </p>
+            <p className="pf-tammeni-ar" lang="ar" dir="rtl">
+              {shown.ar}
+            </p>
+            <p className="pf-tammeni-gloss">{shown.en}</p>
+          </div>
+        </figcaption>
       </figure>
     </Reveal>
   );
