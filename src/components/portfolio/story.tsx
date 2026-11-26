@@ -24,7 +24,7 @@ export function Story() {
   return (
     <section id="about" className="vb-story" aria-labelledby="about-title">
       <header className="vb-story-head">
-        <SectionTitle id="about-title" en="Where I come from." ar="من وين أنا" />
+        <SectionTitle id="about-title" en="Where I come from." />
         <Reveal delay={0.08}>
           <p className="vb-lead">Home, four years in London, and home again.</p>
         </Reveal>
@@ -36,7 +36,6 @@ export function Story() {
             id="story-home"
             kind="home"
             en="Saudi Arabia"
-            ar="السعودية"
             when="Where I grew up"
             aside={
               <Image
@@ -51,7 +50,7 @@ export function Story() {
             }
           />
 
-          <RouteStop id="story-brighton" kind="short" en="Brighton" ar="برايتون" when="About six months">
+          <RouteStop id="story-brighton" kind="short" en="Brighton" when="About six months">
             <p className="vb-route-line">English language studies.</p>
           </RouteStop>
 
@@ -59,7 +58,6 @@ export function Story() {
             id="journey"
             kind="long"
             en="London"
-            ar="لندن"
             when="2022–2026"
             aside={
               <div className="vb-route-keep">
@@ -143,7 +141,6 @@ export function Story() {
             id="story-now"
             kind="now"
             en="Home again"
-            ar="السعودية"
             when={
               <>
                 <span className="vb-route-now-tag">Now</span> 2026

@@ -66,7 +66,7 @@ export function Toolkit() {
   return (
     <section id="skills" className="vb-tools" data-sel={selected} aria-labelledby="skills-title">
       <div className="vb-tools-head">
-        <SectionTitle id="skills-title" en="What I work with." ar="أدواتي" />
+        <SectionTitle id="skills-title" en="What I work with." />
         <p className="vb-tools-lead">One row per skill: what I did with it, the tools, and the projects that show it.</p>
 
         {hydrated ? (

@@ -5,7 +5,7 @@ export function Footer() {
   return (
     <footer className="vb-footer">
       <p className="vb-footer-name">
-        Mohammed Bin&nbsp;Shamlan <span lang="ar">محمد بن شملان</span>
+        Mohammed Bin&nbsp;Shamlan
       </p>
       <div className="vb-footer-grid">
         <ul>

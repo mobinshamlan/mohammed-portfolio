@@ -148,7 +148,7 @@ export function Jumper() {
           <circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" strokeWidth="2" />
           <path d="M15.5 15.5 21 21" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
         </svg>
-        <span lang="ar" className="vb-jump-ar">وين؟</span> <span className="vb-jump-text">Jump to</span>
+        <span className="vb-jump-text">Jump to</span>
         <kbd aria-hidden="true">{/Mac|iPhone|iPad/.test(navigator.userAgent) ? "⌘K" : "Ctrl K"}</kbd>
       </button>
       <dialog
@@ -181,7 +181,7 @@ export function Jumper() {
         <div className="vb-jump-body">
           <div className="vb-jump-head">
             <label htmlFor={`${listId}-q`} className="vb-jump-label">
-              Where to? <span lang="ar">وين تبي تروح؟</span>
+              Where to?
             </label>
             <button ref={closeButton} type="button" className="vb-jump-close" onClick={close}>
               Close

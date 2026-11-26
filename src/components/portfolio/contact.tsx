@@ -116,7 +116,7 @@ export function Contact() {
   return (
     <section id="contact" className="vb-contact" aria-labelledby="contact-title">
       <div className="vb-contact-top">
-        <SectionTitle id="contact-title" en="Let's talk." ar="تواصل معي" />
+        <SectionTitle id="contact-title" en="Let's talk." />
         <Reveal delay={0.08}>
           <p className="vb-lead">
             A role, a project, or a question, in Arabic or English.

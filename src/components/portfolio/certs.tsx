@@ -73,7 +73,7 @@ export function Certs() {
 
   return (
     <section id="certificates" className="vb-certs vb-certs-compact" aria-labelledby="certs-title">
-      <SectionTitle id="certs-title" en="Certificates." ar="الشهادات" />
+      <SectionTitle id="certs-title" en="Certificates." />
 
       <ul className="vb-certs-rows">
         {listed.map((item) => (

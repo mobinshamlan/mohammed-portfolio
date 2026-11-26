@@ -11,7 +11,6 @@ export function RouteStop({
   id,
   kind,
   en,
-  ar,
   when,
   aside,
   children,
@@ -19,7 +18,6 @@ export function RouteStop({
   id?: string;
   kind: StopKind;
   en: ReactNode;
-  ar?: string;
   when: ReactNode;
   /** Shown beside the place name where there is room, such as certificates. */
   aside?: ReactNode;
@@ -32,11 +30,6 @@ export function RouteStop({
         <div>
           <h3 className="vb-route-place">
             {en}
-            {ar ? (
-              <span lang="ar" dir="rtl">
-                {ar}
-              </span>
-            ) : null}
           </h3>
           <p className="vb-route-when">{when}</p>
         </div>
