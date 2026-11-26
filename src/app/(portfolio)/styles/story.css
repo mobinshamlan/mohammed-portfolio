@@ -1,193 +1,108 @@
-/* ---------- Where I come from: one rail, home to London and home again ----------
-   The route is one rail through five stops. Travelling stretches are dotted,
-   London is a thick line in the hood's blue over its own lit panel, and what
-   comes next trails off. On wide screens the rail runs across the page, each
-   stop as wide as it weighs; on phones it runs down the left edge. */
-
+/* The route from the childhood portrait to London documents to projects at home. */
 .vb-story {
-  padding: clamp(3.5rem, 6vw, 6rem) var(--gutter);
+  --route-thread: color-mix(in srgb, var(--ribbon) 75%, var(--sand));
+  --route-pin-size: 0.75rem;
+  --route-pin-center: calc(var(--route-pin-size) / 2);
+  padding: clamp(3.5rem, 7vw, 6.5rem) var(--gutter) clamp(2rem, 4vw, 3.5rem);
   scroll-margin-top: 4rem;
 }
 
-.vb-route-map {
-  margin-top: clamp(2rem, 4vw, 3.5rem);
-}
-
 .vb-route {
-  display: flex;
-  flex-direction: column;
-  margin: 0;
+  position: relative;
+  display: grid;
+  margin: clamp(2rem, 4vw, 3.75rem) 0 0;
   padding: 0;
   list-style: none;
 }
 
-/* ---------- A stop: its stretch of rail, its pin, its name ---------- */
-
 .vb-route-stop {
-  --rail-w: 2px;
-  --rail-style: dotted;
-  --rail-color: color-mix(in srgb, var(--sand-2) 70%, transparent);
   position: relative;
-  isolation: isolate;
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  align-items: start;
+  gap: 0.8rem;
   min-width: 0;
-  padding: 0 0 2rem 2rem;
+  padding: 0 0 1.85rem 1.5rem;
   scroll-margin-top: 5rem;
 }
 
-.vb-route-stop::before {
+.vb-route-stop:last-child {
+  padding-bottom: 0;
+}
+
+.vb-route-stop:not(:last-child)::before {
   content: "";
   position: absolute;
-  top: 0.6rem;
-  bottom: 0;
-  left: calc(0.45rem - var(--rail-w) / 2);
-  border-left: var(--rail-w) var(--rail-style) var(--rail-color);
-  transform-origin: top;
-}
-
-.vb-route-stop[data-kind="long"] {
-  --rail-w: 6px;
-  --rail-style: solid;
-  --rail-color: var(--ember);
-}
-
-.vb-route-stop[data-kind="next"] {
-  --rail-style: dashed;
-  --rail-color: color-mix(in srgb, var(--sand-2) 35%, transparent);
-  padding-bottom: 0;
+  inset: calc(0.42rem + var(--route-pin-center)) auto calc(-0.42rem - var(--route-pin-center)) var(--route-pin-center);
+  border-inline-start: 1px dashed var(--route-thread);
 }
 
 .vb-route-pin {
   position: absolute;
   z-index: 1;
-  top: 0.15rem;
-  left: 0;
-  width: 0.9rem;
-  height: 0.9rem;
-  border: 2px solid var(--sand);
+  inset: 0.42rem auto auto 0;
+  width: var(--route-pin-size);
+  height: var(--route-pin-size);
+  border: 1px solid var(--route-thread);
   border-radius: 50%;
   background: var(--night);
 }
 
-.vb-route-stop[data-kind="long"] .vb-route-pin {
-  border-color: var(--ember);
-}
-
-.vb-route-stop[data-kind="now"] .vb-route-pin {
-  border: 0;
-  background: var(--ember);
-  box-shadow: 0 0 0 0.35rem color-mix(in srgb, var(--ember) 22%, transparent);
-}
-
-.vb-route-stop[data-kind="next"] .vb-route-pin {
-  border-style: dashed;
-  border-color: var(--sand-2);
+.vb-route-stop[data-kind="return"] .vb-route-pin {
+  background: var(--route-thread);
 }
 
 .vb-route-head {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: start;
-  justify-content: space-between;
-  gap: 1rem 1.5rem;
+  display: grid;
+  gap: 0.25rem;
 }
 
 .vb-route-place {
-  font-size: clamp(1.5rem, 1.2rem + 0.6vw, 1.7rem);
-  line-height: 1.05;
-  letter-spacing: -0.02em;
-  text-wrap: balance;
+  font-size: clamp(1.4rem, 1.15rem + 0.75vw, 2rem);
+  line-height: 1.12;
+  letter-spacing: -0.028em;
 }
 
-.vb-route-when {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 0.5rem;
-  margin-top: 0.4rem;
+.vb-route-when,
+.vb-route-year {
   color: var(--ember);
   font-size: var(--step-small);
   font-weight: 500;
-  line-height: 1.3;
   font-variant-numeric: tabular-nums;
 }
 
-.vb-route-now-tag {
-  padding: 0.05rem 0.55rem;
-  border-radius: 999px;
-  background: var(--ember);
-  color: var(--ember-ink);
-  font-size: 0.8rem;
-  font-weight: 700;
-}
-
-.vb-route-line {
-  max-width: 30ch;
+.vb-route-line,
+.vb-route-grant,
+.vb-route-facts {
+  max-width: 50ch;
   color: var(--sand-2);
-  font-size: var(--step-small);
-  line-height: 1.45;
-}
-
-/* ---------- Saudi Arabia: the childhood photo ---------- */
-
-.vb-route-child {
-  display: block;
-  width: min(100%, 9rem);
-  height: auto;
-  aspect-ratio: 4 / 5;
-  object-fit: cover;
-  border-radius: 0.75rem;
-  box-shadow: 0 1rem 2rem -1.25rem rgb(0 0 0 / 0.8);
-}
-
-/* ---------- London: the long stretch, on its own lit panel ---------- */
-
-.vb-route-stop[data-kind="long"] {
-  gap: 1.25rem;
-  padding: 1.5rem 1.25rem 3.75rem 3rem;
-}
-
-.vb-route-stop[data-kind="long"]::after {
-  content: "";
-  position: absolute;
-  z-index: -1;
-  inset: 0 0 2rem 1.25rem;
-  border-radius: 1rem;
-  background: color-mix(in srgb, var(--ember) 11%, var(--night));
-}
-
-.vb-route-stop[data-kind="long"] .vb-route-pin {
-  top: 1.65rem;
-}
-
-.vb-route-stop[data-kind="long"]::before {
-  top: 0;
-}
-
-.vb-route-stop[data-kind="long"] .vb-route-place {
-  font-size: clamp(3rem, 2rem + 3.2vw, 5rem);
-  line-height: 0.9;
-  letter-spacing: -0.035em;
-}
-
-.vb-route-stop[data-kind="long"] .vb-route-when {
-  margin-top: 0.6rem;
-  font-size: var(--step-body);
-}
-
-.vb-route-grant {
-  max-width: 44ch;
-  color: var(--sand);
-  font-size: var(--step-body);
+  font-size: 1rem;
   line-height: 1.45;
   text-wrap: pretty;
 }
 
+/* At the start of the route the original photo is the largest artefact. */
+.vb-route-stop[data-kind="home"] {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(5rem, 32%);
+}
+
+.vb .vb-route-child {
+  width: 100%;
+  max-width: 9rem;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  object-position: 50% 32%;
+  border-radius: 0.2rem;
+}
+
+.vb-route-stop[data-kind="london"] .vb-route-place {
+  font-size: clamp(2rem, 1.55rem + 1.45vw, 3rem);
+}
+
 .vb-route-facts {
   display: grid;
-  gap: 0.6rem;
+  gap: 0.7rem;
   margin: 0;
   padding: 0;
   list-style: none;
@@ -195,11 +110,8 @@
 
 .vb-route-facts li {
   display: grid;
-  grid-template-columns: 4.25rem minmax(0, 1fr);
-  gap: 0.75rem;
-  color: var(--sand-2);
-  font-size: var(--step-small);
-  line-height: 1.45;
+  grid-template-columns: 4.05rem minmax(0, 1fr);
+  gap: 0.55rem;
 }
 
 .vb-route-facts strong {
@@ -207,347 +119,190 @@
   font-weight: 600;
 }
 
-.vb-route-year {
-  color: var(--ember);
-  font-weight: 500;
-  font-variant-numeric: tabular-nums;
-}
-
-/* The two certificates, laid on the panel like papers on a desk. */
 .vb-route-keep {
-  --thumb-h: 4.75rem;
   display: flex;
-  flex: none;
-  align-items: start;
-  padding: 0.25rem 0.25rem 0 0;
+  flex-wrap: wrap;
+  gap: 0.8rem 1.25rem;
+  margin-top: 0.45rem;
 }
 
-.vb-route-doc {
-  display: inline-flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.5rem;
+.vb .vb-route-doc {
+  display: inline-grid;
+  justify-items: start;
+  gap: 0.45rem;
   min-height: 2.75rem;
-  margin: 0;
   padding: 0;
   border: 0;
-  border-radius: 0.5rem;
-  background: none;
-  color: var(--ember);
+  background: transparent;
+  color: var(--sand);
   font: inherit;
-  font-size: 0.875rem;
-  line-height: 1.3;
+  font-size: var(--step-small);
+  text-align: start;
+  text-decoration: none;
   cursor: pointer;
-}
-
-.vb-route-doc + .vb-route-doc {
-  margin-left: 1.5rem;
 }
 
 .vb-route-doc-img {
   display: block;
-  height: var(--thumb-h);
-  overflow: hidden;
-  border-radius: 0.25rem;
-  outline: 2px solid transparent;
-  outline-offset: 3px;
-  box-shadow: 0 0.75rem 1.5rem -0.75rem rgb(0 0 0 / 0.75);
-  transform: rotate(-5deg);
-  transition: outline-color var(--t-hover) ease, transform var(--t-ui) var(--ease-out);
+  height: clamp(3.85rem, 7vw, 5.5rem);
+  padding: 0.2rem;
+  border-radius: 0.2rem;
+  background: var(--sand);
 }
 
-.vb-route-doc + .vb-route-doc .vb-route-doc-img {
-  transform: rotate(4deg) translateY(0.4rem);
-}
-
-.vb-route-doc-img img {
-  display: block;
+.vb .vb-route-doc-img img {
   width: auto;
   height: 100%;
+  border-radius: 0.1rem;
 }
 
-.vb-route-doc-cap {
-  white-space: nowrap;
-  text-decoration: underline;
-  text-underline-offset: 0.2em;
-}
-
-.vb-route-doc + .vb-route-doc .vb-route-doc-cap {
-  margin-top: 0.4rem;
-}
-
-.vb-route-doc:hover .vb-route-doc-img,
-.vb-route-doc:focus-visible .vb-route-doc-img {
-  outline-color: var(--ember);
-  transform: rotate(0deg) translateY(-3px);
-}
-
-/* ---------- Home again: what I build for life here ---------- */
-
-.vb-route-built {
-  margin-top: 0.25rem;
-  color: var(--sand);
-  font-size: var(--step-small);
-  font-weight: 600;
-}
-
-.vb-route-work {
-  display: flex;
-  flex-direction: column;
-  gap: 0.35rem;
-  margin: -0.35rem 0 0;
-  padding: 0;
-  list-style: none;
-}
-
-/* Each chip carries its product's own colour, and links to its chapter. */
-.vb-route-chip {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  min-height: 2.75rem;
-  padding: 0.2rem 0.75rem 0.2rem 0.2rem;
-  border-radius: 0.6rem;
-  color: var(--sand-2);
-  font-size: 0.875rem;
-  line-height: 1.25;
-  text-decoration: none;
-  transition: background-color var(--t-hover) ease;
-}
-
-.vb-route-swatch {
-  display: grid;
-  place-items: center;
-  flex: none;
-  width: 3.5rem;
-  height: 2.5rem;
-  border-radius: 0.4rem;
-  background: var(--chip);
-  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--sand) 22%, transparent);
-  color: var(--chip-ink);
-  font-size: 0.9rem;
-  font-weight: 600;
-  transition: transform var(--t-ui) var(--ease-out);
-}
-
+.vb-route-doc-cap,
 .vb-route-chip-text strong {
-  display: block;
-  color: var(--sand);
-  font-weight: 600;
   text-decoration: underline;
   text-decoration-color: color-mix(in srgb, var(--ember) 60%, transparent);
   text-underline-offset: 0.2em;
 }
 
-.vb-route-chip:hover {
-  background: color-mix(in srgb, var(--sand) 7%, transparent);
-}
-
-.vb-route-chip:hover .vb-route-swatch {
-  transform: translateX(2px) rotate(-2deg);
-}
-
+.vb-route-doc:hover .vb-route-doc-cap,
 .vb-route-chip:hover strong {
   text-decoration-color: var(--ember);
 }
 
-/* ---------- Off the keyboard ---------- */
+.vb .vb-route-built {
+  margin-top: 0.3rem;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.vb-route-work {
+  display: grid;
+  gap: 0.3rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.vb-route-chip {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-height: 3rem;
+  color: var(--sand);
+  text-decoration: none;
+}
+
+.vb-route-swatch {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 3.6rem;
+  height: 2.35rem;
+  border: 1px solid color-mix(in srgb, var(--chip-ink) 25%, transparent);
+  border-radius: 0.3rem;
+  background: var(--chip);
+  color: var(--chip-ink);
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1;
+}
+
+.vb-route-chip-text {
+  display: grid;
+  gap: 0.12rem;
+  font-size: var(--step-small);
+  line-height: 1.25;
+}
+
+.vb-route-chip-text span {
+  color: var(--sand-2);
+}
 
 .vb-story-music {
   margin-top: clamp(1.5rem, 3vw, 2.5rem);
 }
 
-.vb-story-music .vb-details-summary {
-  font-size: var(--step-body);
-}
-
-/* ---------- Phones: Saudi Arabia keeps its photo beside the name ---------- */
-
-@media (max-width: 1099px) {
-  .vb-route-stop[data-kind="home"] {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) 6.5rem;
-    align-items: start;
+@media (max-width: 459px) {
+  .vb-route-facts li {
+    display: block;
   }
 
-  .vb-route-stop[data-kind="home"] .vb-route-child {
-    grid-column: 2;
-    grid-row: 1;
+  .vb-route-year {
+    display: block;
+    margin-bottom: 0.12rem;
   }
 }
 
-@media (max-width: 479px) {
-  .vb-route-stop[data-kind="long"] .vb-route-head {
-    flex-direction: column;
-  }
-
-  .vb-route-keep {
-    padding-left: 0.5rem;
-  }
-}
-
-@media (min-width: 600px) and (max-width: 1099px) {
-  .vb-route-work {
-    flex-direction: row;
-    flex-wrap: wrap;
-    gap: 0.5rem 1rem;
-  }
-}
-
-/* ---------- Wide screens: the rail runs across, each stop as wide as it weighs ---------- */
-
-@media (min-width: 1100px) {
+@media (min-width: 1024px) {
   .vb-route {
-    display: grid;
-    grid-template-columns:
-      minmax(0, 13.5rem) minmax(0, 10.5rem) minmax(0, 1fr)
-      minmax(0, 15rem) minmax(0, 8rem);
-    align-items: stretch;
+    --route-gap: clamp(2rem, 4vw, 4.5rem);
+    grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.7fr) minmax(0, 1fr);
+    column-gap: var(--route-gap);
   }
 
   .vb-route-stop {
-    gap: 0.85rem;
-    padding: 2.25rem clamp(1.25rem, 2vw, 2.25rem) 0 0;
+    gap: 0.9rem;
+    padding: 1.6rem 0 0;
   }
 
-  /* The stretch of rail this stop owns, across its top. */
-  .vb-route-stop::before {
-    top: calc(0.45rem - var(--rail-w) / 2);
-    right: 0;
-    bottom: auto;
-    left: 0;
-    border-left: 0;
-    border-top: var(--rail-w) var(--rail-style) var(--rail-color);
+  .vb-route-stop:not(:last-child)::before {
+    --route-start: scaleX(0);
+    inset: var(--route-pin-center) calc(-1 * var(--route-gap)) auto var(--route-pin-center);
+    border-inline-start: 0;
+    border-top: 1px dashed var(--route-thread);
     transform-origin: left;
+  }
+
+  .vb-route-stop[data-kind="home"] {
+    display: flex;
+    grid-area: 1 / 1 / span 2;
+  }
+
+  .vb .vb-route-child {
+    max-width: 16rem;
+  }
+
+  .vb-route-stop[data-kind="brighton"] {
+    grid-area: 1 / 2;
+    padding: 1.6rem 0 1.3rem 1.4rem;
+  }
+
+  .vb-route-stop[data-kind="brighton"]::before {
+    --route-start: scaleY(0);
+    inset-inline-end: auto;
+    bottom: calc(-1 * var(--route-pin-center));
+    border-top: 0;
+    border-inline-start: 1px dashed var(--route-thread);
+    transform-origin: top;
+  }
+
+  .vb-route-stop[data-kind="london"] {
+    grid-area: 2 / 2;
+    padding-inline-start: 1.4rem;
+  }
+
+  .vb-route-stop[data-kind="return"] {
+    grid-area: 2 / 3;
   }
 
   .vb-route-pin {
     top: 0;
   }
-
-  .vb-route-stop[data-kind="next"] {
-    padding-right: 0;
-  }
-
-  /* The trail ahead fades out before the edge. */
-  .vb-route-stop[data-kind="next"]::before {
-    mask-image: linear-gradient(to right, #000 40%, transparent);
-  }
-
-  .vb-route-child {
-    width: min(100%, 11.5rem);
-  }
-
-  /* London: the panel hangs from its stretch of rail. */
-  .vb-route-stop[data-kind="long"] {
-    margin: 0 clamp(1.25rem, 2vw, 2.25rem) 0 0;
-    padding: 3.75rem clamp(1.5rem, 2.5vw, 2.5rem) 2rem;
-  }
-
-  .vb-route-stop[data-kind="long"]::before {
-    top: calc(0.45rem - var(--rail-w) / 2);
-    right: calc(clamp(1.25rem, 2vw, 2.25rem) * -1);
-  }
-
-  .vb-route-stop[data-kind="long"]::after {
-    inset: 1.75rem 0 0;
-  }
-
-  .vb-route-stop[data-kind="long"] .vb-route-pin {
-    top: 0;
-  }
-
-  .vb-route-keep {
-    --thumb-h: 6rem;
-  }
-
-  .vb-route-doc + .vb-route-doc {
-    margin-left: -0.5rem;
-  }
-
-  .vb-route-stop[data-kind="long"] .vb-route-place {
-    font-size: clamp(3rem, 1.5rem + 2.6vw, 4.75rem);
-  }
-
-  /* Drawn stop by stop when it comes into view; the stops never move. */
-  .vb[data-motion="on"] .vb-route-map[data-wait] .vb-route-stop::before {
-    transition: transform 0.55s linear;
-  }
-
-  .vb[data-motion="on"] .vb-route-map[data-wait="true"] .vb-route-stop::before {
-    transform: scaleX(0);
-  }
-
-  .vb[data-motion="on"] .vb-route-map[data-wait] .vb-route-pin {
-    transition:
-      opacity 0.3s var(--ease-out),
-      transform 0.5s var(--ease-expo);
-  }
-
-  .vb[data-motion="on"] .vb-route-map[data-wait="true"] .vb-route-pin {
-    opacity: 0;
-    transform: scale(0.3);
-  }
-
-  .vb-route-stop:nth-child(2)::before,
-  .vb-route-stop:nth-child(2) .vb-route-pin {
-    transition-delay: 0.5s;
-  }
-
-  .vb-route-stop:nth-child(3)::before,
-  .vb-route-stop:nth-child(3) .vb-route-pin {
-    transition-delay: 1s;
-  }
-
-  .vb-route-stop:nth-child(4)::before,
-  .vb-route-stop:nth-child(4) .vb-route-pin {
-    transition-delay: 1.5s;
-  }
-
-  .vb-route-stop:nth-child(5)::before,
-  .vb-route-stop:nth-child(5) .vb-route-pin {
-    transition-delay: 2s;
-  }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .vb-route-doc-img,
-  .vb-route-swatch,
-  .vb-route-chip {
-    transition: none;
+@media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
+  .vb[data-motion="on"] .vb-route[data-wait] .vb-route-stop:not(:last-child)::before {
+    transition: transform 420ms var(--ease-out);
   }
 
-  .vb-route-chip:hover .vb-route-swatch {
-    transform: none;
+  .vb[data-motion="on"] .vb-route[data-wait] .vb-route-stop[data-kind="brighton"]::before {
+    transition-delay: 330ms;
   }
 
-  .vb-route-doc:hover .vb-route-doc-img,
-  .vb-route-doc:focus-visible .vb-route-doc-img {
-    transform: rotate(-5deg);
+  .vb[data-motion="on"] .vb-route[data-wait] .vb-route-stop[data-kind="london"]::before {
+    transition-delay: 660ms;
   }
 
-  .vb-route-doc + .vb-route-doc:hover .vb-route-doc-img,
-  .vb-route-doc + .vb-route-doc:focus-visible .vb-route-doc-img {
-    transform: rotate(4deg) translateY(0.4rem);
+  .vb[data-motion="on"] .vb-route[data-wait="true"] .vb-route-stop:not(:last-child)::before {
+    transform: var(--route-start);
   }
-
-  .vb[data-motion="on"] .vb-route-map[data-wait] .vb-route-stop::before,
-  .vb[data-motion="on"] .vb-route-map[data-wait] .vb-route-pin {
-    opacity: 1;
-    transform: none;
-    transition: none;
-  }
-}
-
-/* The two certificate captions never run together. */
-.vb-route-doc-cap {
-  display: block;
-  margin-top: 0.35rem;
-  white-space: nowrap;
-}
-
-/* Keep a clear gap between the two certificates and their captions at every
-   width. (The viewer's dialog sits between them, so a sibling rule can't do it.) */
-.vb .vb-route-keep {
-  column-gap: 1.25rem;
 }
