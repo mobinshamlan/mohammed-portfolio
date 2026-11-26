@@ -374,9 +374,12 @@
 }
 
 .pf-seet-week i {
+  max-width: 100%;
   font-style: normal;
-  font-size: 0.625rem;
+  font-size: 0.5625rem;
   font-weight: 700;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
 }
 
 /* A day already sold, in quiet grey. */
