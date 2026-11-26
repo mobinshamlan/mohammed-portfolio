@@ -514,7 +514,7 @@ export const projects: Project[] = [
       "WhatsApp Cloud API",
     ],
     links: [{ label: "Live landing page", href: "https://seet-puce.vercel.app" }],
-    linkNote: "Private repository. Only the landing page is deployed; the app runs locally on demo data.",
+    linkNote: "Private repo · app runs locally",
     cover: {
       ...browser,
       src: publicUrl("/images/projects/seet/desktop.jpg"),

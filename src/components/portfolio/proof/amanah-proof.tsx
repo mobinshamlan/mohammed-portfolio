@@ -67,7 +67,7 @@ export function AmanahProof() {
           </span>
         </p>
 
-        <figcaption className="vb-ap-caption">Example: a made-up claim. Nothing in it is ever public.</figcaption>
+        <figcaption className="vb-ap-caption">Example claim.</figcaption>
       </figure>
     </Reveal>
   );

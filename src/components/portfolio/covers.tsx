@@ -82,7 +82,7 @@ function Proof({ project }: { project: Project }) {
       {items.map((item) => (
         <span key={item.kind}>
           <a href={item.run?.href ?? item.source.href} className="vb-link" target="_blank" rel="noreferrer">
-            <strong>{item.value}</strong> {item.kind === "tests" ? "tests pass" : "commits mine"}
+            <strong>{item.value}</strong> {item.kind === "tests" ? "tests" : "commits"}
             <span className="vb-sr"> (opens in a new tab)</span>
           </a>
         </span>
@@ -91,27 +91,24 @@ function Proof({ project }: { project: Project }) {
   );
 }
 
-/** The idea, my part and the evidence as three short rows, then where to go next. */
-function Foot({ project, idea }: { project: Project; idea: ReactNode }) {
+/** My part in a few words, where it stands, and where to go next. */
+const role: Record<string, string> = {
+  naqah: "Lead of a team of 3: the call flow, the owner's site, the tests.",
+  tammeni: "Team of 3: the parent dashboard, alert schedules and Lulwa's calls.",
+  seet: "Solo: the WhatsApp agent, the booking rules and the dashboard.",
+  kashta: "Solo: the scoring model, the forecast pipeline and the Llama guards.",
+  amanah: "Solo: Gemini matching, private tracking links and staff review.",
+  gthrz: "Solo: the React Native app, its privacy rules and the AI planner.",
+};
+
+function Foot({ project }: { project: Project; idea?: ReactNode }) {
   return (
     <Reveal className="vb-proj-foot" delay={0.08}>
-      <dl className="vb-proj-facts">
-        <div>
-          <dt>The idea</dt>
-          <dd className="vb-proj-idea">{idea}</dd>
-        </div>
-        <div>
-          <dt>My part</dt>
-          <dd>{project.contribution}</dd>
-        </div>
-        <div>
-          <dt>Where it stands</dt>
-          <dd>
-            {project.statusChip}, {project.dates}
-            <Proof project={project} />
-          </dd>
-        </div>
-      </dl>
+      <p className="vb-proj-role">{role[project.id] ?? project.contribution}</p>
+      <p className="vb-proj-stand">
+        {project.statusChip} · {project.dates}
+        <Proof project={project} />
+      </p>
       <div className="vb-proj-actions">
         <Link href={projectHref(project)} prefetch={false} className="vb-btn vb-btn-field">
           Read the case study

@@ -52,7 +52,7 @@ export function SeetProof() {
             Only the payment can confirm it.
           </p>
         </div>
-        <figcaption className="pf-seet-note">Example chat; the day and the deposit are made up.</figcaption>
+        <figcaption className="pf-seet-note">Example chat.</figcaption>
       </figure>
     </Reveal>
   );

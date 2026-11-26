@@ -97,7 +97,7 @@ export function NaqahProof() {
             </blockquote>
           </li>
         </ol>
-        <figcaption className="pf-naqah-note">Example call: the names and numbers are made up; the order of the call is the product&rsquo;s.</figcaption>
+        <figcaption className="pf-naqah-note">Example call, made-up names.</figcaption>
       </figure>
     </Reveal>
   );

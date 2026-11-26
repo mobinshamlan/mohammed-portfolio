@@ -534,3 +534,8 @@
     flex-wrap: wrap;
   }
 }
+
+/* Less text: the music shelf carries the off-keyboard note. */
+.vb-story-off > .vb-muted {
+  display: none;
+}

@@ -478,3 +478,15 @@ a.vb-tools-cell:hover .vb-tools-cell-name {
     margin-top: 1rem;
   }
 }
+
+/* Less text: the skill, its tools and the projects; the explanations wait in the case studies. */
+.vb-tools-line,
+.vb-tools-lead {
+  display: none;
+}
+
+@media (min-width: 900px) {
+  .vb .vb-tools-more {
+    display: none;
+  }
+}

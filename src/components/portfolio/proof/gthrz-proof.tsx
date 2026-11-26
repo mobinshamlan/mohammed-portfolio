@@ -82,7 +82,7 @@ export function GthrzProof() {
           ))}
         </ol>
 
-        <figcaption className="vb-gz-caption">Example event. Row-level security decides what each guest can read.</figcaption>
+        <figcaption className="vb-gz-caption">Example event.</figcaption>
       </figure>
     </Reveal>
   );

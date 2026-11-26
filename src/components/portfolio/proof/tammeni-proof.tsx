@@ -85,7 +85,7 @@ export function TammeniProof() {
             </li>
           </ul>
         </div>
-        <figcaption className="pf-tammeni-note">Example family from the demo&rsquo;s fictional data.</figcaption>
+        <figcaption className="pf-tammeni-note">Example family.</figcaption>
       </figure>
     </Reveal>
   );

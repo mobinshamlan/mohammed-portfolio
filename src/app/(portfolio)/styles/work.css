@@ -238,3 +238,34 @@
     max-width: 17rem;
   }
 }
+
+/* ---------- Less text: my part in one line, one status line, the links ---------- */
+.vb-proj-role {
+  max-width: 34rem;
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 1.1rem;
+  line-height: 1.4;
+  color: var(--field-ink);
+}
+
+.vb-proj-stand {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.25rem 1rem;
+  color: var(--field-muted);
+  font-size: var(--step-small);
+}
+
+.vb-proj-stand .vb-proj-proof {
+  margin: 0;
+}
+
+/* The screens speak for themselves; Enlarge stays. */
+.vb-proj-screen > figcaption {
+  display: none;
+}
+.vb-proj-screen {
+  grid-template-columns: minmax(0, 11rem);
+}
