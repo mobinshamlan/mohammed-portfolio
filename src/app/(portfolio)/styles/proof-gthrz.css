@@ -182,10 +182,8 @@
   translate: -50% 0;
 }
 
-/* The crop: two slices of the real Pizza Night screen (455 px wide, screen
-   area 373 px wide from x = 42). The cover photo is clean from y 142 to 290;
-   its printed title band is skipped; the chips, title and date rows follow
-   from y 495 to 645. Both slices scale with the phone's width. */
+/* The crop: the cover photo of the real Pizza Night screen (455 px wide,
+   screen area 373 px wide from x = 42, clean from y 142 to 290). */
 .vb-gz-shot {
   display: grid;
   background: #0e0d10;
@@ -212,12 +210,46 @@
   margin-top: calc(-142 / 373 * 100%);
 }
 
-.vb-gz-slice-rows {
-  aspect-ratio: 373 / 150;
+/* The screen's rows, as text: chips, title, date, and the reveal rule. */
+.vb-gz-rows {
+  display: grid;
+  gap: 0.3rem;
+  padding: 0.7rem 0.9rem 0.6rem;
+  color: #f3eee6;
 }
 
-.vb-gz-slice-rows img {
-  margin-top: calc(-495 / 373 * 100%);
+.vb-gz-rows p {
+  margin: 0;
+}
+
+.vb-gz-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+  margin-bottom: 0.35rem !important;
+}
+
+.vb-gz-chips span {
+  padding: 0.15rem 0.45rem;
+  border-radius: 999px;
+  background: #26232b;
+  color: #a9a3b1;
+  font-size: 0.625rem;
+  line-height: 1.3;
+}
+
+.vb-gz-title {
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 1.15rem;
+  line-height: 1.15;
+}
+
+.vb-gz-when,
+.vb-gz-reveal {
+  color: #a9a3b1;
+  font-size: 0.6875rem;
+  line-height: 1.35;
 }
 
 .vb-gz-under {
@@ -301,22 +333,22 @@
   .vb-gz-host {
     width: 100%;
   }
-  /* The guest's phone takes the column, and the real screen is cropped
-     tighter around the title, date and location line (x 42 to 300, y 540
-     to 640 of the 455 px capture) so it reads at a glance. */
+  /* The guest's phone takes the column, with larger title and date. */
   .vb-gz-guest {
     width: min(100%, 22rem);
   }
   .vb-gz-slice-cover {
     aspect-ratio: 373 / 112;
   }
-  .vb-gz-slice-rows {
-    aspect-ratio: 258 / 100;
+  .vb-gz-title {
+    font-size: 1.6rem;
   }
-  .vb-gz-slice-rows img {
-    width: calc(455 / 258 * 100%);
-    margin-left: calc(-42 / 258 * 100%);
-    margin-top: calc(-540 / 258 * 100%);
+  .vb-gz-when,
+  .vb-gz-reveal {
+    font-size: 0.875rem;
+  }
+  .vb-gz-chips span {
+    font-size: 0.75rem;
   }
   .vb-gz-under {
     gap: 0.75rem;
