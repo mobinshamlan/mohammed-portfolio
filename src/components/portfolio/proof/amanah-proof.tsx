@@ -5,9 +5,10 @@ import { Reveal } from "../reveal";
 import { Tag } from "../scenes/amanah-scene";
 
 /*
- * Amanah on the home page: a found umbrella hangs on its tag. Gemini matched it
+ * Amanah on the home page: a found umbrella hangs on its tag. The AI matched it
  * to a lost report; before it leaves the desk, the owner answers one thing only
- * they would know. Staff see the finder's note and stamp the tag. A sample claim.
+ * they would know. Only staff see the finder's note; it opens once the owner
+ * has answered, and the tag is stamped. A sample claim.
  */
 const answers = [
   { id: "yellow", label: "Yellow", swatch: "#e2b23a" },
@@ -37,7 +38,7 @@ export function AmanahProof() {
           </span>
           <p className="vb-ap-finder">
             <span>Finder&rsquo;s note, staff only</span>
-            <strong>Yellow handle</strong>
+            <strong>{verdict === "open" ? "Hidden until you answer" : "Yellow handle"}</strong>
           </p>
         </div>
 
