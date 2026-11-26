@@ -36,9 +36,6 @@ export function Story() {
             />
           }
         >
-          <p className="vb-route-line">
-            Everything I build starts with the people and daily life I grew up around.
-          </p>
         </RouteStop>
 
         <RouteStop

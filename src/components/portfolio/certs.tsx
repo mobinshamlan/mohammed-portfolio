@@ -123,9 +123,6 @@ export function Certs() {
     <section id="certificates" className="vb-certs vb-certs-desk" aria-labelledby="certs-title">
       <div className="vb-certs-head">
         <h2 id="certs-title" className="vb-certs-title">Courses and certificates.</h2>
-        <p className="vb-certs-lead">
-          Four short courses beside the degree. Tap a sheet to read the original.
-        </p>
       </div>
       <ul className="vb-certs-desktop" aria-label="Certificates">
         {sheets.map((item, index) => (

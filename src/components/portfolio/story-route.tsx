@@ -19,7 +19,7 @@ export function RouteStop({
   place: string;
   when: string;
   art: ReactNode;
-  children: ReactNode;
+  children?: ReactNode;
 }) {
   return (
     <li id={id} className="vb-route-stop" data-kind={kind}>
