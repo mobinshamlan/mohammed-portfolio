@@ -127,107 +127,78 @@
 }
 
 /* ---------- The portrait ----------
-   Printed, not pasted: the cut-out runs through a navy-to-hood-blue duotone,
-   a fine line-screen lies over it like a press plate, and one slow band of
-   light crosses the gown. Both overlays are masked by the cut-out itself, so
-   they stay on the figure and never on the night. */
+   A doorway arch at dusk, not a poster: the figure keeps its real colours,
+   softened and grained, and stands back behind the name. A red stitch runs
+   round the arch, the thread that later joins the work. */
 
 .vb-open-portrait {
   grid-area: art;
   position: relative;
   z-index: 0;
   justify-self: end;
-  width: min(72vw, 19rem);
-  height: min(48svh, 25rem);
-  margin: 0 -0.5rem 2.25rem 0;
+  width: min(44vw, 10.5rem);
+  aspect-ratio: 5 / 7;
+  margin: 0 0.25rem 3.25rem 0;
+  overflow: hidden;
+  border-radius: 999px 999px 0.5rem 0.5rem;
+  background:
+    radial-gradient(120% 70% at 50% 18%, #2a3f72 0%, #172650 45%, var(--night) 100%);
+  box-shadow: inset 0 0 0 1px rgb(242 236 223 / 0.16);
+  /* The doorway's foot melts into the night instead of ending on a ledge. */
+  mask-image: linear-gradient(to bottom, #000 70%, transparent 100%);
   pointer-events: none;
 }
 
-.vb-open-filter {
+/* The stitch, just inside the arch. */
+.vb-open-portrait::after {
+  content: "";
   position: absolute;
-  width: 0;
-  height: 0;
-  overflow: hidden;
-}
-
-.vb-open-print {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  /* The gown runs on below the frame and dissolves into the night. */
-  mask-image: linear-gradient(to bottom, #000 58%, transparent 97%);
+  inset: 0.45rem;
+  z-index: 3;
+  border: 1.5px dashed rgb(224 87 78 / 0.55);
+  border-radius: inherit;
 }
 
 .vb-open-img {
-  position: relative;
+  position: absolute;
+  z-index: 1;
+  left: 0;
+  top: 11%;
   display: block;
   width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: 50% 0%;
-  filter: url("#vb-open-duotone") contrast(1.12) brightness(1.06);
+  height: auto;
+  /* Real colours, taken down a step so it sits in the dusk, not on top of it. */
+  filter: saturate(0.6) contrast(0.88) brightness(0.8) blur(0.5px);
+  opacity: 0.85;
+  mask-image: linear-gradient(to bottom, #000 38%, transparent 78%);
 }
 
-/* The line-screen: a 3px pitch, held to the figure by its own alpha. */
-.vb-open-screen,
-.vb-open-sweep {
+/* Film grain over the whole doorway. */
+.vb-open-grain {
   position: absolute;
   inset: 0;
-  mask: var(--cutout) 50% 0 / cover no-repeat;
-}
-
-.vb-open-screen {
-  background: repeating-linear-gradient(
-    to bottom,
-    rgb(10 15 29 / 0.38) 0 1px,
-    transparent 1px 3px
-  );
-  mix-blend-mode: multiply;
-}
-
-/* A band of the hood's light, crossing the gown once, then again much later. */
-.vb-open-sweep {
-  background: linear-gradient(
-    115deg,
-    transparent 38%,
-    rgb(201 214 240 / 0.28) 47%,
-    rgb(242 236 223 / 0.42) 50%,
-    rgb(201 214 240 / 0.28) 53%,
-    transparent 62%
-  );
-  background-size: 260% 100%;
-  background-position: 120% 0;
-  mix-blend-mode: screen;
+  z-index: 2;
+  opacity: 0.22;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
 /* The studio light, behind the head and shoulders. */
 .vb-open-glow {
   position: absolute;
-  inset: -4% -18% 30%;
+  inset: 2% 4% 45%;
+  z-index: 0;
   border-radius: 50%;
-  background: radial-gradient(closest-side, rgba(134, 169, 245, 0.42), rgba(77, 115, 188, 0.12) 60%, transparent);
-  filter: blur(1.5rem);
+  background: radial-gradient(closest-side, rgba(134, 169, 245, 0.5), rgba(77, 115, 188, 0.14) 60%, transparent);
+  filter: blur(1.25rem);
 }
 
 @media (prefers-reduced-motion: no-preference) {
   .vb[data-motion="on"] .vb-open-glow {
     animation: vb-open-breathe 9s var(--ease-soft) infinite alternate;
   }
-  .vb[data-motion="on"] .vb-open-print {
+  .vb[data-motion="on"] .vb-open-img {
     animation: vb-open-in 1.4s var(--ease-expo) both;
-  }
-  .vb[data-motion="on"] .vb-open-sweep {
-    animation: vb-open-sweep 14s var(--ease-soft) 0.9s infinite;
-  }
-}
-
-@keyframes vb-open-sweep {
-  0% {
-    background-position: 120% 0;
-  }
-  22%,
-  100% {
-    background-position: -20% 0;
   }
 }
 
@@ -259,7 +230,7 @@
   }
 }
 
-/* ---------- Wide screens: the figure stands at full height, the name across its gown ---------- */
+/* ---------- Wide screens: the name across the foot, the arch to the right ---------- */
 
 @media (min-width: 900px) {
   .vb-open {
@@ -302,21 +273,13 @@
 
   .vb-open-portrait {
     position: absolute;
-    top: 2rem;
-    bottom: 0;
-    left: 56%;
-    width: auto;
-    height: auto;
-    aspect-ratio: 620 / 1130;
+    top: 3.5rem;
+    right: calc(var(--gutter) + 4%);
+    width: min(18vw, 16rem);
     margin: 0;
   }
 
-  .vb-open-print {
-    mask-image: none;
-  }
-
   .vb-open-glow {
-    inset: -2% -30% 40%;
-    filter: blur(2.5rem);
+    filter: blur(2rem);
   }
 }

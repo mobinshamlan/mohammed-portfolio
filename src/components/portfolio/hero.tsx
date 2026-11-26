@@ -14,7 +14,7 @@ const cutout = {
 } as const;
 
 /**
- * The opening is about the person: the name set across the gown, one line on
+ * The opening is about the person: the name, a small portrait in a dusk arch, one line on
  * what he builds, and the way into the work. The six marks on the button are
  * the six products below, each in its own field colour.
  */
@@ -51,36 +51,23 @@ export function Hero() {
         {contact.status}
       </p>
 
-      <figure className="vb-open-portrait" data-rise="2" style={{ "--cutout": `url(${cutout.src})` } as CSSProperties}>
+      {/*
+        A smaller figure in a Najdi doorway arch at dusk: real colours, softened
+        and grained, lit from behind in the hood's blue. A red stitch runs
+        round the arch, the same thread that later joins the work.
+      */}
+      <figure className="vb-open-portrait" data-rise="2">
         <span className="vb-open-glow" aria-hidden="true" />
-        {/*
-          The portrait is printed in the site's own inks: shadows in the night,
-          mid-tones in the dusk, light in the hood's blue up to cream. The SVG
-          filter maps luminance to that ramp and keeps the cut-out's edge.
-        */}
-        <svg className="vb-open-filter" aria-hidden="true" focusable="false" width="0" height="0">
-          <filter id="vb-open-duotone" colorInterpolationFilters="sRGB">
-            <feColorMatrix type="matrix" values="0.2126 0.7152 0.0722 0 0  0.2126 0.7152 0.0722 0 0  0.2126 0.7152 0.0722 0 0  0 0 0 1 0" />
-            <feComponentTransfer>
-              <feFuncR type="table" tableValues="0.05 0.12 0.28 0.55 0.96" />
-              <feFuncG type="table" tableValues="0.08 0.18 0.40 0.68 0.94" />
-              <feFuncB type="table" tableValues="0.14 0.33 0.66 0.96 0.88" />
-            </feComponentTransfer>
-          </filter>
-        </svg>
-        <div className="vb-open-print">
-          <Image
-            src={cutout.src}
-            alt={graduation.alt}
-            width={cutout.width}
-            height={cutout.height}
-            sizes="(max-width: 899px) 70vw, 34rem"
-            priority
-            className="vb-open-img"
-          />
-          <span className="vb-open-screen" aria-hidden="true" />
-          <span className="vb-open-sweep" aria-hidden="true" />
-        </div>
+        <Image
+          src={cutout.src}
+          alt={graduation.alt}
+          width={cutout.width}
+          height={cutout.height}
+          sizes="(max-width: 899px) 50vw, 22rem"
+          priority
+          className="vb-open-img"
+        />
+        <span className="vb-open-grain" aria-hidden="true" />
       </figure>
     </section>
   );
