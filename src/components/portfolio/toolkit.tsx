@@ -3,60 +3,24 @@
 import Link from "next/link";
 import { useState, type CSSProperties } from "react";
 import { projectById, type ProjectId } from "@/lib/projects";
-import { studied, testsChecked, toolkit, toolkitProjects, type ResolvedJob } from "@/lib/toolkit";
+import {
+  featuredJobId,
+  studied,
+  testsChecked,
+  toolkit,
+  toolkitProjects,
+  type ResolvedJob,
+} from "@/lib/toolkit";
 import { useHydrated } from "@/lib/use-hydrated";
 import { SectionTitle } from "./section-title";
 
 /*
- * What I can build: six outcomes, each shown through one product it lives in.
- * The example is visible by default; the other products are chips; the tool
- * names come last, small, for the people who want them.
+ * What I can build: one capability shown large, with the product it lives in
+ * and a small picture of it working; the other five as a ledger of rows.
+ * Every row keeps its example visible; tool names wait behind a toggle.
  */
 
 type Selection = ProjectId | "all";
-
-function JobIcon({ id }: { id: string }) {
-  const path: Record<string, React.ReactNode> = {
-    ai: (
-      <>
-        <path d="M12 3.5v3M12 17.5v3M3.5 12h3M17.5 12h3M6 6l2 2M16 16l2 2M6 18l2-2M16 8l2-2" />
-        <circle cx="12" cy="12" r="3.2" />
-      </>
-    ),
-    calls: (
-      <path d="M5.5 4.5h3l1.6 4-2 1.3a10.5 10.5 0 0 0 5.6 5.6l1.3-2 4 1.6v3a1.5 1.5 0 0 1-1.6 1.5C9.9 19 5 14.1 4 6.1a1.5 1.5 0 0 1 1.5-1.6Z" />
-    ),
-    data: (
-      <>
-        <path d="M12 3.5 5 6.2v5.3c0 4.2 2.9 7.4 7 9 4.1-1.6 7-4.8 7-9V6.2L12 3.5Z" />
-        <path d="M9.2 12.2l2 2 3.8-4" />
-      </>
-    ),
-    web: (
-      <>
-        <rect x="3.5" y="5" width="17" height="14" rx="2" />
-        <path d="M3.5 9h17M16.5 13.5h-9M10 11.5l-2.5 2 2.5 2" />
-      </>
-    ),
-    mobile: (
-      <>
-        <rect x="7" y="3" width="10" height="18" rx="2.2" />
-        <path d="M10.5 18h3" />
-      </>
-    ),
-    tests: (
-      <>
-        <circle cx="12" cy="12" r="8.5" />
-        <path d="m8.3 12.3 2.5 2.5 5-5.2" />
-      </>
-    ),
-  };
-  return (
-    <svg className="vb-tools-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-      {path[id]}
-    </svg>
-  );
-}
 
 function Mark({ id }: { id: ProjectId }) {
   const project = projectById[id];
@@ -69,62 +33,152 @@ function Mark({ id }: { id: ProjectId }) {
   );
 }
 
-function SkillCard({ job, project }: { job: ResolvedJob; project: ProjectId | null }) {
+/** Which product's note a job shows, honouring the filter, then the lead. */
+function pickExample(job: ResolvedJob, project: ProjectId | null) {
   const notes = job.notes ?? [];
-  const exampleId =
-    project ?? (notes.find((note) => note.project === job.lead)?.project ?? notes[0]?.project ?? null);
-  const example = notes.find((note) => note.project === exampleId) ?? null;
-  const count = exampleId ? job.testCounts.find((item) => item.project === exampleId) : null;
-  const others = job.projects.filter((id) => id !== exampleId);
+  const id = project ?? (notes.find((note) => note.project === job.lead)?.project ?? notes[0]?.project ?? null);
+  const note = notes.find((item) => item.project === id) ?? null;
+  const count = id ? (job.testCounts.find((item) => item.project === id) ?? null) : null;
+  return { id, note, count };
+}
+
+function ToolsUsed({ job, project }: { job: ResolvedJob; project: ProjectId | null }) {
   const tools = job.tools.filter((tool) => !project || tool.projects.includes(project));
-  const exampleProject = exampleId ? projectById[exampleId] : null;
-
+  if (!tools.length) return null;
   return (
-    <li className="vb-tools-card">
-      <div className="vb-tools-card-head">
-        <JobIcon id={job.id} />
-        <h3 className="vb-tools-title">{job.title}</h3>
-      </div>
-      <p className="vb-tools-line">{job.line}</p>
+    <details className="vb-tools-used">
+      <summary className="vb-tools-also-label">Tools used</summary>
+      <span>{tools.map((tool) => tool.name).join(" · ")}</span>
+    </details>
+  );
+}
 
-      {exampleProject ? (
-        <div
-          className="vb-tools-example"
-          style={{ "--swatch": exampleProject.field } as CSSProperties}
-        >
-          <a href={`#${exampleId}`} className="vb-tools-project">
-            <Mark id={exampleId as ProjectId} />
+function AlsoIn({ ids }: { ids: ProjectId[] }) {
+  if (!ids.length) return null;
+  return (
+    <p className="vb-tools-also">
+      <span className="vb-tools-also-label">Also in</span>
+      {ids.map((id, index) => (
+        <span key={id}>
+          <a href={`#${id}`} className="vb-tools-also-link">
+            <Mark id={id} />
+            {projectById[id].name}
+          </a>
+          {index < ids.length - 1 ? ", " : null}
+        </span>
+      ))}
+    </p>
+  );
+}
+
+/* The featured picture: Naqah's morning call, drawn as a call sheet. The
+   Arabic is sample product content, the worker's answer. */
+function CallSheet() {
+  const bars = [3, 6, 10, 7, 12, 9, 5, 8, 11, 6, 4, 9, 7, 3, 6, 10, 5, 8, 4, 7, 11, 6, 3, 5];
+  return (
+    <figure className="vb-tools-call" aria-label="Sample: Naqah's 5:40 pm call to the ranch worker, in Arabic">
+      <div className="vb-tools-call-head">
+        <span className="vb-tools-call-dot" aria-hidden="true" />
+        <span className="vb-tools-call-time">5:40 pm</span>
+        <span className="vb-tools-call-who">Naqah calls the ranch worker</span>
+        <span className="vb-tools-call-sample">Sample</span>
+      </div>
+      <div className="vb-tools-call-wave" aria-hidden="true">
+        {bars.map((h, index) => (
+          <i key={index} style={{ "--h": h, "--i": index } as CSSProperties} />
+        ))}
+      </div>
+      <dl className="vb-tools-call-qa">
+        <div>
+          <dt>Asked</dt>
+          <dd>Did all the camels drink today?</dd>
+        </div>
+        <div>
+          <dt>Answer</dt>
+          <dd lang="ar" dir="rtl">
+            كلها شربت إلا وضحى.
+          </dd>
+        </div>
+      </dl>
+      <figcaption className="vb-tools-call-foot">
+        <span className="vb-tools-call-saved">Answer saved for the owner</span>
+        <span className="vb-tools-call-gone">Audio discarded</span>
+      </figcaption>
+    </figure>
+  );
+}
+
+function Featured({ job, project }: { job: ResolvedJob; project: ProjectId | null }) {
+  const { id, note, count } = pickExample(job, project);
+  const exampleProject = id ? projectById[id] : null;
+  const others = project ? [] : job.projects.filter((item) => item !== id);
+  return (
+    <article
+      className="vb-tools-feature"
+      style={exampleProject ? ({ "--swatch": exampleProject.field } as CSSProperties) : undefined}
+    >
+      <div className="vb-tools-feature-text">
+        <p className="vb-tools-kicker">Featured</p>
+        <h3 className="vb-tools-feature-title">{job.title}</h3>
+        <p className="vb-tools-line">{job.line}</p>
+        {exampleProject && id ? (
+          <div className="vb-tools-example">
+            <a href={`#${id}`} className="vb-tools-project">
+              <Mark id={id} />
+              <span className="vb-tools-project-name">{exampleProject.name}</span>
+              <span className="vb-tools-project-hint">See the chapter</span>
+            </a>
+            {note ? <p>{note.text}</p> : null}
+            {count ? (
+              <p className="vb-tools-count">
+                <strong>{count.value}</strong> automated checks passed
+                <span className="vb-tools-small"> · counted on {testsChecked}</span>
+              </p>
+            ) : null}
+          </div>
+        ) : null}
+        <AlsoIn ids={others} />
+        <ToolsUsed job={job} project={project} />
+      </div>
+      {job.id === "calls" ? <CallSheet /> : null}
+    </article>
+  );
+}
+
+function Row({ job, project, index }: { job: ResolvedJob; project: ProjectId | null; index: number }) {
+  const { id, note, count } = pickExample(job, project);
+  const exampleProject = id ? projectById[id] : null;
+  const others = project ? [] : job.projects.filter((item) => item !== id);
+  return (
+    <li
+      className="vb-tools-row"
+      style={exampleProject ? ({ "--swatch": exampleProject.field } as CSSProperties) : undefined}
+    >
+      <span className="vb-tools-row-n" aria-hidden="true">
+        {String(index).padStart(2, "0")}
+      </span>
+      <div className="vb-tools-row-what">
+        <h3 className="vb-tools-row-title">{job.title}</h3>
+        <p className="vb-tools-line">{job.line}</p>
+      </div>
+      <div className="vb-tools-row-example">
+        {exampleProject && id ? (
+          <a href={`#${id}`} className="vb-tools-project">
+            <Mark id={id} />
             <span className="vb-tools-project-name">{exampleProject.name}</span>
             <span className="vb-tools-project-hint">See the chapter</span>
           </a>
-          {example ? <p>{example.text}</p> : null}
-          {count ? (
-            <p className="vb-tools-count">
-              <strong>{count.value}</strong> automated checks passed
-              <span className="vb-tools-small"> · counted on {testsChecked}</span>
-            </p>
-          ) : null}
-        </div>
-      ) : null}
-
-      {others.length && !project ? (
-        <p className="vb-tools-also">
-          <span className="vb-tools-also-label">Also in</span>
-          {others.map((id) => (
-            <a key={id} href={`#${id}`} className="vb-tools-chip">
-              <Mark id={id} />
-              {projectById[id].name}
-            </a>
-          ))}
-        </p>
-      ) : null}
-
-      {tools.length ? (
-        <details className="vb-tools-used">
-          <summary className="vb-tools-also-label">Tools used</summary>
-          <span>{tools.map((tool) => tool.name).join(" · ")}</span>
-        </details>
-      ) : null}
+        ) : null}
+        {note ? <p>{note.text}</p> : null}
+        {count ? (
+          <p className="vb-tools-count">
+            <strong>{count.value}</strong> automated checks passed
+            <span className="vb-tools-small"> · counted on {testsChecked}</span>
+          </p>
+        ) : null}
+        <AlsoIn ids={others} />
+        <ToolsUsed job={job} project={project} />
+      </div>
     </li>
   );
 }
@@ -140,6 +194,13 @@ export function Toolkit() {
   const [selected, setSelected] = useState<Selection>("all");
   const project = selected === "all" ? null : projectById[selected];
   const jobs = project ? toolkit.filter((job) => job.projects.includes(project.id)) : toolkit;
+  // Featured: the phone-call job by default; under a filter, the job that
+  // leads with that product, else the first match.
+  const featured =
+    (project
+      ? (jobs.find((job) => job.lead === project.id) ?? jobs[0])
+      : jobs.find((job) => job.id === featuredJobId)) ?? null;
+  const rows = jobs.filter((job) => job !== featured);
 
   return (
     <section id="skills" className="vb-tools" aria-labelledby="skills-title">
@@ -188,11 +249,14 @@ export function Toolkit() {
       </div>
 
       <div className="vb-tools-board">
-        <ul className="vb-tools-list">
-          {jobs.map((job) => (
-            <SkillCard key={job.id} job={job} project={project?.id ?? null} />
-          ))}
-        </ul>
+        {featured ? <Featured job={featured} project={project?.id ?? null} /> : null}
+        {rows.length ? (
+          <ol className="vb-tools-ledger">
+            {rows.map((job, index) => (
+              <Row key={job.id} job={job} project={project?.id ?? null} index={index + 2} />
+            ))}
+          </ol>
+        ) : null}
         <details className="vb-details vb-tools-rest">
           <summary className="vb-details-summary">Other training and coursework</summary>
           <div className="vb-details-body vb-tools-rest-grid">

@@ -205,6 +205,9 @@ for (const item of allSkills) {
   }
 }
 
+/** The job shown large at the top of the section when no product is selected. */
+export const featuredJobId = "calls";
+
 /** Projects that appear in the toolkit, in portfolio order, for the filter. */
 export const toolkitProjects = order.filter((id) => toolkit.some((job) => job.projects.includes(id)));
 
