@@ -168,13 +168,19 @@ html:has(.vb) {
   justify-content: space-between;
   gap: 1rem;
   padding: 0 var(--gutter);
-  background: var(--night);
+  /* The studio navy of the portrait, with the diploma ribbon along the top
+     edge and a tone step below, so the bar reads the same over cream, black,
+     green, navy and gold chapters. */
+  border-block-start: 3px solid var(--ribbon);
+  background: var(--dusk);
   color: var(--sand);
+  box-shadow: 0 1px 0 color-mix(in srgb, var(--sand) 10%, transparent);
 }
 
 .vb-nav[data-tone="light"] {
   background: var(--field, var(--night));
   color: var(--field-ink, var(--sand));
+  box-shadow: 0 1px 0 color-mix(in srgb, var(--field-ink, var(--sand)) 14%, transparent);
 }
 
 .vb-brand {
@@ -215,14 +221,24 @@ html:has(.vb) {
   display: inline-block;
   padding: 0.6rem 0;
   text-decoration: none;
-  opacity: 0.8;
-  transition: opacity var(--t-hover) ease;
+  color: color-mix(in srgb, currentColor 82%, transparent);
+  text-underline-offset: 0.45em;
+  text-decoration-thickness: 2px;
+  transition: color var(--t-hover) ease;
 }
 
-.vb-nav-links a:hover,
+.vb-nav-links a:hover {
+  color: inherit;
+}
+
 .vb-nav-links a[aria-current="page"] {
-  opacity: 1;
+  color: inherit;
   text-decoration: underline;
+  text-decoration-color: var(--ember);
+}
+
+.vb-nav[data-tone="light"] .vb-nav-links a[aria-current="page"] {
+  text-decoration-color: currentColor;
 }
 
 .vb-nav-actions {
@@ -270,7 +286,8 @@ html:has(.vb) {
   margin: 0;
   padding: 0 var(--gutter) 2rem;
   border: 0;
-  background: var(--night);
+  border-block-start: 3px solid var(--ribbon);
+  background: var(--dusk);
   color: var(--sand);
 }
 
@@ -560,38 +577,56 @@ html:has(.vb) {
 }
 
 .vb-jump {
-  width: min(94vw, 34rem);
+  width: min(94vw, 32rem);
   margin: 10vh auto;
   padding: 0;
   border: 0;
-  border-radius: 0.75rem;
-  background: var(--night-2);
+  border-radius: 0.9rem;
+  background: var(--dusk);
   color: var(--sand);
+  box-shadow: 0 24px 60px -20px rgba(2, 4, 10, 0.8);
 }
 
 .vb-jump::backdrop {
-  background: rgba(4, 6, 10, 0.7);
+  background: rgba(4, 6, 12, 0.72);
 }
 
 .vb-jump-body {
   display: grid;
-  gap: 0.75rem;
-  padding: 1.25rem;
+  padding: 0.75rem 0.75rem 0.5rem;
 }
 
-.vb-jump-label {
-  font-family: var(--display);
-  font-weight: 700;
+/* One search row: glass, field, Esc. */
+.vb-jump-head {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.vb-jump-glass {
+  position: absolute;
+  inset-inline-start: 0.9rem;
+  inline-size: 1.15rem;
+  block-size: 1.15rem;
+  color: var(--ember);
+  pointer-events: none;
 }
 
 .vb-jump-input {
-  width: 100%;
-  padding: 0.8rem 0.9rem;
-  border: 1px solid var(--night-3);
-  border-radius: 0.4rem;
+  flex: 1;
+  min-width: 0;
+  min-height: 3rem;
+  padding: 0.65rem 0.9rem 0.65rem 2.75rem;
+  border: 0;
+  border-radius: 0.55rem;
   background: var(--night);
   color: var(--sand);
   font: inherit;
+}
+
+.vb-jump-input::placeholder {
+  color: var(--sand-2);
 }
 
 .vb-jump-input:focus-visible {
@@ -599,24 +634,68 @@ html:has(.vb) {
   outline-offset: 0;
 }
 
+.vb-jump-input::-webkit-search-cancel-button {
+  appearance: none;
+}
+
+.vb-jump-close {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.75rem;
+  min-width: 2.75rem;
+  padding: 0 0.7rem;
+  border: 0;
+  border-radius: 0.55rem;
+  background: var(--night);
+  color: var(--sand-2);
+  font: inherit;
+  font-size: 0.8125rem;
+  cursor: pointer;
+  transition: color var(--t-hover) ease;
+}
+
+.vb-jump-close:hover {
+  color: var(--sand);
+}
+
+.vb-jump-close-word {
+  display: none;
+}
+
 .vb-jump-list {
   display: grid;
-  gap: 0.15rem;
-  max-height: 50vh;
-  margin: 0;
+  gap: 0.5rem;
+  max-height: min(56vh, 30rem);
+  margin: 0.75rem 0 0;
   padding: 0;
   overflow-y: auto;
   list-style: none;
+  scrollbar-width: thin;
+  scrollbar-color: var(--dusk-3) transparent;
+}
+
+.vb-jump-rows {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.vb-jump-group-title {
+  padding: 0.35rem 0.8rem 0.25rem;
+  color: var(--sand-2);
+  font-family: var(--display);
+  font-size: 0.875rem;
+  font-weight: 700;
 }
 
 .vb-jump-item {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  gap: 0.25rem 1rem;
+  align-items: center;
+  gap: 0.7rem;
   min-height: 2.75rem;
-  padding: 0.6rem 0.8rem;
-  border-radius: 0.4rem;
+  padding: 0.45rem 0.8rem;
+  border-radius: 0.55rem;
   cursor: pointer;
 }
 
@@ -625,38 +704,80 @@ html:has(.vb) {
   color: var(--ember-ink);
 }
 
+/* The product's colour, as a small square beside its name. */
+.vb-jump-mark {
+  flex: none;
+  inline-size: 0.7rem;
+  block-size: 0.7rem;
+  border-radius: 0.2rem;
+  background: var(--thread-colour, var(--sand-2));
+}
+
+.vb-jump-item[aria-selected="true"] .vb-jump-mark {
+  outline: 2px solid var(--ember-ink);
+  outline-offset: 1px;
+}
+
 .vb-jump-name {
+  display: flex;
+  flex: 1;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0 0.6rem;
+  min-width: 0;
   font-weight: 500;
 }
 
-.vb-jump-hint,
-.vb-jump-foot,
-.vb-jump-empty {
-  font-size: var(--step-small);
+.vb-jump-arabic {
+  font-size: 0.9375rem;
+  font-weight: 500;
   opacity: 0.8;
 }
 
-.vb-jump-empty:not(:empty) {
-  padding: 0.75rem 0.9rem;
+.vb-jump-note {
+  flex: none;
+  font-size: 0.8125rem;
+  opacity: 0.75;
 }
 
-.vb-jump-head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-}
-
-.vb-jump-close {
-  min-height: 2.75rem;
-  padding: 0 0.9rem;
-  border: 0;
-  border-radius: 999px;
-  background: color-mix(in srgb, currentColor 12%, transparent);
-  color: inherit;
-  font: inherit;
+.vb-jump-empty {
   font-size: var(--step-small);
-  cursor: pointer;
+  color: var(--sand-2);
+}
+
+.vb-jump-empty:not(:empty) {
+  padding: 1rem 0.8rem 0.5rem;
+}
+
+/* Key hints, in one short row. */
+.vb-jump-foot {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 1.25rem;
+  padding: 0.6rem 0.8rem 0.4rem;
+  color: var(--sand-2);
+  font-size: 0.8125rem;
+}
+
+.vb-jump-foot span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.vb-jump-foot kbd,
+.vb-jump-close-key {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.4rem;
+  padding: 0 0.3rem;
+  border-radius: 0.3rem;
+  background: color-mix(in srgb, var(--sand) 12%, transparent);
+  color: var(--sand);
+  font-family: var(--text);
+  font-size: 0.75rem;
+  line-height: 1.4rem;
 }
 
 /* Phones: the opener is a compact "وين؟" beside Menu; the keyboard hints step aside. */
@@ -682,6 +803,15 @@ html:has(.vb) {
   .vb-jump-foot {
     display: none;
   }
+  .vb-jump {
+    margin-top: 6vh;
+  }
+  .vb-jump-close-key {
+    display: none;
+  }
+  .vb-jump-close-word {
+    display: inline;
+  }
 }
 
 /* 900–1199: the links, Jump to and GitHub share one row with the name, so the
@@ -696,22 +826,23 @@ html:has(.vb) {
   }
 }
 
-/* ---------- Footer: sunrise ---------- */
+/* ---------- Footer: the last dune ---------- */
 
 .vb-footer {
-  --crest-fill: var(--dawn);
+  --footer-ground: var(--dusk-2);
+  --crest-fill: var(--footer-ground);
   --hour-ink: var(--dawn-ink);
   --hour-muted: var(--dawn-muted);
   --hour-time: var(--dawn-ink);
   --hour-dune: color-mix(in srgb, var(--dawn-ink) 30%, transparent);
   position: relative;
   isolation: isolate;
-  padding: clamp(2.5rem, 6vw, 5rem) var(--gutter) 2rem;
-  background: var(--dawn);
+  padding: clamp(2.5rem, 6vw, 4.5rem) var(--gutter) 2rem;
+  background: var(--footer-ground);
   color: var(--dawn-ink);
 }
 
-/* The footer rises over the night as the last dune, with the sun just behind it. */
+/* The footer rises over the night as the last dune. */
 .vb-footer::before {
   content: "";
   position: absolute;
@@ -720,36 +851,42 @@ html:has(.vb) {
   right: 0;
   bottom: calc(100% - 1px);
   height: var(--edge);
-  background: var(--dawn);
+  background: var(--footer-ground);
   mask: var(--crest-3) 0 0 / 100% 100% no-repeat;
 }
 
-.vb-footer-name {
-  margin-top: clamp(1.5rem, 4vw, 3rem);
-  font-family: var(--display);
-  font-size: clamp(1.4rem, 1rem + 1.5vw, 2.2rem);
-  font-weight: 800;
-  line-height: 1.1;
-  letter-spacing: -0.02em;
+.vb-footer-top {
+  display: grid;
+  gap: 0.5rem;
+  margin-top: clamp(1rem, 3vw, 2rem);
 }
 
-.vb-footer-name span[lang="ar"] {
-  margin-left: 0.6rem;
-  font-weight: 700;
+.vb-footer-name {
+  font-family: var(--display);
+  font-size: clamp(1.6rem, 1rem + 2vw, 2.6rem);
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -0.025em;
+}
+
+.vb-footer-place {
   color: var(--dawn-muted);
+  font-size: var(--step-small);
 }
 
 .vb-footer-grid {
   display: grid;
-  gap: 2rem;
-  margin-top: 2rem;
+  gap: 1.5rem 2rem;
+  margin-top: clamp(1.5rem, 3vw, 2.5rem);
+  padding-top: clamp(1.25rem, 2.5vw, 1.75rem);
+  border-top: 1px solid color-mix(in srgb, var(--dawn-ink) 12%, transparent);
   font-size: var(--step-small);
 }
 
 .vb-footer-grid ul {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.4rem 1.5rem;
+  gap: 0.25rem 1.5rem;
   margin: 0;
   padding: 0;
   list-style: none;
@@ -757,43 +894,41 @@ html:has(.vb) {
 
 .vb-footer-grid a {
   display: inline-block;
-  padding: 0.6rem 0;
-  text-decoration: none;
+  padding: 0.55rem 0;
+  color: var(--dawn-ink);
+  font-weight: 500;
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, var(--ember) 55%, transparent);
+  text-underline-offset: 0.25em;
+  transition: text-decoration-color var(--t-hover) ease;
 }
 
 .vb-footer-grid a:hover {
-  text-decoration: underline;
+  text-decoration-color: var(--ember);
+  text-decoration-thickness: 2px;
 }
 
 .vb-footer-credit {
-  max-width: 70ch;
+  max-width: 44ch;
   color: var(--dawn-muted);
   font-size: var(--step-small);
   line-height: 1.5;
 }
 
-.vb-footer-credit a {
-  display: inline;
-  padding: 0;
-  color: var(--dawn-ink);
-  text-decoration: underline;
-}
-
 .vb-footer :focus-visible {
-  outline-color: var(--dawn-ink);
+  outline-color: var(--ember);
 }
 
 @media (max-width: 899px) {
   .vb-footer {
     padding-top: 1.75rem;
   }
-  
-  .vb-footer-name {
+  .vb-footer-top {
     margin-top: 1rem;
   }
   .vb-footer-grid {
     gap: 0.75rem;
-    margin-top: 1rem;
+    margin-top: 1.5rem;
   }
 }
 
@@ -801,6 +936,10 @@ html:has(.vb) {
   .vb-footer-grid {
     grid-template-columns: 1fr 1fr 1.4fr;
     align-items: start;
+  }
+  .vb-footer-credit {
+    justify-self: end;
+    text-align: right;
   }
 }
 
