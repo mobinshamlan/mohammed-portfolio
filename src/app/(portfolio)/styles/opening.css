@@ -126,7 +126,11 @@
   box-shadow: 0 0 0 0.25rem rgba(143, 211, 165, 0.15);
 }
 
-/* ---------- The portrait ---------- */
+/* ---------- The portrait ----------
+   Printed, not pasted: the cut-out runs through a navy-to-hood-blue duotone,
+   a fine line-screen lies over it like a press plate, and one slow band of
+   light crosses the gown. Both overlays are masked by the cut-out itself, so
+   they stay on the figure and never on the night. */
 
 .vb-open-portrait {
   grid-area: art;
@@ -139,6 +143,21 @@
   pointer-events: none;
 }
 
+.vb-open-filter {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+}
+
+.vb-open-print {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  /* The gown runs on below the frame and dissolves into the night. */
+  mask-image: linear-gradient(to bottom, #000 58%, transparent 97%);
+}
+
 .vb-open-img {
   position: relative;
   display: block;
@@ -146,8 +165,39 @@
   height: 100%;
   object-fit: cover;
   object-position: 50% 0%;
-  /* The gown runs on below the frame and into the night. */
-  mask-image: linear-gradient(to bottom, #000 62%, transparent 98%);
+  filter: url("#vb-open-duotone") contrast(1.12) brightness(1.06);
+}
+
+/* The line-screen: a 3px pitch, held to the figure by its own alpha. */
+.vb-open-screen,
+.vb-open-sweep {
+  position: absolute;
+  inset: 0;
+  mask: var(--cutout) 50% 0 / cover no-repeat;
+}
+
+.vb-open-screen {
+  background: repeating-linear-gradient(
+    to bottom,
+    rgb(10 15 29 / 0.38) 0 1px,
+    transparent 1px 3px
+  );
+  mix-blend-mode: multiply;
+}
+
+/* A band of the hood's light, crossing the gown once, then again much later. */
+.vb-open-sweep {
+  background: linear-gradient(
+    115deg,
+    transparent 38%,
+    rgb(201 214 240 / 0.28) 47%,
+    rgb(242 236 223 / 0.42) 50%,
+    rgb(201 214 240 / 0.28) 53%,
+    transparent 62%
+  );
+  background-size: 260% 100%;
+  background-position: 120% 0;
+  mix-blend-mode: screen;
 }
 
 /* The studio light, behind the head and shoulders. */
@@ -163,8 +213,21 @@
   .vb[data-motion="on"] .vb-open-glow {
     animation: vb-open-breathe 9s var(--ease-soft) infinite alternate;
   }
-  .vb[data-motion="on"] .vb-open-img {
+  .vb[data-motion="on"] .vb-open-print {
     animation: vb-open-in 1.4s var(--ease-expo) both;
+  }
+  .vb[data-motion="on"] .vb-open-sweep {
+    animation: vb-open-sweep 14s var(--ease-soft) 0.9s infinite;
+  }
+}
+
+@keyframes vb-open-sweep {
+  0% {
+    background-position: 120% 0;
+  }
+  22%,
+  100% {
+    background-position: -20% 0;
   }
 }
 
@@ -248,7 +311,7 @@
     margin: 0;
   }
 
-  .vb-open-img {
+  .vb-open-print {
     mask-image: none;
   }
 
