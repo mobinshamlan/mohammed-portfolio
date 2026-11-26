@@ -1,4 +1,4 @@
-/* The route from the childhood portrait to London documents to projects at home. */
+/* Three milestones on one thread: the childhood photo, the degree, the products built at home. */
 .vb-story {
   --route-thread: color-mix(in srgb, var(--ribbon) 75%, var(--sand));
   --route-pin-size: 0.75rem;
@@ -10,19 +10,19 @@
 .vb-route {
   position: relative;
   display: grid;
-  margin: clamp(2rem, 4vw, 3.75rem) 0 0;
+  margin: clamp(1.75rem, 4vw, 3.75rem) 0 0;
   padding: 0;
   list-style: none;
 }
 
 .vb-route-stop {
   position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: start;
-  gap: 0.8rem;
+  display: grid;
+  grid-template-areas: "head" "body" "art";
+  align-content: start;
+  gap: 0.7rem;
   min-width: 0;
-  padding: 0 0 1.85rem 1.5rem;
+  padding: 0 0 1.75rem 1.5rem;
   scroll-margin-top: 5rem;
 }
 
@@ -54,37 +54,64 @@
 
 .vb-route-head {
   display: grid;
-  gap: 0.25rem;
+  grid-area: head;
+  gap: 0.2rem;
 }
 
 .vb-route-place {
-  font-size: clamp(1.4rem, 1.15rem + 0.75vw, 2rem);
-  line-height: 1.12;
+  font-size: clamp(1.5rem, 1.2rem + 0.9vw, 2.25rem);
+  line-height: 1.1;
   letter-spacing: -0.028em;
 }
 
-.vb-route-when,
-.vb-route-year {
+.vb-route-when {
   color: var(--ember);
   font-size: var(--step-small);
   font-weight: 500;
   font-variant-numeric: tabular-nums;
 }
 
+.vb-route-art {
+  grid-area: art;
+  min-width: 0;
+}
+
+.vb-route-body {
+  display: grid;
+  grid-area: body;
+  gap: 0.5rem;
+  max-width: 44ch;
+}
+
 .vb-route-line,
-.vb-route-grant,
-.vb-route-facts {
-  max-width: 50ch;
+.vb-route-note {
   color: var(--sand-2);
   font-size: 1rem;
   line-height: 1.45;
   text-wrap: pretty;
 }
 
-/* At the start of the route the original photo is the largest artefact. */
+.vb-route-line strong {
+  color: var(--sand);
+  font-weight: 600;
+}
+
+.vb-route-note {
+  font-size: var(--step-small);
+  color: color-mix(in srgb, var(--sand-2) 80%, var(--night));
+}
+
+/* Stop 1: the photo is the artefact, beside the words on phones. */
 .vb-route-stop[data-kind="home"] {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(5rem, 32%);
+  grid-template-areas: "head art" "body art";
+  grid-template-columns: minmax(0, 1fr) minmax(5.5rem, 30%);
+  grid-template-rows: auto 1fr;
+  column-gap: 1rem;
+}
+
+.vb-route-head,
+.vb-route-body {
+  align-self: start;
 }
 
 .vb .vb-route-child {
@@ -96,40 +123,11 @@
   border-radius: 0.2rem;
 }
 
-.vb-route-stop[data-kind="london"] .vb-route-place {
-  font-size: clamp(2rem, 1.55rem + 1.45vw, 3rem);
-}
-
-.vb-route-facts {
-  display: grid;
-  gap: 0.7rem;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.vb-route-facts li {
-  display: grid;
-  grid-template-columns: 4.05rem minmax(0, 1fr);
-  gap: 0.55rem;
-}
-
-.vb-route-facts strong {
-  color: var(--sand);
-  font-weight: 600;
-}
-
-.vb-route-keep {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.8rem 1.25rem;
-  margin-top: 0.45rem;
-}
-
+/* Stop 2: the degree certificate on cream paper opens in the viewer. */
 .vb .vb-route-doc {
-  display: inline-grid;
-  justify-items: start;
-  gap: 0.45rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.85rem;
   min-height: 2.75rem;
   padding: 0;
   border: 0;
@@ -144,16 +142,24 @@
 
 .vb-route-doc-img {
   display: block;
-  height: clamp(3.85rem, 7vw, 5.5rem);
+  flex: none;
+  height: 5rem;
   padding: 0.2rem;
   border-radius: 0.2rem;
   background: var(--sand);
+  box-shadow: 0 0.5rem 1.25rem color-mix(in srgb, var(--night) 60%, transparent);
+  transition: transform var(--t-hover) var(--ease-out);
 }
 
 .vb .vb-route-doc-img img {
   width: auto;
   height: 100%;
   border-radius: 0.1rem;
+}
+
+.vb-route-doc:hover .vb-route-doc-img,
+.vb-route-doc:focus-visible .vb-route-doc-img {
+  transform: translateY(-2px) rotate(-1deg);
 }
 
 .vb-route-doc-cap,
@@ -168,15 +174,10 @@
   text-decoration-color: var(--ember);
 }
 
-.vb .vb-route-built {
-  margin-top: 0.3rem;
-  font-size: 1rem;
-  font-weight: 600;
-}
-
+/* Stop 3: the products are the artefact. */
 .vb-route-work {
   display: grid;
-  gap: 0.3rem;
+  gap: 0.25rem;
   margin: 0;
   padding: 0;
   list-style: none;
@@ -186,7 +187,7 @@
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  min-height: 3rem;
+  min-height: 2.75rem;
   color: var(--sand);
   text-decoration: none;
 }
@@ -221,27 +222,52 @@
   margin-top: clamp(1.5rem, 3vw, 2.5rem);
 }
 
-@media (max-width: 459px) {
-  .vb-route-facts li {
-    display: block;
+@media (min-width: 600px) and (max-width: 1023px) {
+  .vb-route-stop {
+    grid-template-areas: "head head" "body art";
+    grid-template-columns: minmax(0, 1fr) auto;
+    column-gap: 2rem;
   }
 
-  .vb-route-year {
-    display: block;
-    margin-bottom: 0.12rem;
+  .vb-route-stop[data-kind="home"] {
+    grid-template-areas: "head art" "body art";
+    grid-template-columns: minmax(0, 1fr) 9rem;
   }
 }
 
 @media (min-width: 1024px) {
   .vb-route {
     --route-gap: clamp(2rem, 4vw, 4.5rem);
-    grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.7fr) minmax(0, 1fr);
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr) minmax(0, 1fr);
     column-gap: var(--route-gap);
   }
 
-  .vb-route-stop {
-    gap: 0.9rem;
+  /* Heads line up across the three columns; words and artefacts flow below each one. */
+  .vb-route-stop,
+  .vb-route-stop[data-kind="home"] {
+    grid-row: 1;
+    grid-template-areas: "head" "body" "art";
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto auto 1fr;
+    row-gap: 1.1rem;
+    column-gap: 0;
     padding: 1.6rem 0 0;
+  }
+
+  .vb-route-art {
+    align-self: start;
+  }
+
+  .vb-route-stop[data-kind="home"] {
+    grid-column: 1;
+  }
+
+  .vb-route-stop[data-kind="london"] {
+    grid-column: 2;
+  }
+
+  .vb-route-stop[data-kind="return"] {
+    grid-column: 3;
   }
 
   .vb-route-stop:not(:last-child)::before {
@@ -252,40 +278,31 @@
     transform-origin: left;
   }
 
-  .vb-route-stop[data-kind="home"] {
-    display: flex;
-    grid-area: 1 / 1 / span 2;
+  .vb-route-pin {
+    top: 0;
+  }
+
+  .vb-route-place {
+    font-size: clamp(1.75rem, 1.2rem + 1.2vw, 2.6rem);
   }
 
   .vb .vb-route-child {
     max-width: 16rem;
   }
 
-  .vb-route-stop[data-kind="brighton"] {
-    grid-area: 1 / 2;
-    padding: 1.6rem 0 1.3rem 1.4rem;
+  .vb .vb-route-doc {
+    display: inline-grid;
+    justify-items: start;
+    gap: 0.6rem;
   }
 
-  .vb-route-stop[data-kind="brighton"]::before {
-    --route-start: scaleY(0);
-    inset-inline-end: auto;
-    bottom: calc(-1 * var(--route-pin-center));
-    border-top: 0;
-    border-inline-start: 1px dashed var(--route-thread);
-    transform-origin: top;
+  .vb-route-doc-img {
+    height: clamp(10rem, 12vw, 13rem);
+    padding: 0.3rem;
   }
 
-  .vb-route-stop[data-kind="london"] {
-    grid-area: 2 / 2;
-    padding-inline-start: 1.4rem;
-  }
-
-  .vb-route-stop[data-kind="return"] {
-    grid-area: 2 / 3;
-  }
-
-  .vb-route-pin {
-    top: 0;
+  .vb-route-stop[data-kind="london"] .vb-route-note {
+    max-width: 40ch;
   }
 }
 
@@ -294,12 +311,8 @@
     transition: transform 420ms var(--ease-out);
   }
 
-  .vb[data-motion="on"] .vb-route[data-wait] .vb-route-stop[data-kind="brighton"]::before {
-    transition-delay: 330ms;
-  }
-
   .vb[data-motion="on"] .vb-route[data-wait] .vb-route-stop[data-kind="london"]::before {
-    transition-delay: 660ms;
+    transition-delay: 330ms;
   }
 
   .vb[data-motion="on"] .vb-route[data-wait="true"] .vb-route-stop:not(:last-child)::before {

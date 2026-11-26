@@ -25,7 +25,7 @@ export function RouteMap({ children }: { children: ReactNode }) {
   }, []);
 
   return (
-    <ol ref={ref} className="vb-route" aria-label="From Saudi Arabia to England and home again">
+    <ol ref={ref} className="vb-route" aria-label="Three milestones: Saudi Arabia, London, and back home">
       {children}
     </ol>
   );
