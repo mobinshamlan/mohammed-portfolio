@@ -35,7 +35,7 @@ export function Story() {
               alt={childhood.alt}
               width={childhood.width}
               height={childhood.height}
-              sizes="(min-width: 1024px) 18rem, (min-width: 600px) 10rem, 7.5rem"
+              sizes="(min-width: 1024px) 14rem, (min-width: 600px) 10rem, 7.5rem"
             />
           }
         />
@@ -64,10 +64,10 @@ export function Story() {
                   alt=""
                   width={degree.width}
                   height={degree.height}
-                  sizes="(min-width: 1024px) 12rem, 6.5rem"
+                  sizes="(min-width: 1024px) 6rem, 4.5rem"
                 />
               </span>
-              <span className="vb-route-doc-cap">Open the degree certificate</span>
+              <span className="vb-route-doc-cap">View degree certificate</span>
             </DocumentViewer>
           }
         >
@@ -75,8 +75,8 @@ export function Story() {
             I earned a <strong>BSc in computer science</strong> at Queen Mary University of London on a full Saudi government scholarship.
           </p>
           <p className="vb-route-note">
-            Before that: six months of English in Brighton and a foundation year at Kaplan
-            International College London.
+            Before university, I studied English in Brighton for six months and completed a
+            foundation year at Kaplan International College London.
           </p>
         </RouteStop>
 

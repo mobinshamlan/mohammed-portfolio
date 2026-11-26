@@ -50,11 +50,10 @@ export function RouteStop({
         </span>
       ) : null}
       <header className="vb-route-head">
-        <span className="vb-route-code" aria-hidden="true">
-          {code}
-        </span>
         <h3 className="vb-route-place">{place}</h3>
-        <p className="vb-route-when">{when}</p>
+        <p className="vb-route-when">
+          <span className="vb-route-code" aria-hidden="true">{code} ·</span> {when}
+        </p>
       </header>
       {children ? <div className="vb-route-body">{children}</div> : null}
       <div className="vb-route-art">{art}</div>

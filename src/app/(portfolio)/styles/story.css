@@ -5,7 +5,6 @@
   --route-pin-size: 0.8rem;
   --route-pin-center: calc(var(--route-pin-size) / 2);
   --route-rise: 3.5rem;
-  --route-code: color-mix(in srgb, var(--sand) 58%, var(--predawn));
   padding: clamp(3.5rem, 7vw, 6.5rem) var(--gutter) clamp(2.5rem, 4vw, 4rem);
   background: var(--predawn);
 }
@@ -25,7 +24,7 @@
   align-content: start;
   gap: 0.8rem;
   min-width: 0;
-  padding: 0 0 2.25rem 1.6rem;
+  padding: 0 0 2rem 1.6rem;
 }
 
 .vb-route-stop:last-child {
@@ -63,34 +62,26 @@
 .vb-route-head {
   display: grid;
   grid-area: head;
-  gap: 0.15rem;
+  gap: 0.3rem;
 }
 
-/* The airport code: the typographic mark of the place, read like a departures board. */
 .vb-route-code {
-  font-family: var(--display);
-  font-size: clamp(2.4rem, 1.6rem + 2.4vw, 4rem);
-  font-weight: 800;
-  line-height: 0.95;
-  letter-spacing: -0.02em;
-  color: var(--route-code);
+  margin-inline-end: 0.25em;
+  color: var(--sand-2);
+  font-weight: 600;
   font-variant-numeric: tabular-nums;
 }
 
 .vb-route-place {
-  font-size: clamp(1.5rem, 1.2rem + 0.9vw, 2.25rem);
+  font-size: clamp(1.625rem, 1.2rem + 1.2vw, 2.4rem);
   line-height: 1.1;
   letter-spacing: -0.028em;
 }
 
 .vb-route-when {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.2rem 0.75rem;
   color: var(--ember);
   font-size: var(--step-small);
   font-weight: 500;
-  font-variant-numeric: tabular-nums;
 }
 
 .vb-route-art {
@@ -125,9 +116,8 @@
 
 /* Stop 1: the photo is the artefact, beside the words on phones. */
 .vb-route-stop[data-kind="home"] {
-  grid-template-areas: "head art" "body art";
+  grid-template-areas: "head art";
   grid-template-columns: minmax(0, 1fr) minmax(5.5rem, 32%);
-  grid-template-rows: auto 1fr;
   column-gap: 1rem;
 }
 
@@ -169,7 +159,6 @@
   padding: 0.2rem;
   border-radius: 0.2rem;
   background: var(--sand);
-  box-shadow: 0 0.5rem 1.25rem color-mix(in srgb, var(--night) 60%, transparent);
   transition: transform var(--t-hover) var(--ease-out);
 }
 
@@ -241,7 +230,28 @@
 }
 
 .vb-story-music {
-  margin-top: clamp(2rem, 4vw, 3rem);
+  margin-top: clamp(1.75rem, 3vw, 2.75rem);
+}
+
+@media (max-width: 1023px) {
+  .vb-route-flight {
+    position: absolute;
+    top: 50%;
+    left: -1px;
+    display: grid;
+    place-items: center;
+    width: 1.25rem;
+    height: 1.55rem;
+    translate: -50% -50%;
+    background: var(--predawn);
+    color: var(--route-thread);
+  }
+
+  .vb-route-plane {
+    width: 0.85rem;
+    height: 0.85rem;
+    rotate: 180deg;
+  }
 }
 
 @media (min-width: 600px) and (max-width: 1023px) {
@@ -252,7 +262,6 @@
   }
 
   .vb-route-stop[data-kind="home"] {
-    grid-template-areas: "head art" "body art";
     grid-template-columns: minmax(0, 1fr) 11rem;
   }
 
@@ -266,7 +275,7 @@
     --route-gap: clamp(2.5rem, 4vw, 5rem);
     grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr) minmax(0, 1fr);
     column-gap: var(--route-gap);
-    margin-top: clamp(4rem, 6vw, 6.5rem);
+    margin-top: clamp(3.5rem, 5vw, 5rem);
   }
 
   /* Heads line up across the three columns; words and artefacts flow below each one. */
@@ -276,7 +285,7 @@
     grid-template-areas: "head" "body" "art";
     grid-template-columns: minmax(0, 1fr);
     grid-template-rows: auto auto 1fr;
-    row-gap: 1.2rem;
+    row-gap: 1rem;
     column-gap: 0;
     padding: 1.9rem 0 0;
   }
@@ -287,6 +296,8 @@
 
   .vb-route-stop[data-kind="home"] {
     grid-column: 1;
+    grid-template-areas: "head" "art";
+    grid-template-rows: auto auto;
   }
 
   .vb-route-stop[data-kind="london"] {
@@ -321,27 +332,12 @@
     stroke-linecap: round;
   }
 
-  .vb-route-code {
-    margin-bottom: 0.25rem;
-  }
-
-  .vb-route-place {
-    font-size: clamp(1.75rem, 1.2rem + 1.2vw, 2.6rem);
-  }
-
   .vb .vb-route-child {
-    max-width: 18rem;
-  }
-
-  .vb .vb-route-doc {
-    display: inline-grid;
-    justify-items: start;
-    gap: 0.6rem;
+    max-width: 14rem;
   }
 
   .vb-route-doc-img {
-    height: clamp(11rem, 13vw, 14rem);
-    padding: 0.3rem;
+    height: clamp(5.5rem, 8vw, 7.5rem);
   }
 
   .vb-route-stop[data-kind="london"] .vb-route-note {
