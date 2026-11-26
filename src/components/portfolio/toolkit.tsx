@@ -191,7 +191,7 @@ export function Toolkit() {
         </ul>
         {hydrated && !project && !showAll ? (
           <button type="button" className="vb-btn vb-btn-quiet vb-tools-more" onClick={() => setShowAll(true)}>
-            Show all {toolkit.length} skills
+            Show the other {toolkit.length - 3} skills
           </button>
         ) : null}
       </div>

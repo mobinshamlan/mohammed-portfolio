@@ -681,9 +681,20 @@
 }
 
 /* Phones: the first name only, so it never runs under Jump to. */
+.vb-wordmark-short {
+  display: none;
+}
+
 @media (max-width: 479px) {
-  .vb-wordmark-rest {
-    display: none;
+  .vb-wordmark-first {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+  }
+  .vb-wordmark-short {
+    display: inline;
   }
 }
 
@@ -735,4 +746,18 @@
 /* The thread runs down Amanah's left margin; the key tag that sat in its way steps aside. */
 .vb-proj[data-id="amanah"] .am-tag[data-slot="2"] {
   display: none;
+}
+
+/* Phones: London keeps its facts in a tighter card. */
+@media (max-width: 899px) {
+  .vb .vb-route-stop[data-kind="long"] {
+    gap: 0.85rem;
+    padding: 1.1rem 1rem 2.75rem 2.6rem;
+  }
+  .vb .vb-route-stop[data-kind="long"] .vb-route-place {
+    font-size: 2.6rem;
+  }
+  .vb .vb-route-keep {
+    --thumb-h: 4.5rem;
+  }
 }

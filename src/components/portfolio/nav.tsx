@@ -193,7 +193,9 @@ export function Nav({
     >
       <div className="vb-brand">
         <Link href="/" className="vb-wordmark">
-          Mohammed<span className="vb-wordmark-rest"> Bin Shamlan</span>
+          <span className="vb-wordmark-first">Mohammed</span>
+          <span className="vb-wordmark-short" aria-hidden="true">M.</span>
+          <span className="vb-wordmark-rest"> Bin Shamlan</span>
         </Link>
       </div>
 
