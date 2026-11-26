@@ -1,12 +1,6 @@
-import Image from "next/image";
 import Link from "next/link";
 import type { ReactNode } from "react";
-import { gthrzShots } from "@/lib/gthrz";
-import { publicUrl } from "@/lib/site";
 import { fieldStyle, projectById, type Project, type ProjectId } from "@/lib/projects";
-import { DeviceFrame } from "./device-frame";
-import { DocumentViewer } from "./document-viewer";
-import { GthrzImg } from "./gthrz-img";
 import { Reveal } from "./reveal";
 import { NaqahProof } from "./proof/naqah-proof";
 import { TammeniProof } from "./proof/tammeni-proof";
@@ -101,7 +95,7 @@ const role: Record<string, string> = {
   gthrz: "Solo: the React Native app, its privacy rules and the AI planner.",
 };
 
-function Foot({ project }: { project: Project; idea?: ReactNode }) {
+function Foot({ project }: { project: Project }) {
   return (
     <Reveal className="vb-proj-foot" delay={0.08}>
       <p className="vb-proj-role">{role[project.id] ?? project.contribution}</p>
@@ -116,40 +110,6 @@ function Foot({ project }: { project: Project; idea?: ReactNode }) {
         <ProjectLinks project={project} />
       </div>
     </Reveal>
-  );
-}
-
-/** One real screen from the live product, with a caption saying what it shows. */
-function Screen({
-  shot,
-  caption,
-  sizes,
-  phoneOnly = false,
-}: {
-  shot: Project["screens"][number];
-  caption: string;
-  sizes: string;
-  phoneOnly?: boolean;
-}) {
-  return (
-    <figure className="vb-proj-screen" data-phone-only={phoneOnly ? "true" : undefined}>
-      <DocumentViewer
-        triggerClassName="vb-proj-zoom"
-        src={shot.src}
-        width={shot.width}
-        height={shot.height}
-        alt={shot.alt}
-        title={shot.alt}
-        subtitle="Screenshot from the live product"
-        href={shot.src}
-      >
-        <span className="vb-phone vb-phone-sm" data-ui="">
-          <Image src={shot.src} alt={shot.alt} width={shot.width} height={shot.height} sizes={sizes} className="vb-phone-img" />
-        </span>
-        <span className="vb-proj-zoom-hint">Enlarge</span>
-      </DocumentViewer>
-      <figcaption>{caption}</figcaption>
-    </figure>
   );
 }
 
@@ -185,168 +145,85 @@ function Section({
   );
 }
 
-function Phone({ shot, sizes }: { shot: Project["screens"][number]; sizes: string }) {
-  return (
-    <div className="vb-phone vb-phone-sm" data-ui="">
-      <Image src={shot.src} alt="" width={shot.width} height={shot.height} sizes={sizes} className="vb-phone-img" />
-    </div>
-  );
-}
-
-/* ---------- Naqah: the call itself is the picture ---------- */
-
+/*
+ * Every chapter reads the same way: the name and what it is, then my part and
+ * the links, beside one picture of how the product works. Real screens and the
+ * full demos are in each case study.
+ */
 function Naqah() {
   const project = projectById.naqah;
   return (
-    <Section id="naqah" scene={<NaqahScene />} layout="stage">
+    <Section id="naqah" scene={<NaqahScene />} layout="uniform">
       <Head project={project} />
-      <div className="vb-proj-art">
+      <Foot project={project} />
+      <div className="vb-proj-visual">
         <NaqahProof />
       </div>
-      {project.coverPhone ? (
-        <Screen
-          shot={project.coverPhone}
-          sizes="(max-width: 899px) 60vw, 220px"
-          caption="The live site, in Arabic first: Naqah calls your worker at the time you choose, keeps the answers, then calls you with what matters."
-        />
-      ) : null}
-      <Foot project={project} idea="The worker types nothing. A daily call asks the owner's questions, keeps the answers as records and throws the audio away." />
     </Section>
   );
 }
-
-/* ---------- Tammeni: one family's rules, and the screens that set them ---------- */
 
 function Tammeni() {
   const project = projectById.tammeni;
-  const phones = project.screens.filter((shot) => shot.frame === "phone").slice(0, 2);
   return (
-    <Section id="tammeni" scene={<TammeniScene />} layout="schedule">
+    <Section id="tammeni" scene={<TammeniScene />} layout="uniform">
       <Head project={project} />
-      <div className="vb-proj-demo">
+      <Foot project={project} />
+      <div className="vb-proj-visual">
         <TammeniProof />
       </div>
-      <div className="vb-proj-art vb-proj-phones" aria-hidden="true">
-        {phones.map((shot) => (
-          <Phone key={shot.src} shot={shot} sizes="(max-width: 899px) 42vw, 250px" />
-        ))}
-      </div>
-      {phones[0] ? (
-        <Screen
-          phoneOnly
-          shot={phones[0]}
-          sizes="60vw"
-          caption="The live demo, step 4 of 11: a parent chooses whether attendance news comes right away or after the school day."
-        />
-      ) : null}
-      <Foot project={project} idea="Each parent chooses, per child and per topic, whether news comes by call or text, and when." />
     </Section>
   );
 }
-
-/* ---------- Seet: a masthead over the booking chat ---------- */
 
 function Seet() {
   const project = projectById.seet;
-  const dashboard = {
-    src: publicUrl("/images/projects/seet/dashboard.webp"),
-    alt: "Seet's booking dashboard on demo data: the ads manager's November 2026 calendar, with confirmed bookings on the 25th and 27th and ads already shown on the 13th, 20th and 21st.",
-    width: 1440,
-    height: 900,
-    frame: "browser" as const,
-  };
   return (
-    <Section id="seet" scene={<SeetScene />} layout="masthead">
+    <Section id="seet" scene={<SeetScene />} layout="uniform">
       <Head project={project} />
-      <div className="vb-proj-art">
+      <Foot project={project} />
+      <div className="vb-proj-visual">
         <SeetProof />
       </div>
-      <figure className="vb-proj-screen vb-proj-screen-wide">
-        <DocumentViewer
-          triggerClassName="vb-proj-zoom"
-          src={dashboard.src}
-          width={dashboard.width}
-          height={dashboard.height}
-          alt={dashboard.alt}
-          title="Seet dashboard on demo data"
-          subtitle="Screenshot from the app running locally"
-          href={dashboard.src}
-        >
-          <DeviceFrame shot={dashboard} sizes="(max-width: 899px) 100vw, 36vw" label="Seet dashboard · demo data" />
-          <span className="vb-proj-zoom-hint">Enlarge</span>
-        </DocumentViewer>
-        <figcaption>
-          The dashboard I built, on its demo data: an ads manager&rsquo;s month, with confirmed
-          bookings and ads already shown, in Arabic first.
-        </figcaption>
-      </figure>
-      <Foot project={project} idea="A slot is held first. Only the deposit confirms it." />
     </Section>
   );
 }
-
-/* ---------- Kashta: one real night, scored by the app's own rules ---------- */
 
 function Kashta() {
   const project = projectById.kashta;
   return (
-    <Section id="kashta" scene={<KashtaScene />} layout="score">
+    <Section id="kashta" scene={<KashtaScene />} layout="uniform">
       <Head project={project} />
-      <div className="vb-proj-demo">
+      <Foot project={project} />
+      <div className="vb-proj-visual">
         <KashtaProof />
       </div>
-      {project.coverPhone ? (
-        <div className="vb-proj-art" aria-hidden="true">
-          <Phone shot={project.coverPhone} sizes="240px" />
-        </div>
-      ) : null}
-      <Foot project={project} idea="The score is code, not AI. Llama explains a ranking it never computes." />
     </Section>
   );
 }
-
-/* ---------- Amanah: the same claim, seen from each side ---------- */
 
 function Amanah() {
   const project = projectById.amanah;
-  const ownership = project.screens.find((shot) => shot.src.includes("ownership")) ?? project.cover;
   return (
-    <Section id="amanah" scene={<AmanahScene />} layout="views">
+    <Section id="amanah" scene={<AmanahScene />} layout="uniform">
       <Head project={project} />
-      <div className="vb-proj-demo">
+      <Foot project={project} />
+      <div className="vb-proj-visual">
         <AmanahProof />
       </div>
-      <div className="vb-proj-art">
-        <DeviceFrame
-          shot={{ ...ownership, caption: undefined }}
-          sizes="(max-width: 899px) 100vw, 40vw"
-          label="amanahz.vercel.app/demo"
-        />
-      </div>
-      <Foot project={project} idea="One match, two different views." />
     </Section>
   );
 }
 
-/* ---------- Gthrz: a phone app, so phones lead ---------- */
-
 function Gthrz() {
   const project = projectById.gthrz;
-  const shots = [gthrzShots.home, gthrzShots.details, gthrzShots.privacy];
   return (
-    <Section id="gthrz" scene={<GthrzScene />} layout="fan">
+    <Section id="gthrz" scene={<GthrzScene />} layout="uniform">
       <Head project={project} />
-      <div className="vb-proj-art vb-proj-fan" aria-hidden="true">
-        {shots.map((shot) => (
-          <div key={shot.src} className="vb-capture" data-ui="">
-            <GthrzImg shot={shot} sizes="(max-width: 899px) 30vw, 240px" decorative />
-          </div>
-        ))}
-      </div>
-      <div className="vb-proj-demo">
+      <Foot project={project} />
+      <div className="vb-proj-visual">
         <GthrzProof />
       </div>
-      <Foot project={project} idea="The host decides who sees the address, and when." />
     </Section>
   );
 }

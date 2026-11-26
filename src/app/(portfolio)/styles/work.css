@@ -269,3 +269,57 @@
 .vb-proj-screen {
   grid-template-columns: minmax(0, 11rem);
 }
+
+/* ---------- One reading order for every chapter ----------
+   Name and what it is, then my part and the links, beside one picture. */
+.vb-proj[data-layout="uniform"] .vb-proj-visual {
+  min-width: 0;
+}
+
+@media (min-width: 900px) {
+  .vb-proj[data-layout="uniform"] .vb-proj-inner {
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    grid-template-areas: "head visual" "foot visual";
+    grid-template-rows: auto 1fr;
+    column-gap: clamp(2.5rem, 5vw, 6rem);
+    row-gap: 1.75rem;
+    align-items: start;
+  }
+  .vb-proj[data-layout="uniform"] .vb-proj-head {
+    grid-area: head;
+  }
+  .vb-proj[data-layout="uniform"] .vb-proj-foot {
+    grid-area: foot;
+  }
+  .vb-proj[data-layout="uniform"] .vb-proj-visual {
+    grid-area: visual;
+    align-self: center;
+  }
+}
+
+/* Phones: name, the picture, then my part and the links. */
+@media (max-width: 899px) {
+  .vb-proj[data-layout="uniform"] .vb-proj-visual {
+    order: 1;
+  }
+  .vb-proj[data-layout="uniform"] .vb-proj-foot {
+    order: 2;
+  }
+}
+
+/* Scenes in the shared layout. Amanah's picture is already its tags, so the
+   hanging tags step aside; Seet's skyline gets its own band under the content. */
+.vb-proj[data-id="amanah"] .vb-proj-scene {
+  display: none;
+}
+
+@media (min-width: 900px) {
+  .vb-proj[data-id="seet"] .vb-proj-inner {
+    padding-bottom: calc(clamp(3.5rem, 7vw, 7rem) + var(--edge) + 11rem);
+  }
+}
+
+/* Tammeni keeps its exercise-book page; its school-day line would cross the links. */
+.vb-proj[data-id="tammeni"] .vb-proj-scene > * {
+  display: none;
+}
