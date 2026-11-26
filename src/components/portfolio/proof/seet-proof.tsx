@@ -89,7 +89,7 @@ export function SeetProof() {
             disabled={!hydrated}
             aria-hidden={hydrated ? undefined : "true"}
           >
-            {paid ? "Restart sample chat" : "Pay sample deposit"}
+            {paid ? "Restart sample chat" : "Simulate the deposit"}
           </button>
         </figcaption>
       </figure>

@@ -138,7 +138,7 @@ export function KashtaProof() {
 
         <figcaption className="vb-kp-foot">
           <p className="vb-kp-note">
-            Real forecast: {kashtaExample.site}, {kashtaExample.shortNight}. The app scores it; the AI only explains why.
+            Example from a real forecast: {kashtaExample.site}, {kashtaExample.shortNight}. The app scores it; the AI only explains why.
           </p>
         </figcaption>
       </figure>

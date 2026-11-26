@@ -44,7 +44,7 @@ export function AmanahProof() {
         {/* The owner's claim. */}
         <div className="vb-ap-claim" data-ui="">
           <p className="vb-ap-item">
-            Gemini matched your report to a found blue umbrella
+            The AI matched your report to a found blue umbrella
             <span className="vb-ap-note">Sample claim</span>
           </p>
           <p className="vb-ap-q" id="amanah-q">
@@ -70,7 +70,7 @@ export function AmanahProof() {
           <figcaption className="vb-ap-result" role="status" aria-atomic="true">
             {verdict === "open" ? (
               <>
-                <strong>Waiting for your answer.</strong> Staff decide; Gemini only suggests.
+                <strong>Waiting for your answer.</strong> Staff decide; the AI only suggests.
               </>
             ) : verdict === "match" ? (
               <>

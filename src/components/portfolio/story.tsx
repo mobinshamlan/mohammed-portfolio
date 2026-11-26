@@ -40,7 +40,7 @@ export function Story() {
 
         <RouteStop id="journey" kind="london" place="London" when="2022–2026">
           <p className="vb-route-grant">
-            I studied on a Saudi government scholarship, through the Imdad pathway.
+            I studied on a full Saudi government scholarship.
           </p>
           <ul className="vb-route-facts">
             <li>
@@ -51,7 +51,7 @@ export function Story() {
               <span className="vb-route-year">2023–26</span>
               <span>
                 <strong>Computer science at Queen Mary University of London.</strong>{" "}
-                Graduated in July 2026 with upper second-class honours (2:1).
+                Graduated in July 2026 with a 2:1, the second-highest grade band.
               </span>
             </li>
             <li>

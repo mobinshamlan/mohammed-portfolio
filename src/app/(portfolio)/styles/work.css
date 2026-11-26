@@ -408,8 +408,9 @@
 /* Red as the ribbon on the degree scroll: the one thread that runs through all of it. */
 .vb-flow-line {
   stroke: var(--ribbon);
-  stroke-width: 3;
-  stroke-dasharray: 10 6;
+  stroke-width: 2;
+  stroke-dasharray: 7 7;
+  opacity: 0.7;
 }
 
 .vb-flow-reveal {
