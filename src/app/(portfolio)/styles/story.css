@@ -538,3 +538,16 @@
     transition: none;
   }
 }
+
+/* The two certificate captions never run together. */
+.vb-route-doc-cap {
+  display: block;
+  margin-top: 0.35rem;
+  white-space: nowrap;
+}
+
+/* Keep a clear gap between the two certificates and their captions at every
+   width. (The viewer's dialog sits between them, so a sibling rule can't do it.) */
+.vb .vb-route-keep {
+  column-gap: 1.25rem;
+}

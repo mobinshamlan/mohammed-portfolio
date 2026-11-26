@@ -436,8 +436,7 @@
    numbers wait in the case study; the picture and my part stay. */
 @media (max-width: 899px) {
   .vb-kp-factor > span,
-  .pf-naqah-what,
-  .vb-proj-stand .vb-proj-proof {
+  .pf-naqah-what {
     display: none;
   }
 }
@@ -694,4 +693,18 @@
     align-self: end;
     padding-bottom: 1rem;
   }
+}
+
+/* A visible cue on links that leave the site (they open in a new tab). */
+.vb-proj-links a[target="_blank"]::after,
+.vb-proj-proof a[target="_blank"]::after,
+.vb-talk-links a[target="_blank"]::after {
+  content: "";
+  display: inline-block;
+  width: 0.7em;
+  height: 0.7em;
+  margin-inline-start: 0.3em;
+  background: currentColor;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' fill='none' stroke='black' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 2h6v6M10 2 2.5 9.5'/%3E%3C/svg%3E") center / contain no-repeat;
+  opacity: 0.75;
 }

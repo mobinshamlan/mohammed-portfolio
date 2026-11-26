@@ -107,7 +107,7 @@ export function NaqahProof() {
             aria-hidden={hydrated ? undefined : "true"}
           >
             <PlayIcon />
-            {step === null ? "Play tonight’s call" : playing ? "Playing…" : "Play again"}
+            {step === null ? "Step through tonight’s call" : playing ? "Stepping through…" : "Step through again"}
           </button>
           <span className="pf-naqah-note">Example</span>
         </figcaption>

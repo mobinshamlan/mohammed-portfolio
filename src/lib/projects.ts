@@ -245,7 +245,7 @@ export const projects: Project[] = [
     ],
     links: [
       { label: "Live demo (Arabic)", href: "https://naqah.vercel.app" },
-      { label: "English", href: "https://naqah.vercel.app/en" },
+      { label: "English demo", href: "https://naqah.vercel.app/en" },
       { label: "Source on GitHub", href: "https://github.com/justAbdulaziz10/Naqah" },
     ],
     cover: {

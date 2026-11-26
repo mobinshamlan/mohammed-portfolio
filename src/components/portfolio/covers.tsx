@@ -79,7 +79,7 @@ function Proof({ project }: { project: Project }) {
       {items.map((item) => (
         <span key={item.kind}>
           <a href={item.run?.href ?? item.source.href} className="vb-link" target="_blank" rel="noreferrer">
-            <strong>{item.value}</strong> {item.kind === "tests" ? "tests" : "commits"}
+            <strong>{item.value}</strong> {item.kind === "tests" ? "tests passing" : "commits by me"}
             <span className="vb-sr"> (opens in a new tab)</span>
           </a>
         </span>
