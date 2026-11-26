@@ -708,3 +708,19 @@
   mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' fill='none' stroke='black' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 2h6v6M10 2 2.5 9.5'/%3E%3C/svg%3E") center / contain no-repeat;
   opacity: 0.75;
 }
+
+/* Phones: name, my part, the try-it, then the status and links. */
+@media (max-width: 899px) {
+  .vb-proj[data-layout="uniform"] .vb-proj-foot {
+    display: contents;
+  }
+  .vb-proj[data-layout="uniform"] .vb-proj-role {
+    order: 0;
+  }
+  .vb-proj[data-layout="uniform"] .vb-proj-visual {
+    order: 1;
+  }
+  .vb-proj[data-layout="uniform"] :is(.vb-proj-stand, .vb-proj-actions) {
+    order: 2;
+  }
+}

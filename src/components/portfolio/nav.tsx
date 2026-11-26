@@ -42,6 +42,8 @@ export function Nav({
   fieldInk?: string;
 }) {
   const [spy, setSpy] = useState("");
+  // Inside Work, the project being read, so the bar says where you are.
+  const [chapter, setChapter] = useState("");
   const hydrated = useHydrated();
   const menu = useRef<HTMLDialogElement>(null);
   const toggle = useRef<HTMLButtonElement>(null);
@@ -74,6 +76,26 @@ export function Nav({
       window.clearTimeout(timer);
       window.removeEventListener("popstate", onPop);
     };
+  }, [onHome]);
+
+  useEffect(() => {
+    if (!onHome) {
+      return;
+    }
+    const chapters = Array.from(document.querySelectorAll<HTMLElement>(".vb-proj[id]"));
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const name = entry.target.querySelector(".vb-proj-name a")?.firstChild?.textContent ?? "";
+            setChapter(name.trim());
+          }
+        });
+      },
+      { rootMargin: "-45% 0px -50% 0px" },
+    );
+    chapters.forEach((node) => observer.observe(node));
+    return () => observer.disconnect();
   }, [onHome]);
 
   useEffect(() => {
@@ -185,6 +207,11 @@ export function Nav({
                 onClick={(event) => onHashClick(event, item.id)}
               >
                 {item.label}
+                {item.id === "work" && chapter && spy === "work" ? (
+                  <span className="vb-nav-chapter" aria-hidden="true">
+                    {chapter}
+                  </span>
+                ) : null}
               </Link>
             </li>
           ))}

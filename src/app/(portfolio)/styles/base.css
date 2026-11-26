@@ -915,3 +915,16 @@ html:has(.vb) {
   letter-spacing: 0;
   line-height: 1.4;
 }
+
+/* Inside Work, the current project follows the link: "Work · Kashta". */
+.vb-nav-chapter {
+  margin-inline-start: 0.4rem;
+  color: var(--ember);
+  font-weight: 700;
+}
+
+.vb-nav-chapter::before {
+  content: "· ";
+  color: var(--sand-2);
+  font-weight: 400;
+}

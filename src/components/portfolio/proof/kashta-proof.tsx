@@ -74,7 +74,7 @@ export function KashtaProof() {
         <figcaption className="vb-kp-foot">
           <p className="vb-kp-rule">Code scores it. Llama only explains.</p>
           <p className="vb-kp-note">
-            Example: {kashtaExample.site}, {kashtaExample.shortNight}
+            Real forecast: {kashtaExample.site}, {kashtaExample.shortNight}
           </p>
         </figcaption>
       </figure>

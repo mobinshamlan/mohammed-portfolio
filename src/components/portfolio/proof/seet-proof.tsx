@@ -37,7 +37,7 @@ export function SeetProof() {
           <p className="pf-seet-from">
             Seet on WhatsApp
             <span className="pf-seet-note">
-              <span className="vb-sr">. </span>Example
+              <span className="vb-sr">. </span>Sample booking
             </span>
           </p>
           <p className="pf-seet-ar" lang="ar" dir="rtl">

@@ -109,7 +109,7 @@ export function NaqahProof() {
             <PlayIcon />
             {step === null ? "Step through tonight’s call" : playing ? "Stepping through…" : "Step through again"}
           </button>
-          <span className="pf-naqah-note">Example</span>
+          <span className="pf-naqah-note">Sample call</span>
         </figcaption>
 
         <p className="vb-sr" role="status" aria-atomic="true">

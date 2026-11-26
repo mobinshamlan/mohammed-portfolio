@@ -73,7 +73,7 @@ export function TammeniProof() {
               {shown.icon}
               {shown.from}
               <span className="pf-tammeni-note">
-                <span className="vb-sr">. </span>Example
+                <span className="vb-sr">. </span>Sample family
               </span>
             </p>
             <p className="pf-tammeni-ar" lang="ar" dir="rtl">

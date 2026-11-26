@@ -45,7 +45,7 @@ export function AmanahProof() {
         <div className="vb-ap-tag">
           <p className="vb-ap-item">
             Gemini&rsquo;s match: blue umbrella
-            <span className="vb-ap-note">Example</span>
+            <span className="vb-ap-note">Sample claim</span>
           </p>
           <p className="vb-ap-q" id={`${id}-q`}>
             <span lang="ar" dir="rtl">

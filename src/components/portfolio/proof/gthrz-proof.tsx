@@ -64,7 +64,7 @@ export function GthrzProof() {
           <p className="vb-gz-meta">
             Thu 8:30 pm
             <span className="vb-gz-note">
-              <span className="vb-sr">. </span>Example
+              <span className="vb-sr">. </span>Sample event
             </span>
           </p>
         </figcaption>
