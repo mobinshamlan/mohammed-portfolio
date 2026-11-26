@@ -1,0 +1,270 @@
+/* Naqah on the home page: one evening at the ranch, in three moments on one line.
+   Phones and narrow columns read it top to bottom; wider columns left to right. */
+
+.pf-naqah {
+  container-type: inline-size;
+  --pf-node: 2.5rem;
+  --pf-gap: 1.75rem;
+  --pf-grow: scaleY(0);
+}
+
+.pf-naqah-fig {
+  display: grid;
+  gap: 1.25rem;
+  margin: 0;
+}
+
+.pf-naqah-day {
+  display: grid;
+  gap: var(--pf-gap);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.pf-naqah-step {
+  position: relative;
+  display: grid;
+  align-content: start;
+  gap: 0.6rem;
+  padding-inline-start: calc(var(--pf-node) + 1rem);
+}
+
+/* The thread of the evening, from one moment's icon to the next. */
+.pf-naqah-step:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  inset-inline-start: calc(var(--pf-node) / 2 - 1px);
+  top: var(--pf-node);
+  width: 2px;
+  height: calc(100% - var(--pf-node) + var(--pf-gap));
+  background: color-mix(in srgb, var(--field-ink) 45%, var(--field));
+  transform-origin: top;
+}
+
+.pf-naqah-node {
+  position: absolute;
+  inset-inline-start: 0;
+  top: 0;
+  display: grid;
+  place-items: center;
+  width: var(--pf-node);
+  height: var(--pf-node);
+  border: 2px solid var(--field-ink);
+  border-radius: 50%;
+  background: var(--field);
+  color: var(--accent);
+}
+
+.pf-naqah-node svg {
+  width: 1.15rem;
+  height: 1.15rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.75;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.pf-naqah-time {
+  margin: 0;
+  color: var(--field-ink);
+  font-family: var(--display);
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: var(--pf-node);
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+}
+
+.pf-naqah-what {
+  margin: 0;
+  max-width: 28ch;
+  color: var(--field-ink);
+  font-size: 0.9375rem;
+  line-height: 1.45;
+}
+
+/* What was said on the phone: Arabic first, the English under it. */
+.pf-naqah-say {
+  display: grid;
+  gap: 0.35rem;
+  margin: 0.2rem 0 0;
+  padding: 0.75rem 0.9rem 0.8rem;
+  border-radius: 14px;
+  background: color-mix(in srgb, var(--field-ink) 7%, var(--field));
+}
+
+.pf-naqah-say p {
+  margin: 0;
+}
+
+.pf-naqah-say [lang="ar"] {
+  color: var(--field-ink);
+  font-family: var(--display);
+  font-size: 1.125rem;
+  font-weight: 500;
+  line-height: 1.65;
+}
+
+.pf-naqah-gloss {
+  color: var(--field-muted);
+  font-size: 0.875rem;
+  line-height: 1.45;
+}
+
+/* The owner's call is the result, so it reads in reverse: field on ink. */
+.pf-naqah-say[data-owner="true"] {
+  background: var(--field-ink);
+  box-shadow: 0 0.9rem 1.6rem -1rem color-mix(in srgb, var(--field-ink) 70%, transparent);
+}
+
+.pf-naqah-say[data-owner="true"] [lang="ar"] {
+  color: var(--field);
+}
+
+.pf-naqah-say[data-owner="true"] .pf-naqah-gloss {
+  color: color-mix(in srgb, var(--field) 82%, var(--field-ink));
+}
+
+/* The saved record: ruled rows on paper, not speech. */
+.pf-naqah-facts {
+  margin: 0.2rem 0 0;
+  padding: 0.2rem 0.9rem;
+  border-radius: 14px;
+  background: color-mix(in srgb, #fff 50%, var(--field));
+}
+
+.pf-naqah-facts > div {
+  display: grid;
+  grid-template-columns: 4.25rem minmax(0, 1fr);
+  gap: 0.5rem;
+  align-items: baseline;
+  padding: 0.55rem 0;
+}
+
+.pf-naqah-facts > div + div {
+  border-top: 1px solid color-mix(in srgb, var(--field-ink) 18%, transparent);
+}
+
+.pf-naqah-facts dt {
+  color: var(--field-muted);
+  font-size: 0.8125rem;
+}
+
+.pf-naqah-facts dd {
+  margin: 0;
+  color: var(--field-ink);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+.pf-naqah-facts [data-flag="true"] dd {
+  color: var(--accent);
+  font-weight: 700;
+}
+
+.pf-naqah-audio {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin: 0;
+  color: var(--field-muted);
+  font-size: 0.8125rem;
+  line-height: 1.35;
+}
+
+.pf-naqah-audio strong {
+  color: var(--field-ink);
+  font-weight: 600;
+}
+
+.pf-naqah-wave {
+  flex: none;
+  width: 4.2rem;
+  height: 1rem;
+  fill: var(--field-muted);
+}
+
+/* At rest the voice lies flat: it was heard and then let go. */
+.pf-naqah-wave rect {
+  transform-box: fill-box;
+  transform-origin: center;
+  transform: scaleY(0.16);
+}
+
+.pf-naqah-note {
+  margin: 0;
+  color: var(--field-muted);
+  font-size: 0.8125rem;
+  line-height: 1.45;
+}
+
+/* Wide enough for the evening to run left to right. */
+@container (min-width: 560px) {
+  .pf-naqah {
+    --pf-gap: 1.5rem;
+    --pf-grow: scaleX(0);
+  }
+
+  .pf-naqah-day {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .pf-naqah-step {
+    padding-inline-start: 0;
+    padding-top: calc(var(--pf-node) + 0.6rem);
+  }
+
+  .pf-naqah-step:not(:last-child)::after {
+    inset-inline-start: var(--pf-node);
+    top: calc(var(--pf-node) / 2 - 1px);
+    width: calc(100% - var(--pf-node) + var(--pf-gap));
+    height: 2px;
+    transform-origin: left;
+  }
+
+  .pf-naqah-time {
+    line-height: 1.2;
+  }
+}
+
+/* On entry: the thread draws, each moment arrives in turn, then the voice falls flat. */
+@media (prefers-reduced-motion: no-preference) {
+  .vb[data-motion="on"] .pf-naqah[data-wait="true"]:not([data-in]) .pf-naqah-step::after {
+    transform: var(--pf-grow);
+  }
+
+  .vb[data-motion="on"] .pf-naqah[data-wait="true"]:not([data-in]) .pf-naqah-node {
+    transform: scale(0.55);
+  }
+
+  .vb[data-motion="on"] .pf-naqah[data-wait="true"]:not([data-in]) .pf-naqah-step > :not(.pf-naqah-time) {
+    transform: translateY(12px);
+  }
+
+  .vb[data-motion="on"] .pf-naqah[data-wait="true"]:not([data-in]) .pf-naqah-wave rect {
+    transform: none;
+  }
+
+  .vb[data-motion="on"] .pf-naqah[data-in="true"] .pf-naqah-step::after,
+  .vb[data-motion="on"] .pf-naqah[data-in="true"] .pf-naqah-step > * {
+    transition: transform 0.7s var(--ease-expo);
+  }
+
+  .vb[data-motion="on"] .pf-naqah[data-in="true"] .pf-naqah-node {
+    transition: transform 0.6s var(--ease-expo);
+    transition-delay: inherit;
+  }
+
+  .vb[data-motion="on"] .pf-naqah[data-in="true"] .pf-naqah-step:nth-child(1) > * { transition-delay: 0.1s; }
+  .vb[data-motion="on"] .pf-naqah[data-in="true"] .pf-naqah-step:nth-child(1)::after { transition-delay: 0.3s; }
+  .vb[data-motion="on"] .pf-naqah[data-in="true"] .pf-naqah-step:nth-child(2) > * { transition-delay: 0.55s; }
+  .vb[data-motion="on"] .pf-naqah[data-in="true"] .pf-naqah-step:nth-child(2)::after { transition-delay: 0.75s; }
+  .vb[data-motion="on"] .pf-naqah[data-in="true"] .pf-naqah-step:nth-child(3) > * { transition-delay: 1s; }
+
+  .vb[data-motion="on"] .pf-naqah[data-in="true"] .pf-naqah-wave rect {
+    transition: transform 0.9s var(--ease-soft) 1.4s;
+  }
+}

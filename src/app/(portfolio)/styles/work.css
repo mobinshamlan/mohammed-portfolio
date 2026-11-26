@@ -228,3 +228,13 @@
     text-underline-offset: 0.2em;
   }
 }
+
+/* Tammeni: one real screen beside the parent's rules is enough; the second was a near copy. */
+@media (min-width: 900px) {
+  .vb-proj[data-layout="schedule"] .vb-proj-phones .vb-phone:nth-child(2) {
+    display: none;
+  }
+  .vb-proj[data-layout="schedule"] .vb-proj-phones {
+    max-width: 17rem;
+  }
+}
