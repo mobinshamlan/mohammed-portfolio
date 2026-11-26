@@ -208,7 +208,8 @@ export function Nav({
               >
                 {item.label}
                 {item.id === "work" && chapter && spy === "work" ? (
-                  <span className="vb-nav-chapter" aria-hidden="true">
+                  <span className="vb-nav-chapter">
+                    <span className="vb-sr">, now reading </span>
                     {chapter}
                   </span>
                 ) : null}

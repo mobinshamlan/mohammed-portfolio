@@ -717,10 +717,14 @@
   .vb-proj[data-layout="uniform"] .vb-proj-role {
     order: 0;
   }
+  .vb-proj[data-layout="uniform"] .vb-proj-actions {
+    order: 0;
+    margin-top: -0.25rem;
+  }
   .vb-proj[data-layout="uniform"] .vb-proj-visual {
     order: 1;
   }
-  .vb-proj[data-layout="uniform"] :is(.vb-proj-stand, .vb-proj-actions) {
+  .vb-proj[data-layout="uniform"] .vb-proj-stand {
     order: 2;
   }
 }

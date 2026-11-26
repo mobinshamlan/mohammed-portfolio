@@ -26,7 +26,7 @@ export function Hero() {
       </h1>
 
       <div className="vb-open-say" data-rise="2">
-        <p className="vb-open-lead">I build Arabic-first AI products for everyday Saudi life.</p>
+        <p className="vb-open-lead">I build Arabic‑first AI products for everyday Saudi life.</p>
         <p className="vb-open-meta">
           Software developer in Riyadh · Computer Science, Queen Mary University of London, 2026
         </p>

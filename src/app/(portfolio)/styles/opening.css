@@ -134,7 +134,7 @@
   z-index: 0;
   justify-self: end;
   width: min(72vw, 19rem);
-  height: min(54svh, 27rem);
+  height: min(48svh, 25rem);
   margin: 0 -0.5rem 2.25rem 0;
   pointer-events: none;
 }
