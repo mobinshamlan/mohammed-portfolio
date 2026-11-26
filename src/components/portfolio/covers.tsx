@@ -77,7 +77,7 @@ function Proof({ project }: { project: Project }) {
       {items.map((item) => (
         <span key={item.kind}>
           <a href={item.run?.href ?? item.source.href} className="vb-link" target="_blank" rel="noreferrer">
-            <strong>{item.value}</strong> {item.kind === "tests" ? "tests passing" : "commits by me"}
+            <strong>{item.value}</strong> {item.kind === "tests" ? "automated checks pass" : "code changes by me"}
             <span className="vb-sr"> (opens in a new tab)</span>
           </a>
         </span>
@@ -88,12 +88,12 @@ function Proof({ project }: { project: Project }) {
 
 /** My part in a few words, where it stands, and where to go next. */
 const role: Record<string, string> = {
-  naqah: "Lead of a team of 3: the call flow, the owner's site, the tests.",
-  tammeni: "Team of 3: the parent dashboard, alert schedules and Lulwa's calls.",
-  seet: "Solo: the WhatsApp agent, the booking rules and the dashboard.",
-  kashta: "Solo: the scoring model, the forecast pipeline and the Llama guards.",
-  amanah: "Solo: Gemini matching, private tracking links and staff review.",
-  gthrz: "Solo: the React Native app, its privacy rules and the AI planner.",
+  naqah: "I led a team of 3: the phone call, the owner's website and the checks.",
+  tammeni: "Team of 3. I built the parents' page, the update schedules and Lulwa's calls.",
+  seet: "Solo. I built the WhatsApp replies, the booking rules and the creator's dashboard.",
+  kashta: "Solo. I built the campsite scoring, the weather feed and the AI's explanations.",
+  amanah: "Solo. I built the AI matching, private claim links and the staff review.",
+  gthrz: "Solo. I built the phone app, the host's privacy controls and the AI planner.",
 };
 
 function Foot({ project }: { project: Project }) {
@@ -106,7 +106,7 @@ function Foot({ project }: { project: Project }) {
       </p>
       <div className="vb-proj-actions">
         <Link href={projectHref(project)} prefetch={false} className="vb-btn vb-btn-field">
-          {project.name} case study
+          How {project.name} works
         </Link>
         <ProjectLinks project={project} />
       </div>

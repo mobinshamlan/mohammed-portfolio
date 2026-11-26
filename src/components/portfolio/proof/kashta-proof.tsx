@@ -125,7 +125,7 @@ export function KashtaProof() {
         {/* The wind rule, as score.ts has it: full marks to 30 km/h, nothing from 55. */}
         <div className="vb-kp-rule" style={{ "--at": position } as CSSProperties}>
           <p className="vb-kp-rule-title">
-            The wind rule in code <span>full marks to {kashtaLimits.wind.good} km/h, none from {kashtaLimits.wind.bad}</span>
+            How wind changes the score <span>no penalty up to {kashtaLimits.wind.good} km/h, zero from {kashtaLimits.wind.bad}</span>
           </p>
           <div className="vb-kp-track" aria-hidden="true">
             <span className="vb-kp-safe">Safe</span>
@@ -138,7 +138,7 @@ export function KashtaProof() {
 
         <figcaption className="vb-kp-foot">
           <p className="vb-kp-note">
-            Real forecast: {kashtaExample.site}, {kashtaExample.shortNight}. Code scores it; Llama only explains.
+            Real forecast: {kashtaExample.site}, {kashtaExample.shortNight}. The app scores it; the AI only explains why.
           </p>
         </figcaption>
       </figure>

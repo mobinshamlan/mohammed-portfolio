@@ -142,7 +142,7 @@ export const projects: Project[] = [
     id: "naqah",
     name: "Naqah",
     arabic: "ناقة",
-    statusChip: "Live investor MVP · simulated demo",
+    statusChip: "Working demo · sample data",
     dates: "Nov 2026",
     contribution: "Lead contributor on a three-person team: the call flow, the owner's website and the test suite.",
     proof: {
@@ -246,7 +246,7 @@ export const projects: Project[] = [
     links: [
       { label: "Live demo (Arabic)", href: "https://naqah.vercel.app" },
       { label: "English demo", href: "https://naqah.vercel.app/en" },
-      { label: "Source on GitHub", href: "https://github.com/justAbdulaziz10/Naqah" },
+      { label: "Code on GitHub", href: "https://github.com/justAbdulaziz10/Naqah" },
     ],
     cover: {
       ...browser,
@@ -386,7 +386,7 @@ export const projects: Project[] = [
     links: [
       { label: "Live demo", href: "https://tammeni-demo.vercel.app/welcome" },
       {
-        label: "Source on GitHub",
+        label: "Code on GitHub",
         href: "https://github.com/mobinshamlan/Madrasati-AI-Assistant",
       },
     ],
@@ -459,7 +459,7 @@ export const projects: Project[] = [
       changed:
         "On the demo data, a second hold on the same slot is refused by the Postgres trigger under a per-workspace lock, not by the prompt. The dashboard shows holds and confirmations as two different things.",
     },
-    tagline: "An AI secretary for an influencer's ads WhatsApp number.",
+    tagline: "Answers brands on an influencer's WhatsApp and books their ads.",
     arabicTagline: "صيت يرد على المعلنين عنك",
     status: "Live demo on sample data",
     year: "2026",
@@ -517,7 +517,7 @@ export const projects: Project[] = [
       { label: "Live app", href: "https://seet-app.vercel.app" },
       { label: "Try the demo", href: "https://seet-app.vercel.app/login?demo=1" },
     ],
-    linkNote: "Private repo",
+    linkNote: "Code is private",
     cover: {
       ...browser,
       src: publicUrl("/images/projects/seet/desktop.jpg"),
@@ -553,7 +553,7 @@ export const projects: Project[] = [
     id: "kashta",
     name: "Kashta",
     arabic: "كشتة",
-    statusChip: "Live · open source",
+    statusChip: "Live",
     dates: "Nov 2026",
     contribution: "Solo: the scoring model, the forecast pipeline, the Llama guards and the Arabic-first interface.",
     proof: {
@@ -604,7 +604,7 @@ export const projects: Project[] = [
       changed:
         "Any night's score can be checked by hand against the forecast. The AI is useful and never the reason a trip went wrong.",
     },
-    tagline: "A desert night planner for Riyadh, scored by code and explained by Llama.",
+    tagline: "Finds the best night and campsite near Riyadh from the real weather forecast.",
     arabicTagline: "أحسن ليلة لكشتتك، وأنسب مكان لها",
     status: "Live",
     year: "2026",
@@ -664,7 +664,7 @@ export const projects: Project[] = [
     ],
     links: [
       { label: "Live app", href: "https://4kashta.vercel.app" },
-      { label: "Source on GitHub", href: "https://github.com/mobinshamlan/kashta" },
+      { label: "Code on GitHub", href: "https://github.com/mobinshamlan/kashta" },
     ],
     cover: {
       ...browser,
@@ -707,7 +707,7 @@ export const projects: Project[] = [
     id: "amanah",
     name: "Amanah",
     arabic: "أمانة",
-    statusChip: "Live MVP",
+    statusChip: "Working first version",
     dates: "Oct–Nov 2026",
     contribution: "Solo: the private matching with Gemini, the hashed tracking links, the staff review and the bilingual interface.",
     proof: {
@@ -805,7 +805,7 @@ export const projects: Project[] = [
     links: [
       { label: "Live site", href: "https://amanahz.vercel.app" },
       { label: "Guided demo", href: "https://amanahz.vercel.app/demo" },
-      { label: "Source on GitHub", href: "https://github.com/mobinshamlan/Amanah" },
+      { label: "Code on GitHub", href: "https://github.com/mobinshamlan/Amanah" },
     ],
     cover: {
       ...browser,
@@ -848,7 +848,7 @@ export const projects: Project[] = [
     id: "gthrz",
     name: "Gthrz",
     arabic: "",
-    statusChip: "Open source · built 2026",
+    statusChip: "Code on GitHub",
     dates: "Mar–Sep 2026",
     contribution: "Solo: the React Native app, the Supabase schema with row-level security and the Smart Planner.",
     proof: {
@@ -874,7 +874,7 @@ export const projects: Project[] = [
       changed:
         "Only approved guests ever see the exact location, and the host decides when. The Smart Planner drafts the event but never publishes it.",
     },
-    tagline: "Privacy-first event planning for iPhone and Android, with an AI planner.",
+    tagline: "Private gatherings where the host decides who comes and when the address is shared.",
     status: "Built · open source",
     year: "2025",
     kind: "Mobile app · React Native",
@@ -916,7 +916,7 @@ export const projects: Project[] = [
       "The planner writes a draft, never a final event; the host still decides everything.",
     ],
     stack: ["React Native", "Expo", "TypeScript", "Supabase", "PostgreSQL"],
-    links: [{ label: "Source on GitHub", href: "https://github.com/mobinshamlan/Gthrz" }],
+    links: [{ label: "Code on GitHub", href: "https://github.com/mobinshamlan/Gthrz" }],
     cover: {
       src: publicUrl("/images/projects/gthrz/home.webp"),
       alt: "Gthrz home screen with upcoming events and create controls.",
