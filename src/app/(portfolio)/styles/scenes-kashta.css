@@ -1,15 +1,15 @@
 /* Kashta: the app's desert night behind the chapter. A row of tents stands in
    real depth on the dunes; scrolling pulls the camera back, so the camp falls
    away toward the horizon and the sky opens, as the app does for stargazing.
-   Text sits over the dark ground and the quiet left of the sky; the bright
-   Milky Way and the camp stay behind the demo and in the open lower right. */
+   Text sits over the dark ground and the quiet right of the sky; the bright
+   Milky Way and the camp stay behind the demo and in the open lower left. */
 
 .vb-proj[data-id="kashta"] {
   view-timeline: --kashta block;
 }
 
 .ks {
-  --vp-x: 54%;
+  --vp-x: 44%;
   --k: 1;
   position: absolute;
   inset: 0;
@@ -23,7 +23,13 @@
   height: 82%;
 }
 
-/* Stars stay faint behind the name and facts on the left. */
+/* The sky is drawn with its bright side on the right; mirrored, the Milky Way
+   stands over the demo and the stars stay faint behind the name and facts. */
+.ks-sky,
+.ks-band {
+  transform: scaleX(-1);
+}
+
 .ks-sky {
   mask-image: linear-gradient(to right, rgb(0 0 0 / 0.45) 0 24%, #000 42%);
 }
@@ -50,13 +56,13 @@
   height: 100%;
 }
 
-/* Warm air over the far ridge, kept off the facts on the left. */
+/* Warm air over the far ridge, kept off the facts on the right. */
 .ks-horizon {
   position: absolute;
   inset: auto 0 91%;
   height: 4.5rem;
   background: linear-gradient(transparent, rgb(106 66 50 / 0.55));
-  mask-image: linear-gradient(to right, transparent 0 34%, #000 56%);
+  mask-image: linear-gradient(to left, transparent 0 34%, #000 56%);
 }
 
 .ks-row {
@@ -186,7 +192,7 @@
 @media (max-width: 1199px) {
   .ks {
     --k: 0.8;
-    --vp-x: 60%;
+    --vp-x: 40%;
   }
 }
 
@@ -205,6 +211,7 @@
   }
   .ks-sky {
     height: 60%;
+    transform: none;
     mask-image: linear-gradient(to bottom, rgb(0 0 0 / 0.55), rgb(0 0 0 / 0.35) 60%, transparent);
   }
   .ks-camp {

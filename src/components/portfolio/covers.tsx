@@ -125,10 +125,11 @@ function Section({
 
 /*
  * Every chapter has the same parts (name, try-it, answers, links) and its own
- * room: Naqah and Kashta keep the try-it on the right, Tammeni and Gthrz on
- * the left, Seet opens on a masthead and Amanah stands its claim on the desk.
- * The sizes differ on purpose: Tammeni and Gthrz are short, Kashta fills the
- * window, Seet and Amanah run long. The layout name is only a note.
+ * room. The order runs from the strongest product down, and the try-it swaps
+ * sides at every seam: Naqah right, Gthrz left, Amanah right (standing on the
+ * counter), Kashta left (under the open sky), Seet right (under a masthead),
+ * Tammeni left. The sizes differ on purpose: Gthrz and Tammeni are short,
+ * Kashta fills the window, Seet and Amanah run long. The layout name is only a note.
  */
 function Chapter({ id, layout, scene, proof }: { id: ProjectId; layout: string; scene: ReactNode; proof: ReactNode }) {
   const project = projectById[id];
@@ -149,11 +150,11 @@ export function Covers() {
       </h2>
       <FlowLine />
       <Chapter id="naqah" layout="trough" scene={<NaqahScene />} proof={<NaqahProof />} />
-      <Chapter id="tammeni" layout="page" scene={<TammeniScene />} proof={<TammeniProof />} />
-      <Chapter id="seet" layout="banner" scene={<SeetScene />} proof={<SeetProof />} />
-      <Chapter id="kashta" layout="night" scene={<KashtaScene />} proof={<KashtaProof />} />
-      <Chapter id="amanah" layout="counter" scene={<AmanahScene />} proof={<AmanahProof />} />
       <Chapter id="gthrz" layout="close" scene={<GthrzScene />} proof={<GthrzProof />} />
+      <Chapter id="amanah" layout="counter" scene={<AmanahScene />} proof={<AmanahProof />} />
+      <Chapter id="kashta" layout="night" scene={<KashtaScene />} proof={<KashtaProof />} />
+      <Chapter id="seet" layout="banner" scene={<SeetScene />} proof={<SeetProof />} />
+      <Chapter id="tammeni" layout="page" scene={<TammeniScene />} proof={<TammeniProof />} />
     </section>
   );
 }
