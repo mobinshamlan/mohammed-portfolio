@@ -103,7 +103,7 @@ export function Toolkit() {
                   </Link>
                 </>
               ) : (
-                `${total} tools across ${toolkit.length} jobs. Pick a project to see what it used.`
+                `${total} tools across ${toolkit.length} skills. Pick a project to see what it used.`
               )}
             </p>
           </div>

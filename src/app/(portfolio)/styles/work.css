@@ -422,3 +422,13 @@
     display: none;
   }
 }
+
+/* Phones: shorter pictures. The readings, the step lines and the checked
+   numbers wait in the case study; the picture and my part stay. */
+@media (max-width: 899px) {
+  .vb-kp-factor > span,
+  .pf-naqah-what,
+  .vb-proj-stand .vb-proj-proof {
+    display: none;
+  }
+}

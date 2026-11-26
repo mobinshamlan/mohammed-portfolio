@@ -160,12 +160,12 @@
 @media (max-width: 899px) {
   .vb-open-portrait {
     order: -1;
-    width: min(78%, 22rem);
+    width: min(52%, 13rem);
     justify-self: center;
-    margin-top: 0.5rem;
+    margin-top: 0.25rem;
   }
   .vb-open-copy {
-    margin-top: -4.5rem;
+    margin-top: -2.5rem;
     gap: 1rem;
     padding-top: 0;
     padding-bottom: 2.5rem;

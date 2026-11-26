@@ -106,7 +106,7 @@ function Foot({ project }: { project: Project }) {
       </p>
       <div className="vb-proj-actions">
         <Link href={projectHref(project)} prefetch={false} className="vb-btn vb-btn-field">
-          Read the case study
+          Read the case study<span className="vb-sr">: {project.name}</span>
         </Link>
         <ProjectLinks project={project} />
       </div>
