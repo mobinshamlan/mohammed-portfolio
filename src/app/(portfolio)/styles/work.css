@@ -323,3 +323,59 @@
 .vb-proj[data-id="tammeni"] .vb-proj-scene > * {
   display: none;
 }
+
+/* Same reading order, different compositions: the picture changes side,
+   Seet opens on a masthead, Amanah sits centred under its name. */
+@media (min-width: 900px) {
+  .vb-proj[data-id="tammeni"] .vb-proj-inner,
+  .vb-proj[data-id="gthrz"] .vb-proj-inner {
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+    grid-template-areas: "visual head" "visual foot";
+  }
+
+  .vb-proj[data-id="seet"] .vb-proj-inner {
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+    grid-template-areas: "head head" "visual foot";
+    grid-template-rows: auto auto;
+  }
+  .vb-proj[data-id="seet"] .vb-proj-head {
+    grid-template-columns: auto minmax(0, 30rem);
+    justify-content: space-between;
+    align-items: end;
+    column-gap: 3rem;
+    padding-bottom: 2rem;
+    border-bottom: 2px solid var(--field-ink);
+  }
+  .vb-proj[data-id="seet"] .vb-proj-name {
+    font-size: clamp(5rem, 2rem + 7vw, 10rem);
+  }
+  .vb-proj[data-id="seet"] .vb-proj-foot {
+    align-self: center;
+  }
+
+  .vb-proj[data-id="amanah"] .vb-proj-inner {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas: "head" "visual" "foot";
+    justify-items: center;
+    text-align: center;
+  }
+  .vb-proj[data-id="amanah"] .vb-proj-visual {
+    width: min(100%, 48rem);
+  }
+  .vb-proj[data-id="amanah"] :is(.vb-proj-stand, .vb-proj-actions, .vb-proj-links) {
+    justify-content: center;
+  }
+  .vb-proj[data-id="amanah"] .vb-proj-role {
+    margin-inline: auto;
+  }
+}
+
+@media (min-width: 900px) {
+  .vb-proj[data-id="amanah"] .vb-proj-name a {
+    display: inline-grid;
+    justify-items: center;
+  }
+  .vb-proj[data-id="amanah"] .vb-proj-name span[lang="ar"] {
+    margin: 0;
+  }
+}
