@@ -1,33 +1,30 @@
-/* Courses and certificates: four sheets of paper on a cream desk. Each sheet
-   is the real first page, large enough to recognise, and opens the dialog. */
-.vb .vb-certs-desk {
-  --cert-ink: var(--dusk);
-  --cert-muted: #4f5771;
-  --cert-desk: #e9e0cc;
-  --cert-desk-2: #f3edde;
-  --cert-line: color-mix(in srgb, var(--cert-ink) 18%, var(--cert-desk));
-  --cert-paper: #fffdf8;
+/* Courses and certificates: a frame wall. A picture rail runs across a deep
+   green wall; each certificate hangs from it on a cord, in a cream mat and a
+   dark frame, with a small wall label beneath. Picking a frame opens the dialog. */
+.vb .vb-certs-wall {
+  --wall: #1c2a25;
+  --wall-ink: var(--sand);
+  --wall-muted: #b9c4b7;
+  --wall-rail: #3b4a42;
+  --wall-cord: #8f9a8e;
+  --wall-frame: #241a12;
+  --wall-mat: #f3eee2;
+  --wall-light: #e9d9a5;
+  position: relative;
   display: grid;
   grid-template-columns: minmax(0, 1fr);
-  gap: clamp(1.5rem, 3vw, 2.5rem);
-  padding-block: clamp(2.5rem, 5vw, 4.5rem);
-  background:
-    radial-gradient(120% 90% at 50% 0%, var(--cert-desk-2), transparent 70%),
-    repeating-linear-gradient(
-      -8deg,
-      transparent 0 14px,
-      color-mix(in srgb, var(--cert-ink) 2.5%, transparent) 14px 15px
-    ),
-    var(--cert-desk);
-  color: var(--cert-ink);
-  color-scheme: light;
+  gap: 0;
+  padding-block: clamp(2.5rem, 5vw, 4.5rem) clamp(3rem, 6vw, 5rem);
+  background: var(--wall);
+  color: var(--wall-ink);
+  color-scheme: dark;
+  overflow: hidden;
 }
 
 .vb-certs-head {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  gap: 0.5rem 2.5rem;
+  display: grid;
+  gap: 0.6rem;
+  margin-bottom: clamp(1.75rem, 3vw, 2.5rem);
 }
 
 .vb-certs-title {
@@ -39,29 +36,48 @@
 
 .vb .vb-certs-lead {
   max-width: 34ch;
-  color: var(--cert-muted);
+  color: var(--wall-muted);
   font-size: var(--step-small);
   line-height: 1.4;
 }
 
-/* The desk: four slots across, each sheet set down at a slightly different angle. */
-.vb-certs-desktop {
+.vb-certs-frames {
+  position: relative;
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: clamp(1rem, 2.5vw, 2rem) clamp(0.75rem, 2vw, 1.5rem);
+  gap: 1.5rem clamp(0.75rem, 3vw, 2rem);
   margin: 0;
   padding: 0;
   list-style: none;
 }
 
-.vb-certs-slot {
-  --tilt: calc((var(--n) - 1.5) * -0.7deg + 0.45deg);
-  min-width: 0;
+/* The picture rail: one bar across the full width of the wall, the frames hang from it. */
+.vb-certs-frames::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  inset-inline: calc(-1 * var(--gutter));
+  height: 0.45rem;
+  background: var(--wall-rail);
+  box-shadow: 0 0.2rem 0.4rem rgb(0 0 0 / 0.3);
 }
 
-.vb .vb-sheet {
+/* A salon hang: alternate frames sit a little lower, as on a real wall. */
+.vb-certs-slot {
+  --drop: 0rem;
+  --cord: 2.25rem;
+  min-width: 0;
+  padding-top: calc(var(--cord) + var(--drop));
+}
+
+.vb-certs-slot:nth-child(even) {
+  --drop: 1.25rem;
+}
+
+.vb .vb-frame {
+  position: relative;
   display: grid;
-  gap: 0.8rem;
+  gap: 0.75rem;
   width: 100%;
   padding: 0;
   border: 0;
@@ -73,129 +89,147 @@
   cursor: pointer;
 }
 
-/* The paper itself: a white sheet with a soft edge shadow, lying on the desk. */
-.vb-sheet-paper {
-  display: block;
-  padding: 0.3rem;
-  border: 1px solid var(--cert-line);
-  border-radius: 0.1rem;
-  background: var(--cert-paper);
-  box-shadow:
-    0 0.1rem 0.25rem rgb(42 34 18 / 0.08),
-    0 0.9rem 1.6rem -0.9rem rgb(42 34 18 / 0.35);
-  transform: rotate(var(--tilt));
-  transform-origin: 50% 90%;
+/* The cord from the rail to the top of the frame. */
+.vb-frame-cord {
+  position: absolute;
+  top: calc(-1 * (var(--cord) + var(--drop)));
+  left: 50%;
+  width: 1px;
+  height: calc(var(--cord) + var(--drop));
+  background: var(--wall-cord);
 }
 
-.vb-sheet-paper img {
+/* Frame, mat, print. The light from above is a soft wash on the mat only. */
+.vb-frame-glass {
+  display: block;
+  padding: 0.45rem;
+  border-radius: 0.1rem;
+  background: var(--wall-frame);
+  box-shadow:
+    0 0.1rem 0.2rem rgb(0 0 0 / 0.35),
+    0 1rem 1.6rem -0.6rem rgb(0 0 0 / 0.6);
+  transition: transform 260ms var(--ease-out), box-shadow 260ms var(--ease-out);
+}
+
+.vb-frame-mat {
+  display: block;
+  padding: clamp(0.5rem, 1.6vw, 1rem);
+  background: var(--wall-mat);
+  box-shadow: inset 0 0 0 1px rgb(0 0 0 / 0.08);
+}
+
+.vb-frame-mat img {
   display: block;
   width: 100%;
   height: auto;
+  box-shadow: 0 0 0 1px rgb(0 0 0 / 0.12);
 }
 
-.vb-sheet-text {
+/* The wall label: title, issuer and date, and the one action. */
+.vb-frame-label {
   display: grid;
-  gap: 0.2rem;
+  gap: 0.25rem;
   padding-inline: 0.15rem;
 }
 
-.vb-sheet-what {
-  color: var(--cert-muted);
-  font-size: 0.75rem;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-
-.vb-sheet-title {
+.vb-frame-title {
   font-family: var(--display);
-  font-size: clamp(1rem, 0.92rem + 0.4vw, 1.25rem);
+  font-size: clamp(1rem, 0.92rem + 0.4vw, 1.2rem);
   font-weight: 650;
   line-height: 1.2;
   letter-spacing: -0.015em;
   text-wrap: pretty;
 }
 
-.vb-sheet-meta {
-  color: var(--cert-muted);
+.vb-frame-meta {
+  color: var(--wall-muted);
   font-size: var(--step-small);
   line-height: 1.35;
+  text-wrap: pretty;
 }
 
-.vb-sheet-open {
+.vb-frame-open {
   margin-top: 0.3rem;
-  color: var(--cert-ink);
+  color: var(--wall-light);
   font-size: var(--step-small);
   font-weight: 600;
   text-decoration: underline;
-  text-decoration-color: color-mix(in srgb, var(--cert-ink) 35%, transparent);
+  text-decoration-color: color-mix(in srgb, var(--wall-light) 40%, transparent);
   text-underline-offset: 0.22em;
 }
 
-.vb .vb-sheet:hover .vb-sheet-paper,
-.vb .vb-sheet:focus-visible .vb-sheet-paper {
-  transform: rotate(0deg) translateY(-0.2rem);
+.vb .vb-frame:hover .vb-frame-glass,
+.vb .vb-frame:focus-visible .vb-frame-glass {
+  transform: translateY(-0.25rem);
   box-shadow:
-    0 0.15rem 0.3rem rgb(42 34 18 / 0.1),
-    0 1.4rem 2.2rem -1rem rgb(42 34 18 / 0.45);
+    0 0.15rem 0.3rem rgb(0 0 0 / 0.4),
+    0 1.6rem 2.4rem -0.8rem rgb(0 0 0 / 0.7);
 }
 
-.vb .vb-sheet:hover .vb-sheet-open,
-.vb .vb-sheet:focus-visible .vb-sheet-open {
+.vb .vb-frame:hover .vb-frame-open,
+.vb .vb-frame:focus-visible .vb-frame-open {
   text-decoration-color: currentColor;
 }
 
-.vb .vb-sheet:focus-visible {
-  outline: 2px solid var(--cert-ink);
-  outline-offset: 4px;
+.vb .vb-frame:focus-visible {
+  outline: 2px solid var(--wall-light);
+  outline-offset: 6px;
   border-radius: 0.2rem;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .vb-sheet-paper {
-    transition:
-      transform 260ms var(--ease-out),
-      box-shadow 260ms var(--ease-out);
+@media (prefers-reduced-motion: reduce) {
+  .vb-frame-glass {
+    transition: none;
   }
 }
 
 /* The dialog keeps the site's dark chrome. */
-body:has(.vb-certs-desk .vb-dialog[open]) {
+body:has(.vb-certs-wall .vb-dialog[open]) {
   overflow: hidden;
 }
 
-.vb-certs-desk .vb-dialog {
-  color-scheme: dark;
-}
-
-.vb-certs-desk .vb-dialog-foot {
+.vb-certs-wall .vb-dialog-foot {
   flex-wrap: wrap;
 }
 
-.vb-certs-desk :is(.vb-dialog-step button, .vb-dialog-foot a) {
+.vb-certs-wall :is(.vb-dialog-step button, .vb-dialog-foot a) {
   display: inline-flex;
   align-items: center;
   min-height: 2.75rem;
 }
 
-@media (min-width: 900px) {
-  .vb .vb-certs-desk {
-    grid-template-columns: minmax(0, 1fr);
+@media (min-width: 1024px) {
+  .vb-certs-head {
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: end;
+    gap: 1rem 3rem;
   }
-  .vb-certs-desktop {
+
+  .vb-certs-frames {
     grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 2rem clamp(1.25rem, 2.5vw, 2.5rem);
+  }
+
+  .vb-certs-slot {
+    --cord: 3.25rem;
+  }
+
+  .vb-certs-slot:nth-child(even) {
+    --drop: 2rem;
   }
 }
 
-/* Phones: two sheets per row, tighter type, no tilt so nothing clips the gutter. */
+/* Phones: tighter cords and labels so two frames fit a row without crowding. */
 @media (max-width: 639px) {
   .vb-certs-slot {
-    --tilt: 0deg;
+    --cord: 1.75rem;
   }
-  .vb-sheet-what {
-    font-size: 0.7rem;
+
+  .vb-certs-slot:nth-child(even) {
+    --drop: 0.9rem;
   }
-  .vb-sheet-open {
+
+  .vb-frame-open {
     font-size: 0.875rem;
   }
 }
