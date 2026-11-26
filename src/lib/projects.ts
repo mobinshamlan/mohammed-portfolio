@@ -171,7 +171,7 @@ export const projects: Project[] = [
           kind: "commits",
           value: "128 of 209",
           label: "commits are mine, 5 to 13 Nov 2026, in a three-person team.",
-          source: { label: "Commit history", href: "https://github.com/justAbdulaziz10/Naqah/commits/main" },
+          source: { label: "Commit history", href: "https://github.com/justAbdulaziz10/Naqah/commits/main?author=mobinshamlan" },
           checked: EVIDENCE_CHECKED,
         },
       ],

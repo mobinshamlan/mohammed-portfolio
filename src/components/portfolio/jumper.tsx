@@ -18,11 +18,21 @@ const sections: Item[] = [
 ];
 
 const items: Item[] = [
-  ...projects.map((project) => ({
-    label: project.arabic ? `${project.name} ${project.arabic}` : project.name,
-    hint: `${project.statusChip} · ${project.dates}`,
-    href: project.href ?? `/projects/${project.id}`,
-  })),
+  // Each product twice: its chapter on the home page, then its case study.
+  ...projects
+    .filter((project) => project.id !== "experiment")
+    .flatMap((project) => [
+      {
+        label: project.arabic ? `${project.name} ${project.arabic}` : project.name,
+        hint: "On this page",
+        href: `/#${project.id}`,
+      },
+      {
+        label: `${project.name} case study`,
+        hint: project.statusChip,
+        href: `/projects/${project.id}`,
+      },
+    ]),
   ...sections,
 ];
 
