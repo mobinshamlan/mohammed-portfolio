@@ -14,13 +14,12 @@ type DocumentViewerProps = {
   height: number;
   alt: string;
   title: string;
-  subtitle: string;
+  subtitle?: string;
   href: string;
 };
 
 /**
- * A document opened in a native modal dialog. Escape and the close button come
- * from the browser; focus returns to the trigger when the viewer closes.
+ * An image in a native modal dialog. Focus returns to the trigger on dismissal.
  */
 export function DocumentViewer({
   children,
@@ -92,7 +91,7 @@ export function DocumentViewer({
           <header className="vb-dialog-head">
             <div>
               <h3>{title}</h3>
-              <p>{subtitle}</p>
+              {subtitle ? <p>{subtitle}</p> : null}
             </div>
             <button
               type="button"

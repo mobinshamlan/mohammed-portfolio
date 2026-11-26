@@ -408,7 +408,7 @@
 @media (min-width: 900px) {
   /* The relay reads left to right as one row of blocks, the way an evening passes. */
   .vb-flow {
-    grid-template-columns: repeat(5, minmax(0, 1fr));
+    grid-template-columns: repeat(var(--flow-steps, 5), minmax(0, 1fr));
     gap: 0.3rem;
     align-items: stretch;
   }
@@ -655,6 +655,53 @@
   grid-template-columns: repeat(2, 1fr);
 }
 
+.vb .vb-gallery-shot {
+  display: grid;
+  width: 100%;
+  gap: 0.4rem;
+  padding: 0;
+  border: 0;
+  border-radius: 0.45rem;
+  background: none;
+  color: var(--sand);
+  font: inherit;
+  text-align: start;
+  text-decoration: none;
+  cursor: zoom-in;
+}
+
+.vb-gallery-label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  min-height: 2.75rem;
+  padding-inline: 0.25rem;
+  font-size: var(--step-small);
+  line-height: 1.25;
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, var(--ember) 65%, transparent);
+  text-underline-offset: 0.25em;
+}
+
+.vb-gallery-label svg {
+  flex: none;
+  color: var(--ember);
+}
+
+.vb-gallery-shot:is(:hover, :focus-visible) .vb-gallery-label {
+  color: var(--ember);
+  text-decoration-color: currentColor;
+}
+
+.vb-screens-phones .vb-dialog {
+  width: min(calc(100% - 2rem), 26rem);
+}
+
+.vb-screens-phones .vb-dialog-img {
+  max-height: min(76dvh, max(8rem, calc(100dvh - 10rem)));
+}
+
 @media (min-width: 900px) {
   .vb-screens {
     grid-template-columns: repeat(12, 1fr);
@@ -844,7 +891,14 @@
   line-height: 1.1;
 }
 
-.vb-gp-tabs,
+.vb-gp-tabs {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.5rem;
+  width: min(100%, 22rem);
+  margin-top: 0.5rem;
+}
+
 .vb-gl-steps {
   display: flex;
   flex-wrap: wrap;
@@ -866,6 +920,11 @@
   cursor: pointer;
   font-size: var(--step-small);
   font-weight: 500;
+}
+
+.vb-gp-tab {
+  justify-content: center;
+  padding-inline: 0.65rem;
 }
 
 /* Without JavaScript: every privacy note listed, every planner screen shown. */

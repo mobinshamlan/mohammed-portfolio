@@ -20,7 +20,7 @@ type Cue = { text: string; tone?: "off" | "held" | "done"; all?: boolean };
  * one cue per step; `null` leaves that step without one.
  */
 type HowView = {
-  kind: "timetable" | "states" | "nights" | "views" | "guest" | "children";
+  kind: "timetable" | "states" | "nights" | "views" | "children";
   caption?: string;
   lanes: { label: string; cues: (Cue | null)[] }[];
 };
@@ -99,21 +99,6 @@ const howViews: Partial<Record<ProjectId, HowView>> = {
       },
     ],
   },
-  gthrz: {
-    kind: "guest",
-    lanes: [
-      {
-        label: "Guest",
-        cues: [
-          { text: "Host only", tone: "off" },
-          { text: "Host only", tone: "off" },
-          { text: "Requested: title and time" },
-          { text: "Approved guests", tone: "done" },
-          { text: "Host only", tone: "off" },
-        ],
-      },
-    ],
-  },
   tammeni: {
     kind: "children",
     caption: "Attendance alerts for the fictional children above.",
@@ -157,6 +142,7 @@ export function Flow({ project }: { project: Project }) {
         className="vb-flow"
         data-view={view?.kind}
         data-lanes={view?.lanes.length}
+        style={{ "--flow-steps": project.how.length } as CSSProperties}
         aria-label={`How ${project.name} works`}
       >
         {project.how.map((step, index) => {
@@ -230,6 +216,8 @@ const arrangements: Partial<Record<ProjectId, Arrangement>> = {
   tammeni: { demoInHero: true, proofLine: false },
   // The chat steps through the same four states the proof would draw.
   seet: { proofWithDecision: true, plates: true },
+  // The guest demo already shows what people can see at each step.
+  gthrz: { proofWithDecision: true },
   kashta: { plates: true },
 };
 
@@ -544,7 +532,7 @@ export function CaseBody({
               <dd>{project.decision.changed}</dd>
             </div>
           </dl>
-          {arrangement.proofWithDecision ? (
+          {arrangement.proofWithDecision && project.proof.notes.length > 0 ? (
             <section className="vb-decision-proof" aria-labelledby="proof-title">
               <h3 id="proof-title" className="vb-decision-proof-title">
                 {project.proof.title}
@@ -687,7 +675,7 @@ export function CaseBody({
         )}
         <div>
           <Reveal>
-            <h2 id={project.id === "gthrz" ? "under-title" : undefined} className="vb-case-h2">Stack</h2>
+            <h2 id={project.id === "gthrz" ? "under-title" : undefined} className="vb-case-h2">Tools I used</h2>
           </Reveal>
           <Reveal delay={0.06}>
             <ul className="vb-stack">

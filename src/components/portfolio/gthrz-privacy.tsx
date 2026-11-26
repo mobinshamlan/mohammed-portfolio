@@ -9,15 +9,15 @@ import { GthrzImg } from "./gthrz-img";
 const controls = [
   {
     id: "address",
-    label: "Address",
-    note: "Share the address immediately or schedule its release.",
+    label: "When to share",
+    note: "Share the address now or at a time you choose.",
     top: 44.2,
     height: 9.8,
   },
   {
     id: "exact",
-    label: "Exact location",
-    note: "Share the exact pin only with confirmed guests.",
+    label: "Who can see",
+    note: "Limit the exact address to guests you've approved.",
     top: 55,
     height: 9.8,
   },
@@ -121,7 +121,7 @@ export function GthrzPrivacy() {
         </div>
         <figure className="vb-gp-side">
           <GthrzImg shot={gthrzShots.details} sizes="(max-width: 899px) 40vw, 240px" />
-          <figcaption>The event page shows when the location is revealed.</figcaption>
+          <figcaption>Guests see when they’ll get the address.</figcaption>
         </figure>
       </div>
     </section>

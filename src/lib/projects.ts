@@ -154,8 +154,8 @@ export const projects: Project[] = [
     answers: [
       { label: "The trouble", text: "The owner lives in the city. Every ranch update means a call, a scroll back through a chat, or a drive." },
       { label: "What it does", text: "Phones the worker, asks the owner's questions one at a time, keeps the facts, then calls the owner." },
-      { label: "My part", text: "Led a team of 3: the phone call, the owner's website and the checks." },
-      { label: "The line I drew", text: "The worker types nothing. The audio is thrown away; the owner reads facts, not recordings." },
+      { label: "My part", text: "I led the work on calls, the owner's website and testing on a team of three." },
+      { label: "The line I drew", text: "The worker answers by phone. Naqah saves the answers and discards the audio." },
     ],
     proof: {
       title: "What the ranch call keeps, and what it throws away",
@@ -296,38 +296,35 @@ export const projects: Project[] = [
     arabic: "",
     statusChip: "Code on GitHub",
     dates: "Mar–Sep 2026",
-    contribution: "I built the app, the AI planner and the rules that protect guest and event details.",
+    contribution: "I built the mobile app, the AI planner and the privacy settings for hosts.",
     answers: [
-      { label: "The trouble", text: "Event apps show a host's address and guest list to more people than the host meant." },
-      { label: "What it does", text: "Guests ask to join, the host approves, and the address is shared only when the host says so." },
-      { label: "My part", text: "Solo. The phone app, the host's privacy controls and the AI planner." },
-      { label: "The line I drew", text: "Only approved guests ever see the exact location. The planner drafts an event but never publishes it." },
+      { label: "The trouble", text: "An event invite can give away a home address before the host knows who's coming." },
+      { label: "What it does", text: "Guests ask to join. The host can approve them and share the address closer to the event." },
+      { label: "My part", text: "I built the app on my own, including the privacy settings and the AI planner." },
+      { label: "The line I drew", text: "Hosts can keep the exact address for approved guests. Gthrz checks who can see it before sharing it." },
     ],
     proof: {
-      title: "What a guest can see, by state",
+      title: "What a guest can see",
       moments: [
-        { time: "Discovered", label: "Title, time, category" },
-        { time: "Requested", label: "Still no address" },
-        { time: "Approved", label: "Exact location, if revealed" },
-        { time: "Revealed", label: "Host chooses when" },
+        { time: "Event found", label: "Title, time and category" },
+        { time: "Request sent", label: "Waiting for the host" },
+        { time: "Approved", label: "Area and guest list" },
+        { time: "Address shared", label: "Exact address" },
       ],
-      notes: [
-        "Privacy is set per event: address now or later, guest names and photos on or off.",
-        "Row-level security enforces who can read what, not the client.",
-      ],
+      notes: [],
     },
     decision: {
       constraint:
-        "Someone can discover an event without seeing where it is or who is going.",
+        "Let people find the event before sharing the address.",
       tradeoff:
-        "Requiring approval adds a step for guests. I kept it to give hosts control over private details.",
+        "Requiring approval means guests wait. That gives the host time to decide who can come.",
       shipped:
-        "I added per-event settings for the address, names and photos. Supabase checks those rules every time the app requests event data.",
+        "I built event privacy settings for the address, guest names and photos. The database checks those settings before sending private details to a guest's phone.",
       changed:
-        "Only approved guests see the exact location once the host releases it.",
+        "An approved guest can plan around the area before the exact address is shared.",
     },
-    tagline: "Event planning with a guest list and address the host controls.",
-    status: "Built · open source",
+    tagline: "Plan a gathering. Decide who joins and when they get the address.",
+    status: "Open source",
     year: "2025",
     kind: "Mobile app · React Native",
     role: "Developer",
@@ -338,27 +335,19 @@ export const projects: Project[] = [
     light: false,
     problem:
       "Sharing an event can expose a home address or guest list before the host knows who is coming.",
-    what: "Guests request to join or use an invite code. The host approves requests, sets capacity and can delay sharing the location.",
+    what: "Set a guest limit, take requests to join or invite people with a code. Each event has its own privacy settings.",
     how: [
       {
         actor: "Host",
-        action: "Sets the event title, time and capacity.",
-      },
-      {
-        actor: "Host",
-        action: "Sets when the address is shared and who can see names and photos.",
+        action: "Sets up the event and chooses when to share the address.",
       },
       {
         actor: "Guest",
-        action: "Finds the event or joins with a code, then requests to attend.",
+        action: "Finds the event or enters an invite code, then asks to join.",
       },
       {
         actor: "Host",
-        action: "Approves guests. The exact address appears at the time the host chose.",
-      },
-      {
-        actor: "Smart Planner",
-        action: "Drafts an event from a description when the host wants a head start.",
+        action: "Approves guests. They get the exact address at the chosen time.",
       },
     ],
     decisions: [
@@ -385,9 +374,9 @@ export const projects: Project[] = [
     contribution: "Solo: the private matching with Gemini, the hashed tracking links, the staff review and the bilingual interface.",
     answers: [
       { label: "The trouble", text: "Lost things end up on a public board or group chat, which shows everyone more than it should." },
-      { label: "What it does", text: "A private lost and found. AI suggests matches, staff approve, and the owner proves it's theirs on a private link." },
-      { label: "My part", text: "Solo. The AI matching, the private claim links and the staff review." },
-      { label: "The line I drew", text: "Nothing about an item is ever public. Every staff decision goes on a log that can't be rewritten." },
+      { label: "What it does", text: "AI suggests matches. Staff check them, then send the owner a private link to prove the item is theirs." },
+      { label: "My part", text: "I built it on my own, including the AI matching, private claim links and tools for staff." },
+      { label: "The line I drew", text: "Item details stay private. Staff decisions go in a record that can't be changed." },
     ],
     proof: {
       title: "A report's path, with a person at the decision",
@@ -532,8 +521,8 @@ export const projects: Project[] = [
     answers: [
       { label: "The trouble", text: "Picking a night for a kashta means checking wind, dust, cloud and the moon for every site by hand." },
       { label: "What it does", text: "Scores the next seven nights at 62 campsites from the real forecast, and picks the best." },
-      { label: "My part", text: "Solo. The scoring, the forecast feed and the AI's explanations." },
-      { label: "The line I drew", text: "Code does the score. The AI only explains it, and any number not in the forecast is cut." },
+      { label: "My part", text: "I built it on my own, from getting the forecast to scoring the nights and adding AI explanations." },
+      { label: "The line I drew", text: "Weather rules set the score. AI explains it using only numbers from the forecast." },
     ],
     proof: {
       title: "How a night gets its Kashta Score",
@@ -692,9 +681,9 @@ export const projects: Project[] = [
       "Solo: built the WhatsApp webhook, the Claude tool loop, the booking trigger and the dashboard.",
     answers: [
       { label: "The trouble", text: "Brands message an influencer all day. Slots get promised twice, and a booking is 'confirmed' before any money arrives." },
-      { label: "What it does", text: "Answers on WhatsApp with the real prices and free days, holds the slot and sends a deposit link." },
+      { label: "What it does", text: "Replies on WhatsApp with prices and available dates, holds a slot and sends a deposit link." },
       { label: "My part", text: "Solo. The WhatsApp replies, the booking rules and the creator's dashboard." },
-      { label: "The line I drew", text: "Only a paid deposit can confirm a booking. The AI has no way to say the word." },
+      { label: "The line I drew", text: "The assistant can hold a slot. The booking becomes final when the deposit goes through." },
     ],
     proof: {
       title: "A booking's four states, and who may move it",
@@ -820,7 +809,7 @@ export const projects: Project[] = [
       { label: "The trouble", text: "Parents hear about attendance, grades and exams late, buried in notifications, or not at all." },
       { label: "What it does", text: "A short call or text about each child, on the schedule the parent sets. Lulwa answers questions on the call." },
       { label: "My part", text: "Team of 3. The parents' page, the update schedules and Lulwa's calls." },
-      { label: "The line I drew", text: "Different rules per child and per topic, so an exam and an absence never get the same alert." },
+      { label: "The line I drew", text: "Parents can set different alerts for each child, and for exams, attendance and grades." },
     ],
     proof: {
       title: "One family, two children, different rules per topic",

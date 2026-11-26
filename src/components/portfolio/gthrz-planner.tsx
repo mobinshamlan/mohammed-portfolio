@@ -6,9 +6,9 @@ import { gthrzShots } from "@/lib/gthrz";
 import { useHydrated } from "@/lib/use-hydrated";
 
 const cards = [
-  { label: "Start", shot: gthrzShots.plannerStart, detail: "Open the planner from the new event form." },
-  { label: "Describe", shot: gthrzShots.plannerPrompt, detail: "Write a short description of the gathering." },
-  { label: "Suggestions", shot: gthrzShots.plannerSuggestions, detail: "Review and edit the draft before publishing." },
+  { label: "Start", shot: gthrzShots.plannerStart, detail: "Open Smart Planner while creating an event." },
+  { label: "Describe", shot: gthrzShots.plannerPrompt, detail: "Describe the gathering in your own words." },
+  { label: "Suggestions", shot: gthrzShots.plannerSuggestions, detail: "Use the suggestions as a draft and edit it before posting." },
 ] as const;
 
 export function GthrzPlanner() {
