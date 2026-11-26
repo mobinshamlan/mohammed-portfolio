@@ -2,6 +2,7 @@
 
 import { useId, useState } from "react";
 import { Reveal } from "../reveal";
+import { CallEndIcon, CallIcon, IPhone } from "./iphone";
 
 function TextIcon() {
   return (
@@ -11,10 +12,28 @@ function TextIcon() {
   );
 }
 
-function CallIcon() {
+function PhoneIcon() {
   return (
     <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
       <path d="M5 3.5h3.2l1.6 4.3-2.1 1.4a11 11 0 0 0 7.1 7.1l1.4-2.1 4.3 1.6V19a1.5 1.5 0 0 1-1.6 1.5A16.5 16.5 0 0 1 3.5 5.1 1.5 1.5 0 0 1 5 3.5Z" />
+    </svg>
+  );
+}
+
+function TorchIcon() {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+      <path d="M8 3h8v3l-2 3v12H10V9L8 6V3Z" />
+      <circle cx="12" cy="13" r="1" />
+    </svg>
+  );
+}
+
+function CameraIcon() {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+      <path d="M4 8h3l1.5-2h7L17 8h3v11H4V8Z" />
+      <circle cx="12" cy="13" r="3" />
     </svg>
   );
 }
@@ -25,15 +44,13 @@ const ways = [
     id: "text",
     label: "Text",
     icon: <TextIcon />,
-    arrives: "A text arrives",
     ar: "ريم وصلت المدرسة الساعة ٧:٠٥ الصبح.",
     en: "Reem got to school at 7:05 this morning.",
   },
   {
     id: "call",
     label: "Call",
-    icon: <CallIcon />,
-    arrives: "Lulwa calls",
+    icon: <PhoneIcon />,
     ar: "هلا، معك لولوة من طمّني. ريم وصلت المدرسة الساعة ٧:٠٥. تبين تسألين عن شي؟",
     en: "Hi, it’s Lulwa from Tammeni. Reem got to school at 7:05. Anything you want to ask?",
   },
@@ -41,8 +58,8 @@ const ways = [
 
 /**
  * Tammeni on the home page: the parent's rule for Reem's attendance news,
- * and the parent's phone at 7:06 showing how that news lands: a text on the
- * lock screen, or Lulwa calling. Without JavaScript it shows the text.
+ * and the parent's iPhone at 7:06 showing how that news lands: a notification
+ * on the lock screen, or Lulwa calling. Without JavaScript it shows the text.
  */
 export function TammeniProof() {
   const [way, setWay] = useState<(typeof ways)[number]["id"]>("text");
@@ -75,21 +92,18 @@ export function TammeniProof() {
         </fieldset>
 
         {/* The parent's phone, one minute after the school marked Reem present. */}
-        <div className="pf-tm-phone" data-ui="" role="status" aria-atomic="true" data-kind={shown.id}>
-          <span className="pf-tm-island" aria-hidden="true" />
-          <p className="pf-tm-clock" aria-hidden="true">
-            <span className="pf-tm-date">Sunday 9 November</span>
-            <span className="pf-tm-time">7:06</span>
-          </p>
-
-          <div className="pf-tm-screen" key={shown.id}>
-            <p className="pf-tm-arrives">
-              {shown.icon}
-              {shown.arrives}
-              <span className="pf-tm-when">· 7:06 am</span>
-            </p>
-
-            {shown.id === "text" ? (
+        <IPhone
+          time="7:06"
+          label="The parent's phone"
+          className="pf-tm-phone"
+          screenProps={{ className: "pf-tm-screen", role: "status", "aria-atomic": true, "data-kind": shown.id }}
+        >
+          {shown.id === "text" ? (
+            <div className="pf-tm-lock" key="text">
+              <p className="pf-tm-clock" aria-hidden="true">
+                <span className="pf-tm-date">Sunday 9 November</span>
+                <span className="pf-tm-time">7:06</span>
+              </p>
               <div className="pf-tm-banner">
                 <span className="pf-tm-app" aria-hidden="true" lang="ar">
                   ط
@@ -104,17 +118,28 @@ export function TammeniProof() {
                   </span>
                 </span>
               </div>
-            ) : (
-              <div className="pf-tm-call">
+              <p className="pf-tm-gloss">{shown.en}</p>
+              <span className="pf-tm-corners" aria-hidden="true">
+                <i>
+                  <TorchIcon />
+                </i>
+                <i>
+                  <CameraIcon />
+                </i>
+              </span>
+            </div>
+          ) : (
+            <div className="pf-tm-call" key="call">
+              <div className="pf-tm-caller">
                 <span className="pf-tm-ring" aria-hidden="true">
                   <span className="pf-tm-avatar" lang="ar">
                     ل
                   </span>
                 </span>
-                <span className="pf-tm-caller">
-                  <strong>Lulwa</strong>
-                  <span>Incoming call from Tammeni</span>
-                </span>
+                <strong>Lulwa</strong>
+                <span>Tammeni · incoming call</span>
+              </div>
+              <div className="pf-tm-saying">
                 <span className="pf-tm-wave" aria-hidden="true">
                   <i />
                   <i />
@@ -125,15 +150,25 @@ export function TammeniProof() {
                 <span className="pf-tm-ar pf-tm-said" lang="ar" dir="rtl">
                   {shown.ar}
                 </span>
+                <p className="pf-tm-gloss">{shown.en}</p>
               </div>
-            )}
-            <p className="pf-tm-gloss">{shown.en}</p>
-          </div>
-          <span className="pf-tm-dock" aria-hidden="true">
-            <i />
-            <i />
-          </span>
-        </div>
+              <div className="pf-ip-calls" aria-hidden="true">
+                <span className="pf-ip-call pf-ip-call-end">
+                  <i>
+                    <CallEndIcon />
+                  </i>
+                  Decline
+                </span>
+                <span className="pf-ip-call pf-ip-call-go">
+                  <i>
+                    <CallIcon />
+                  </i>
+                  Accept
+                </span>
+              </div>
+            </div>
+          )}
+        </IPhone>
       </div>
     </Reveal>
   );

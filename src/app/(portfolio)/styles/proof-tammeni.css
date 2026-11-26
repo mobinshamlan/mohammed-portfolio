@@ -1,7 +1,8 @@
 /* Tammeni on the home page: the parent's rule on a cream card, the way the
-   product's own settings read, and beside it the parent's phone at 7:06.
+   product's own settings read, and beside it the parent's iPhone at 7:06.
    Choose Text and a notification lands on the lock screen; choose Call and
-   Lulwa is calling. The phone is the proof: news arrives the way you asked. */
+   Lulwa is calling. The phone is the proof: news arrives the way you asked.
+   The phone frame itself is the shared .pf-ip in proof-naqah.css. */
 
 .pf-tammeni {
   width: 100%;
@@ -11,7 +12,7 @@
 
 .pf-tammeni-stage {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 17rem);
+  grid-template-columns: minmax(0, 1fr) 15.5rem;
   align-items: center;
   gap: clamp(1rem, 3vw, 2rem);
 }
@@ -134,85 +135,67 @@
   color: color-mix(in srgb, var(--field) 70%, var(--field-ink));
 }
 
-/* ---- The parent's phone ---- */
-.pf-tm-phone {
-  --tm-screen: color-mix(in srgb, var(--field) 72%, #000);
-  position: relative;
+/* ---- The parent's phone: the iOS lock screen, deep green wallpaper ---- */
+.pf-tm-screen {
+  --ip-bg: radial-gradient(110% 60% at 50% 100%, #1f5c4c 0%, #0b2e27 55%, #06201b 100%);
+  --ip-ink: #f1ead9;
+  --tm-muted: rgb(241 234 217 / 0.7);
+}
+
+.pf-tm-screen .pf-ip-body {
+  padding: 0.25rem 0.7rem 0.5rem;
+}
+
+.pf-tm-lock,
+.pf-tm-call {
   display: grid;
   grid-template-rows: auto auto 1fr auto;
+  align-content: start;
   gap: 0.6rem;
-  min-height: 25rem;
-  padding: 1.5rem 0.8rem 0.9rem;
-  border: 0.4rem solid color-mix(in srgb, var(--field-ink) 85%, var(--field));
-  border-radius: 2.4rem;
-  background: var(--tm-screen);
-  color: var(--field-ink);
-  box-shadow: 0 2rem 3.5rem -1.5rem rgb(0 0 0 / 0.7);
+  min-height: 0;
 }
 
-.pf-tm-island {
-  position: absolute;
-  top: 0.55rem;
-  left: 50%;
-  width: 4.5rem;
-  height: 1.1rem;
-  border-radius: 999px;
-  background: #000;
-  translate: -50% 0;
+.pf-tm-call {
+  grid-template-rows: auto 1fr auto;
+  gap: 0.75rem;
+  padding-top: 0.75rem;
 }
 
+/* The lock screen's date and big clock. */
 .pf-tm-clock {
   display: grid;
   justify-items: center;
-  gap: 0.1rem;
-  padding-top: 0.75rem;
+  gap: 0.15rem;
+  padding-top: 0.5rem;
   line-height: 1;
 }
 
 .pf-tm-date {
   font-size: 0.8125rem;
   font-weight: 600;
-  color: var(--field-muted);
+  color: var(--tm-muted);
 }
 
 .pf-tm-time {
   font-family: var(--display);
-  font-size: 3.4rem;
+  font-size: 3.6rem;
   font-weight: 700;
-  letter-spacing: -0.03em;
-}
-
-.pf-tm-screen {
-  display: grid;
-  align-content: start;
-  gap: 0.6rem;
-}
-
-/* What is happening, said in words. */
-.pf-tm-arrives {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.4rem;
-  font-size: 0.8125rem;
-  font-weight: 700;
-  color: var(--accent);
-}
-
-.pf-tm-when {
-  font-weight: 500;
-  color: var(--field-muted);
+  letter-spacing: -0.04em;
+  font-variant-numeric: tabular-nums;
 }
 
 /* A text: the notification on the lock screen, the app's green tile at its head. */
 .pf-tm-banner {
   display: grid;
   grid-template-columns: 2.1rem minmax(0, 1fr);
-  gap: 0.65rem;
-  padding: 0.7rem 0.75rem;
-  border-radius: 16px;
-  background: color-mix(in srgb, var(--field-ink) 92%, var(--field));
-  color: var(--field);
+  gap: 0.6rem;
+  margin-top: 0.75rem;
+  padding: 0.65rem 0.7rem;
+  border-radius: 18px;
+  background: rgb(255 255 255 / 0.14);
+  backdrop-filter: blur(10px);
+  color: var(--ip-ink);
+  box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.08);
 }
 
 .pf-tm-app {
@@ -242,33 +225,75 @@
 }
 
 .pf-tm-banner-top span {
-  color: color-mix(in srgb, var(--field) 65%, var(--field-ink));
+  color: var(--tm-muted);
 }
 
 .pf-tm-ar {
   display: block;
   font-family: var(--display);
-  font-size: 1.0625rem;
-  font-weight: 700;
+  font-size: 0.9375rem;
+  font-weight: 600;
   line-height: 1.5;
   text-align: right;
 }
 
-/* A call: Lulwa's gold ring on the dark screen, her voice as a wave. */
-.pf-tm-call {
+.pf-tm-gloss {
+  padding-inline: 0.2rem;
+  font-size: 0.75rem;
+  line-height: 1.4;
+  color: var(--tm-muted);
+}
+
+/* The lock screen's torch and camera at its foot. */
+.pf-tm-corners {
+  display: flex;
+  justify-content: space-between;
+  align-self: end;
+  padding: 0 0.6rem 0.2rem;
+}
+
+.pf-tm-corners i {
+  display: grid;
+  place-items: center;
+  width: 2.4rem;
+  height: 2.4rem;
+  border-radius: 50%;
+  background: rgb(255 255 255 / 0.16);
+}
+
+.pf-tm-corners svg {
+  width: 1.1rem;
+  height: 1.1rem;
+  stroke-width: 1.5;
+}
+
+/* A call: Lulwa's gold ring on the dark screen, her voice as a wave, and the
+   two round buttons iOS puts at the foot (decoration; the rule is the control). */
+.pf-tm-caller {
   display: grid;
   justify-items: center;
-  gap: 0.4rem;
-  padding-top: 0.25rem;
+  gap: 0.2rem;
   text-align: center;
+  line-height: 1.2;
+}
+
+.pf-tm-caller strong {
+  font-family: var(--display);
+  font-size: 1.5rem;
+}
+
+.pf-tm-caller > span:last-child {
+  font-size: 0.75rem;
+  color: var(--tm-muted);
 }
 
 .pf-tm-ring {
   position: relative;
   display: grid;
   place-items: center;
-  width: 4.25rem;
-  height: 4.25rem;
+  width: 4rem;
+  height: 4rem;
+  margin-bottom: 0.3rem;
   border-radius: 50%;
 }
 
@@ -295,20 +320,11 @@
   font-weight: 700;
 }
 
-.pf-tm-caller {
+.pf-tm-saying {
   display: grid;
-  gap: 0.1rem;
-  line-height: 1.2;
-}
-
-.pf-tm-caller strong {
-  font-family: var(--display);
-  font-size: 1.25rem;
-}
-
-.pf-tm-caller span {
-  font-size: 0.8125rem;
-  color: var(--field-muted);
+  justify-items: center;
+  align-content: start;
+  gap: 0.5rem;
 }
 
 .pf-tm-wave {
@@ -336,32 +352,15 @@
 }
 
 .pf-tm-said {
+  width: 100%;
   padding: 0.5rem 0.65rem 0.55rem;
   border-radius: 12px;
-  background: color-mix(in srgb, var(--field-ink) 10%, transparent);
-  font-size: 0.9375rem;
+  background: rgb(255 255 255 / 0.12);
+  font-size: 0.875rem;
 }
 
-/* The lock screen's two round buttons at its foot. */
-.pf-tm-dock {
-  display: flex;
-  justify-content: space-between;
-  padding: 0.5rem 1rem 0.1rem;
-}
-
-.pf-tm-dock i {
-  display: block;
-  width: 2.2rem;
-  height: 2.2rem;
-  border-radius: 50%;
-  background: color-mix(in srgb, var(--field-ink) 12%, transparent);
-}
-
-.pf-tm-gloss {
-  padding-inline: 0.2rem;
-  font-size: 0.8125rem;
-  line-height: 1.4;
-  color: var(--field-muted);
+.pf-tm-call .pf-ip-calls {
+  padding-bottom: 0.4rem;
 }
 
 /* Narrow columns and phones: the rule on top, the phone under it. */
@@ -373,22 +372,21 @@
   .pf-tm-rule {
     width: 100%;
   }
-  .pf-tm-phone {
-    width: min(100%, 17rem);
-    min-height: 23rem;
-  }
 }
 
 /* Motion: the text slides down onto the lock screen; the call rings and Lulwa
    speaks. Reduced motion: the screen simply changes. */
 @media (prefers-reduced-motion: no-preference) {
-  .pf-tm-screen > * {
+  .pf-tm-lock > *,
+  .pf-tm-call > * {
     animation: pf-tm-in 480ms var(--ease-expo) both;
   }
-  .pf-tm-screen > :nth-child(2) {
+  .pf-tm-lock > :nth-child(2),
+  .pf-tm-call > :nth-child(2) {
     animation-delay: 80ms;
   }
-  .pf-tm-screen > :nth-child(3) {
+  .pf-tm-lock > :nth-child(3),
+  .pf-tm-call > :nth-child(3) {
     animation-delay: 160ms;
   }
 

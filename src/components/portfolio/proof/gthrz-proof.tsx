@@ -4,10 +4,11 @@ import { useEffect, useRef, useState } from "react";
 import { gthrzShots } from "@/lib/gthrz";
 import { GthrzImg } from "../gthrz-img";
 import { Reveal } from "../reveal";
+import { IPhone } from "./iphone";
 
 /*
- * Gthrz on the home page: the host's phone and the guest's phone, side by
- * side. Sara asked to join Pizza Night. On the guest's screen (the real app
+ * Gthrz on the home page: the host's request card and the guest's iPhone,
+ * side by side. Sara asked to join Pizza Night. On her screen (the real app
  * screen, continued) the address is hidden. The host's one tap, Approve,
  * is what puts the area on Sara's screen; the exact pin still waits for the
  * host's reveal time. The street map behind the chapter answers the same tap.
@@ -31,6 +32,30 @@ function PinIcon() {
   );
 }
 
+function ShareIcon() {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+      <path d="M12 3v12M8 7l4-4 4 4M6 11v8a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1v-8" />
+    </svg>
+  );
+}
+
+function HeartIcon() {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+      <path d="M12 20s-7-4.6-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.4-7 10-7 10Z" />
+    </svg>
+  );
+}
+
+function CheckIcon() {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+      <path d="m5 12.5 4.5 4.5L19 7.5" />
+    </svg>
+  );
+}
+
 export function GthrzProof() {
   const [approved, setApproved] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
@@ -41,6 +66,8 @@ export function GthrzProof() {
     if (!chapter) return;
     chapter.dataset.reveal = approved ? "true" : "false";
   }, [approved]);
+
+  const state = approved ? "approved" : "waiting";
 
   return (
     <Reveal className="vb-gz">
@@ -55,7 +82,7 @@ export function GthrzProof() {
             <LockIcon />
             Only approved guests get the address, 2 hours before the event.
           </p>
-          <div className="vb-gz-req" data-state={approved ? "approved" : "waiting"}>
+          <div className="vb-gz-req" data-state={state}>
             <span className="vb-gz-avatar" aria-hidden="true">
               S
             </span>
@@ -74,9 +101,19 @@ export function GthrzProof() {
           </div>
         </div>
 
-        {/* The guest's side: the real event screen, and what Sara can see under it. */}
-        <div className="vb-gz-guest" data-ui="" data-state={approved ? "approved" : "waiting"}>
-          <p className="vb-gz-guest-tag">Sara&rsquo;s phone</p>
+        {/* The guest's side: Sara's iPhone on the real event screen. */}
+        <IPhone time="6:45" label="Sara's phone" className="vb-gz-guest" screenProps={{ className: "vb-gz-screen", "data-state": state }}>
+          <div className="vb-gz-top" aria-hidden="true">
+            <span className="vb-gz-back">‹ Back</span>
+            <span className="vb-gz-top-icons">
+              <i>
+                <ShareIcon />
+              </i>
+              <i>
+                <HeartIcon />
+              </i>
+            </span>
+          </div>
           {/* The real Pizza Night cover photo, then the screen's chips, title
               and date set as live text from the same screen so they stay sharp
               at any size. */}
@@ -106,10 +143,11 @@ export function GthrzProof() {
               </span>
             </p>
             <p className="vb-gz-going" aria-hidden="true">
+              {approved ? <CheckIcon /> : null}
               {approved ? "Going" : "Requested"}
             </p>
           </div>
-        </div>
+        </IPhone>
       </div>
     </Reveal>
   );

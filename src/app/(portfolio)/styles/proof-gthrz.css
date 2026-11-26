@@ -1,11 +1,12 @@
-/* Gthrz on the home page: two phones, the host's and the guest's, in the
+/* Gthrz on the home page: the host's request card and Sara's iPhone, in the
    app's own near-black and violet. The host's Approve is the one control;
    the guest's screen (the real Pizza Night screen, continued in the same UI)
-   answers with the address. Before that, it is hidden. */
+   answers with the address. Before that, it is hidden.
+   The phone frame itself is the shared .pf-ip in proof-naqah.css. */
 
 .vb-gz {
   width: 100%;
-  max-width: 36rem;
+  max-width: 38rem;
 }
 
 .vb-gz-pair {
@@ -15,8 +16,8 @@
   --gz-panel-2: #26232b;
   --gz-ok: #7fd3a0;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 16.5rem);
-  align-items: end;
+  grid-template-columns: minmax(0, 1fr) 15.5rem;
+  align-items: center;
   gap: clamp(1rem, 3vw, 1.75rem);
 }
 
@@ -157,40 +158,62 @@
   outline-offset: 3px;
 }
 
-/* ---- The guest's phone: the real screen, continued ---- */
-.vb-gz-guest {
-  position: relative;
-  display: grid;
-  overflow: hidden;
-  border: 0.4rem solid #2a2730;
-  border-radius: 2.2rem;
-  background: #0e0d10;
-  color: var(--gz-ink);
-  box-shadow: 0 2rem 3.5rem -1.5rem rgb(0 0 0 / 0.85);
+/* ---- Sara's phone: the real event screen, continued ---- */
+.vb-gz-screen {
+  --ip-bg: #0a090c;
+  --ip-ink: #f3eee6;
 }
 
-.vb-gz-guest-tag {
-  position: absolute;
-  top: 0.75rem;
-  left: 50%;
-  z-index: 1;
-  padding: 0.2rem 0.65rem;
+.vb-gz-screen .pf-ip-body {
+  grid-template-rows: auto auto minmax(0, 1fr);
+  padding: 0 0.6rem 0.35rem;
+}
+
+/* The app's top row: Back, share, favourite. */
+.vb-gz-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.1rem 0 0.5rem;
+  color: var(--gz-ink);
+}
+
+.vb-gz-back {
+  padding: 0.3rem 0.55rem;
   border-radius: 999px;
-  background: rgb(0 0 0 / 0.7);
+  background: var(--gz-panel);
   font-size: 0.75rem;
   font-weight: 600;
-  translate: -50% 0;
+}
+
+.vb-gz-top-icons {
+  display: flex;
+  gap: 0.35rem;
+}
+
+.vb-gz-top-icons i {
+  display: grid;
+  place-items: center;
+  width: 1.7rem;
+  height: 1.7rem;
+  border-radius: 50%;
+  background: var(--gz-panel);
+}
+
+.vb-gz-top-icons svg {
+  width: 0.85rem;
+  height: 0.85rem;
 }
 
 /* The crop: the cover photo of the real Pizza Night screen (455 px wide,
    screen area 373 px wide from x = 42, clean from y 142 to 290). */
 .vb-gz-shot {
   display: grid;
-  background: #0e0d10;
 }
 
 .vb-gz-slice {
   overflow: hidden;
+  border-radius: 14px;
 }
 
 .vb-gz-slice img {
@@ -202,8 +225,7 @@
 }
 
 .vb-gz-slice-cover {
-  aspect-ratio: 373 / 148;
-  border-radius: 0 0 14px 14px;
+  aspect-ratio: 373 / 132;
 }
 
 .vb-gz-slice-cover img {
@@ -213,9 +235,9 @@
 /* The screen's rows, as text: chips, title, date, and the reveal rule. */
 .vb-gz-rows {
   display: grid;
-  gap: 0.3rem;
-  padding: 0.7rem 0.9rem 0.6rem;
-  color: #f3eee6;
+  gap: 0.25rem;
+  padding: 0.6rem 0.2rem 0.5rem;
+  color: var(--ip-ink);
 }
 
 .vb-gz-rows p {
@@ -225,8 +247,8 @@
 .vb-gz-chips {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.3rem;
-  margin-bottom: 0.35rem !important;
+  gap: 0.25rem;
+  margin-bottom: 0.3rem !important;
 }
 
 .vb-gz-chips span {
@@ -254,15 +276,15 @@
 
 .vb-gz-under {
   display: grid;
-  gap: 0.65rem;
-  padding: 0.5rem 0.8rem 0.85rem;
-  background: #0e0d10;
+  grid-template-rows: auto 1fr;
+  gap: 0.5rem;
+  min-height: 0;
 }
 
 .vb-gz-where {
   display: flex;
   align-items: flex-start;
-  gap: 0.55rem;
+  gap: 0.5rem;
   padding: 0.6rem 0.65rem;
   border-radius: 12px;
   background: var(--gz-panel);
@@ -274,7 +296,7 @@
   color: var(--gz-muted);
 }
 
-.vb-gz-guest[data-state="approved"] .vb-gz-where svg {
+.vb-gz-screen[data-state="approved"] .vb-gz-where svg {
   color: var(--accent);
 }
 
@@ -285,41 +307,49 @@
 }
 
 .vb-gz-label {
-  font-size: 0.75rem;
+  font-size: 0.6875rem;
   color: var(--gz-muted);
 }
 
 .vb-gz-where strong {
-  font-size: 0.9375rem;
+  font-size: 0.8125rem;
   font-weight: 600;
   color: var(--gz-muted);
 }
 
-.vb-gz-guest[data-state="approved"] .vb-gz-where strong {
+.vb-gz-screen[data-state="approved"] .vb-gz-where strong {
   font-family: var(--display);
-  font-size: 1.0625rem;
+  font-size: 0.9375rem;
   font-weight: 700;
   color: var(--gz-ink);
 }
 
 .vb-gz-fine {
-  font-size: 0.75rem;
+  font-size: 0.6875rem;
   color: var(--gz-muted);
 }
 
 /* The app's wide bottom button: Requested, then Going. */
 .vb-gz-going {
-  display: grid;
-  place-items: center;
-  min-height: 2.6rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  align-self: end;
+  min-height: 2.5rem;
   border-radius: 12px;
   background: var(--gz-panel-2);
   color: var(--gz-muted);
-  font-size: 0.9375rem;
+  font-size: 0.875rem;
   font-weight: 700;
 }
 
-.vb-gz-guest[data-state="approved"] .vb-gz-going {
+.vb-gz-going svg {
+  width: 0.9rem;
+  height: 0.9rem;
+}
+
+.vb-gz-screen[data-state="approved"] .vb-gz-going {
   background: color-mix(in srgb, var(--accent) 22%, var(--gz-panel));
   color: var(--gz-ink);
 }
@@ -332,50 +362,6 @@
   }
   .vb-gz-host {
     width: 100%;
-  }
-  /* The guest's phone takes the column, with larger title and date. */
-  .vb-gz-guest {
-    width: min(100%, 22rem);
-  }
-  .vb-gz-slice-cover {
-    aspect-ratio: 373 / 112;
-  }
-  .vb-gz-title {
-    font-size: 1.6rem;
-  }
-  .vb-gz-when,
-  .vb-gz-reveal {
-    font-size: 0.875rem;
-  }
-  .vb-gz-chips span {
-    font-size: 0.75rem;
-  }
-  .vb-gz-under {
-    gap: 0.75rem;
-    padding: 0.4rem 0.9rem 0.95rem;
-  }
-  .vb-gz-where {
-    padding: 0.7rem 0.75rem;
-  }
-  .vb-gz-where svg {
-    width: 1.25rem;
-    height: 1.25rem;
-  }
-  .vb-gz-label {
-    font-size: 0.8125rem;
-  }
-  .vb-gz-where strong {
-    font-size: 1.0625rem;
-  }
-  .vb-gz-guest[data-state="approved"] .vb-gz-where strong {
-    font-size: 1.25rem;
-  }
-  .vb-gz-fine {
-    font-size: 0.8125rem;
-  }
-  .vb-gz-going {
-    min-height: 2.85rem;
-    font-size: 1rem;
   }
 }
 
@@ -394,7 +380,7 @@
   .vb-gz-req-who span {
     animation: vb-gz-in 440ms var(--ease-expo);
   }
-  .vb-gz-guest[data-state="approved"] .vb-gz-where svg {
+  .vb-gz-screen[data-state="approved"] .vb-gz-where svg {
     animation: vb-gz-drop 560ms var(--ease-expo);
   }
   .vb-gz-going {
