@@ -128,17 +128,21 @@
     grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
   }
 
-  /* Tammeni: a compact page of the exercise book. The phone sits left, the answers right. */
+  /* Tammeni: a compact page of the exercise book. The phone sits left, the
+     answers right; the chapter closes the Work section, so it keeps room for
+     the night's crest under its links. */
   .vb-proj[data-id="tammeni"] .vb-proj-inner {
     grid-template-columns: minmax(0, 6fr) minmax(0, 5fr);
     grid-template-areas: "visual head" "visual foot";
-    padding-block: clamp(3rem, 5vw, 5rem);
+    padding-top: clamp(3rem, 5vw, 5rem);
+    padding-bottom: calc(clamp(3rem, 5vw, 5rem) + var(--edge));
   }
 
-  /* Seet: opens on a masthead, the chat under the name; tall, like the city at night. */
+  /* Seet: opens on a masthead; the chat stands on the right, the answers under
+     the name on the left, and the towers rise in the free corner under them. */
   .vb-proj[data-id="seet"] .vb-proj-inner {
-    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
-    grid-template-areas: "head head" "visual foot";
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    grid-template-areas: "head head" "foot visual";
     grid-template-rows: auto auto;
     row-gap: 1.5rem;
     padding-bottom: calc(clamp(3.5rem, 7vw, 7rem) + var(--edge) + 7rem);
@@ -157,13 +161,14 @@
     align-self: start;
   }
 
-  /* Kashta: the desert night earns the whole window. The week sits in the
-     open sky; the camp and the Milky Way have room below and behind it. */
+  /* Kashta: the desert night earns the whole window. The week sits on the
+     left in the open sky; the camp and the Milky Way have room below and
+     behind it, and the answers stand on the quiet right. */
   .vb-proj[data-id="kashta"] .vb-proj-inner {
     min-height: min(100svh, 62rem);
-    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
     grid-template-rows: auto auto 1fr;
-    grid-template-areas: "head visual" "foot visual" ". visual";
+    grid-template-areas: "visual head" "visual foot" "visual .";
     align-content: start;
     padding-top: clamp(4.5rem, 8vw, 8rem);
     padding-bottom: clamp(7rem, 14vw, 13rem);
@@ -192,12 +197,14 @@
     padding-bottom: 0.5rem;
   }
 
-  /* Gthrz: the phone and the host's card on the left, the answers beside; short and close. */
+  /* Gthrz: the phone and the host's card on the left, the answers beside;
+     short and close, with room under the links for Amanah's crest. */
   .vb-proj[data-id="gthrz"] .vb-proj-inner {
     grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
     grid-template-areas: "visual head" "visual foot";
     align-items: center;
-    padding-block: clamp(3rem, 5vw, 5rem);
+    padding-top: clamp(3rem, 5vw, 5rem);
+    padding-bottom: calc(clamp(3rem, 5vw, 5rem) + var(--edge));
   }
   .vb-proj[data-id="gthrz"] .vb-proj-head {
     align-self: end;
@@ -281,10 +288,12 @@
   stroke-linejoin: round;
 }
 
+/* The route ahead, pricked out faintly in the same red so it reads on cream and night alike. */
 .vb-flow-ghost {
-  stroke: rgba(242, 236, 223, 0.12);
+  stroke: var(--ribbon);
   stroke-width: 1.5;
   stroke-dasharray: 1 9;
+  opacity: 0.22;
 }
 
 /* Short even stitches, like a seam sewn through each chapter. */
@@ -301,12 +310,100 @@
   stroke-width: 12;
 }
 
-/* The needle: a small Sadu diamond. */
+/* The needle: a small Sadu diamond with a soft halo, moved on its own layer. */
 .vb-flow-head {
+  will-change: transform;
+  transition: opacity 200ms ease;
+}
+
+.vb-flow-head-mark {
   fill: var(--ribbon);
   stroke: #f2ecdf;
   stroke-width: 1.5;
-  transition: opacity 200ms ease;
+  transform-box: fill-box;
+  transform-origin: center;
+  rotate: 45deg;
+}
+
+.vb-flow-head-halo {
+  fill: var(--ribbon);
+  opacity: 0.22;
+}
+
+/* The knots: one waits, drawn in outline, where the thread meets each try-it;
+   it fills red and gives one ring when the thread arrives and ties. */
+.vb-flow-knot-mark {
+  fill: transparent;
+  stroke: color-mix(in srgb, var(--ribbon) 55%, transparent);
+  stroke-width: 1.5;
+  transform-box: fill-box;
+  transform-origin: center;
+  rotate: 45deg;
+  transition:
+    fill 300ms ease,
+    stroke 300ms ease;
+}
+
+.vb-flow-knot[data-tied="true"] .vb-flow-knot-mark {
+  fill: var(--ribbon);
+  stroke: #f2ecdf;
+}
+
+.vb-flow-knot-ring {
+  fill: none;
+  stroke: var(--ribbon);
+  stroke-width: 1.5;
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+@keyframes vb-flow-tie {
+  from {
+    opacity: 0.8;
+    scale: 0.4;
+  }
+  to {
+    opacity: 0;
+    scale: 3.2;
+  }
+}
+
+/* The knot pulls tight: a little over, then settles. */
+@keyframes vb-flow-knot {
+  from {
+    scale: 0.4;
+  }
+  55% {
+    scale: 1.18;
+  }
+  to {
+    scale: 1;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .vb-flow-knot[data-tied="true"] .vb-flow-knot-ring {
+    animation: vb-flow-tie 1s var(--ease-out) both;
+  }
+  .vb-flow-knot[data-tied="true"] .vb-flow-knot-mark {
+    animation: vb-flow-knot 600ms var(--ease-expo) both;
+  }
+}
+
+/* Each try-it waits in the half-light and comes forward as the thread ties to
+   it. The move sits on the try-it itself, so the wrapper the thread measures
+   keeps its place. Wide screens with the thread drawn, and no reduced motion. */
+@media (min-width: 900px) and (prefers-reduced-motion: no-preference) {
+  .vb[data-motion="on"] .vb-work[data-flow="on"] .vb-proj .vb-proj-visual > * {
+    transition:
+      opacity 900ms var(--ease-expo),
+      translate 1100ms var(--ease-expo);
+  }
+  .vb[data-motion="on"] .vb-work[data-flow="on"] .vb-proj:not([data-sewn="true"]) .vb-proj-visual > * {
+    opacity: 0.4;
+    translate: 0 1.25rem;
+  }
 }
 
 @media (max-width: 899px) {
