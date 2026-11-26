@@ -12,7 +12,7 @@ const sections: Item[] = [
   { label: "Work", hint: "Section", href: "/#work" },
   { label: "Where I come from", hint: "Section", href: "/#about" },
   { label: "London, 2022–2026", hint: "Story", href: "/#journey" },
-  { label: "What I work with", hint: "Section", href: "/#skills" },
+  { label: "Skills", hint: "Section", href: "/#skills" },
   { label: "Contact", hint: "Section", href: "/#contact" },
   { label: "How this site was built", hint: "Experiment", href: "/experiment" },
 ];

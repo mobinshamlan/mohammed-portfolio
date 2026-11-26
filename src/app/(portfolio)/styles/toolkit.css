@@ -1,128 +1,197 @@
-/* The graduation hood's blue frames a small index in the chapter cover colors. */
+/* An index of the work, typeset in the portrait's navy and hood blue. */
 .vb-tools {
-  --tools-ground: color-mix(in srgb, var(--ember) 84%, var(--sand));
-  padding: clamp(2.5rem, 4.6vw, 4.75rem) var(--gutter);
-  background: var(--tools-ground);
-  color: var(--dusk);
-  color-scheme: light;
+  --tools-stripe: color-mix(in srgb, var(--dusk-2) 58%, var(--night-2));
+  --tools-active: color-mix(in srgb, var(--dusk-3) 60%, var(--night-2));
+  display: grid;
+  gap: 1.25rem;
+  padding: clamp(1.875rem, 4.5vw, 4.5rem) var(--gutter);
+  background: var(--night-2);
+  color: var(--sand);
 }
 
 .vb-tools-title {
-  max-inline-size: none;
-  font-size: clamp(2.125rem, 1.125rem + 4.2vw, 5.25rem);
-  line-height: 1.04;
-  letter-spacing: -0.045em;
+  color: var(--ember);
+  font-size: clamp(3.25rem, 2rem + 4.5vw, 6rem);
+  letter-spacing: -0.04em;
+  line-height: 1.02;
+}
+
+.vb .vb-tools-lead {
+  max-inline-size: 34ch;
+  margin-block-start: 0.625rem;
+  color: var(--sand-2);
+  font-size: var(--step-body);
+  line-height: 1.4;
+  text-wrap: pretty;
+}
+
+.vb-tools-index {
+  min-inline-size: 0;
 }
 
 .vb-tools-list {
-  display: grid;
-  gap: 1rem;
-  margin: clamp(1.5rem, 3.1vw, 2.75rem) 0 0;
+  margin: 0;
   padding: 0;
   list-style: none;
 }
 
-.vb-tools-item {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) 6.5rem;
-  align-items: center;
-  gap: 0.75rem;
-}
-
-.vb-tools-copy h3 {
-  font-size: clamp(1.0625rem, 0.94rem + 0.42vw, 1.375rem);
-  line-height: 1.2;
-}
-
-.vb .vb-tools-copy p {
-  margin-block-start: 0.25rem;
-  font-size: var(--step-small);
-  line-height: 1.38;
-  text-wrap: pretty;
+.vb-tools-list > li:nth-child(odd) {
+  background: var(--tools-stripe);
 }
 
 .vb .vb-tools-chapter {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.375rem;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  column-gap: 0.75rem;
+  row-gap: 0.2rem;
+  align-items: baseline;
   min-block-size: 2.75rem;
-  padding: 0.45rem 0.625rem;
-  background: var(--chapter-field);
-  color: var(--chapter-ink);
-  font-size: var(--step-small);
-  line-height: 1.2;
+  padding: 0.5625rem 0.75rem;
   text-decoration: none;
 }
 
-.vb-tools-arrow {
-  font-size: 1.125em;
-  line-height: 1;
+.vb-tools-chapter h3 {
+  font-size: clamp(1rem, 0.91rem + 0.38vw, 1.3rem);
+  line-height: 1.25;
+  text-wrap: wrap;
 }
 
-.vb-tools-chapter:is(:hover, :focus-visible) > :first-child {
+.vb-tools-chapter p {
+  grid-column: 1 / -1;
+  grid-row: 2;
+  color: var(--sand-2);
+  font-size: 1rem;
+  line-height: 1.375;
+  text-wrap: pretty;
+}
+
+.vb-tools-project {
+  grid-column: 2;
+  grid-row: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: end;
+  gap: 0.375rem;
+  color: var(--ember);
+  font-size: var(--step-small);
+  font-weight: 500;
+  line-height: 1.25;
+}
+
+.vb-tools-project > span {
   text-decoration: underline;
+  text-underline-offset: 0.2em;
 }
 
-.vb .vb-tools :is(.vb-tools-chapter, summary):focus-visible {
-  outline-color: currentColor;
-  border-radius: 0;
+.vb-tools-arrow {
+  flex: none;
+  inline-size: 1rem;
+  block-size: 1rem;
+}
+
+.vb .vb-tools-chapter:is(:hover, :focus-visible) {
+  background: var(--tools-active);
+}
+
+.vb-tools-chapter:is(:hover, :focus-visible) .vb-tools-project > span {
+  text-decoration-thickness: 2px;
 }
 
 .vb .vb-tools-chapter:focus-visible {
-  outline-offset: -4px;
+  position: relative;
+  outline-offset: -2px;
+  border-radius: 0;
 }
 
 .vb-tools-stack {
-  margin-block-start: 1.125rem;
+  margin-block-start: 0.5rem;
 }
 
 .vb-tools-stack > summary {
-  width: fit-content;
+  inline-size: fit-content;
+  padding-inline: 0.625rem 0.875rem;
+  color: var(--sand-2);
   font-family: var(--text);
   font-size: var(--step-small);
-  font-weight: 400;
+  font-weight: 500;
 }
 
-.vb-tools-stack > summary:hover {
+.vb-tools-stack > summary:is(:hover, :focus-visible) {
+  color: var(--sand);
   text-decoration: underline;
 }
 
 .vb-tools-stack-list {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 13rem), 1fr));
-  gap: 0.875rem 1.5rem;
+  gap: 1rem 1.75rem;
   margin: 0;
-  padding-block: 0.5rem;
-  font-size: var(--step-small);
-  line-height: 1.5;
+  padding: 0.75rem 0.75rem 0;
+  line-height: 1.45;
 }
 
 .vb-tools-stack-list dt {
-  font-family: var(--display);
-  font-weight: 700;
+  font-size: var(--step-small);
+  font-weight: 600;
 }
 
 .vb-tools-stack-list dd {
-  margin: 0.15rem 0 0;
+  margin: 0.2rem 0 0;
+  color: var(--sand-2);
+  font-size: 1rem;
 }
 
-@media (min-width: 700px) {
-  .vb-tools-list {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    row-gap: clamp(1.75rem, 2.8vw, 2.5rem);
-    column-gap: 0;
-  }
-
-  .vb-tools-item {
-    grid-template-columns: minmax(0, 1fr);
-    grid-template-rows: 1fr auto;
-    align-items: start;
-    gap: 0.875rem;
-  }
-
-  .vb-tools-copy,
+@media (min-width: 760px) {
   .vb .vb-tools-chapter {
-    padding-inline: 0.875rem;
+    grid-template-columns: minmax(13.5rem, 0.72fr) minmax(0, 1fr) 6.5rem;
+    align-items: center;
+    column-gap: clamp(1rem, 2vw, 2rem);
+    min-block-size: 3.75rem;
+    padding: 0.75rem 1.125rem;
   }
+
+  .vb-tools-chapter p {
+    grid-column: 2;
+    grid-row: 1;
+  }
+
+  .vb-tools-project {
+    grid-column: 3;
+  }
+
+  .vb-tools-stack-list {
+    padding-inline: 1.125rem;
+  }
+}
+
+@media (min-width: 1100px) {
+  .vb-tools {
+    grid-template-columns: minmax(15rem, 0.38fr) minmax(0, 1fr);
+    column-gap: clamp(2rem, 4.3vw, 4.5rem);
+  }
+
+  .vb-tools-heading {
+    align-self: start;
+    padding-block-start: clamp(2rem, 5vw, 4.5rem);
+  }
+
+  .vb .vb-tools-lead {
+    max-inline-size: 24ch;
+    margin-block-start: 0.875rem;
+  }
+}
+
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .vb-tools-arrow {
+    transition: transform var(--t-hover) var(--ease-out);
+  }
+
+  .vb-tools-chapter:hover .vb-tools-arrow {
+    transform: translateY(-2px);
+  }
+}
+
+/* Each skill carries the colour of the product that proves it. */
+.vb-tools-list > li {
+  box-shadow: inset 0.3rem 0 0 var(--mark, var(--ember));
 }

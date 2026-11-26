@@ -9,34 +9,34 @@ type Capability = {
 
 export const toolkit: readonly Capability[] = [
   {
-    title: "Phone calls in Arabic",
-    example: "Collect daily ranch updates.",
+    title: "Voice assistants",
+    example: "Turn camel ranch calls into daily reports.",
     project: "naqah",
   },
   {
-    title: "AI assistants",
-    example: "Quote prices and check dates.",
-    project: "seet",
-  },
-  {
-    title: "Websites in Arabic",
-    example: "Report and track lost items.",
-    project: "amanah",
-  },
-  {
-    title: "Keep records private",
-    example: "Show parents only their child’s school records.",
+    title: "Scheduled alerts",
+    example: "Let parents schedule school calls or texts.",
     project: "tammeni",
   },
   {
-    title: "iPhone & Android apps",
-    example: "Only approved guests see the address.",
-    project: "gthrz",
+    title: "Booking systems",
+    example: "Book influencer ads over WhatsApp.",
+    project: "seet",
   },
   {
-    title: "Checks before launch",
-    example: "Check how weather affects campsite scores.",
+    title: "Forecast analysis",
+    example: "Rank camping nights by wind and dust.",
     project: "kashta",
+  },
+  {
+    title: "Web apps",
+    example: "Track lost items through private links.",
+    project: "amanah",
+  },
+  {
+    title: "iPhone & Android apps",
+    example: "Show event addresses to approved guests.",
+    project: "gthrz",
   },
 ];
 
@@ -60,10 +60,18 @@ const selectedTools = new Set([
   "Playwright",
 ]);
 
+const toolGroupLabels: Record<string, string> = {
+  Languages: "Programming languages",
+  "Web and mobile": "Websites and apps",
+  "Backend and data": "Data and accounts",
+  AI: "AI and phone calls",
+  "Tools and testing": "Automated testing",
+};
+
 export const toolkitTools = skillGroups.flatMap(({ title, skills }) => {
   const names = skills
     .filter(({ name, projects }) => projects?.length && selectedTools.has(name))
     .map(({ name }) => name);
 
-  return names.length ? [{ title, names }] : [];
+  return names.length ? [{ title: toolGroupLabels[title] ?? title, names }] : [];
 });
