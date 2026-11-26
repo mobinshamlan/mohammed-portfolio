@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { fieldStyle, projectById, type Project, type ProjectId } from "@/lib/projects";
+import { FlowLine } from "./flow-line";
 import { Reveal } from "./reveal";
 import { NaqahProof } from "./proof/naqah-proof";
 import { TammeniProof } from "./proof/tammeni-proof";
@@ -234,6 +235,7 @@ export function Covers() {
       <h2 id="work-title" className="vb-sr">
         Work
       </h2>
+      <FlowLine />
       <Naqah />
       <Tammeni />
       <Seet />

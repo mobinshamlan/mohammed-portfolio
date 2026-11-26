@@ -379,3 +379,46 @@
     margin: 0;
   }
 }
+
+/* ---------- The flow line that joins one product to the next ---------- */
+.vb-work {
+  position: relative;
+}
+
+.vb-flow {
+  position: absolute;
+  inset: 0 auto auto 0;
+  z-index: 2;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.vb-flow path {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.vb-flow-ghost {
+  stroke: rgba(242, 236, 223, 0.14);
+  stroke-width: 1.5;
+  stroke-dasharray: 2 7;
+}
+
+.vb-flow-line {
+  stroke: var(--ember);
+  stroke-width: 2.5;
+  filter: drop-shadow(0 0 6px rgba(134, 169, 245, 0.55));
+}
+
+.vb-flow-head {
+  fill: #f2ecdf;
+  filter: drop-shadow(0 0 8px rgba(134, 169, 245, 0.9));
+  transition: opacity 200ms ease;
+}
+
+@media (max-width: 899px) {
+  .vb-flow {
+    display: none;
+  }
+}
