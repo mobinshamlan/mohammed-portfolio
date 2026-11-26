@@ -9,6 +9,22 @@ import { useEffect, useRef } from "react";
  * band under the content. Reduced motion: the caravan stands in front of the sun.
  */
 
+const CAMEL_BODY =
+  "M8 17Q10 13 14 12Q22 0 30 9Q34 12 38 13L44 12Q48 11 50 4Q51 1 54 1.5L60 4Q62 5.5 60.5 7.5L55 8Q52 9 51 13Q49 22 44 25L42 27Q28 30 14 27Q9 26 8 22ZM9 15Q4 17 4.5 25L6 25Q6 19 10 17Z";
+
+/** The same camel as a small standing mark, for the herd board and the caller's avatar. */
+export function CamelMark() {
+  return (
+    <svg className="naqah-mark" viewBox="2 0 62 47" aria-hidden="true" focusable="false">
+      <rect x="11" y="24" width="2.6" height="22" />
+      <rect x="39.5" y="24" width="2.6" height="22" />
+      <path d={CAMEL_BODY} />
+      <rect x="15.5" y="24" width="2.6" height="22" />
+      <rect x="43.5" y="24" width="2.6" height="22" />
+    </svg>
+  );
+}
+
 /** One dromedary facing right, feet on y = 46. Legs swing about the hip. */
 function Camel({ x, scale = 1, delay }: { x: number; scale?: number; delay: number }) {
   const style = { animationDelay: `${delay}s` };
@@ -16,7 +32,7 @@ function Camel({ x, scale = 1, delay }: { x: number; scale?: number; delay: numb
     <g transform={`translate(${x} ${128 - 46 * scale}) scale(${scale})`}>
       <rect className="naqah-leg naqah-leg-b" x="11" y="24" width="2.6" height="22" style={style} />
       <rect className="naqah-leg naqah-leg-a" x="39.5" y="24" width="2.6" height="22" style={style} />
-      <path d="M8 17Q10 13 14 12Q22 0 30 9Q34 12 38 13L44 12Q48 11 50 4Q51 1 54 1.5L60 4Q62 5.5 60.5 7.5L55 8Q52 9 51 13Q49 22 44 25L42 27Q28 30 14 27Q9 26 8 22ZM9 15Q4 17 4.5 25L6 25Q6 19 10 17Z" />
+      <path d={CAMEL_BODY} />
       <rect className="naqah-leg naqah-leg-a" x="15.5" y="24" width="2.6" height="22" style={style} />
       <rect className="naqah-leg naqah-leg-b" x="43.5" y="24" width="2.6" height="22" style={style} />
     </g>

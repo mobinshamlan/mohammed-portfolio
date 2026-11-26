@@ -2,8 +2,6 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 import { fieldStyle, projectById, type Project, type ProjectId } from "@/lib/projects";
 import { FlowLine } from "./flow-line";
-import { gthrzShots } from "@/lib/gthrz";
-import { GthrzImg } from "./gthrz-img";
 import { Reveal } from "./reveal";
 import { NaqahProof } from "./proof/naqah-proof";
 import { TammeniProof } from "./proof/tammeni-proof";
@@ -224,14 +222,7 @@ function Gthrz() {
     <Section id="gthrz" scene={<GthrzScene />} layout="uniform">
       <Head project={project} />
       <Foot project={project} />
-      <div className="vb-proj-visual vb-gz-combo">
-        <div className="vb-gz-phones" aria-hidden="true">
-          {[gthrzShots.home, gthrzShots.details, gthrzShots.discover].map((shot) => (
-            <div key={shot.src} className="vb-capture" data-ui="">
-              <GthrzImg shot={shot} sizes="(max-width: 899px) 40vw, 220px" decorative />
-            </div>
-          ))}
-        </div>
+      <div className="vb-proj-visual">
         <GthrzProof />
       </div>
     </Section>

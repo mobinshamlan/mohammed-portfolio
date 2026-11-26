@@ -65,7 +65,7 @@ function ItemArt({ item }: { item: Item }): ReactNode {
   }
 }
 
-function Tag({ item, label, code }: { item: Item; label: string; code: string }) {
+export function Tag({ item, label, code }: { item: Item; label: string; code: string }) {
   return (
     <svg viewBox="0 0 120 176" focusable="false">
       <path d="M18 0 H 102 L 120 18 V 176 H 0 V 18 Z" fill="#fbf8f0" stroke="rgb(14 59 46 / 0.14)" />

@@ -1,242 +1,322 @@
-/* Gthrz on the home page: one invitation, and the guest's view of its
-   address. The host's decision is the one control; the little map and the
-   address line answer it: locked, then an area, then the exact pin.
-   The card is opaque so the phones and the scene's map grid stay behind it. */
+/* Gthrz on the home page: two phones, the host's and the guest's, in the
+   app's own near-black and violet. The host's Approve is the one control;
+   the guest's screen (the real Pizza Night screen, continued in the same UI)
+   answers with the address. Before that, it is hidden. */
 
 .vb-gz {
   width: 100%;
-  max-width: 34rem;
+  max-width: 36rem;
 }
 
-.vb-gz-card {
+.vb-gz-pair {
+  --gz-ink: var(--field-ink);
+  --gz-muted: var(--field-muted);
+  --gz-panel: #1a181d;
+  --gz-panel-2: #26232b;
+  --gz-ok: #7fd3a0;
   display: grid;
-  gap: 0.85rem;
-  margin: 0;
-  padding: clamp(1rem, 2.2vw, 1.25rem);
-  border-radius: 16px;
-  background: color-mix(in srgb, var(--field) 90%, var(--field-ink));
-  color: var(--field-ink);
-  box-shadow: 0 1.75rem 3.5rem -1.5rem rgb(0 0 0 / 0.65);
+  grid-template-columns: minmax(0, 1fr) minmax(0, 16.5rem);
+  align-items: end;
+  gap: clamp(1rem, 3vw, 1.75rem);
 }
 
-.vb-gz-card p {
+.vb-gz p {
   margin: 0;
 }
 
-.vb-gz-event {
+.vb-gz svg {
+  flex: none;
+  width: 1.05rem;
+  height: 1.05rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* ---- The host's card ---- */
+.vb-gz-host {
+  display: grid;
+  gap: 0.75rem;
+  padding: 1rem 1rem 1.05rem;
+  border-radius: 18px;
+  background: var(--gz-panel);
+  color: var(--gz-ink);
+  box-shadow: 0 1.5rem 3rem -1.5rem rgb(0 0 0 / 0.8);
+}
+
+.vb-gz-host-head {
   display: flex;
   flex-wrap: wrap;
-  align-items: baseline;
   justify-content: space-between;
-  gap: 0.15rem 1rem;
-}
-
-.vb-gz-title {
+  gap: 0.25rem 0.75rem;
   font-family: var(--display);
-  font-size: 1.1875rem;
+  font-size: 1rem;
   font-weight: 700;
-  line-height: 1.3;
 }
 
-.vb-gz-meta {
+.vb-gz-sample {
+  font-family: var(--text);
+  font-size: 0.8125rem;
+  font-weight: 400;
+  color: var(--gz-muted);
+}
+
+.vb-gz-rule {
   display: flex;
-  gap: 0.75rem;
-  font-size: 0.875rem;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.8125rem;
+  line-height: 1.35;
+  color: var(--gz-muted);
+}
+
+.vb-gz-req {
+  display: grid;
+  grid-template-columns: 2.5rem minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 0.65rem 0.65rem 0.65rem 0.7rem;
+  border-radius: 14px;
+  background: var(--gz-panel-2);
+}
+
+.vb-gz-avatar {
+  display: grid;
+  place-items: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--accent) 35%, var(--gz-panel));
+  color: var(--gz-ink);
+  font-family: var(--display);
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.vb-gz-req-who {
+  display: grid;
+  gap: 0.1rem;
+  min-width: 0;
+  line-height: 1.25;
+}
+
+.vb-gz-req-who strong {
+  font-family: var(--display);
+  font-size: 1rem;
+}
+
+.vb-gz-req-who span {
+  font-size: 0.8125rem;
+  color: var(--gz-muted);
+}
+
+.vb-gz-req[data-state="approved"] .vb-gz-req-who span {
+  color: var(--gz-ok);
   font-weight: 600;
 }
 
-.vb-gz-note {
-  font-weight: 400;
-  color: var(--field-muted);
+/* The one tap: the app's violet button. */
+.vb-gz .vb-gz-approve {
+  min-height: 2.75rem;
+  padding: 0 1.1rem;
+  border: 0;
+  border-radius: 12px;
+  background: var(--accent);
+  color: #fff;
+  font: inherit;
+  font-size: 0.9375rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition:
+    background-color 180ms var(--ease-out),
+    transform 180ms var(--ease-out);
 }
 
-/* What the guest sees of the address. */
-.vb-gz-where {
+.vb-gz .vb-gz-approve:hover {
+  background: color-mix(in srgb, var(--accent) 85%, #fff);
+}
+
+.vb-gz .vb-gz-approve:active {
+  transform: scale(0.97);
+}
+
+.vb-gz .vb-gz-approve[aria-pressed="true"] {
+  background: transparent;
+  box-shadow: inset 0 0 0 1.5px color-mix(in srgb, var(--gz-ink) 30%, transparent);
+  color: var(--gz-ink);
+}
+
+.vb-gz .vb-gz-approve[aria-pressed="true"]:hover {
+  background: color-mix(in srgb, var(--gz-ink) 8%, transparent);
+}
+
+.vb-gz-approve:focus-visible {
+  outline: 2px solid var(--gz-ink);
+  outline-offset: 3px;
+}
+
+/* ---- The guest's phone: the real screen, continued ---- */
+.vb-gz-guest {
+  position: relative;
   display: grid;
-  grid-template-columns: 3.5rem minmax(0, 1fr);
-  align-items: center;
-  gap: 0.9rem;
-  padding: 0.5rem;
-  border-radius: 14px;
-  background: color-mix(in srgb, var(--field) 80%, #000);
+  overflow: hidden;
+  border: 0.4rem solid #2a2730;
+  border-radius: 2.2rem;
+  background: #0e0d10;
+  color: var(--gz-ink);
+  box-shadow: 0 2rem 3.5rem -1.5rem rgb(0 0 0 / 0.85);
 }
 
-.vb-gz-map {
+.vb-gz-guest-tag {
+  position: absolute;
+  top: 0.75rem;
+  left: 50%;
+  z-index: 1;
+  padding: 0.2rem 0.65rem;
+  border-radius: 999px;
+  background: rgb(0 0 0 / 0.7);
+  font-size: 0.75rem;
+  font-weight: 600;
+  translate: -50% 0;
+}
+
+/* The crop: the cover, chips, title and date of the real Pizza Night screen. */
+.vb-gz-shot {
+  overflow: hidden;
+  aspect-ratio: 373 / 470;
+}
+
+.vb-gz-shot img {
   display: block;
-  width: 3.5rem;
-  height: 3.5rem;
+  width: calc(455 / 373 * 100%);
+  max-width: none;
+  height: auto;
+  margin-left: calc(-42 / 373 * 100%);
+  margin-top: calc(-140 / 373 * 100%);
 }
 
-.vb-gz-map-ground {
-  fill: color-mix(in srgb, var(--field) 86%, var(--field-ink));
-  stroke: color-mix(in srgb, var(--field-ink) 18%, transparent);
-  stroke-width: 1;
-}
-
-.vb-gz-map-streets path {
-  fill: none;
-  stroke: color-mix(in srgb, var(--field-ink) 22%, transparent);
-  stroke-width: 2.5;
-}
-
-.vb-gz-map-veil {
-  fill: color-mix(in srgb, var(--field) 85%, var(--field-ink));
-}
-
-.vb-gz-map-lock path {
-  fill: none;
-  stroke: var(--field-muted);
-  stroke-width: 2.5;
-  stroke-linecap: round;
-}
-
-.vb-gz-map-lock rect:last-child {
-  fill: var(--field-muted);
-}
-
-.vb-gz-map-area {
-  fill: color-mix(in srgb, var(--accent) 30%, transparent);
-  stroke: var(--accent);
-  stroke-width: 1.5;
-  stroke-dasharray: 3 3;
-}
-
-.vb-gz-map-pin .vb-gz-map-area {
-  fill: color-mix(in srgb, var(--accent) 14%, transparent);
-  stroke: none;
-}
-
-.vb-gz-map-pin path {
-  fill: var(--accent);
-}
-
-.vb-gz-map-dot {
-  fill: var(--field);
-}
-
-.vb-gz-text {
+.vb-gz-under {
   display: grid;
-  gap: 0.1rem;
+  gap: 0.65rem;
+  padding: 0.5rem 0.8rem 0.85rem;
+  background: #0e0d10;
+}
+
+.vb-gz-where {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.55rem;
+  padding: 0.6rem 0.65rem;
+  border-radius: 12px;
+  background: var(--gz-panel);
+  line-height: 1.3;
+}
+
+.vb-gz-where svg {
+  margin-top: 0.1rem;
+  color: var(--gz-muted);
+}
+
+.vb-gz-guest[data-state="approved"] .vb-gz-where svg {
+  color: var(--accent);
+}
+
+.vb-gz-where-text {
+  display: grid;
+  gap: 0.15rem;
+  min-width: 0;
 }
 
 .vb-gz-label {
-  font-size: 0.8125rem;
-  color: var(--field-muted);
+  font-size: 0.75rem;
+  color: var(--gz-muted);
 }
 
-.vb-gz-text strong {
-  font-family: var(--display);
-  font-size: 1.125rem;
-  font-weight: 700;
-  line-height: 1.3;
-}
-
-.vb-gz-where[data-stage="hidden"] .vb-gz-text strong {
-  font-family: var(--text);
-  font-size: 1rem;
-  font-weight: 600;
-  color: var(--field-muted);
-}
-
-/* The host's decision. */
-.vb-gz-host {
-  min-width: 0;
-  margin: 0;
-  padding: 0;
-  border: 0;
-}
-
-.vb-gz-host legend {
-  float: left;
-  margin-bottom: 0.4rem;
-  padding: 0;
-  font-size: 0.875rem;
-  font-weight: 600;
-}
-
-.vb-gz-seg {
-  clear: left;
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 0.25rem;
-  padding: 0.25rem;
-  border-radius: 14px;
-  background: color-mix(in srgb, var(--field-ink) 9%, transparent);
-}
-
-.vb-gz-seg label {
-  position: relative;
-  display: block;
-  cursor: pointer;
-}
-
-.vb-gz-seg input {
-  position: absolute;
-  inset: 0;
-  margin: 0;
-  opacity: 0;
-  cursor: pointer;
-}
-
-.vb-gz-seg span {
-  display: grid;
-  place-items: center;
-  min-height: 2.75rem;
-  padding: 0.25rem;
-  border-radius: 10px;
+.vb-gz-where strong {
   font-size: 0.9375rem;
   font-weight: 600;
-  line-height: 1.2;
-  text-align: center;
-  transition:
-    background-color 200ms var(--ease-out),
-    color 200ms var(--ease-out);
+  color: var(--gz-muted);
 }
 
-.vb-gz-seg label:hover span {
-  background: color-mix(in srgb, var(--field-ink) 8%, transparent);
+.vb-gz-guest[data-state="approved"] .vb-gz-where strong {
+  font-family: var(--display);
+  font-size: 1.0625rem;
+  font-weight: 700;
+  color: var(--gz-ink);
 }
 
-.vb-gz-seg input:checked + span {
-  background: var(--accent);
-  color: var(--field);
+.vb-gz-fine {
+  font-size: 0.75rem;
+  color: var(--gz-muted);
 }
 
-.vb-gz-seg input:focus-visible + span {
-  outline: 2px solid var(--field-ink);
-  outline-offset: 2px;
+/* The app's wide bottom button: Requested, then Going. */
+.vb-gz-going {
+  display: grid;
+  place-items: center;
+  min-height: 2.6rem;
+  border-radius: 12px;
+  background: var(--gz-panel-2);
+  color: var(--gz-muted);
+  font-size: 0.9375rem;
+  font-weight: 700;
+}
+
+.vb-gz-guest[data-state="approved"] .vb-gz-going {
+  background: color-mix(in srgb, var(--accent) 22%, var(--gz-panel));
+  color: var(--gz-ink);
+}
+
+/* Phones and narrow columns: the host's card above Sara's phone. */
+@media (max-width: 599px) {
+  .vb-gz-pair {
+    grid-template-columns: minmax(0, 1fr);
+    justify-items: center;
+  }
+  .vb-gz-host {
+    width: 100%;
+  }
+  .vb-gz-guest {
+    width: min(100%, 16.5rem);
+  }
 }
 
 @media (max-width: 379px) {
-  .vb-gz-seg span {
-    padding-inline: 0.1rem;
-    font-size: 0.8125rem;
+  .vb-gz-req {
+    grid-template-columns: 2.5rem minmax(0, 1fr);
+  }
+  .vb-gz .vb-gz-approve {
+    grid-column: 1 / -1;
   }
 }
 
-/* The address line answers each decision. Reduced motion: it simply changes. */
+/* The answer lands on the guest's screen. Reduced motion: it simply changes. */
 @media (prefers-reduced-motion: no-preference) {
-  .vb-gz-text {
-    animation: vb-gz-in 420ms var(--ease-expo);
+  .vb-gz-where-text,
+  .vb-gz-req-who span {
+    animation: vb-gz-in 440ms var(--ease-expo);
   }
-  .vb-gz-map-area,
-  .vb-gz-map-pin path {
-    transform-box: fill-box;
-    transform-origin: 50% 100%;
-    animation: vb-gz-drop 520ms var(--ease-expo);
+  .vb-gz-guest[data-state="approved"] .vb-gz-where svg {
+    animation: vb-gz-drop 560ms var(--ease-expo);
+  }
+  .vb-gz-going {
+    transition:
+      background-color 300ms var(--ease-out) 200ms,
+      color 300ms var(--ease-out) 200ms;
   }
 
   @keyframes vb-gz-in {
     from {
       opacity: 0;
-      transform: translateX(-0.4rem);
+      transform: translateY(0.35rem);
     }
   }
-
   @keyframes vb-gz-drop {
     from {
       opacity: 0;
-      transform: scale(0.6);
+      transform: translateY(-0.6rem);
     }
   }
 }

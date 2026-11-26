@@ -1,14 +1,12 @@
 /* Gthrz: a street map behind the phones, one area fogged until the host
-   reveals it. The map fades out before the copy on the right; the fog is the
-   field colour itself, so nothing here lowers the contrast of any text. */
-
-.vb-proj[data-id="gthrz"] {
-  view-timeline: --gthrz block;
-}
+   approves. The chapter's try-it sets data-reveal on the chapter; the ring
+   then closes on the area and the pin drops. The map fades out before the
+   copy on the right; the fog is the field colour itself, so nothing here
+   lowers the contrast of any text. */
 
 .gz {
-  --sx: 31%;
-  --sy: 15.5%;
+  --sx: 14%;
+  --sy: 27%;
   --r: clamp(6.5rem, 10vw, 9.5rem);
   position: absolute;
   inset: 0;
@@ -58,64 +56,59 @@
 
 .gz-pin {
   opacity: 0;
+  translate: -50% -150%;
 }
 
-/* The reveal: the ring closes on the spot, the outline gives way to the pin. */
-@keyframes gz-close {
-  to {
-    scale: 0.3;
-    opacity: 0.55;
-  }
+/* Approved: the ring closes on the spot, the fog lifts, the outline gives way to the pin. */
+.vb-proj[data-reveal="true"] .gz-ring {
+  scale: 0.34;
+  opacity: 0.7;
 }
 
-@keyframes gz-clear {
-  to {
-    scale: 0.34;
-  }
+.vb-proj[data-reveal="true"] .gz-fog {
+  scale: 0.3;
+  opacity: 0.6;
 }
 
-@keyframes gz-ghost-out {
-  55%,
-  100% {
-    opacity: 0;
-  }
+.vb-proj[data-reveal="true"] .gz-ghost {
+  opacity: 0;
 }
 
-@keyframes gz-pin-in {
-  0%,
-  55% {
-    opacity: 0;
-    translate: -50% -150%;
-  }
-  100% {
-    opacity: 1;
-    translate: -50% -92%;
-  }
+.vb-proj[data-reveal="true"] .gz-pin {
+  opacity: 1;
+  translate: -50% -92%;
 }
 
-@supports (animation-timeline: view()) {
-  @media (prefers-reduced-motion: no-preference) {
-    .vb[data-motion="on"] :is(.gz-ring, .gz-fog, .gz-ghost, .gz-pin) {
-      animation: gz-close cubic-bezier(0.16, 1, 0.3, 1) both;
-      animation-timeline: --gthrz;
-      animation-range: entry 35% cover 48%;
-    }
-    .vb[data-motion="on"] .gz-fog {
-      animation-name: gz-clear;
-    }
-    .vb[data-motion="on"] .gz-ghost {
-      animation-name: gz-ghost-out;
-      animation-timing-function: linear;
-    }
-    .vb[data-motion="on"] .gz-pin {
-      animation-name: gz-pin-in;
+@media (prefers-reduced-motion: no-preference) {
+  .gz-ring,
+  .gz-fog {
+    transition:
+      scale 900ms cubic-bezier(0.16, 1, 0.3, 1),
+      opacity 900ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .gz-ghost {
+    transition: opacity 300ms linear 300ms;
+  }
+  .gz-pin {
+    transition:
+      opacity 400ms ease-out 420ms,
+      translate 700ms cubic-bezier(0.16, 1, 0.3, 1) 420ms;
+  }
+  .vb-proj[data-reveal="true"] .gz-ring {
+    animation: gz-breathe 3.2s ease-in-out 1.4s infinite;
+  }
+
+  @keyframes gz-breathe {
+    50% {
+      opacity: 0.35;
     }
   }
 }
 
 @media (max-width: 1199px) {
   .gz {
-    --sx: 27%;
+    --sx: 12%;
+    --sy: 20%;
   }
 }
 

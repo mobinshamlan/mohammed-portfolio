@@ -1,62 +1,122 @@
-/* Amanah on the home page: one lost-and-found tag asking the owner what only
-   they would know, and under it what staff do with the answer. The tag is
-   paper on the cream field, cut at its tied end, with a brass eyelet. */
+/* Amanah on the home page: the found umbrella hangs on its paper tag at the
+   left; the owner's claim sits at the right. Answer, and the staff stamp
+   lands on the tag: approved in the office green, or held. */
 
 .vb-ap {
   width: 100%;
-  max-width: 38rem;
+  max-width: 44rem;
   margin-inline: auto;
   text-align: start;
 }
 
 .vb-ap-figure {
-  --tag: color-mix(in srgb, #fff 62%, var(--field));
-  --cut: 1.1rem;
-  --inset: 2.6rem;
   display: grid;
-  gap: 0.9rem;
+  grid-template-columns: minmax(0, 11rem) minmax(0, 1fr);
+  align-items: center;
+  gap: 1.5rem clamp(1.5rem, 4vw, 3rem);
   margin: 0;
 }
 
-/* A tag: its tied end cut at the corners, with a punched eyelet. */
-.vb-ap-tag {
+/* ---------- The found item ---------- */
+
+.vb-ap-found {
   position: relative;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  grid-template-areas: "item item" "q chips";
-  align-items: end;
-  gap: 0.5rem 1.5rem;
-  padding: 1.1rem 1.4rem 1.2rem var(--inset);
-  background: var(--tag);
-  clip-path: polygon(
-    var(--cut) 0,
-    100% 0,
-    100% 100%,
-    var(--cut) 100%,
-    0 calc(100% - var(--cut)),
-    0 var(--cut)
-  );
-  filter: drop-shadow(0 0.9rem 1.2rem color-mix(in srgb, var(--field-ink) 16%, transparent));
+  justify-items: center;
+  gap: 0.75rem;
 }
 
-.vb-ap-tag::before {
-  content: "";
+.vb-ap-string {
+  width: 1px;
+  height: 2rem;
+  margin-bottom: calc(-0.75rem - 7%);
+  background: #b08a3e;
+}
+
+.vb-ap-tagart {
+  width: 100%;
+  max-width: 10rem;
+  transform-origin: 50% 0;
+}
+
+.vb-ap-tagart svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  filter: drop-shadow(0 0.75rem 0.9rem rgb(14 59 46 / 0.18));
+}
+
+/* The stamp: round, inked, a little off true. */
+.vb-ap-stamp {
   position: absolute;
-  top: 50%;
-  left: 0.9rem;
-  width: 0.8rem;
-  height: 0.8rem;
-  margin-top: -0.4rem;
-  border: 2px solid var(--accent);
+  top: 40%;
+  left: 50%;
+  display: grid;
+  place-items: center;
+  width: 6.4rem;
+  height: 6.4rem;
+  border: 4px double var(--field-ink);
   border-radius: 50%;
-  background: var(--field);
+  color: var(--field-ink);
+  font-family: var(--display);
+  font-size: 1.1rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  opacity: 0;
+  transform: translate(-50%, -50%) rotate(-14deg) scale(1.4);
+  pointer-events: none;
+  mix-blend-mode: multiply;
+}
+
+.vb-ap-figure[data-verdict="match"] .vb-ap-stamp {
+  opacity: 0.9;
+  transform: translate(-50%, -50%) rotate(-14deg) scale(1);
+}
+
+.vb-ap-figure[data-verdict="miss"] .vb-ap-stamp {
+  border-color: #8a2a24;
+  color: #8a2a24;
+  opacity: 0.85;
+  transform: translate(-50%, -50%) rotate(9deg) scale(1);
+}
+
+.vb-ap-finder {
+  display: grid;
+  justify-items: center;
+  gap: 0.1rem;
+  margin: 0;
+  padding: 0.5rem 0.8rem;
+  border-radius: 6px;
+  background: color-mix(in srgb, var(--field-ink) 8%, var(--field));
+  font-size: 0.8125rem;
+  line-height: 1.35;
+  text-align: center;
+  color: var(--field-muted);
+}
+
+.vb-ap-finder strong {
+  color: var(--field-ink);
+  font-family: var(--display);
+  font-size: 0.9375rem;
+}
+
+/* ---------- The owner's claim ---------- */
+
+.vb-ap-claim {
+  display: grid;
+  gap: 0.7rem;
+  padding: 1.25rem 1.4rem 1.3rem;
+  border-radius: 14px;
+  background: color-mix(in srgb, #fff 62%, var(--field));
+  box-shadow: 0 1rem 1.6rem -1.2rem rgb(14 59 46 / 0.35);
 }
 
 .vb-ap-item {
-  grid-area: item;
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
-  gap: 1rem;
+  gap: 0.25rem 1rem;
   margin: 0;
   color: var(--accent);
   font-size: 0.875rem;
@@ -64,8 +124,12 @@
   line-height: 1.35;
 }
 
+.vb-ap-note {
+  color: var(--field-muted);
+  font-weight: 400;
+}
+
 .vb-ap-q {
-  grid-area: q;
   display: grid;
   margin: 0;
   color: var(--field-ink);
@@ -73,54 +137,42 @@
   line-height: 1.35;
 }
 
-/* Arabic first, flush with the English under it. */
 .vb-ap-q [lang="ar"] {
   font-family: var(--display);
-  font-size: 1.375rem;
+  font-size: 1.5rem;
   font-weight: 700;
   line-height: 1.45;
   text-align: end;
 }
 
-/* The owner's answer: three chips, each with the colour it names. */
 .vb-ap-chips {
-  grid-area: chips;
   display: flex;
   flex-wrap: wrap;
   gap: 0.4rem;
+  margin-top: 0.2rem;
 }
 
-.vb-ap-chips label {
-  position: relative;
-  cursor: pointer;
-}
-
-.vb-ap-chips input {
-  position: absolute;
-  inset: 0;
-  margin: 0;
-  opacity: 0;
-  cursor: pointer;
-}
-
-.vb-ap-chips span {
+.vb .vb-ap-chips button {
   display: inline-flex;
   align-items: center;
   gap: 0.45rem;
   min-height: 2.75rem;
-  padding: 0 0.95rem 0 0.75rem;
+  padding: 0 1rem 0 0.75rem;
   border: 1.5px solid color-mix(in srgb, var(--field-ink) 35%, transparent);
   border-radius: 999px;
+  background: transparent;
   color: var(--field-ink);
+  font: inherit;
   font-size: 0.9375rem;
   font-weight: 600;
+  cursor: pointer;
   transition:
     background-color 180ms var(--ease-out),
     border-color 180ms var(--ease-out),
     color 180ms var(--ease-out);
 }
 
-.vb-ap-chips span::before {
+.vb .vb-ap-chips button::before {
   content: "";
   width: 0.8rem;
   height: 0.8rem;
@@ -129,125 +181,119 @@
   box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--field-ink) 30%, transparent);
 }
 
-.vb-ap-chips label:hover span {
+.vb .vb-ap-chips button:hover {
   border-color: var(--field-ink);
 }
 
-.vb-ap-chips input:checked + span {
+.vb .vb-ap-chips button[aria-pressed="true"] {
   border-color: var(--field-ink);
   background: var(--field-ink);
   color: var(--field);
 }
 
-.vb-ap-chips input:checked + span::before {
+.vb .vb-ap-chips button[aria-pressed="true"]::before {
   box-shadow: 0 0 0 1.5px var(--field);
 }
 
-.vb-ap-chips input:focus-visible + span {
+.vb .vb-ap-chips button:focus-visible {
   outline: 2px solid var(--field-ink);
   outline-offset: 3px;
 }
 
-/* What staff do with the answer. */
 .vb-ap-result {
-  padding-inline-start: calc(var(--inset) - 1.85rem);
-}
-
-.vb-ap-verdict {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 0.4rem 0.6rem;
-  margin: 0;
-  color: var(--field-ink);
-  font-size: 1rem;
-  line-height: 1.35;
-}
-
-.vb-ap-verdict svg {
-  flex: none;
-  width: 1.25rem;
-  height: 1.25rem;
-}
-
-.vb-ap-verdict[data-match="false"] svg {
+  margin-top: 0.2rem;
+  padding-top: 0.8rem;
+  border-top: 1px solid color-mix(in srgb, var(--field-ink) 14%, transparent);
   color: var(--field-muted);
+  font-size: 0.9375rem;
+  line-height: 1.45;
 }
 
-/* The finder's tag: tied on when the answer matches, left loose when it doesn't. */
-.vb-ap-found {
-  position: relative;
-  padding: 0.25rem 0.7rem 0.25rem 1.45rem;
-  background: var(--tag);
-  clip-path: polygon(0.55rem 0, 100% 0, 100% 100%, 0.55rem 100%, 0 calc(100% - 0.55rem), 0 0.55rem);
+.vb-ap-result strong {
   color: var(--field-ink);
-  font-size: 0.8125rem;
-  font-weight: 600;
 }
 
-.vb-ap-verdict[data-match="false"] .vb-ap-found {
-  background: transparent;
-  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--field-ink) 30%, transparent);
-  clip-path: none;
-  border-radius: 4px;
+.vb-ap-figure[data-verdict="miss"] .vb-ap-result strong {
+  color: #8a2a24;
 }
 
-.vb-ap-found::before {
-  content: "";
-  position: absolute;
-  top: 50%;
-  left: 0.55rem;
-  width: 0.45rem;
-  height: 0.45rem;
-  margin-top: -0.225rem;
-  border: 1.5px solid var(--accent);
-  border-radius: 50%;
+/* ---------- Motion ---------- */
+
+@media (prefers-reduced-motion: no-preference) {
+  .vb-ap-stamp {
+    transition:
+      opacity 220ms var(--ease-out),
+      transform 320ms var(--ease-expo);
+  }
+  .vb-ap-figure[data-verdict="match"] .vb-ap-tagart,
+  .vb-ap-figure[data-verdict="miss"] .vb-ap-tagart {
+    animation: vb-ap-knock 700ms var(--ease-out);
+  }
+  .vb-ap-result {
+    animation: vb-ap-in 320ms var(--ease-expo);
+  }
+
+  @keyframes vb-ap-knock {
+    20% {
+      transform: rotate(-2.5deg);
+    }
+    55% {
+      transform: rotate(1.5deg);
+    }
+    100% {
+      transform: rotate(0);
+    }
+  }
+  @keyframes vb-ap-in {
+    from {
+      opacity: 0;
+      transform: translateY(0.25rem);
+    }
+  }
 }
 
-.vb-ap-note {
-  color: var(--field-muted);
-  font-size: 0.8125rem;
-  font-weight: 400;
-}
+/* ---------- Phones: the claim first, the tag beside its stamp under it ---------- */
 
-/* Phones and narrow columns: the chips go under the question. */
 @media (max-width: 599px) {
   .vb-ap-figure {
-    --inset: 2.3rem;
-  }
-  .vb-ap-tag {
     grid-template-columns: minmax(0, 1fr);
-    grid-template-areas: "item" "q" "chips";
-    gap: 0.5rem;
-    padding: 1rem 0.8rem 1.1rem var(--inset);
+    justify-items: stretch;
   }
-  .vb-ap-tag::before {
-    left: 0.75rem;
+  .vb-ap-found {
+    order: 2;
+    grid-template-columns: 7.5rem minmax(0, 1fr);
+    align-items: center;
+    justify-items: start;
+    gap: 0.75rem 1rem;
+  }
+  .vb-ap-string {
+    display: none;
+  }
+  .vb-ap-tagart {
+    max-width: 7.5rem;
+  }
+  .vb-ap-stamp {
+    top: 44%;
+    left: 3.75rem;
+    width: 5.4rem;
+    height: 5.4rem;
+    font-size: 0.95rem;
+  }
+  .vb-ap-finder {
+    justify-items: start;
+    text-align: start;
+  }
+  .vb-ap-claim {
+    padding: 1rem 1rem 1.1rem;
   }
   .vb-ap-chips {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 0.35rem;
-    margin-top: 0.35rem;
   }
-  .vb-ap-chips span {
-    display: flex;
+  .vb .vb-ap-chips button {
     justify-content: center;
     gap: 0.35rem;
     padding: 0 0.45rem;
-  }
-}
-
-/* The verdict arrives with each answer. Reduced motion: it simply changes. */
-@media (prefers-reduced-motion: no-preference) {
-  .vb-ap-verdict > :not(.vb-ap-found) {
-    animation: vb-ap-in 400ms var(--ease-expo);
-  }
-
-  @keyframes vb-ap-in {
-    from {
-      opacity: 0;
-      transform: translateX(-0.4rem);
-    }
   }
 }

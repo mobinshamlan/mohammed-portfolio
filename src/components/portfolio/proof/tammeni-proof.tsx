@@ -25,7 +25,7 @@ const ways = [
     id: "text",
     label: "Text",
     icon: <TextIcon />,
-    from: "Text · 7:05 am",
+    arrives: "A text arrives",
     ar: "ريم وصلت المدرسة الساعة ٧:٠٥ الصبح.",
     en: "Reem got to school at 7:05 this morning.",
   },
@@ -33,16 +33,16 @@ const ways = [
     id: "call",
     label: "Call",
     icon: <CallIcon />,
-    from: "Lulwa calling · 7:05 am",
-    ar: "هلا، معك لولوة. ريم وصلت المدرسة الساعة ٧:٠٥.",
-    en: "Hi, it’s Lulwa. Reem got to school at 7:05.",
+    arrives: "Lulwa calls",
+    ar: "هلا، معك لولوة من طمّني. ريم وصلت المدرسة الساعة ٧:٠٥. تبين تسألين عن شي؟",
+    en: "Hi, it’s Lulwa from Tammeni. Reem got to school at 7:05. Anything you want to ask?",
   },
 ] as const;
 
 /**
- * Tammeni on the home page: the parent chooses how Reem's attendance news
- * reaches them, and the message below changes to match. Without JavaScript
- * it shows the text.
+ * Tammeni on the home page: the parent's rule for Reem's attendance news,
+ * and the parent's phone at 7:06 showing how that news lands: a text on the
+ * lock screen, or Lulwa calling. Without JavaScript it shows the text.
  */
 export function TammeniProof() {
   const [way, setWay] = useState<(typeof ways)[number]["id"]>("text");
@@ -51,10 +51,16 @@ export function TammeniProof() {
 
   return (
     <Reveal className="pf-tammeni">
-      <figure className="pf-tammeni-card">
-        <fieldset className="pf-tammeni-pick">
-          <legend>How should Reem&rsquo;s attendance news reach you?</legend>
-          <div className="pf-tammeni-seg">
+      <div className="pf-tammeni-stage">
+        {/* The rule, as the parent set it in Tammeni. */}
+        <fieldset className="pf-tm-rule">
+          <legend className="pf-tm-rule-head">
+            <span className="pf-tm-rule-who">
+              Reem <span className="pf-tm-rule-grade">Grade 5</span>
+            </span>
+            <span className="pf-tm-rule-what">Attendance · right away, by</span>
+          </legend>
+          <div className="pf-tm-seg">
             {ways.map((w) => (
               <label key={w.id}>
                 <input type="radio" name={`${id}-way`} value={w.id} checked={way === w.id} onChange={() => setWay(w.id)} />
@@ -65,24 +71,70 @@ export function TammeniProof() {
               </label>
             ))}
           </div>
+          <p className="pf-tm-rule-note">Sample family. Every child and topic can have its own rule.</p>
         </fieldset>
 
-        <figcaption className="pf-tammeni-live" role="status" aria-atomic="true">
-          <div className="pf-tammeni-msg" data-kind={shown.id} key={shown.id}>
-            <p className="pf-tammeni-from">
+        {/* The parent's phone, one minute after the school marked Reem present. */}
+        <div className="pf-tm-phone" data-ui="" role="status" aria-atomic="true" data-kind={shown.id}>
+          <span className="pf-tm-island" aria-hidden="true" />
+          <p className="pf-tm-clock" aria-hidden="true">
+            <span className="pf-tm-date">Sunday 9 November</span>
+            <span className="pf-tm-time">7:06</span>
+          </p>
+
+          <div className="pf-tm-screen" key={shown.id}>
+            <p className="pf-tm-arrives">
               {shown.icon}
-              {shown.from}
-              <span className="pf-tammeni-note">
-                <span className="vb-sr">. </span>Sample family
-              </span>
+              {shown.arrives}
+              <span className="pf-tm-when">· 7:06 am</span>
             </p>
-            <p className="pf-tammeni-ar" lang="ar" dir="rtl">
-              {shown.ar}
-            </p>
-            <p className="pf-tammeni-gloss">{shown.en}</p>
+
+            {shown.id === "text" ? (
+              <div className="pf-tm-banner">
+                <span className="pf-tm-app" aria-hidden="true" lang="ar">
+                  ط
+                </span>
+                <span className="pf-tm-banner-body">
+                  <span className="pf-tm-banner-top">
+                    <strong>Tammeni</strong>
+                    <span>now</span>
+                  </span>
+                  <span className="pf-tm-ar" lang="ar" dir="rtl">
+                    {shown.ar}
+                  </span>
+                </span>
+              </div>
+            ) : (
+              <div className="pf-tm-call">
+                <span className="pf-tm-ring" aria-hidden="true">
+                  <span className="pf-tm-avatar" lang="ar">
+                    ل
+                  </span>
+                </span>
+                <span className="pf-tm-caller">
+                  <strong>Lulwa</strong>
+                  <span>Tammeni · voice</span>
+                </span>
+                <span className="pf-tm-wave" aria-hidden="true">
+                  <i />
+                  <i />
+                  <i />
+                  <i />
+                  <i />
+                </span>
+                <span className="pf-tm-ar pf-tm-said" lang="ar" dir="rtl">
+                  {shown.ar}
+                </span>
+              </div>
+            )}
+            <p className="pf-tm-gloss">{shown.en}</p>
           </div>
-        </figcaption>
-      </figure>
+          <span className="pf-tm-dock" aria-hidden="true">
+            <i />
+            <i />
+          </span>
+        </div>
+      </div>
     </Reveal>
   );
 }

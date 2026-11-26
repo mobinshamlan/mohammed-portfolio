@@ -1,147 +1,255 @@
-/* Seet on the home page: one WhatsApp reply that holds Tuesday, and under it
-   the booking's state. The AI's words can only hold; the deposit button is
-   the one thing that turns Held into Confirmed. Navy ink on the gold field. */
+/* Seet on the home page: the product's own navy chat on the gold field. A
+   brand writes, Seet holds Tuesday, and the calendar under the chat shows the
+   hold as a dashed day. The deposit button is the only thing that fills it in. */
 
 .pf-seet {
   width: 100%;
-  max-width: 36rem;
+  max-width: 34rem;
   margin-inline: auto;
 }
 
 .pf-seet-card {
+  --seet-navy: var(--field-ink);
+  --seet-navy-2: color-mix(in srgb, var(--field-ink) 88%, #fff);
+  --seet-gold: var(--field);
+  --seet-cream: #f3ead6;
+  --seet-ok: #6fcf97;
   display: grid;
-  gap: 0.9rem;
+  gap: 0;
   margin: 0;
-  padding: clamp(0.85rem, 2vw, 1.1rem);
-  border-radius: 18px;
-  background: color-mix(in srgb, var(--field) 90%, var(--field-ink));
-  color: var(--field-ink);
-}
-
-.pf-seet svg {
-  flex: none;
-  width: 1.05rem;
-  height: 1.05rem;
-  fill: none;
-  stroke: currentColor;
-  stroke-width: 1.9;
-  stroke-linecap: round;
-  stroke-linejoin: round;
+  overflow: hidden;
+  border-radius: 20px;
+  background: var(--seet-navy);
+  color: var(--seet-cream);
+  box-shadow: 0 2rem 3.5rem -1.5rem rgb(11 18 32 / 0.6);
 }
 
 .pf-seet p {
   margin: 0;
 }
 
-/* The reply, as it lands in the brand's chat. */
-.pf-seet-bubble {
+/* The chat's head: the brand, and which number this is. */
+.pf-seet-head {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.9rem 1.1rem;
+  background: var(--seet-navy-2);
+}
+
+.pf-seet-brand {
+  display: grid;
+  place-items: center;
+  width: 2.4rem;
+  height: 2.4rem;
+  border-radius: 50%;
+  background: var(--seet-gold);
+  color: var(--seet-navy);
+  font-family: var(--display);
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+.pf-seet-who {
+  display: grid;
+  gap: 0.05rem;
+  line-height: 1.25;
+}
+
+.pf-seet-who strong {
+  font-family: var(--display);
+  font-size: 1rem;
+}
+
+.pf-seet-who span {
+  font-size: 0.8125rem;
+  color: color-mix(in srgb, var(--seet-cream) 65%, var(--seet-navy));
+}
+
+/* The chat. Seet's replies sit on the gold, the brand's on a lighter navy. */
+.pf-seet-chat {
+  display: grid;
+  gap: 0.55rem;
+  margin: 0;
+  padding: 1rem 1rem 1.1rem;
+  list-style: none;
+}
+
+.pf-seet-msg {
   display: grid;
   gap: 0.2rem;
-  padding: 0.8rem 1.05rem 0.9rem;
-  border-radius: 4px 16px 16px 16px;
-  background: color-mix(in srgb, #fff 72%, var(--field));
-  box-shadow: 0 0.6rem 1.2rem -0.9rem color-mix(in srgb, var(--field-ink) 50%, transparent);
+  width: fit-content;
+  max-width: 88%;
+  padding: 0.6rem 0.85rem 0.65rem;
+  border-radius: 16px;
+  line-height: 1.45;
 }
 
-.pf-seet-from {
-  display: flex;
-  gap: 1rem;
-  justify-content: space-between;
-  padding-bottom: 0.15rem;
-  font-size: 0.8125rem;
-  font-weight: 700;
-}
-
-.pf-seet-note {
-  font-weight: 400;
-  color: var(--field-muted);
-}
-
-.pf-seet-ar {
+.pf-seet-msg span {
+  display: block;
   font-family: var(--display);
-  font-size: 1.1875rem;
+  font-size: 1rem;
   font-weight: 700;
-  line-height: 1.5;
-  text-align: right;
+  line-height: 1.55;
 }
 
-.pf-seet-gloss {
-  font-size: 0.875rem;
+.pf-seet-msg small {
+  display: block;
+  font-size: 0.8125rem;
   line-height: 1.4;
-  color: var(--field-muted);
+  opacity: 0.8;
 }
 
-/* The booking's state, and the one action that can change it. */
-.pf-seet-foot {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.75rem 1rem;
+.pf-seet-msg[data-from="brand"] {
+  justify-self: end;
+  border-end-end-radius: 4px;
+  background: var(--seet-navy-2);
 }
 
-.pf-seet-status {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 0.35rem 0.65rem;
-  font-size: 0.9375rem;
-  line-height: 1.35;
+.pf-seet-msg[data-from="seet"] {
+  justify-self: start;
+  border-end-start-radius: 4px;
+  background: var(--seet-gold);
+  color: var(--seet-navy);
 }
 
-.pf-seet-status strong {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  min-height: 2.25rem;
-  padding: 0 0.9rem 0 0.7rem;
-  border: 1.5px dashed var(--field-ink);
+/* The payment lands from outside the chat: a plain line in the middle. */
+.pf-seet-msg[data-from="pay"] {
+  justify-self: center;
+  max-width: 100%;
+  padding: 0.35rem 0.8rem;
   border-radius: 999px;
-  font-size: 0.9375rem;
-  font-weight: 700;
+  background: color-mix(in srgb, var(--seet-ok) 16%, transparent);
+  color: var(--seet-ok);
 }
 
-.pf-seet-status[data-paid="true"] strong {
-  border-style: solid;
-  background: var(--field-ink);
-  color: var(--field);
-}
-
-.pf-seet-by {
+.pf-seet-msg[data-from="pay"] span {
+  font-family: var(--text);
+  font-size: 0.8125rem;
   font-weight: 600;
 }
 
+/* The influencer's dashboard: a week, and the state of Tuesday on it. */
+.pf-seet-board {
+  display: grid;
+  gap: 0.75rem;
+  padding: 0.9rem 1rem 1rem;
+  background: var(--seet-navy-2);
+}
+
+.pf-seet-board-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.25rem 1rem;
+  font-size: 0.8125rem;
+  color: color-mix(in srgb, var(--seet-cream) 65%, var(--seet-navy));
+}
+
+.pf-seet-state {
+  font-family: var(--display);
+  font-size: 0.9375rem;
+  color: var(--seet-gold);
+}
+
+.pf-seet-card[data-paid="true"] .pf-seet-state {
+  color: var(--seet-ok);
+}
+
+.pf-seet-week {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 0.3rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.pf-seet-week li {
+  display: grid;
+  justify-items: center;
+  gap: 0.1rem;
+  min-height: 4.1rem;
+  padding: 0.4rem 0.2rem;
+  border: 1.5px solid transparent;
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--seet-cream) 6%, transparent);
+  font-size: 0.75rem;
+  line-height: 1.2;
+  color: color-mix(in srgb, var(--seet-cream) 70%, var(--seet-navy));
+}
+
+.pf-seet-week b {
+  font-family: var(--display);
+  font-size: 1.1rem;
+  color: var(--seet-cream);
+}
+
+.pf-seet-week i {
+  font-style: normal;
+  font-size: 0.6875rem;
+  font-weight: 700;
+}
+
+/* Tuesday held: a dashed gold frame. Confirmed: filled gold. */
+.pf-seet-week li[data-slot] {
+  border-style: dashed;
+  border-color: var(--seet-gold);
+  color: var(--seet-gold);
+}
+
+.pf-seet-week li[data-slot] b {
+  color: var(--seet-gold);
+}
+
+.pf-seet-card[data-paid="true"] .pf-seet-week li[data-slot] {
+  border-style: solid;
+  background: var(--seet-gold);
+  color: var(--seet-navy);
+}
+
+.pf-seet-card[data-paid="true"] .pf-seet-week li[data-slot] b {
+  color: var(--seet-navy);
+}
+
+/* The one action. */
 .pf-seet .pf-seet-pay {
-  min-height: 2.75rem;
-  padding: 0 1.15rem;
-  border: 1.5px solid var(--field-ink);
+  min-height: 2.9rem;
+  padding: 0 1.25rem;
+  border: 0;
   border-radius: 999px;
-  background: var(--field-ink);
-  color: var(--field);
+  background: var(--seet-gold);
+  color: var(--seet-navy);
   font: inherit;
   font-size: 0.9375rem;
   font-weight: 700;
   cursor: pointer;
   transition:
     background-color 180ms var(--ease-out),
-    color 180ms var(--ease-out);
+    transform 180ms var(--ease-out);
 }
 
 .pf-seet .pf-seet-pay:hover {
-  background: color-mix(in srgb, var(--field-ink) 82%, var(--field));
+  background: color-mix(in srgb, var(--seet-gold) 85%, #fff);
 }
 
-.pf-seet .pf-seet-status[data-paid="true"] + .pf-seet-pay {
+.pf-seet .pf-seet-pay:active {
+  transform: scale(0.98);
+}
+
+.pf-seet .pf-seet-card[data-paid="true"] .pf-seet-pay {
   background: transparent;
-  color: var(--field-ink);
+  box-shadow: inset 0 0 0 1.5px color-mix(in srgb, var(--seet-cream) 35%, transparent);
+  color: var(--seet-cream);
 }
 
-.pf-seet .pf-seet-status[data-paid="true"] + .pf-seet-pay:hover {
-  background: color-mix(in srgb, var(--field-ink) 10%, transparent);
+.pf-seet .pf-seet-card[data-paid="true"] .pf-seet-pay:hover {
+  background: color-mix(in srgb, var(--seet-cream) 10%, transparent);
 }
 
 .pf-seet-pay:focus-visible {
-  outline: 2px solid var(--field-ink);
+  outline: 2px solid var(--seet-cream);
   outline-offset: 3px;
 }
 
@@ -150,23 +258,28 @@
   visibility: hidden;
 }
 
-/* Phones: the button takes the full width under the state. */
-@media (max-width: 479px) {
-  .pf-seet-pay {
-    flex: 1 1 100%;
-  }
-}
-
-/* The state locks in. Reduced motion: it simply changes. */
+/* The new messages arrive, the day fills. Reduced motion: it simply changes. */
 @media (prefers-reduced-motion: no-preference) {
-  .pf-seet-status strong {
-    animation: pf-seet-lock 420ms var(--ease-expo);
+  .pf-seet-msg[data-from="pay"],
+  .pf-seet-msg[data-from="pay"] + .pf-seet-msg {
+    animation: pf-seet-in 460ms var(--ease-expo) both;
+  }
+  .pf-seet-msg[data-from="pay"] + .pf-seet-msg {
+    animation-delay: 260ms;
+  }
+  .pf-seet-state {
+    animation: pf-seet-in 420ms var(--ease-expo);
+  }
+  .pf-seet-week li[data-slot] {
+    transition:
+      background-color 320ms var(--ease-out) 300ms,
+      color 320ms var(--ease-out) 300ms;
   }
 
-  @keyframes pf-seet-lock {
+  @keyframes pf-seet-in {
     from {
-      opacity: 0.3;
-      transform: scale(0.92);
+      opacity: 0;
+      transform: translateY(0.4rem);
     }
   }
 }

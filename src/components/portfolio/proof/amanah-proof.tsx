@@ -1,12 +1,13 @@
 "use client";
 
-import { useId, useState, type CSSProperties } from "react";
+import { useState, type CSSProperties } from "react";
 import { Reveal } from "../reveal";
+import { Tag } from "../scenes/amanah-scene";
 
 /*
- * Amanah on the home page: Gemini has suggested a found umbrella; the owner
- * proves it by answering what only they would know, and staff decide. The
- * finder's report says the handle is yellow. A made-up claim.
+ * Amanah on the home page: a found umbrella hangs on its tag. Gemini matched it
+ * to a lost report; before it leaves the desk, the owner answers one thing only
+ * they would know. Staff see the finder's note and stamp the tag. A sample claim.
  */
 const answers = [
   { id: "yellow", label: "Yellow", swatch: "#e2b23a" },
@@ -14,69 +15,74 @@ const answers = [
   { id: "wooden", label: "Wooden", swatch: "#8a5a2e" },
 ] as const;
 
-const truth = "yellow";
+type AnswerId = (typeof answers)[number]["id"];
 
-function CheckIcon() {
-  return (
-    <svg viewBox="0 0 20 20" aria-hidden="true" focusable="false">
-      <circle cx="10" cy="10" r="9" fill="currentColor" />
-      <path d="M6 10.4 8.6 13 14 7.4" fill="none" stroke="var(--field)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  );
-}
-
-function CrossIcon() {
-  return (
-    <svg viewBox="0 0 20 20" aria-hidden="true" focusable="false">
-      <circle cx="10" cy="10" r="8.25" fill="none" stroke="currentColor" strokeWidth="1.5" />
-      <path d="m7 7 6 6m0-6-6 6" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" />
-    </svg>
-  );
-}
+const truth: AnswerId = "yellow";
 
 export function AmanahProof() {
-  const [answer, setAnswer] = useState<(typeof answers)[number]["id"]>(truth);
-  const id = useId();
-  const match = answer === truth;
+  const [answer, setAnswer] = useState<AnswerId | null>(null);
+  const verdict = answer === null ? "open" : answer === truth ? "match" : "miss";
 
   return (
     <Reveal className="vb-ap">
-      <figure className="vb-ap-figure">
-        <div className="vb-ap-tag">
+      <figure className="vb-ap-figure" data-verdict={verdict}>
+        {/* The found item, on the desk. */}
+        <div className="vb-ap-found">
+          <span className="vb-ap-string" aria-hidden="true" />
+          <div className="vb-ap-tagart" aria-hidden="true">
+            <Tag item="umbrella" label="مظلة زرقاء" code="A-0142" />
+          </div>
+          <span className="vb-ap-stamp" aria-hidden="true">
+            {verdict === "match" ? "Approved" : verdict === "miss" ? "Held" : ""}
+          </span>
+          <p className="vb-ap-finder">
+            <span>Finder&rsquo;s note, staff only</span>
+            <strong>Yellow handle</strong>
+          </p>
+        </div>
+
+        {/* The owner's claim. */}
+        <div className="vb-ap-claim" data-ui="">
           <p className="vb-ap-item">
-            Gemini&rsquo;s match: blue umbrella
+            Gemini matched your report to a found blue umbrella
             <span className="vb-ap-note">Sample claim</span>
           </p>
-          <p className="vb-ap-q" id={`${id}-q`}>
+          <p className="vb-ap-q" id="amanah-q">
             <span lang="ar" dir="rtl">
               وش لون المقبض؟
             </span>
             <span>What colour is the handle?</span>
           </p>
-          <div className="vb-ap-chips" role="radiogroup" aria-labelledby={`${id}-q`}>
+          <div className="vb-ap-chips" role="group" aria-labelledby="amanah-q">
             {answers.map((a) => (
-              <label key={a.id} style={{ "--swatch": a.swatch } as CSSProperties}>
-                <input
-                  type="radio"
-                  name={`${id}-handle`}
-                  value={a.id}
-                  checked={answer === a.id}
-                  onChange={() => setAnswer(a.id)}
-                />
-                <span>{a.label}</span>
-              </label>
+              <button
+                key={a.id}
+                type="button"
+                aria-pressed={answer === a.id}
+                onClick={() => setAnswer(a.id)}
+                style={{ "--swatch": a.swatch } as CSSProperties}
+              >
+                {a.label}
+              </button>
             ))}
           </div>
-        </div>
 
-        <figcaption className="vb-ap-result">
-          <p className="vb-ap-verdict" role="status" aria-atomic="true" data-match={match ? "true" : "false"}>
-            {match ? <CheckIcon /> : <CrossIcon />}
-            <strong key={match ? "match" : "miss"}>{match ? "Match \u2014 staff approve" : "Doesn\u2019t match \u2014 stays with staff"}</strong>
-            <span className="vb-sr">. </span>
-            <span className="vb-ap-found">Found: yellow handle</span>
-          </p>
-        </figcaption>
+          <figcaption className="vb-ap-result" role="status" aria-atomic="true">
+            {verdict === "open" ? (
+              <>
+                <strong>Waiting for your answer.</strong> Staff decide; Gemini only suggests.
+              </>
+            ) : verdict === "match" ? (
+              <>
+                <strong>Matches the finder&rsquo;s note.</strong> Staff approve and hand it over.
+              </>
+            ) : (
+              <>
+                <strong>Doesn&rsquo;t match.</strong> Staff keep it; your report stays open.
+              </>
+            )}
+          </figcaption>
+        </div>
       </figure>
     </Reveal>
   );
