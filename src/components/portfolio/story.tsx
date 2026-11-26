@@ -3,6 +3,7 @@ import type { CSSProperties } from "react";
 import { childhood, degree } from "@/lib/portrait";
 import { projectById, type ProjectId } from "@/lib/projects";
 import { DocumentViewer } from "./document-viewer";
+import { JumpLink } from "./jump-link";
 import { MusicShelf } from "./music-shelf";
 import { SectionTitle } from "./section-title";
 import { RouteMap } from "./story-map";
@@ -11,28 +12,22 @@ import { RouteStop } from "./story-route";
 const homeWork: { id: ProjectId; use: string }[] = [
   { id: "tammeni", use: "School updates for parents" },
   { id: "kashta", use: "Finding a place to camp" },
-  { id: "naqah", use: "Checking in on a ranch" },
+  { id: "naqah", use: "Daily updates for ranch owners" },
 ];
 
-/*
- * Where I come from: a flight route, Riyadh to London and back. Each stop is
- * marked by its airport code, its light (latitude and clock), and the one thing
- * it left behind: a childhood photo, a degree, the products built at home.
- */
 export function Story() {
   return (
     <section id="about" className="vb-story" aria-labelledby="about-title">
-      <SectionTitle id="about-title" en="Where I come from." />
+      <SectionTitle id="about-title" en="Where I come from" />
 
       <RouteMap>
         <RouteStop
           id="story-home"
           kind="home"
           code="RUH"
-          place="Saudi Arabia"
+          place="Riyadh"
           when="Where I grew up"
-          fact="24°N · GMT+3"
-          leg="About 4,900 km"
+          flyToNext
           art={
             <Image
               className="vb-route-child"
@@ -50,9 +45,8 @@ export function Story() {
           kind="london"
           code="LHR"
           place="London"
-          when="2022–2026"
-          fact="51°N · GMT"
-          leg=""
+          when="University"
+          flyToNext
           art={
             <DocumentViewer
               triggerClassName="vb-route-doc"
@@ -78,8 +72,7 @@ export function Story() {
           }
         >
           <p className="vb-route-line">
-            <strong>BSc Computer Science, Queen Mary University of London.</strong> Graduated
-            July 2026, on a full Saudi government scholarship.
+            I earned a <strong>BSc in computer science</strong> at Queen Mary University of London on a full Saudi government scholarship.
           </p>
           <p className="vb-route-note">
             Before that: six months of English in Brighton and a foundation year at Kaplan
@@ -91,18 +84,17 @@ export function Story() {
           id="story-now"
           kind="return"
           code="RUH"
-          place="Back home"
-          when="Riyadh · 2026"
-          fact="24°N · GMT+3"
+          place="Back to Riyadh"
+          when="Tuwaiq Academy"
           art={
             <ul className="vb-route-work" aria-label="Products built for life in Saudi Arabia">
               {homeWork.map(({ id, use }) => {
                 const project = projectById[id];
                 return (
                   <li key={id}>
-                    <a
+                    <JumpLink
                       className="vb-route-chip"
-                      href={`#${id}`}
+                      to={id}
                       style={
                         { "--chip": project.field, "--chip-ink": project.fieldInk } as CSSProperties
                       }
@@ -114,7 +106,7 @@ export function Story() {
                         <strong>{project.name}</strong>
                         <span>{use}</span>
                       </span>
-                    </a>
+                    </JumpLink>
                   </li>
                 );
               })}
@@ -122,8 +114,7 @@ export function Story() {
           }
         >
           <p className="vb-route-line">
-            Now in Tuwaiq Academy’s AI bootcamp, learning to brief AI clearly and check its
-            answers, while building products for life here.
+            At the AI bootcamp, I’m building products for everyday life in Saudi Arabia.
           </p>
         </RouteStop>
       </RouteMap>

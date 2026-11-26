@@ -10,20 +10,20 @@ import { Story } from "@/components/portfolio/story";
 import { Toolkit } from "@/components/portfolio/toolkit";
 
 export const metadata: Metadata = {
-  title: { absolute: "Mohammed Bin Shamlan — AI products for real Saudi life" },
+  title: { absolute: "Mohammed Bin Shamlan — Software & AI product developer" },
   description:
-    "Software developer in Saudi Arabia. Six products so far: Naqah, Gthrz, Amanah, Kashta, Seet and Tammeni. Case studies, journey, skills and contact.",
+    "Software and AI products by Mohammed Bin Shamlan in Riyadh. Explore Naqah, Gthrz, Amanah, Kashta, Seet and Tammeni.",
 };
 
 export default function HomePage() {
   return (
     <>
-      <a href="#home" className="vb-skip">
+      <a href="#main-content" className="vb-skip">
         Skip to content
       </a>
       <MotionRoot />
       <Nav />
-      <main>
+      <main id="main-content" tabIndex={-1}>
         <Hero />
         <Covers />
         <Story />

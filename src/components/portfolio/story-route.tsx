@@ -25,8 +25,7 @@ export function RouteStop({
   code,
   place,
   when,
-  fact,
-  leg,
+  flyToNext,
   art,
   children,
 }: {
@@ -35,22 +34,19 @@ export function RouteStop({
   code: string;
   place: string;
   when: string;
-  fact: string;
-  /** Caption for the leg that leaves this stop, e.g. the distance. */
-  leg?: string;
+  flyToNext?: boolean;
   art: ReactNode;
   children?: ReactNode;
 }) {
   return (
     <li id={id} className="vb-route-stop" data-kind={kind}>
       <span className="vb-route-pin" aria-hidden="true" />
-      {leg !== undefined ? (
+      {flyToNext ? (
         <span className="vb-route-leg" aria-hidden="true">
           <svg className="vb-route-arc" viewBox="0 0 100 24" preserveAspectRatio="none">
             <path d="M0 23 Q50 -14 100 23" vectorEffect="non-scaling-stroke" pathLength={100} />
           </svg>
-          <Plane />
-          {leg ? <span className="vb-route-leg-cap">{leg}</span> : null}
+          <span className="vb-route-flight"><Plane /></span>
         </span>
       ) : null}
       <header className="vb-route-head">
@@ -58,13 +54,10 @@ export function RouteStop({
           {code}
         </span>
         <h3 className="vb-route-place">{place}</h3>
-        <p className="vb-route-when">
-          <span>{when}</span>
-          <span className="vb-route-fact">{fact}</span>
-        </p>
+        <p className="vb-route-when">{when}</p>
       </header>
+      {children ? <div className="vb-route-body">{children}</div> : null}
       <div className="vb-route-art">{art}</div>
-      <div className="vb-route-body">{children}</div>
     </li>
   );
 }

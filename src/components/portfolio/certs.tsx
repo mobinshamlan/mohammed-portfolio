@@ -3,14 +3,14 @@
 import Image from "next/image";
 import { useEffect, useRef, useState, type KeyboardEvent } from "react";
 import { certificates, type Certificate } from "@/lib/certificates";
+import { keepDialogTab } from "@/lib/dialog";
 import { useHydrated } from "@/lib/use-hydrated";
 
 /*
  * Courses and certificates: a frame wall. Four certificates hang from one
  * picture rail on a deep green wall, each in a cream mat with a small wall
  * label beneath it. Picking a frame opens the full document in the dialog.
- * The Eid volunteering certificate sits with the London story, so it is not
- * hung here.
+ * The wall holds courses and job simulations.
  */
 
 const listed = certificates.filter((item) => item.id !== "05" && item.image);
@@ -20,13 +20,9 @@ const frames = [...listed].reverse();
 const plain: Record<string, { title: string; what: string }> = {
   "01": { title: "Building a website", what: "Practice project" },
   "02": { title: "Software development", what: "Practice project" },
-  "03": { title: "Finding and judging sources", what: "University course" },
-  "04": { title: "Designing how apps look and work", what: "UX/UI course" },
+  "03": { title: "Finding reliable sources", what: "University course" },
+  "04": { title: "App interface design", what: "UX/UI course" },
 };
-
-function meta(item: Certificate) {
-  return item.completed ? `${item.organisation} · ${item.completed}` : item.organisation;
-}
 
 function Frame({
   item,
@@ -57,11 +53,7 @@ function Frame({
       <span className="vb-frame-label">
         <span className="vb-frame-title">{copy.title}</span>
         <span className="vb-frame-meta">
-          {copy.what} · {meta(item)}
-        </span>
-        <span className="vb-frame-open">
-          Open certificate
-          <span aria-hidden="true"> →</span>
+          {copy.what} · {item.organisation}
         </span>
       </span>
     </>
@@ -73,7 +65,6 @@ function Frame({
         type="button"
         className="vb-frame"
         aria-haspopup="dialog"
-        aria-label={`Open certificate: ${copy.title}, ${meta(item)}`}
         onClick={(event) => onOpen(item, event.currentTarget)}
       >
         {body}
@@ -118,6 +109,7 @@ export function Certs() {
   }
 
   function onKeyDown(event: KeyboardEvent<HTMLDialogElement>) {
+    keepDialogTab(event);
     if (event.key === "ArrowRight" || event.key === "ArrowLeft") {
       event.preventDefault();
       step(event.key === "ArrowRight" ? 1 : -1);
@@ -127,11 +119,11 @@ export function Certs() {
   return (
     <section id="certificates" className="vb-certs vb-certs-wall" aria-labelledby="certs-title">
       <div className="vb-certs-head">
-        <h2 id="certs-title" className="vb-certs-title">Courses and certificates.</h2>
+        <h2 id="certs-title" className="vb-certs-title">Courses and certificates</h2>
       </div>
       <ul className="vb-certs-frames" aria-label="Certificates">
-        {frames.map((item, index) => (
-          <li key={item.id} className="vb-certs-slot" style={{ "--n": index } as React.CSSProperties}>
+        {frames.map((item) => (
+          <li key={item.id} className="vb-certs-slot">
             <Frame item={item} hydrated={hydrated} onOpen={open} />
           </li>
         ))}
@@ -153,9 +145,9 @@ export function Certs() {
         {current?.image ? (
           <div className="vb-dialog-body">
             <header className="vb-dialog-head">
-              <div aria-live="polite">
+              <div>
                 <h3 id="certs-dialog-title">{current.name}</h3>
-                <p>{meta(current)}</p>
+                <p>{current.organisation}</p>
               </div>
               <button
                 type="button"
@@ -168,7 +160,7 @@ export function Certs() {
             <Image
               key={current.id}
               src={current.image.src}
-              alt={`Certificate: ${current.name}, ${meta(current)}`}
+              alt={`Certificate: ${current.name}, ${current.organisation}`}
               width={current.image.width}
               height={current.image.height}
               sizes="(max-width: 900px) 94vw, 1000px"
@@ -177,7 +169,10 @@ export function Certs() {
             <footer className="vb-dialog-foot">
               <div className="vb-dialog-step">
                 <button type="button" onClick={() => step(-1)}>Previous</button>
-                <span aria-hidden="true">{openIndex + 1} of {frames.length}</span>
+                <span role="status">
+                  {openIndex + 1} of {frames.length}
+                  <span className="vb-sr">: {current.name}</span>
+                </span>
                 <button type="button" onClick={() => step(1)}>Next</button>
               </div>
               {current.href ? (

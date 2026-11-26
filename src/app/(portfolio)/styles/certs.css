@@ -10,6 +10,8 @@
   --wall-frame: #241a12;
   --wall-mat: #f3eee2;
   --wall-light: #e9d9a5;
+  --frame-gap: clamp(0.75rem, 3vw, 2rem);
+  scroll-margin-top: 0;
   position: relative;
   display: grid;
   grid-template-columns: minmax(0, 1fr);
@@ -34,25 +36,19 @@
   text-wrap: balance;
 }
 
-.vb .vb-certs-lead {
-  max-width: 34ch;
-  color: var(--wall-muted);
-  font-size: var(--step-small);
-  line-height: 1.4;
-}
-
 .vb-certs-frames {
   position: relative;
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 1.5rem clamp(0.75rem, 3vw, 2rem);
+  gap: 1.5rem var(--frame-gap);
   margin: 0;
   padding: 0;
   list-style: none;
 }
 
 /* The picture rail: one bar across the full width of the wall, the frames hang from it. */
-.vb-certs-frames::before {
+.vb-certs-frames::before,
+.vb-certs-slot:nth-child(3)::before {
   content: "";
   position: absolute;
   top: 0;
@@ -66,6 +62,7 @@
 .vb-certs-slot {
   --drop: 0rem;
   --cord: 2.25rem;
+  position: relative;
   min-width: 0;
   padding-top: calc(var(--cord) + var(--drop));
 }
@@ -148,14 +145,10 @@
   text-wrap: pretty;
 }
 
-.vb-frame-open {
-  margin-top: 0.3rem;
-  color: var(--wall-light);
-  font-size: var(--step-small);
-  font-weight: 600;
+.vb-frame-title {
   text-decoration: underline;
-  text-decoration-color: color-mix(in srgb, var(--wall-light) 40%, transparent);
-  text-underline-offset: 0.22em;
+  text-decoration-color: color-mix(in srgb, var(--wall-light) 50%, transparent);
+  text-underline-offset: 0.2em;
 }
 
 .vb .vb-frame:hover .vb-frame-glass,
@@ -166,8 +159,8 @@
     0 1.6rem 2.4rem -0.8rem rgb(0 0 0 / 0.7);
 }
 
-.vb .vb-frame:hover .vb-frame-open,
-.vb .vb-frame:focus-visible .vb-frame-open {
+.vb .vb-frame:hover .vb-frame-title,
+.vb .vb-frame:focus-visible .vb-frame-title {
   text-decoration-color: currentColor;
 }
 
@@ -181,24 +174,23 @@
   .vb-frame-glass {
     transition: none;
   }
+
+  .vb .vb-frame:is(:hover, :focus-visible) .vb-frame-glass {
+    transform: none;
+  }
 }
 
-/* The dialog keeps the site's dark chrome. */
-body:has(.vb-certs-wall .vb-dialog[open]) {
-  overflow: hidden;
-}
-
-.vb-certs-wall .vb-dialog-foot {
-  flex-wrap: wrap;
-}
-
-.vb-certs-wall :is(.vb-dialog-step button, .vb-dialog-foot a) {
-  display: inline-flex;
-  align-items: center;
-  min-height: 2.75rem;
+@media (max-width: 1023px) {
+  .vb-certs-slot:nth-child(3)::before {
+    width: calc(200% + var(--frame-gap) + 2 * var(--gutter));
+  }
 }
 
 @media (min-width: 1024px) {
+  .vb-certs-slot:nth-child(3)::before {
+    content: none;
+  }
+
   .vb-certs-head {
     grid-template-columns: minmax(0, 1fr) auto;
     align-items: end;
@@ -229,7 +221,4 @@ body:has(.vb-certs-wall .vb-dialog[open]) {
     --drop: 0.9rem;
   }
 
-  .vb-frame-open {
-    font-size: 0.875rem;
-  }
 }

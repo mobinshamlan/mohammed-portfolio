@@ -1,5 +1,6 @@
 import type { CSSProperties, ReactNode } from "react";
 import { projectById } from "@/lib/projects";
+import { JumpLink } from "./jump-link";
 import { projectThreads, toolkitGroups, toolkitProjects, type ToolkitMark } from "@/lib/toolkit";
 
 const toolMarks: Record<ToolkitMark, ReactNode> = {
@@ -113,17 +114,17 @@ const toolMarks: Record<ToolkitMark, ReactNode> = {
    in the ledger below. Each one links to its chapter. */
 function ProjectKey() {
   return (
-    <ul className="vb-tools-key" aria-label="Products, in the colours used below">
+    <ul className="vb-tools-key" aria-label="Products">
       {toolkitProjects.map((id) => (
         <li key={id}>
-          <a
+          <JumpLink
             className="vb-tools-key-item"
-            href={`#${id}`}
+            to={id}
             style={{ "--thread-colour": projectThreads[id] } as CSSProperties}
           >
             <span className="vb-tools-key-dot" aria-hidden="true" />
             {projectById[id].name}
-          </a>
+          </JumpLink>
         </li>
       ))}
     </ul>
@@ -156,13 +157,13 @@ export function Toolkit() {
                   <ul className="vb-tools-uses" role="list">
                     {projects.map((id) => (
                       <li key={id}>
-                        <a
+                        <JumpLink
                           className="vb-tools-project"
-                          href={`#${id}`}
+                          to={id}
                           style={{ "--thread-colour": projectThreads[id] } as CSSProperties}
                         >
                           {projectById[id].name}
-                        </a>
+                        </JumpLink>
                       </li>
                     ))}
                   </ul>

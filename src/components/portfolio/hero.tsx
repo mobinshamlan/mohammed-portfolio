@@ -1,7 +1,5 @@
 import Image from "next/image";
-import type { CSSProperties } from "react";
 import { graduation } from "@/lib/portrait";
-import { projects } from "@/lib/projects";
 import { publicUrl } from "@/lib/site";
 import { JumpLink } from "./jump-link";
 
@@ -12,13 +10,6 @@ const cutout = {
   height: 700,
 } as const;
 
-/**
- * The opening says who and what, and nothing else. The small figure stands
- * in the night at the right; from the ribbon on his diploma one red thread
- * drops under the dune, the same thread that later sews the six products
- * together. The six marks on the button are those products, each in its
- * own field colour.
- */
 export function Hero() {
   return (
     <section id="home" className="vb-open" aria-labelledby="hero-title">
@@ -33,19 +24,13 @@ export function Hero() {
       <div className="vb-open-actions" data-rise="3">
         <JumpLink to="work" className="vb-btn vb-open-go">
           See my work
-          <span className="vb-open-six" aria-hidden="true">
-            {projects.map((project) => (
-              <span key={project.id} style={{ "--six": project.field } as CSSProperties} />
-            ))}
-          </span>
+          <svg viewBox="0 0 20 20" width="18" height="18" fill="none" aria-hidden="true" focusable="false">
+            <path d="M10 4v12m-5-5 5 5 5-5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
         </JumpLink>
       </div>
 
-      <figure
-        className="vb-open-figure"
-        data-rise="2"
-        style={{ "--cutout": `url(${cutout.src})` } as CSSProperties}
-      >
+      <figure className="vb-open-figure" data-rise="2">
         <span className="vb-open-light" aria-hidden="true" />
         <Image
           src={cutout.src}
@@ -53,10 +38,9 @@ export function Hero() {
           width={cutout.width}
           height={cutout.height}
           sizes="(max-width: 899px) 7.5rem, 12rem"
-          priority
+          preload
           className="vb-open-img"
         />
-        <span className="vb-open-grain" aria-hidden="true" />
         <span className="vb-open-thread" aria-hidden="true" />
       </figure>
     </section>

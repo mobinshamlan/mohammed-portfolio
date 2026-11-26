@@ -1,7 +1,7 @@
 /* ---------- Opening: the name, the role, the way in ----------
    Who and what, in two sizes, on the dusk ground. The graduation figure
    stands small at the right in its real colours, taken down a step and
-   grained so it sits in the night. From the ribbon on the diploma one red
+   softened so it sits in the night. From the ribbon on the diploma one red
    thread drops under the dune: the thread that later sews the work together. */
 
 .vb-open {
@@ -24,7 +24,6 @@
   overflow: hidden;
   padding: 1.5rem var(--gutter) calc(var(--edge) + 1.5rem);
   background: var(--dusk);
-  scroll-margin-top: 5rem;
 }
 
 .vb-open > * {
@@ -60,33 +59,19 @@
   margin-top: 1.75rem;
 }
 
-/* The six products, as a row of spines on the way in. */
-.vb-open-six {
-  display: inline-flex;
-  align-items: end;
-  gap: 3px;
-  margin-left: 0.35rem;
+.vb-open-go svg {
+  flex: none;
 }
 
-.vb-open-six > span {
-  width: 0.3rem;
-  height: 0.95rem;
-  border-radius: 1px;
-  background: var(--six);
-  box-shadow: inset 0 0 0 1px rgb(8 18 43 / 0.25);
-  transition: transform var(--t-ui) var(--ease-out);
-}
+@media (prefers-reduced-motion: no-preference) {
+  .vb-open-go svg {
+    transition: transform var(--t-hover) var(--ease-out);
+  }
 
-.vb-open-go:hover .vb-open-six > span,
-.vb-open-go:focus-visible .vb-open-six > span {
-  transform: translateY(-3px);
+  .vb-open-go:is(:hover, :focus-visible) svg {
+    transform: translateY(2px);
+  }
 }
-
-.vb-open-six > span:nth-child(2) { transition-delay: 30ms; }
-.vb-open-six > span:nth-child(3) { transition-delay: 60ms; }
-.vb-open-six > span:nth-child(4) { transition-delay: 90ms; }
-.vb-open-six > span:nth-child(5) { transition-delay: 120ms; }
-.vb-open-six > span:nth-child(6) { transition-delay: 150ms; }
 
 /* ---------- The figure and the thread ---------- */
 
@@ -126,21 +111,6 @@
   background: radial-gradient(closest-side, rgb(134 169 245 / 0.28), rgb(134 169 245 / 0.06) 55%, transparent);
 }
 
-/* Film grain over the figure only. */
-.vb-open-grain {
-  position: absolute;
-  z-index: 2;
-  inset: 0;
-  opacity: 0.22;
-  mix-blend-mode: overlay;
-  /* Grain only where the figure is: the cut-out masks it, then the same fade. */
-  mask-image: var(--cutout), linear-gradient(to bottom, #000 52%, transparent 90%);
-  mask-size: 100% 100%;
-  mask-repeat: no-repeat;
-  mask-composite: intersect;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-}
-
 /* One red thread from the ribbon bow, straight down and under the dune.
    Stitches 7px long with 5px between, the pitch of the seam in the work. */
 .vb-open-thread {
@@ -152,6 +122,7 @@
   bottom: calc(-1 * (var(--edge) + 1.5rem));
   width: 2px;
   margin-left: -1px;
+  transform-origin: top;
   background: repeating-linear-gradient(to bottom, var(--ribbon) 0 8px, transparent 8px 12px);
 }
 
@@ -171,12 +142,7 @@
 @media (prefers-reduced-motion: no-preference) {
   /* The thread sews itself down once the name has risen. */
   .vb[data-motion="on"] .vb-open-thread {
-    animation: vb-open-sew 1.3s var(--ease-expo) 0.55s both;
-  }
-
-  /* Hovering the way in pulls the thread along. */
-  .vb[data-motion="on"] .vb-open:has(.vb-open-go:hover, .vb-open-go:focus-visible) .vb-open-thread {
-    animation: vb-open-pull 0.6s linear infinite;
+    animation: vb-open-sew 900ms var(--ease-expo) 240ms both;
   }
 
   .vb[data-motion="on"] .vb-open-img {
@@ -184,28 +150,10 @@
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .vb-open-six > span {
-    transition: none;
-  }
-  .vb-open-go:hover .vb-open-six > span,
-  .vb-open-go:focus-visible .vb-open-six > span {
-    transform: none;
-  }
-}
-
 @keyframes vb-open-sew {
   from {
-    clip-path: inset(0 0 100% 0);
-  }
-  to {
-    clip-path: inset(0);
-  }
-}
-
-@keyframes vb-open-pull {
-  to {
-    background-position: 0 12px;
+    opacity: 0;
+    transform: scaleY(0.12);
   }
 }
 

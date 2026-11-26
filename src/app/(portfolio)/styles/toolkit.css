@@ -1,5 +1,5 @@
 /* Skills: the tool ledger on its own ground, a navy lifted towards the
-   hood blue so it sits between the cream desk of the certificates and the
+   hood blue so it sits between the green certificate wall and the
    night of Get in touch. Cream names, hood-blue marks and group titles, and
    every product in its own colour. */
 .vb-tools {
@@ -42,7 +42,7 @@
   display: inline-flex;
   align-items: center;
   gap: 0.45rem;
-  min-block-size: 2.25rem;
+  min-block-size: 2.75rem;
   padding: 0 0.75rem 0 0.55rem;
   border-radius: 999px;
   background: var(--tools-raise);
@@ -65,11 +65,10 @@
   background: var(--thread-colour);
 }
 
-/* Every group open at once: five columns, each tool with the products that
-   used it in their own colours. */
+/* A tool and the products that use it share one row. */
 .vb-tools-index {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(min(100%, 13.5rem), 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: clamp(2rem, 3.5vw, 3rem) clamp(1.5rem, 3vw, 2.5rem);
   min-inline-size: 0;
 }
@@ -98,8 +97,8 @@
 
 .vb-tools-row {
   display: grid;
-  gap: 0.15rem;
-  padding-block: 0.7rem;
+  gap: 0.1rem;
+  padding-block: 0.4rem;
   border-block-end: 1px solid var(--tools-rule);
 }
 
@@ -128,13 +127,15 @@
 .vb-tools-uses {
   display: flex;
   flex-wrap: wrap;
-  column-gap: 0.7rem;
+  column-gap: 0.6rem;
   padding-inline-start: 1.8rem;
 }
 
 .vb .vb-tools-project {
-  display: inline-block;
-  padding-block: 0.2rem;
+  display: inline-flex;
+  align-items: center;
+  min-block-size: 2rem;
+  min-inline-size: 1.5rem;
   color: var(--thread-colour);
   font-size: 0.875rem;
   font-weight: 500;
@@ -151,7 +152,13 @@
   text-decoration-thickness: 2px;
 }
 
-@media (max-width: 559px) {
+@media (max-width: 899px) {
+  .vb-tools-index {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 599px) {
   /* Phones: one column, with the products beside each tool to keep it short. */
   .vb-tools-cover {
     align-items: start;
@@ -160,11 +167,14 @@
     gap: 0.35rem;
     padding: 0;
   }
+  .vb-tools-index {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
   .vb-tools-row {
-    grid-template-columns: max-content minmax(0, 1fr);
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);
     align-items: start;
-    column-gap: 0.75rem;
-    padding-block: 0.45rem;
+    column-gap: 0.65rem;
   }
   .vb-tools-uses {
     justify-content: end;
@@ -172,6 +182,6 @@
     text-align: end;
   }
   .vb-tools-name {
-    min-block-size: 1.8rem;
+    min-block-size: 2rem;
   }
 }

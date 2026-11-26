@@ -36,8 +36,13 @@ export function Contact() {
       await navigator.clipboard.writeText(contact.email);
       setFeedback("Email address copied.");
     } catch {
-      if (address.current) window.getSelection()?.selectAllChildren(address.current);
-      setFeedback("The address is selected. Copy it manually.");
+      const selection = window.getSelection();
+      if (selection && address.current) {
+        selection.selectAllChildren(address.current);
+        setFeedback("Address selected. Copy it manually.");
+      } else {
+        setFeedback("Copy the address shown below.");
+      }
     }
   }
 
@@ -45,7 +50,7 @@ export function Contact() {
     <section id="contact" className="vb-contact vb-talk" aria-labelledby="contact-title">
       <Reveal className="vb-talk-panel">
         <div className="vb-talk-main">
-          <h2 id="contact-title" className="vb-talk-title">Get in touch.</h2>
+          <h2 id="contact-title" className="vb-talk-title">Get in touch</h2>
           <p className="vb-talk-lead">
             I&rsquo;m looking for a job in software or AI products. Let&rsquo;s keep in touch.
           </p>

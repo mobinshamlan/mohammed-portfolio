@@ -5,18 +5,9 @@
   --route-pin-size: 0.8rem;
   --route-pin-center: calc(var(--route-pin-size) / 2);
   --route-rise: 3.5rem;
-  --route-code: color-mix(in srgb, var(--sand) 26%, transparent);
+  --route-code: color-mix(in srgb, var(--sand) 58%, var(--predawn));
   padding: clamp(3.5rem, 7vw, 6.5rem) var(--gutter) clamp(2.5rem, 4vw, 4rem);
   background: var(--predawn);
-  scroll-margin-top: 4rem;
-}
-
-.vb .vb-story-sub {
-  margin-top: 0.75rem;
-  color: var(--sand-2);
-  font-size: var(--step-lead);
-  line-height: 1.3;
-  text-wrap: pretty;
 }
 
 .vb-route {
@@ -35,7 +26,6 @@
   gap: 0.8rem;
   min-width: 0;
   padding: 0 0 2.25rem 1.6rem;
-  scroll-margin-top: 5rem;
 }
 
 .vb-route-stop:last-child {
@@ -51,8 +41,7 @@
 }
 
 .vb-route-arc,
-.vb-route-plane,
-.vb-route-leg-cap {
+.vb-route-flight {
   display: none;
 }
 
@@ -102,11 +91,6 @@
   font-size: var(--step-small);
   font-weight: 500;
   font-variant-numeric: tabular-nums;
-}
-
-.vb-route-fact {
-  color: var(--sand-2);
-  font-weight: 400;
 }
 
 .vb-route-art {
@@ -319,7 +303,7 @@
 
   /* The leg: an arc from this pin to the next, with the plane that flies it. */
   .vb-route-leg {
-    inset: auto calc(-1 * var(--route-gap)) auto var(--route-pin-center);
+    inset: auto calc(-1 * (var(--route-gap) + var(--route-pin-center))) auto var(--route-pin-center);
     top: calc(var(--route-pin-center) - var(--route-rise));
     height: var(--route-rise);
     border: 0;
@@ -335,17 +319,6 @@
     stroke-width: 1.5;
     stroke-dasharray: 3 4;
     stroke-linecap: round;
-  }
-
-  .vb-route-leg-cap {
-    position: absolute;
-    top: -1.1rem;
-    left: 50%;
-    display: block;
-    transform: translateX(-50%);
-    color: var(--sand-2);
-    font-size: var(--step-small);
-    white-space: nowrap;
   }
 
   .vb-route-code {
@@ -376,62 +349,38 @@
   }
 }
 
-/* Motion: once the route is in view, each leg draws on and a plane flies it, once. */
+/* The route stays legible while a plane flies each leg once. */
 @media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
-  .vb[data-motion="on"] .vb-route[data-wait] .vb-route-arc {
-    clip-path: inset(-1rem 0 -1rem 0);
-    transition: clip-path 1300ms linear;
-  }
-
-  .vb[data-motion="on"] .vb-route[data-wait="true"] .vb-route-arc {
-    clip-path: inset(-1rem 100% -1rem 0);
-  }
-
-  .vb[data-motion="on"] .vb-route[data-wait] .vb-route-stop[data-kind="london"] .vb-route-arc {
-    transition-delay: 1450ms;
-  }
-
-  .vb[data-motion="on"] .vb-route[data-wait="false"] .vb-route-plane {
+  .vb-route[data-wait="false"] .vb-route-flight {
     position: absolute;
-    bottom: -0.55rem;
-    left: 0;
+    inset: auto 0 -0.35rem;
+    display: block;
+    color: var(--sand);
+    animation: vb-fly-across 1.15s linear both;
+  }
+
+  .vb-route[data-wait="false"] .vb-route-plane {
     display: block;
     width: 1.1rem;
     height: 1.1rem;
-    color: var(--sand);
-    opacity: 0;
-    animation:
-      vb-fly-x 1300ms linear forwards,
-      vb-fly-y 1300ms ease-in-out forwards;
+    margin-inline-start: -0.55rem;
+    animation: vb-fly-over 1.15s ease-in-out both;
   }
 
-  .vb[data-motion="on"] .vb-route[data-wait="false"] .vb-route-stop[data-kind="london"] .vb-route-plane {
-    animation-delay: 1450ms;
+  .vb-route-stop[data-kind="london"] :is(.vb-route-flight, .vb-route-plane) {
+    animation-delay: 1s;
   }
 }
 
-@keyframes vb-fly-x {
-  from {
-    left: 0;
-  }
-  to {
-    left: calc(100% - 1.1rem);
-  }
+@keyframes vb-fly-across {
+  from { transform: translateX(0); }
+  to { transform: translateX(100%); }
 }
 
-@keyframes vb-fly-y {
-  0% {
-    opacity: 1;
-    transform: translateY(0) rotate(50deg);
-  }
-  50% {
-    transform: translateY(calc(-0.82 * var(--route-rise))) rotate(90deg);
-  }
-  90% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 0;
-    transform: translateY(0) rotate(130deg);
-  }
+@keyframes vb-fly-over {
+  0% { opacity: 0; transform: translateY(0) rotate(55deg); }
+  12% { opacity: 1; }
+  50% { transform: translateY(calc(-0.78 * var(--route-rise))) rotate(90deg); }
+  85% { opacity: 1; }
+  100% { opacity: 0; transform: translateY(0) rotate(125deg); }
 }

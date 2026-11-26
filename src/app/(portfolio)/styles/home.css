@@ -547,101 +547,95 @@
   display: none;
 }
 
-/* The music shelf: records you can spin. */
+/* The record can turn while its name and focus indicator stay in place. */
 .vb-mu-shelf {
+  --music-columns: 6;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(7rem, 1fr));
-  gap: 1rem;
+  grid-template-columns: repeat(var(--music-columns), minmax(0, 1fr));
+  gap: 1.25rem clamp(0.65rem, 2.5vw, 1.5rem);
+  max-width: 57rem;
   margin: 0;
   padding: 0;
   list-style: none;
 }
 
-.vb-mu-disc {
-  position: relative;
+.vb .vb-mu-disc {
   display: grid;
   width: 100%;
+  justify-items: center;
+  align-content: start;
+  gap: 0.5rem;
+  padding: 0.25rem;
+  border: 0;
+  border-radius: 0.3rem;
+  background: none;
+  color: var(--sand);
+  text-align: center;
+}
+
+button.vb-mu-disc {
+  cursor: pointer;
+}
+
+.vb-mu-vinyl {
+  position: relative;
+  display: grid;
+  width: min(100%, 8rem);
   aspect-ratio: 1;
   place-items: center;
-  padding: 0.75rem;
-  border: 0;
   border-radius: 50%;
-  background: var(--night-3);
-  color: var(--sand);
-  cursor: pointer;
-  text-align: center;
-  transition: transform var(--t-ui) var(--ease-out);
+  background:
+    radial-gradient(circle, var(--predawn) 0 7%, transparent 8%),
+    radial-gradient(circle, color-mix(in srgb, var(--disc) 82%, var(--sand)) 0 27%, transparent 28%),
+    repeating-radial-gradient(circle, var(--disc) 0 3px, color-mix(in srgb, var(--disc) 90%, var(--predawn)) 4px 5px);
 }
 
-/* Before the page is interactive the records are shown, not offered as buttons. */
-span.vb-mu-disc {
-  cursor: default;
-}
-
-.vb-mu-disc[data-tone="rose"] {
-  background: #3a1d28;
-}
-
-.vb-mu-disc[data-tone="paper"] {
-  background: var(--sand);
-  color: var(--night);
-}
-
-.vb-mu-disc[data-tone="beige"] {
-  background: #243a6b;
-}
-
-.vb-mu-disc::after {
+.vb-mu-vinyl::after {
   content: "";
   position: absolute;
-  width: 14%;
-  height: 14%;
+  inset: 16%;
+  border-block-start: 2px solid color-mix(in srgb, var(--sand) 60%, transparent);
   border-radius: 50%;
-  background: var(--night);
 }
 
-.vb-mu-disc:hover {
-  transform: translateY(-4px);
+.vb-mu-disc[data-tone="paper"] { --disc: #d1c5ad; }
+.vb-mu-disc[data-tone="rose"] { --disc: #57313f; }
+.vb-mu-disc[data-tone="ink"] { --disc: #243353; }
+.vb-mu-disc[data-tone="blue"] { --disc: #334d87; }
+
+.vb-mu-disc:is(:hover, [aria-pressed="true"]) .vb-mu-name {
+  color: var(--ember);
+  text-decoration: underline;
+  text-underline-offset: 0.22em;
 }
 
-.vb-mu-disc[data-playing="true"] {
-  animation: vb-spin 3s linear infinite;
-}
-
-.vb-mu-disc[data-playing="true"] .vb-mu-name {
-  opacity: 0;
-}
-
-@keyframes vb-spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-.vb-mu-sheen {
-  position: absolute;
-  inset: 12%;
-  border-radius: 50%;
-  background: color-mix(in srgb, currentColor 6%, transparent);
-}
-
-/* The name sits on the label's lower half, clear of the spindle hole. */
 .vb-mu-name {
-  position: absolute;
-  z-index: 1;
-  top: 58%;
-  left: 14%;
-  right: 14%;
-  font-family: var(--display);
-  font-size: 0.8125rem;
-  font-weight: 700;
-  line-height: 1.15;
-  transition: opacity var(--t-ui) ease;
+  font-size: var(--step-small);
+  line-height: 1.25;
+  text-wrap: balance;
 }
 
 .vb-mu-photo {
   object-fit: cover;
   border-radius: 50%;
+}
+
+@media (max-width: 699px) {
+  .vb-mu-shelf {
+    --music-columns: 3;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .vb-mu-disc[aria-pressed="true"] .vb-mu-vinyl {
+    animation: vb-spin 2.4s linear infinite;
+  }
+}
+
+@keyframes vb-spin {
+  to {
+    transform: rotate(1turn);
+  }
 }
 
 /* ---------- Certificates ---------- */
@@ -651,7 +645,7 @@ span.vb-mu-disc {
   gap: 2.5rem;
   padding: clamp(4rem, 8vw, 8rem) var(--gutter);
   background: var(--night-2);
-  scroll-margin-top: 4rem;
+  scroll-margin-top: 0;
 }
 
 @media (min-width: 900px) {
@@ -669,7 +663,7 @@ span.vb-mu-disc {
   display: grid;
   gap: 3rem;
   padding: clamp(4rem, 8vw, 8rem) var(--gutter) clamp(4rem, 8vw, 7rem);
-  scroll-margin-top: 4rem;
+  scroll-margin-top: 0;
 }
 
 .vb-contact-top {
@@ -1161,7 +1155,7 @@ span.vb-mu-disc {
 
 .vb-story {
   --crest: var(--crest-4);
-  --crest-fill: var(--night);
+  --crest-fill: var(--predawn);
 }
 
 /* Room under each section for the next one's crest. */

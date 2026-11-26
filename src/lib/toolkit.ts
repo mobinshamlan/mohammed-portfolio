@@ -62,17 +62,12 @@ export const toolkitGroups = [
     ],
   },
   {
-    title: "Web interfaces",
+    title: "Web & mobile",
     tools: [
       skill("Next.js", "next"),
       skill("React", "react"),
       skill("TypeScript", "typescript"),
       skill("Tailwind CSS", "tailwind"),
-    ],
-  },
-  {
-    title: "Phone apps",
-    tools: [
       skill("React Native", "react", "React Native and Expo"),
       skill("Expo", "expo", "React Native and Expo"),
     ],
