@@ -6,9 +6,9 @@ import { gthrzShots } from "@/lib/gthrz";
 import { useHydrated } from "@/lib/use-hydrated";
 
 const cards = [
-  { label: "Start", shot: gthrzShots.plannerStart },
-  { label: "Describe", shot: gthrzShots.plannerPrompt },
-  { label: "Suggestions", shot: gthrzShots.plannerSuggestions },
+  { label: "Start", shot: gthrzShots.plannerStart, detail: "Open the planner from the new event form." },
+  { label: "Describe", shot: gthrzShots.plannerPrompt, detail: "Write a short description of the gathering." },
+  { label: "Suggestions", shot: gthrzShots.plannerSuggestions, detail: "Review and edit the draft before publishing." },
 ] as const;
 
 export function GthrzPlanner() {
@@ -23,12 +23,9 @@ export function GthrzPlanner() {
           <h2 id="gl-title" className="vb-gl-title">
             Smart Planner
           </h2>
-          <p className="vb-gl-body">
-            Describe your event and Smart Planner prepares the first draft.
-          </p>
         </div>
         <ol className="vb-gl-static">
-          {cards.map((card, index) => (
+          {cards.map((card) => (
             <li key={card.label}>
               <Image
                 src={card.shot.src}
@@ -37,9 +34,8 @@ export function GthrzPlanner() {
                 height={card.shot.height}
                 sizes="(max-width: 900px) 30vw, 200px"
               />
-              <span>
-                {index + 1}. {card.label}
-              </span>
+              <strong>{card.label}</strong>
+              <span>{card.detail}</span>
             </li>
           ))}
         </ol>
@@ -53,9 +49,6 @@ export function GthrzPlanner() {
         <h2 id="gl-title" className="vb-gl-title">
           Smart Planner
         </h2>
-        <p className="vb-gl-body">
-          Describe your event and Smart Planner prepares the first draft.
-        </p>
         <div className="vb-gl-steps" role="group" aria-label="Smart Planner steps">
           {cards.map((card, index) => (
             <button
@@ -65,11 +58,11 @@ export function GthrzPlanner() {
               aria-pressed={index === active}
               onClick={() => setActive(index)}
             >
-              <span className="vb-gl-num">{index + 1}</span>
               {card.label}
             </button>
           ))}
         </div>
+        <p className="vb-gl-note" role="status">{cards[active].detail}</p>
       </div>
 
       <button
@@ -82,7 +75,7 @@ export function GthrzPlanner() {
           <Image
             key={card.label}
             src={card.shot.src}
-            alt={card.shot.alt}
+            alt=""
             width={card.shot.width}
             height={card.shot.height}
             sizes="(max-width: 900px) 86vw, 460px"

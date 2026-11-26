@@ -30,8 +30,7 @@ export function GthrzStatesDemo({ compact = false }: { compact?: boolean }) {
     return (
       <div className="vb-art vb-art-gthrz vb-demo" data-ui="" data-compact={compact ? "true" : undefined}>
         <p className="vb-demo-hint">
-          <span className="vb-demo-tag">Simulated</span>
-          What a guest can read at each state.
+          Rooftop dinner · Sample guest view
         </p>
         <table className="vb-art-table">
           <thead>
@@ -65,10 +64,7 @@ export function GthrzStatesDemo({ compact = false }: { compact?: boolean }) {
   return (
     <div className="vb-art vb-demo vb-demo-gthrz" data-ui="" data-compact={compact ? "true" : undefined}>
       <p className="vb-demo-hint">
-        <span className="vb-demo-tag">Simulated</span>
-        {compact
-          ? "Choose the guest\u2019s state."
-          : "Move the guest along and watch what they can read."}
+        Sample guest view
       </p>
 
       <ol className="vb-demo-steps" aria-label="Guest state">
@@ -122,8 +118,7 @@ export function GthrzStatesDemo({ compact = false }: { compact?: boolean }) {
 function Note() {
   return (
     <p className="vb-art-note">
-      Made-up event. Title, time and category are always visible. The host chose &ldquo;reveal the address
-      later&rdquo; and left guest names on; row-level security enforces each state.
+      For this event, approved guests can see names. The host shares the exact pin later.
     </p>
   );
 }

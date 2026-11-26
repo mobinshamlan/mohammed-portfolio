@@ -101,15 +101,14 @@ const howViews: Partial<Record<ProjectId, HowView>> = {
   },
   gthrz: {
     kind: "guest",
-    caption: "What a guest can read, for one made-up event.",
     lanes: [
       {
         label: "Guest",
         cues: [
-          { text: "No guest yet", tone: "off" },
-          { text: "No guest yet", tone: "off" },
+          { text: "Host only", tone: "off" },
+          { text: "Host only", tone: "off" },
           { text: "Requested: title and time" },
-          { text: "Approved: address, guest list", tone: "done" },
+          { text: "Approved guests", tone: "done" },
           { text: "Host only", tone: "off" },
         ],
       },
@@ -380,7 +379,9 @@ export function CaseHero({
   const opening = hasOpening(project) ? <CaseOpening project={project} /> : null;
   const links = (
     <div className="vb-case-links">
-      <span className="vb-chip">{project.statusChip}</span>
+      {project.links.some(({ label }) => label === project.statusChip) ? null : (
+        <span className="vb-chip">{project.statusChip}</span>
+      )}
       {project.links.map((link) =>
         link.href.startsWith("/") ? (
           <Link key={link.href} href={link.href} className="vb-btn vb-btn-field">
@@ -394,7 +395,7 @@ export function CaseHero({
             target="_blank"
             rel="noreferrer"
           >
-            {link.label}
+            {link.label}<span className="vb-sr"> (opens in a new tab)</span>
           </a>
         ),
       )}
@@ -410,6 +411,9 @@ export function CaseHero({
       data-light={project.light ? "true" : undefined}
     >
       <div className="vb-case-hero-copy">
+        <p className="vb-crumbs">
+          <Link href="/#work"><span aria-hidden="true">← </span>All work</Link>
+        </p>
         <h1 className="vb-case-name">
           {project.name}
           {project.arabic ? <span lang="ar">{project.arabic}</span> : null}
@@ -417,6 +421,7 @@ export function CaseHero({
         <p className="vb-case-tagline">{project.tagline}</p>
         {opening ?? links}
       </div>
+      <div className="vb-case-hero-art">{art ?? <CoverShot project={project} />}</div>
       <div className="vb-case-hero-meta">
         {project.arabicTagline ? (
           <p className="vb-case-arabic" lang="ar">
@@ -444,11 +449,7 @@ export function CaseHero({
             <dd>{project.contribution}</dd>
           </div>
         </dl>
-        <p className="vb-crumbs">
-          <Link href="/#work">All work</Link>
-        </p>
       </div>
-      <div className="vb-case-hero-art">{art ?? <CoverShot project={project} />}</div>
     </header>
   );
 }
@@ -496,12 +497,10 @@ export function CaseBody({
           <h2 id="problem-title" className="vb-case-h2">
             The problem
           </h2>
-        </Reveal>
-        <Reveal delay={0.06}>
           <p className="vb-case-statement">{project.problem}</p>
         </Reveal>
-        <Reveal delay={0.12}>
-          <h2 className="vb-case-h2">What it is</h2>
+        <Reveal delay={0.06}>
+          <h2 className="vb-case-h2">The app</h2>
           <p className="vb-case-text">{project.what}</p>
         </Reveal>
       </section>
@@ -665,24 +664,30 @@ export function CaseBody({
         </section>
       ) : null}
 
-      <section className="vb-case-section vb-case-under" aria-labelledby="under-title">
+      <section
+        className="vb-case-section vb-case-under"
+        aria-labelledby="under-title"
+        data-stack-only={project.id === "gthrz" || undefined}
+      >
+        {project.id === "gthrz" ? null : (
+          <div>
+            <Reveal>
+              <h2 id="under-title" className="vb-case-h2">
+                Decisions worth knowing
+              </h2>
+            </Reveal>
+            <Reveal delay={0.06}>
+              <ul className="vb-decisions">
+                {project.decisions.map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
+              </ul>
+            </Reveal>
+          </div>
+        )}
         <div>
           <Reveal>
-            <h2 id="under-title" className="vb-case-h2">
-              Decisions worth knowing
-            </h2>
-          </Reveal>
-          <Reveal delay={0.06}>
-            <ul className="vb-decisions">
-              {project.decisions.map((item) => (
-                <li key={item}>{item}</li>
-              ))}
-            </ul>
-          </Reveal>
-        </div>
-        <div>
-          <Reveal>
-            <h2 className="vb-case-h2">Stack</h2>
+            <h2 id={project.id === "gthrz" ? "under-title" : undefined} className="vb-case-h2">Stack</h2>
           </Reveal>
           <Reveal delay={0.06}>
             <ul className="vb-stack">
@@ -759,7 +764,7 @@ export function CasePage({
         field={project.field}
         fieldInk={project.fieldInk}
       />
-      <main id="case" className="vb-case">
+      <main id="case" className="vb-case" tabIndex={-1}>
         <CaseHero project={project} art={heroArt} />
         <CaseBody project={project} before={before} lead={lead} coverShown={!heroArt}>
           {children}

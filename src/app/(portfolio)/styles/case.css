@@ -27,18 +27,20 @@
 }
 
 .vb-crumbs {
-  margin-top: 0.5rem;
   color: var(--field-muted);
   font-size: var(--step-small);
 }
 
 .vb-crumbs a {
-  display: inline-block;
-  padding: 0.6rem 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  min-height: 2.75rem;
+  text-decoration: underline;
 }
 
-.vb-crumbs a {
-  text-decoration: underline;
+.vb-crumbs a:hover {
+  color: var(--field-ink);
 }
 
 .vb-case-name {
@@ -158,10 +160,8 @@
   }
   .vb-case-hero-art .vb-case-phones {
     display: block;
-    max-width: 17rem;
-    max-height: 22rem;
-    overflow: hidden;
-    mask-image: linear-gradient(#000 80%, transparent);
+    width: min(54%, 14rem);
+    margin-inline: auto;
   }
   .vb-case-hero-art .vb-case-phones .vb-capture {
     width: 100%;
@@ -307,50 +307,34 @@
 @media (min-width: 900px) {
   .vb-case-hero {
     grid-template-columns: 5fr 7fr;
-    grid-template-areas: "copy art" "meta meta";
+    grid-template-areas: "copy art" "meta art";
     column-gap: clamp(2rem, 5vw, 5rem);
-    row-gap: clamp(2.5rem, 5vw, 4rem);
+    row-gap: clamp(1.25rem, 3vw, 2.5rem);
     align-items: center;
-  }
-  .vb-case-hero-meta {
-    display: grid;
-    grid-template-columns: 5fr 7fr;
-    column-gap: clamp(2rem, 5vw, 5rem);
-    align-items: start;
-  }
-  .vb-case-hero-meta > .vb-case-arabic,
-  .vb-case-hero-meta > .vb-crumbs {
-    grid-column: 1;
-  }
-  .vb-case-hero-meta > .vb-case-links {
-    grid-column: 1;
-    margin-top: 0;
-  }
-  .vb-case-hero-meta > .vb-case-facts {
-    grid-column: 2;
-    grid-row: 1 / span 3;
-    margin: 0;
   }
   .vb-case-hero-copy {
     grid-area: copy;
+    align-self: end;
   }
   .vb-case-hero-art {
     grid-area: art;
   }
   .vb-case-hero-meta {
     grid-area: meta;
+    align-self: start;
   }
 }
 
 /* ---------- Body sections ---------- */
 
 .vb-case-section {
-  padding: clamp(4rem, 9vw, 8rem) var(--gutter);
+  padding: clamp(3.5rem, 7vw, 6.5rem) var(--gutter);
 }
 
 .vb-case-h2 {
-  margin-bottom: 1.25rem;
+  margin-bottom: 1rem;
   font-size: clamp(1.6rem, 1.2rem + 1.6vw, 2.6rem);
+  line-height: 1.1;
   font-weight: 700;
 }
 
@@ -377,9 +361,6 @@
   .vb-case-problem {
     grid-template-columns: 1fr 1fr;
     column-gap: clamp(2rem, 5vw, 5rem);
-  }
-  .vb-case-problem > :first-child {
-    grid-column: 1 / -1;
   }
 }
 
@@ -707,6 +688,20 @@
   }
 }
 
+@media (max-width: 899px) {
+  .vb-screens-phones {
+    max-width: 38rem;
+    gap: 1.75rem 1rem;
+    margin-inline: auto;
+  }
+
+  .vb-screens-phones .vb-screen-phone:last-child:nth-child(odd) {
+    grid-column: 1 / -1;
+    justify-self: center;
+    width: calc((100% - 1rem) / 2);
+  }
+}
+
 /* Decisions and stack */
 .vb-case-under {
   display: grid;
@@ -827,7 +822,7 @@
 .vb-gl {
   display: grid;
   gap: 2.5rem;
-  padding: clamp(4rem, 9vw, 8rem) var(--gutter);
+  padding: clamp(3.5rem, 7vw, 6.5rem) var(--gutter);
 }
 
 .vb-gp {
@@ -846,13 +841,7 @@
 .vb-gl-title {
   font-size: clamp(1.6rem, 1.2rem + 1.6vw, 2.6rem);
   font-weight: 700;
-}
-
-.vb-gs-body,
-.vb-gl-body {
-  max-width: 44ch;
-  font-size: var(--step-lead);
-  line-height: 1.35;
+  line-height: 1.1;
 }
 
 .vb-gp-tabs,
@@ -917,11 +906,13 @@
   color: var(--ember-ink);
 }
 
-.vb-gl-num {
-  display: none;
+.vb-gp-tab:hover,
+.vb-gl-step:hover {
+  box-shadow: inset 0 0 0 1px var(--ember);
 }
 
-.vb-gp-note {
+.vb-gp-note,
+.vb-gl-note {
   min-height: 3rem;
   color: var(--sand-2);
 }
@@ -952,9 +943,16 @@
   right: 4%;
   border: 3px solid var(--ember); /* taste-skill-ignore: highlight marker on the screenshot */
   border-radius: 0.6rem;
-  transition:
-    top var(--t-ui) var(--ease-out),
-    height var(--t-ui) var(--ease-out);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .vb-gp-hl {
+    animation: vb-highlight-in var(--t-hover) ease both;
+  }
+}
+
+@keyframes vb-highlight-in {
+  from { opacity: 0; }
 }
 
 .vb-gp-side {
@@ -968,47 +966,33 @@
 }
 
 .vb-gl-stack {
-  position: relative;
   display: grid;
-  width: calc(100% - 2.4rem);
-  max-width: 32rem;
-  aspect-ratio: 446 / 400;
-  padding: 0;
+  width: min(100%, 33rem);
+  padding: clamp(0.75rem, 2.5vw, 2rem);
   border: 0;
-  background: transparent;
+  border-radius: 0.9rem;
+  background: var(--night-2);
   cursor: pointer;
 }
 
+.vb-gl-stack:hover {
+  background: var(--night-3);
+}
+
 .vb-gl-card {
-  position: absolute;
-  left: 0;
-  top: 0;
+  grid-area: 1 / 1;
+  align-self: center;
   width: 100%;
-  height: auto;
-  transform: translate(calc(var(--d) * 1.1rem), calc(var(--d) * 1.2rem))
-    scale(calc(1 - var(--d) * 0.04));
-  transition: transform 400ms var(--ease-out), opacity 400ms ease;
+  opacity: 0;
+  transition: opacity var(--t-ui) ease;
 }
 
 .vb-gl-card[data-dist="0"] {
-  z-index: 3;
-}
-
-.vb-gl-card[data-dist="1"] {
-  z-index: 2;
-  opacity: 0.7;
-}
-
-.vb-gl-card[data-dist="2"] {
   z-index: 1;
-  opacity: 0.4;
+  opacity: 1;
 }
 
 @media (min-width: 900px) {
-  .vb-gl-card {
-    transform: translate(calc(var(--d) * 2.5rem), calc(var(--d) * 1.5rem))
-      scale(calc(1 - var(--d) * 0.04));
-  }
   .vb-gp,
   .vb-gl {
     grid-template-columns: 5fr 7fr;
@@ -1623,11 +1607,15 @@
 /* The problem keeps its 76rem measure but its night spans the page. */
 .vb-case-hero + .vb-case-problem {
   max-width: none;
-  padding-right: max(var(--gutter), calc(100% - 76rem + var(--gutter)));
+  padding-right: var(--gutter);
 }
 
 .vb-case-under {
-  padding-bottom: calc(clamp(4rem, 9vw, 8rem) + var(--edge));
+  padding-bottom: calc(clamp(3.5rem, 7vw, 6.5rem) + var(--edge));
+}
+
+.vb-case-under[data-stack-only="true"] {
+  grid-template-columns: minmax(0, 1fr);
 }
 
 /* The next projects rise as one dune in the first one's colour; the second sits beside it. */
@@ -1657,40 +1645,17 @@
 }
 
 @supports (animation-timeline: view()) {
-  @media (prefers-reduced-motion: no-preference) {
+  @media (min-width: 900px) and (prefers-reduced-motion: no-preference) {
     .vb[data-motion="on"] .vb-case :is(.vb-screens .vb-screen > *, .vb-gp-phones > *) {
-      --drift: 1.25rem;
+      --drift: 0.5rem;
       animation: vb-case-drift linear both;
       animation-timeline: view();
       animation-range: cover;
     }
     .vb[data-motion="on"] .vb-case :is(.vb-screens .vb-screen:nth-child(even) > *, .vb-gp-phones > :nth-child(2)) {
-      --drift: 2.25rem;
+      --drift: 1rem;
     }
   }
-}
-
-/* Lists that arrive as lists: the flow's steps and the decision's four
-   answers follow each other in, a beat apart. Transform only. */
-.vb[data-motion="on"] .vb-reveal[data-wait="true"] :is(.vb-flow-step, .vb-decision > div) {
-  transform: translateY(14px);
-}
-
-.vb[data-motion="on"] .vb-reveal[data-in="true"] :is(.vb-flow-step, .vb-decision > div) {
-  transform: none;
-  transition: transform var(--t-reveal) var(--ease-expo);
-}
-
-.vb[data-motion="on"] .vb-reveal[data-in="true"] :is(.vb-flow-step, .vb-decision > div):nth-child(2) {
-  transition-delay: 0.08s;
-}
-
-.vb[data-motion="on"] .vb-reveal[data-in="true"] :is(.vb-flow-step, .vb-decision > div):nth-child(3) {
-  transition-delay: 0.16s;
-}
-
-.vb[data-motion="on"] .vb-reveal[data-in="true"] :is(.vb-flow-step, .vb-decision > div):nth-child(n + 4) {
-  transition-delay: 0.24s;
 }
 
 .vb-case-hour {

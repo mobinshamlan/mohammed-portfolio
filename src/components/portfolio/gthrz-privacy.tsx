@@ -10,28 +10,28 @@ const controls = [
   {
     id: "address",
     label: "Address",
-    note: "Show the address now, or choose to reveal it later.",
+    note: "Share the address immediately or schedule its release.",
     top: 44.2,
     height: 9.8,
   },
   {
     id: "exact",
     label: "Exact location",
-    note: "Limit the exact location to guests who are going.",
+    note: "Share the exact pin only with confirmed guests.",
     top: 55,
     height: 9.8,
   },
   {
     id: "names",
     label: "Guest names",
-    note: "Show or hide attendee names from other guests.",
+    note: "Choose whether guests see each other’s names.",
     top: 65.6,
     height: 9.6,
   },
   {
     id: "photos",
     label: "Guest photos",
-    note: "Show or hide attendee profile photos from other guests.",
+    note: "Choose whether guests see each other’s profile photos.",
     top: 76.2,
     height: 9.6,
   },
@@ -62,12 +62,8 @@ export function GthrzPrivacy() {
     <section className="vb-gp" aria-labelledby="gp-title">
       <div className="vb-gp-copy">
         <h2 id="gp-title" className="vb-gs-title">
-          Privacy is set per event
+          Event privacy
         </h2>
-        <p className="vb-gs-body">
-          Hosts decide when guests see the address, and whether names and
-          photos are visible to other guests.
-        </p>
         {hydrated ? (
           <>
             <div className="vb-gp-tabs" role="tablist" aria-label="Privacy settings">
@@ -91,6 +87,7 @@ export function GthrzPrivacy() {
             <p
               id="gp-panel"
               role="tabpanel"
+              tabIndex={0}
               aria-labelledby={`gp-tab-${control.id}`}
               className="vb-gp-note"
             >
@@ -115,6 +112,7 @@ export function GthrzPrivacy() {
           <GthrzImg shot={gthrzShots.privacy} sizes="(max-width: 899px) 56vw, 330px" />
           {hydrated ? (
             <span
+              key={control.id}
               className="vb-gp-hl"
               aria-hidden="true"
               style={{ top: `${control.top}%`, height: `${control.height}%` }}

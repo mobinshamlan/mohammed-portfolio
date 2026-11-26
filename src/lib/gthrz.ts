@@ -98,7 +98,7 @@ export const gthrzShots = {
  * category are always visible; row-level security enforces the rest.
  */
 export const gthrzVisibility = {
-  columns: ["Address", "Exact pin", "Guest list"],
+  columns: ["Area", "Exact pin", "Guest list"],
   rows: [
     { state: "Discovered", values: [false, false, false] },
     { state: "Requested", values: [false, false, false] },
