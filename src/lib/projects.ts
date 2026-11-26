@@ -431,10 +431,10 @@ export const projects: Project[] = [
     id: "seet",
     name: "Seet",
     arabic: "صيت",
-    statusChip: "Landing page live · app runs locally",
+    statusChip: "Live demo",
     dates: "Nov 2026",
     contribution:
-      "Solo: built the WhatsApp webhook, the Claude tool loop, the booking trigger and the dashboard, all running locally on demo data.",
+      "Solo: built the WhatsApp webhook, the Claude tool loop, the booking trigger and the dashboard.",
     proof: {
       title: "A booking's four states, and who may move it",
       moments: [
@@ -461,7 +461,7 @@ export const projects: Project[] = [
     },
     tagline: "An AI secretary for an influencer's ads WhatsApp number.",
     arabicTagline: "صيت يرد على المعلنين عنك",
-    status: "In development, running locally on demo data",
+    status: "Live demo on sample data",
     year: "2026",
     kind: "WhatsApp agent · bookings",
     role: "Developer",
@@ -513,8 +513,11 @@ export const projects: Project[] = [
       "Anthropic Claude",
       "WhatsApp Cloud API",
     ],
-    links: [{ label: "Live landing page", href: "https://seet-puce.vercel.app" }],
-    linkNote: "Private repo · app runs locally",
+    links: [
+      { label: "Live app", href: "https://seet-app.vercel.app" },
+      { label: "Try the demo", href: "https://seet-app.vercel.app/login?demo=1" },
+    ],
+    linkNote: "Private repo",
     cover: {
       ...browser,
       src: publicUrl("/images/projects/seet/desktop.jpg"),

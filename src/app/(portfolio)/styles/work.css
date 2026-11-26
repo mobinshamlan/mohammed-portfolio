@@ -432,3 +432,83 @@
     display: none;
   }
 }
+
+/* ---------- Gthrz: the real app screens fanned behind the guest's invitation ---------- */
+.vb-gz-combo {
+  position: relative;
+  display: grid;
+}
+
+.vb-gz-phones {
+  display: flex;
+  justify-content: center;
+  padding-inline: 1rem;
+}
+
+.vb-gz-phones .vb-capture {
+  width: min(32%, 13rem);
+  flex: none;
+  border-radius: 1.6rem;
+  overflow: hidden;
+  box-shadow: 0 1.5rem 3rem -1rem rgba(0, 0, 0, 0.7);
+  transition: transform 600ms var(--ease-out);
+}
+
+.vb-gz-phones .vb-capture:nth-child(1) {
+  transform: rotate(-9deg) translate(2.2rem, 1.6rem);
+}
+
+.vb-gz-phones .vb-capture:nth-child(2) {
+  z-index: 1;
+}
+
+.vb-gz-phones .vb-capture:nth-child(3) {
+  transform: rotate(9deg) translate(-2.2rem, 1.6rem);
+}
+
+/* The invitation sits over the foot of the phones. */
+.vb-gz-combo > :not(.vb-gz-phones) {
+  position: relative;
+  z-index: 2;
+  margin-top: -9rem;
+  width: min(100%, 34rem);
+  justify-self: center;
+}
+
+/* As the chapter arrives, the screens fan out from one stack. */
+@keyframes vb-gz-fan-l {
+  from {
+    transform: rotate(0deg) translate(100%, 1rem);
+  }
+}
+
+@keyframes vb-gz-fan-r {
+  from {
+    transform: rotate(0deg) translate(-100%, 1rem);
+  }
+}
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .vb[data-motion="on"] .vb-gz-phones .vb-capture:nth-child(1) {
+      animation: vb-gz-fan-l linear both;
+      animation-timeline: view();
+      animation-range: entry 10% cover 40%;
+    }
+    .vb[data-motion="on"] .vb-gz-phones .vb-capture:nth-child(3) {
+      animation: vb-gz-fan-r linear both;
+      animation-timeline: view();
+      animation-range: entry 10% cover 40%;
+    }
+  }
+}
+
+@media (max-width: 899px) {
+  .vb-gz-phones .vb-capture {
+    width: 34%;
+    border-radius: 1rem;
+  }
+  .vb-gz-combo > :not(.vb-gz-phones) {
+    margin-top: -5rem;
+  }
+}
