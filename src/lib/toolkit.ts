@@ -16,8 +16,10 @@ export type Job = {
   line: string;
   /** Names from skills.ts. */
   tools: string[];
-  /** How each project used them, opened on demand. */
+  /** How each project used them. The first matching note is the example shown by default. */
   notes?: JobNote[];
+  /** Which project's example to show first. Defaults to the first note. */
+  lead?: ProjectId;
   /** Show the checked test counts from projects.ts. */
   tests?: boolean;
 };
@@ -27,6 +29,7 @@ const jobs: Job[] = [
     id: "ai",
     title: "AI that helps people decide",
     line: "Draft replies, explain choices and suggest matches, with facts checked before a booking or match is confirmed.",
+    lead: "kashta",
     tools: [
       "Guarding model output with schemas",
       "Zod",
@@ -54,6 +57,7 @@ const jobs: Job[] = [
     id: "calls",
     title: "Phone calls in Arabic",
     line: "Give families and ranch workers a way to get or share updates in Arabic over an ordinary phone call.",
+    lead: "naqah",
     tools: ["Twilio Voice", "OpenAI Realtime voice", "Python"],
     notes: [
       {
@@ -70,6 +74,7 @@ const jobs: Job[] = [
     id: "data",
     title: "Protect private information",
     line: "Give people access only to the records they’re allowed to see, such as school updates for their own children.",
+    lead: "tammeni",
     tools: [
       "Supabase",
       "PostgreSQL and row-level security",
@@ -100,18 +105,47 @@ const jobs: Job[] = [
     title: "Websites for Arabic readers",
     line: "Build websites in Saudi Arabic with layouts that read naturally from right to left.",
     tools: ["Next.js", "React", "Tailwind CSS", "Arabic-first, RTL interfaces", "zustand", "TypeScript", "Vercel and Railway"],
+    lead: "amanah",
+    notes: [
+      {
+        project: "amanah",
+        text: "Amanah works in Arabic, right to left, and in English. A guided demo follows a lost blue umbrella.",
+      },
+      {
+        project: "naqah",
+        text: "Naqah’s owner website is in Arabic, with the day’s call drawn as a timeline.",
+      },
+      {
+        project: "kashta",
+        text: "Kashta is Arabic-first. You describe the trip in your own words, in Arabic or English.",
+      },
+    ],
   },
   {
     id: "mobile",
     title: "Apps for iPhone and Android",
     line: "Build for both phones, like an event app where hosts approve guests and choose when to share the address.",
     tools: ["React Native and Expo"],
+    lead: "gthrz",
+    notes: [
+      {
+        project: "gthrz",
+        text: "Gthrz is one app for both phones. Privacy is set per event: address now or later, guest names and photos on or off.",
+      },
+    ],
   },
   {
     id: "tests",
     title: "Catch problems before release",
     line: "Automate checks that repeat tasks like answering Naqah’s questions or reviewing updates on the owner’s website.",
     tools: ["Vitest", "Playwright"],
+    lead: "naqah",
+    notes: [
+      {
+        project: "naqah",
+        text: "Naqah’s checks run the call’s questions and the owner’s website before each release.",
+      },
+    ],
     tests: true,
   },
 ];

@@ -1,167 +1,238 @@
-/* Capabilities first, with the project evidence and tools under each one. */
+/* What I can build: a workbench. Six cards on a pegboard-dotted navy surface,
+   each leading with an outcome and one product it lives in. Distinct from the
+   product chapters, which are flat fields with phones. */
 .vb-tools {
+  --tools-dot: color-mix(in srgb, var(--sand) 9%, transparent);
+  --tools-card: color-mix(in srgb, var(--dusk) 78%, var(--night));
+  --tools-line: var(--dusk-3);
   display: grid;
-  gap: clamp(1.65rem, 4.5vw, 4.5rem);
+  gap: clamp(1.65rem, 4vw, 3.5rem);
   padding: clamp(3rem, 6vw, 5.5rem) var(--gutter);
-  background: var(--night-2);
+  background:
+    radial-gradient(circle at 1px 1px, var(--tools-dot) 1px, transparent 1.6px) 0 0 / 22px 22px,
+    var(--night-2);
   scroll-margin-top: 4rem;
 }
 
 .vb-tools-head {
   display: grid;
   align-content: start;
-  gap: 1.4rem;
+  gap: 1.1rem;
 }
 
 .vb-tools-head .vb-section-head {
   max-width: 12ch;
 }
 
-.vb-tools-filter {
-  display: grid;
-  gap: 0.45rem;
-  width: min(100%, 17rem);
-}
-
-.vb-tools-filter label {
-  color: var(--sand-2);
-  font-size: var(--step-small);
-}
-
-.vb-tools-filter select {
-  width: 100%;
-  min-height: 2.9rem;
-  padding: 0.55rem 0.75rem;
-  border: 1px solid var(--dusk-3);
-  border-radius: 0.25rem;
-  background: var(--dusk-2);
-  color: var(--sand);
-  font: inherit;
-}
-
-.vb .vb-tools-note {
-  color: var(--sand-2);
-  font-size: var(--step-small);
-}
-
-.vb-tools-catalogue {
-  min-width: 0;
-}
-
-.vb-tools-list {
-  display: grid;
-  align-items: start;
-  gap: 0 clamp(2rem, 4vw, 3.25rem);
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.vb-tools-entry {
-  display: grid;
-  align-content: start;
-  gap: 0.5rem;
-  min-width: 0;
-  padding-block: 1.15rem 0.85rem;
-  border-top: 1px solid var(--dusk-3);
-}
-
-.vb-tools-title {
-  max-width: 28ch;
-  color: var(--sand);
-  font-size: clamp(1.15rem, 1.05rem + 0.35vw, 1.42rem);
-  line-height: 1.2;
-  letter-spacing: -0.018em;
-  text-wrap: pretty;
-}
-
-.vb .vb-tools-line {
-  max-width: 42ch;
+.vb .vb-tools-lead {
+  max-width: 30ch;
   color: var(--sand-2);
   font-size: 1rem;
   line-height: 1.45;
   text-wrap: pretty;
 }
 
-.vb-tools-fold {
-  min-width: 0;
-}
-
-.vb-tools-fold-summary {
-  display: flex;
-  align-items: center;
-  gap: 0.65rem;
-  width: fit-content;
-  min-height: 2.75rem;
-  color: var(--ember);
-  font-size: var(--step-small);
-  cursor: pointer;
-  list-style: none;
-}
-
-.vb-tools-fold-summary::-webkit-details-marker {
-  display: none;
-}
-
-.vb-tools-fold-summary::after {
-  content: "";
-  width: 0.45rem;
-  height: 0.45rem;
-  border: solid currentColor;
-  border-width: 0 1.5px 1.5px 0;
-  transform: translateY(-2px) rotate(45deg);
-}
-
-.vb-tools-fold[open] .vb-tools-fold-summary::after {
-  transform: translateY(2px) rotate(225deg);
-}
-
-.vb-tools-fold-summary:hover {
-  text-decoration: underline;
-  text-underline-offset: 0.25em;
-}
-
-.vb-tools-fold-body {
+/* The filter: product chips. The pressed one fills with sand. */
+.vb-tools-filter {
   display: grid;
-  gap: 0.75rem;
-  padding: 0.2rem 0 0.5rem;
+  gap: 0.5rem;
+}
+
+.vb-tools-filter-label,
+.vb .vb-tools-note {
   color: var(--sand-2);
   font-size: var(--step-small);
 }
 
-.vb-tools-examples {
-  display: grid;
+.vb-tools-chips {
+  display: flex;
+  flex-wrap: wrap;
   gap: 0.4rem;
+}
+
+.vb .vb-tools-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  min-height: 2.25rem;
+  padding: 0.25rem 0.8rem;
+  border: 1px solid var(--tools-line);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--sand);
+  font: inherit;
+  font-size: var(--step-small);
+  font-weight: 500;
+  line-height: 1.2;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.vb .vb-tools-chip-btn {
+  min-height: 2.75rem;
+}
+
+.vb .vb-tools-chip:hover {
+  border-color: var(--sand-2);
+}
+
+.vb .vb-tools-chip[aria-pressed="true"] {
+  border-color: var(--sand);
+  background: var(--sand);
+  color: var(--dusk);
+}
+
+.vb .vb-tools-chip:focus-visible {
+  outline: 2px solid var(--ember);
+  outline-offset: 2px;
+}
+
+.vb-tools-swatch {
+  flex: none;
+  width: 0.7rem;
+  height: 0.7rem;
+  border: 1px solid color-mix(in srgb, currentColor 35%, transparent);
+  border-radius: 50%;
+  background: var(--swatch);
+}
+
+/* The board */
+.vb-tools-board {
+  min-width: 0;
+}
+
+.vb-tools-list {
+  display: grid;
+  gap: clamp(0.75rem, 1.5vw, 1.1rem);
   margin: 0;
   padding: 0;
   list-style: none;
 }
 
-.vb-tools-project {
-  display: inline-flex;
+.vb-tools-card {
+  display: grid;
+  align-content: start;
+  gap: 0.7rem;
+  min-width: 0;
+  padding: clamp(1rem, 1.6vw, 1.35rem);
+  border: 1px solid var(--tools-line);
+  border-radius: 0.75rem;
+  background: var(--tools-card);
+  box-shadow: 0 1rem 2rem -1.5rem rgb(0 0 0 / 0.7);
+}
+
+.vb-tools-card-head {
+  display: flex;
   align-items: center;
-  gap: 0.5rem;
-  min-height: 2.75rem;
+  gap: 0.65rem;
+}
+
+.vb-tools-icon {
+  flex: none;
+  width: 2.1rem;
+  height: 2.1rem;
+  padding: 0.4rem;
+  border-radius: 0.55rem;
+  background: color-mix(in srgb, var(--ember) 16%, transparent);
+  color: var(--ember);
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.vb-tools-title {
   color: var(--sand);
-  font-weight: 600;
+  font-size: clamp(1.1rem, 1rem + 0.35vw, 1.35rem);
+  line-height: 1.2;
+  letter-spacing: -0.018em;
+  text-wrap: pretty;
+}
+
+.vb .vb-tools-line {
+  color: var(--sand-2);
+  font-size: var(--step-small);
+  line-height: 1.45;
+  text-wrap: pretty;
+}
+
+/* The example: one product, its colour on the edge, its story under the name. */
+.vb-tools-example {
+  display: grid;
+  gap: 0.35rem;
+  padding: 0.65rem 0.8rem 0.75rem 0.9rem;
+  border-left: 3px solid var(--swatch);
+  border-radius: 0.3rem 0.5rem 0.5rem 0.3rem;
+  background: color-mix(in srgb, var(--swatch) 10%, var(--night));
+}
+
+.vb-tools-example p {
+  color: var(--sand);
+  font-size: var(--step-small);
+  line-height: 1.45;
+  text-wrap: pretty;
+}
+
+.vb .vb-tools-project {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.25rem 0.5rem;
+  width: fit-content;
+  min-height: 2.75rem;
+  margin: -0.4rem 0;
+  color: var(--sand);
+  text-decoration: none;
+}
+
+.vb-tools-project-name {
+  font-family: var(--display);
+  font-weight: 700;
+}
+
+.vb-tools-project-hint {
+  color: var(--ember);
+  font-size: 0.8125rem;
+  text-decoration: underline;
   text-underline-offset: 0.22em;
 }
 
-.vb-tools-swatch {
-  width: 0.66rem;
-  height: 0.66rem;
-  border: 1px solid var(--sand-2);
-  border-radius: 0.125rem;
-  background: var(--swatch);
-}
-
-.vb-tools-used {
-  display: grid;
-  gap: 0.18rem;
-}
-
-.vb-tools-used strong {
+.vb .vb-tools-project:hover .vb-tools-project-hint {
   color: var(--sand);
+}
+
+.vb .vb-tools-project:focus-visible {
+  outline: 2px solid var(--ember);
+  outline-offset: 2px;
+  border-radius: 0.25rem;
+}
+
+.vb-tools-count strong {
+  color: var(--sand);
+}
+
+.vb-tools-also,
+.vb-tools-used {
+  display: block;
+  color: var(--sand-2);
+  font-size: 0.8125rem;
+  line-height: 1.4;
+}
+
+.vb-tools-also-label {
+  margin-inline-end: 0.15rem;
+  color: var(--sand-2);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.vb-tools-also .vb-tools-chip {
+  min-height: 2rem;
+  padding-block: 0.15rem;
+  font-size: 0.8125rem;
 }
 
 .vb-tools-small {
@@ -169,8 +240,12 @@
   font-size: var(--step-small);
 }
 
+.vb-tools-count .vb-tools-small {
+  font-size: 0.8125rem;
+}
+
 .vb-tools-rest {
-  margin-top: 1rem;
+  margin-top: 1.25rem;
 }
 
 .vb-tools-rest-grid {
@@ -202,4 +277,53 @@
   .vb-tools-head .vb-section-head {
     font-size: clamp(2.6rem, 1.5rem + 2vw, 4rem);
   }
+
+  .vb-tools-filter {
+    width: min(100%, 20rem);
+  }
+}
+
+@media (min-width: 1240px) {
+  .vb-tools-list {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .vb .vb-tools-chip {
+    transition:
+      background-color 160ms var(--ease-out),
+      border-color 160ms var(--ease-out),
+      color 160ms var(--ease-out);
+  }
+}
+
+/* Tool names wait behind a small toggle: the outcome and example come first. */
+.vb-tools-used > summary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  min-height: 2.75rem;
+  cursor: pointer;
+  list-style: none;
+}
+
+.vb-tools-used > summary::-webkit-details-marker {
+  display: none;
+}
+
+.vb-tools-used > summary::after {
+  content: "+";
+  font-size: 0.95rem;
+  line-height: 1;
+}
+
+.vb-tools-used[open] > summary::after {
+  content: "–";
+}
+
+.vb-tools-used > summary:focus-visible {
+  outline: 2px solid var(--ember);
+  outline-offset: 2px;
+  border-radius: 4px;
 }

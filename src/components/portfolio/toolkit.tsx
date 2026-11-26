@@ -7,59 +7,124 @@ import { studied, testsChecked, toolkit, toolkitProjects, type ResolvedJob } fro
 import { useHydrated } from "@/lib/use-hydrated";
 import { SectionTitle } from "./section-title";
 
+/*
+ * What I can build: six outcomes, each shown through one product it lives in.
+ * The example is visible by default; the other products are chips; the tool
+ * names come last, small, for the people who want them.
+ */
+
 type Selection = ProjectId | "all";
 
-function ProjectExample({ id }: { id: ProjectId }) {
-  const project = projectById[id];
+function JobIcon({ id }: { id: string }) {
+  const path: Record<string, React.ReactNode> = {
+    ai: (
+      <>
+        <path d="M12 3.5v3M12 17.5v3M3.5 12h3M17.5 12h3M6 6l2 2M16 16l2 2M6 18l2-2M16 8l2-2" />
+        <circle cx="12" cy="12" r="3.2" />
+      </>
+    ),
+    calls: (
+      <path d="M5.5 4.5h3l1.6 4-2 1.3a10.5 10.5 0 0 0 5.6 5.6l1.3-2 4 1.6v3a1.5 1.5 0 0 1-1.6 1.5C9.9 19 5 14.1 4 6.1a1.5 1.5 0 0 1 1.5-1.6Z" />
+    ),
+    data: (
+      <>
+        <path d="M12 3.5 5 6.2v5.3c0 4.2 2.9 7.4 7 9 4.1-1.6 7-4.8 7-9V6.2L12 3.5Z" />
+        <path d="M9.2 12.2l2 2 3.8-4" />
+      </>
+    ),
+    web: (
+      <>
+        <rect x="3.5" y="5" width="17" height="14" rx="2" />
+        <path d="M3.5 9h17M16.5 13.5h-9M10 11.5l-2.5 2 2.5 2" />
+      </>
+    ),
+    mobile: (
+      <>
+        <rect x="7" y="3" width="10" height="18" rx="2.2" />
+        <path d="M10.5 18h3" />
+      </>
+    ),
+    tests: (
+      <>
+        <circle cx="12" cy="12" r="8.5" />
+        <path d="m8.3 12.3 2.5 2.5 5-5.2" />
+      </>
+    ),
+  };
   return (
-    <a href={`#${id}`} className="vb-tools-project">
-      <span
-        className="vb-tools-swatch"
-        style={{ "--swatch": project.field } as CSSProperties}
-        aria-hidden="true"
-      />
-      {project.name}
-    </a>
+    <svg className="vb-tools-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+      {path[id]}
+    </svg>
   );
 }
 
-function SkillEntry({ job, project }: { job: ResolvedJob; project: ProjectId | null }) {
-  const projects = project ? [project] : job.projects;
-  const notes = job.notes?.filter((note) => projects.includes(note.project)) ?? [];
+function Mark({ id }: { id: ProjectId }) {
+  const project = projectById[id];
+  return (
+    <span
+      className="vb-tools-swatch"
+      style={{ "--swatch": project.field } as CSSProperties}
+      aria-hidden="true"
+    />
+  );
+}
+
+function SkillCard({ job, project }: { job: ResolvedJob; project: ProjectId | null }) {
+  const notes = job.notes ?? [];
+  const exampleId =
+    project ?? (notes.find((note) => note.project === job.lead)?.project ?? notes[0]?.project ?? null);
+  const example = notes.find((note) => note.project === exampleId) ?? null;
+  const count = exampleId ? job.testCounts.find((item) => item.project === exampleId) : null;
+  const others = job.projects.filter((id) => id !== exampleId);
   const tools = job.tools.filter((tool) => !project || tool.projects.includes(project));
-  const testCounts = job.testCounts.filter((count) => projects.includes(count.project));
+  const exampleProject = exampleId ? projectById[exampleId] : null;
 
   return (
-    <li className="vb-tools-entry">
-      <h3 className="vb-tools-title">{job.title}</h3>
+    <li className="vb-tools-card">
+      <div className="vb-tools-card-head">
+        <JobIcon id={job.id} />
+        <h3 className="vb-tools-title">{job.title}</h3>
+      </div>
       <p className="vb-tools-line">{job.line}</p>
-      <details className="vb-tools-fold">
-        <summary className="vb-tools-fold-summary">Tools and examples</summary>
-        <div className="vb-tools-fold-body">
-          <ul className="vb-tools-examples">
-            {projects.map((id) => {
-              const note = notes.find((item) => item.project === id);
-              const count = testCounts.find((item) => item.project === id);
-              return (
-                <li key={id}>
-                  <ProjectExample id={id} />
-                  {note ? <p>{note.text}</p> : null}
-                  {count ? <p>{count.value} automated checks passed</p> : null}
-                </li>
-              );
-            })}
-          </ul>
-          {testCounts.length ? (
-            <p className="vb-tools-small">Checks counted on {testsChecked}.</p>
-          ) : null}
-          {tools.length ? (
-            <p className="vb-tools-used">
-              <strong>Tools</strong>
-              <span>{tools.map((tool) => tool.name).join(" · ")}</span>
+
+      {exampleProject ? (
+        <div
+          className="vb-tools-example"
+          style={{ "--swatch": exampleProject.field } as CSSProperties}
+        >
+          <a href={`#${exampleId}`} className="vb-tools-project">
+            <Mark id={exampleId as ProjectId} />
+            <span className="vb-tools-project-name">{exampleProject.name}</span>
+            <span className="vb-tools-project-hint">See the chapter</span>
+          </a>
+          {example ? <p>{example.text}</p> : null}
+          {count ? (
+            <p className="vb-tools-count">
+              <strong>{count.value}</strong> automated checks passed
+              <span className="vb-tools-small"> · counted on {testsChecked}</span>
             </p>
           ) : null}
         </div>
-      </details>
+      ) : null}
+
+      {others.length && !project ? (
+        <p className="vb-tools-also">
+          <span className="vb-tools-also-label">Also in</span>
+          {others.map((id) => (
+            <a key={id} href={`#${id}`} className="vb-tools-chip">
+              <Mark id={id} />
+              {projectById[id].name}
+            </a>
+          ))}
+        </p>
+      ) : null}
+
+      {tools.length ? (
+        <details className="vb-tools-used">
+          <summary className="vb-tools-also-label">Tools used</summary>
+          <span>{tools.map((tool) => tool.name).join(" · ")}</span>
+        </details>
+      ) : null}
     </li>
   );
 }
@@ -80,25 +145,40 @@ export function Toolkit() {
     <section id="skills" className="vb-tools" aria-labelledby="skills-title">
       <div className="vb-tools-head">
         <SectionTitle id="skills-title" en="What I can build." />
+        <p className="vb-tools-lead">
+          Six things I do, each shown in a product where it already works.
+        </p>
         {hydrated ? (
-          <div className="vb-tools-filter">
-            <label htmlFor="tools-project">Show skills by project</label>
-            <select
-              id="tools-project"
-              value={selected}
-              onChange={(event) => setSelected(event.currentTarget.value as Selection)}
-            >
-              <option value="all">All projects</option>
+          <div className="vb-tools-filter" role="group" aria-labelledby="tools-filter-label">
+            <span id="tools-filter-label" className="vb-tools-filter-label">Show by product</span>
+            <div className="vb-tools-chips">
+              <button
+                type="button"
+                className="vb-tools-chip vb-tools-chip-btn"
+                aria-pressed={selected === "all"}
+                onClick={() => setSelected("all")}
+              >
+                All
+              </button>
               {toolkitProjects.map((id) => (
-                <option key={id} value={id}>{projectById[id].name}</option>
+                <button
+                  key={id}
+                  type="button"
+                  className="vb-tools-chip vb-tools-chip-btn"
+                  aria-pressed={selected === id}
+                  onClick={() => setSelected(id)}
+                >
+                  <Mark id={id} />
+                  {projectById[id].name}
+                </button>
               ))}
-            </select>
+            </div>
             <p className="vb-tools-note" aria-live="polite">
               {project ? (
                 <>
-                  {jobs.length} {jobs.length === 1 ? "skill" : "skills"} used in {project.name}.{" "}
+                  {jobs.length} of {toolkit.length} skills show up in {project.name}.{" "}
                   <Link href={`/projects/${project.id}`} className="vb-link">
-                    See the project
+                    Read the case study
                   </Link>
                 </>
               ) : null}
@@ -107,10 +187,10 @@ export function Toolkit() {
         ) : null}
       </div>
 
-      <div className="vb-tools-catalogue">
+      <div className="vb-tools-board">
         <ul className="vb-tools-list">
           {jobs.map((job) => (
-            <SkillEntry key={job.id} job={job} project={project?.id ?? null} />
+            <SkillCard key={job.id} job={job} project={project?.id ?? null} />
           ))}
         </ul>
         <details className="vb-details vb-tools-rest">
