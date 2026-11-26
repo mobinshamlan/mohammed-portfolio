@@ -1,6 +1,6 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
-import { fieldStyle, projectById, type Project, type ProjectId } from "@/lib/projects";
+import { fieldStyle, projectById, projectPage, type Project, type ProjectId } from "@/lib/projects";
 import { FlowLine } from "./flow-line";
 import { Reveal } from "./reveal";
 import { NaqahProof } from "./proof/naqah-proof";
@@ -18,9 +18,6 @@ import { AmanahScene } from "./scenes/amanah-scene";
 import { GthrzScene } from "./scenes/gthrz-scene";
 
 
-function projectHref(project: Project) {
-  return project.href ?? `/projects/${project.id}`;
-}
 
 /*
  * Every project gets its own section on its own colour field. The parts are
@@ -58,31 +55,11 @@ function Head({ project }: { project: Project }) {
   return (
     <Reveal className="vb-proj-head">
       <h3 id={`proj-${project.id}`} className="vb-proj-name">
-        <Link href={projectHref(project)} prefetch={false}>
-          {project.name}
-          {project.arabic ? <span lang="ar">{project.arabic}</span> : null}
-        </Link>
+        {project.name}
+        {project.arabic ? <span lang="ar">{project.arabic}</span> : null}
       </h3>
       <p className="vb-proj-tagline">{project.tagline}</p>
     </Reveal>
-  );
-}
-
-/** Checked numbers from the public repository, in one line, each linked to its source. */
-function Proof({ project }: { project: Project }) {
-  const items = project.proof.evidence?.filter((item) => item.kind !== "scope") ?? [];
-  if (!items.length) return null;
-  return (
-    <span className="vb-proj-proof">
-      {items.map((item) => (
-        <span key={item.kind}>
-          <a href={item.run?.href ?? item.source.href} className="vb-link" target="_blank" rel="noreferrer">
-            <strong>{item.value}</strong> {item.kind === "tests" ? "tests passed" : "changes I wrote"}
-            <span className="vb-sr"> (opens in a new tab)</span>
-          </a>
-        </span>
-      ))}
-    </span>
   );
 }
 
@@ -100,14 +77,12 @@ function Foot({ project }: { project: Project }) {
   return (
     <Reveal className="vb-proj-foot" delay={0.08}>
       <p className="vb-proj-role">{role[project.id] ?? project.contribution}</p>
-      <p className="vb-proj-stand">
-        {project.statusChip} · {project.dates}
-        <Proof project={project} />
-      </p>
       <div className="vb-proj-actions">
-        <Link href={projectHref(project)} prefetch={false} className="vb-btn vb-btn-field">
-          How {project.name} works
-        </Link>
+        {project.id === "gthrz" ? (
+          <Link href={projectPage(project)} prefetch={false} className="vb-btn vb-btn-field">
+            How {project.name} works
+          </Link>
+        ) : null}
         <ProjectLinks project={project} />
       </div>
     </Reveal>

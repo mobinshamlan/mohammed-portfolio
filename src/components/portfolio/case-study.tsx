@@ -1,6 +1,6 @@
 import Link from "next/link";
 import type { CSSProperties, ReactNode } from "react";
-import { fieldStyle, nextProject, previousProject, type Project, type ProjectId } from "@/lib/projects";
+import { fieldStyle, nextProject, previousProject, projectPage, type Project, type ProjectId } from "@/lib/projects";
 import { amanahViews } from "@/lib/amanah-views";
 import { kashtaExample } from "@/lib/kashta-example";
 import { callScript } from "@/lib/naqah-call";
@@ -473,7 +473,7 @@ export function CaseBody({
   const arrangement = arrangementOf(project);
   const next = nextProject(project.id);
   const previous = previousProject(project.id);
-  const hrefOf = (item: Project) => item.href ?? `/projects/${item.id}`;
+  const hrefOf = (item: Project) => projectPage(item);
   // The experiment page brings its own fonts; only fetch them when someone goes there.
   // The cover already showed the first screen; do not repeat it unless it would leave one.
   const unrepeated = project.screens.filter((shot) => shot.src !== project.cover.src);

@@ -244,8 +244,7 @@ export const projects: Project[] = [
       "Playwright",
     ],
     links: [
-      { label: "Live demo (Arabic)", href: "https://naqah.vercel.app" },
-      { label: "English demo", href: "https://naqah.vercel.app/en" },
+      { label: "Live demo", href: "https://naqah.vercel.app" },
       { label: "Code on GitHub", href: "https://github.com/justAbdulaziz10/Naqah" },
     ],
     cover: {
@@ -515,7 +514,6 @@ export const projects: Project[] = [
     ],
     links: [
       { label: "Live app", href: "https://seet-app.vercel.app" },
-      { label: "Try the demo", href: "https://seet-app.vercel.app/login?demo=1" },
     ],
     linkNote: "Code is private",
     cover: {
@@ -804,7 +802,6 @@ export const projects: Project[] = [
     ],
     links: [
       { label: "Live site", href: "https://amanahz.vercel.app" },
-      { label: "Guided demo", href: "https://amanahz.vercel.app/demo" },
       { label: "Code on GitHub", href: "https://github.com/mobinshamlan/Amanah" },
     ],
     cover: {
@@ -1011,4 +1008,10 @@ export function nextProject(id: ProjectId) {
 export function previousProject(id: ProjectId) {
   const index = projects.findIndex((project) => project.id === id);
   return projects[(index - 1 + projects.length) % projects.length];
+}
+
+/** Only Gthrz, which is not deployed, keeps its own page; the rest open on the home page. */
+export function projectPage(project: Pick<Project, "id" | "href">) {
+  if (project.href) return project.href;
+  return project.id === "gthrz" ? "/projects/gthrz" : `/#${project.id}`;
 }

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Redirect } from "@/components/redirect";
-import { projects } from "@/lib/projects";
+import { projectPage, projects } from "@/lib/projects";
 
 export const metadata: Metadata = {
   title: "Moved",
@@ -13,7 +13,7 @@ export function generateStaticParams() {
     .map((project) => ({ slug: project.id }));
 }
 
-/** Case studies moved from /version-b/projects/<slug> to /projects/<slug>. */
+/** Old case-study links now open on the home page, or Gthrz's own page. */
 export default async function VersionBProjectMovedPage({
   params,
 }: PageProps<"/version-b/projects/[slug]">) {
@@ -21,8 +21,8 @@ export default async function VersionBProjectMovedPage({
   const project = projects.find((item) => item.id === slug);
   return (
     <Redirect
-      to={`/projects/${slug}`}
-      label={project ? `the ${project.name} case study` : "the case study"}
+      to={project ? projectPage(project) : "/"}
+      label={project ? `${project.name}` : "the portfolio"}
     />
   );
 }

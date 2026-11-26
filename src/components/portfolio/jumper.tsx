@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useEffect, useId, useRef, useState } from "react";
-import { projects } from "@/lib/projects";
+import { projectPage, projects } from "@/lib/projects";
 import { useHydrated } from "@/lib/use-hydrated";
 import { focusSection } from "./nav";
 
@@ -18,7 +18,7 @@ const sections: Item[] = [
 ];
 
 const items: Item[] = [
-  // Each product twice: its chapter on the home page, then its case study.
+  // Each product's chapter on the home page; Gthrz, not yet deployed, also has its own page.
   ...projects
     .filter((project) => project.id !== "experiment")
     .flatMap((project) => [
@@ -27,11 +27,9 @@ const items: Item[] = [
         hint: "On this page",
         href: `/#${project.id}`,
       },
-      {
-        label: `${project.name} case study`,
-        hint: project.statusChip,
-        href: `/projects/${project.id}`,
-      },
+      ...(project.id === "gthrz"
+        ? [{ label: "How Gthrz works", hint: "Its own page", href: projectPage(project) }]
+        : []),
     ]),
   ...sections,
 ];

@@ -47,8 +47,7 @@ export function Contact() {
         <div className="vb-talk-main">
           <h2 id="contact-title" className="vb-talk-title">Get in touch.</h2>
           <p className="vb-talk-lead">
-            I’m looking for my first role building software or AI.
-            Write to me in Arabic or English about a job, a project or a question.
+            I&rsquo;m looking for a job in software or AI products. Let&rsquo;s keep in touch.
           </p>
           <div className="vb-talk-actions">
             <a href={`mailto:${contact.email}`} className="vb-btn vb-talk-mail">
