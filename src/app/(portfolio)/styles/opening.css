@@ -223,33 +223,35 @@
   }
 }
 
-/* ---------- Wide screens: the name across the foot, the arch to the right ---------- */
+/* ---------- Wide screens: the name and role together, the arch to the right ---------- */
 
 @media (min-width: 900px) {
   .vb-open {
     grid-template-columns: minmax(0, 1fr);
-    grid-template-rows: 1fr auto auto auto 1.25fr auto;
+    grid-template-rows: 1fr auto auto auto auto 1fr;
     grid-template-areas:
       "."
+      "name"
       "say"
       "actions"
       "status"
-      "."
-      "name";
-    min-height: calc(100svh - var(--nav-h));
-    max-height: 62rem;
+      ".";
+    min-height: min(calc(100svh - var(--nav-h)), 46rem);
     padding-top: 1.5rem;
   }
 
   .vb-open-name {
     grid-area: name;
-    font-size: min(11.2vw, 19svh, 11rem);
+    font-size: min(9.6vw, 17svh, 9.5rem);
     line-height: 0.86;
   }
 
   .vb-open-say {
-    margin-top: 0;
-    max-width: min(46%, 34rem);
+    margin-top: 1.5rem;
+  }
+
+  .vb-open-lead {
+    max-width: none;
   }
 
 
@@ -263,7 +265,8 @@
 
   .vb-open-portrait {
     position: absolute;
-    top: 3.5rem;
+    top: 50%;
+    translate: 0 -54%;
     right: calc(var(--gutter) + 4%);
     width: min(18vw, 16rem);
     margin: 0;
