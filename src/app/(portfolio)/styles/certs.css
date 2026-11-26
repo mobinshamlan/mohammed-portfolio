@@ -1,168 +1,201 @@
-/* A paper section for the original training and course certificates. */
-.vb .vb-certs-compact {
+/* Courses and certificates: four sheets of paper on a cream desk. Each sheet
+   is the real first page, large enough to recognise, and opens the dialog. */
+.vb .vb-certs-desk {
   --cert-ink: var(--dusk);
-  --cert-muted: #4c5470;
-  --cert-line: color-mix(in srgb, var(--cert-ink) 21%, var(--sand));
-  gap: 1.35rem clamp(2rem, 5vw, 5rem);
-  padding-block: clamp(2.25rem, 4.5vw, 4rem);
-  background: var(--sand);
+  --cert-muted: #4f5771;
+  --cert-desk: #e9e0cc;
+  --cert-desk-2: #f3edde;
+  --cert-line: color-mix(in srgb, var(--cert-ink) 18%, var(--cert-desk));
+  --cert-paper: #fffdf8;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: clamp(1.5rem, 3vw, 2.5rem);
+  padding-block: clamp(2.5rem, 5vw, 4.5rem);
+  background:
+    radial-gradient(120% 90% at 50% 0%, var(--cert-desk-2), transparent 70%),
+    repeating-linear-gradient(
+      -8deg,
+      transparent 0 14px,
+      color-mix(in srgb, var(--cert-ink) 2.5%, transparent) 14px 15px
+    ),
+    var(--cert-desk);
   color: var(--cert-ink);
   color-scheme: light;
 }
 
+.vb-certs-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.5rem 2.5rem;
+}
+
 .vb-certs-title {
-  max-width: 15ch;
   font-size: clamp(1.9rem, 1.35rem + 1.9vw, 3rem);
   line-height: 1.06;
   letter-spacing: -0.035em;
   text-wrap: balance;
 }
 
-.vb-certs-archive {
-  min-width: 0;
+.vb .vb-certs-lead {
+  max-width: 34ch;
+  color: var(--cert-muted);
+  font-size: var(--step-small);
+  line-height: 1.4;
 }
 
-.vb-certs-feature {
-  padding-bottom: 0.85rem;
-  border-bottom: 1px solid var(--cert-line);
-}
-
-.vb-certs-rows {
+/* The desk: four slots across, each sheet set down at a slightly different angle. */
+.vb-certs-desktop {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(1rem, 2.5vw, 2rem) clamp(0.75rem, 2vw, 1.5rem);
   margin: 0;
   padding: 0;
   list-style: none;
 }
 
-.vb-certs-rows li {
-  border-top: 1px solid var(--cert-line);
+.vb-certs-slot {
+  --tilt: calc((var(--n) - 1.5) * -0.7deg + 0.45deg);
+  min-width: 0;
 }
 
-.vb .vb-cert {
+.vb .vb-sheet {
   display: grid;
-  grid-template-columns: auto minmax(0, 1fr) 1rem;
-  align-items: center;
-  gap: clamp(0.65rem, 1.5vw, 1.25rem);
+  gap: 0.8rem;
   width: 100%;
-  min-height: 4.75rem;
-  padding: 0.6rem 0.35rem;
+  padding: 0;
   border: 0;
   background: none;
   color: inherit;
   font: inherit;
   text-align: start;
   text-decoration: none;
-}
-
-.vb :is(button, a).vb-cert {
   cursor: pointer;
 }
 
-.vb :is(button, a).vb-cert:hover,
-.vb-certs-more-summary:hover {
-  background: color-mix(in srgb, var(--cert-ink) 5%, var(--sand));
-}
-
-.vb-certs-compact :is(.vb-cert, .vb-certs-more-summary):focus-visible {
-  outline-color: var(--cert-ink);
-}
-
-.vb-cert-thumb {
+/* The paper itself: a white sheet with a soft edge shadow, lying on the desk. */
+.vb-sheet-paper {
   display: block;
-  width: clamp(3.8rem, 6vw, 5.4rem);
-  padding: 0.15rem;
+  padding: 0.3rem;
   border: 1px solid var(--cert-line);
-  border-radius: 0.125rem;
-  background: white;
+  border-radius: 0.1rem;
+  background: var(--cert-paper);
+  box-shadow:
+    0 0.1rem 0.25rem rgb(42 34 18 / 0.08),
+    0 0.9rem 1.6rem -0.9rem rgb(42 34 18 / 0.35);
+  transform: rotate(var(--tilt));
+  transform-origin: 50% 90%;
 }
 
-.vb-certs-feature .vb-cert-thumb {
-  width: clamp(4.25rem, 9vw, 8rem);
+.vb-sheet-paper img {
+  display: block;
+  width: 100%;
+  height: auto;
 }
 
-.vb-cert-text {
+.vb-sheet-text {
   display: grid;
-  grid-column: 2;
-  gap: 0.25rem;
+  gap: 0.2rem;
+  padding-inline: 0.15rem;
 }
 
-.vb-cert-name {
+.vb-sheet-what {
+  color: var(--cert-muted);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.vb-sheet-title {
+  font-family: var(--display);
+  font-size: clamp(1rem, 0.92rem + 0.4vw, 1.25rem);
   font-weight: 650;
-  line-height: 1.25;
+  line-height: 1.2;
+  letter-spacing: -0.015em;
   text-wrap: pretty;
 }
 
-.vb-certs-feature .vb-cert-name {
-  font-family: var(--display);
-  font-size: clamp(1.03rem, 0.95rem + 0.45vw, 1.35rem);
-}
-
-.vb-cert-issuer {
+.vb-sheet-meta {
   color: var(--cert-muted);
   font-size: var(--step-small);
   line-height: 1.35;
 }
 
-.vb-cert-arrow {
-  justify-self: center;
-  width: 0.5rem;
-  height: 0.5rem;
-  border: solid currentColor;
-  border-width: 1.5px 1.5px 0 0;
-  transform: rotate(45deg);
-}
-
-.vb-certs-more-summary {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-  min-height: 3rem;
-  padding: 0.35rem 0.6rem 0.35rem 0.35rem;
+.vb-sheet-open {
+  margin-top: 0.3rem;
   color: var(--cert-ink);
   font-size: var(--step-small);
   font-weight: 600;
-  cursor: pointer;
-  list-style: none;
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, var(--cert-ink) 35%, transparent);
+  text-underline-offset: 0.22em;
 }
 
-.vb-certs-more-summary::-webkit-details-marker {
-  display: none;
+.vb .vb-sheet:hover .vb-sheet-paper,
+.vb .vb-sheet:focus-visible .vb-sheet-paper {
+  transform: rotate(0deg) translateY(-0.2rem);
+  box-shadow:
+    0 0.15rem 0.3rem rgb(42 34 18 / 0.1),
+    0 1.4rem 2.2rem -1rem rgb(42 34 18 / 0.45);
 }
 
-.vb-certs-more-summary::after {
-  content: "";
-  width: 0.5rem;
-  height: 0.5rem;
-  border: solid currentColor;
-  border-width: 0 1.5px 1.5px 0;
-  transform: translateY(-2px) rotate(45deg);
+.vb .vb-sheet:hover .vb-sheet-open,
+.vb .vb-sheet:focus-visible .vb-sheet-open {
+  text-decoration-color: currentColor;
 }
 
-.vb-certs-more[open] .vb-certs-more-summary::after {
-  transform: translateY(2px) rotate(225deg);
+.vb .vb-sheet:focus-visible {
+  outline: 2px solid var(--cert-ink);
+  outline-offset: 4px;
+  border-radius: 0.2rem;
 }
 
-body:has(.vb-certs-compact .vb-dialog[open]) {
+@media (prefers-reduced-motion: no-preference) {
+  .vb-sheet-paper {
+    transition:
+      transform 260ms var(--ease-out),
+      box-shadow 260ms var(--ease-out);
+  }
+}
+
+/* The dialog keeps the site's dark chrome. */
+body:has(.vb-certs-desk .vb-dialog[open]) {
   overflow: hidden;
 }
 
-.vb-certs-compact .vb-dialog {
+.vb-certs-desk .vb-dialog {
   color-scheme: dark;
 }
 
-.vb-certs-compact .vb-dialog-foot {
+.vb-certs-desk .vb-dialog-foot {
   flex-wrap: wrap;
 }
 
-.vb-certs-compact :is(.vb-dialog-step button, .vb-dialog-foot a) {
+.vb-certs-desk :is(.vb-dialog-step button, .vb-dialog-foot a) {
   display: inline-flex;
   align-items: center;
   min-height: 2.75rem;
 }
 
 @media (min-width: 900px) {
-  .vb .vb-certs-compact {
-    grid-template-columns: minmax(0, 4fr) minmax(0, 7fr);
-    align-items: start;
+  .vb .vb-certs-desk {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .vb-certs-desktop {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+/* Phones: two sheets per row, tighter type, no tilt so nothing clips the gutter. */
+@media (max-width: 639px) {
+  .vb-certs-slot {
+    --tilt: 0deg;
+  }
+  .vb-sheet-what {
+    font-size: 0.7rem;
+  }
+  .vb-sheet-open {
+    font-size: 0.875rem;
   }
 }
