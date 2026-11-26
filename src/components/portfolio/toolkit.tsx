@@ -154,27 +154,16 @@ export function Toolkit() {
   return (
     <section id="skills" className="vb-tools" aria-labelledby="skills-title">
       <div className="vb-tools-cover">
-        <div>
-          <h2 id="skills-title" className="vb-section-head vb-tools-title">
-            Skills
-          </h2>
-          <p className="vb-tools-lead">Tools I used to build six products.</p>
-        </div>
+        <h2 id="skills-title" className="vb-section-head vb-tools-title">
+          Skills
+        </h2>
         <ProjectWeave />
       </div>
 
       <div className="vb-tools-index">
-        {toolkitGroups.map(({ title, purpose, tools }, index) => (
-          <details className="vb-tools-group" key={title} open={index === 0}>
-            <summary className="vb-tools-summary">
-              <span className="vb-tools-group-title">{title}</span>
-              <span className="vb-tools-purpose">{purpose}</span>
-              <svg className="vb-tools-toggle" viewBox="0 0 20 20" aria-hidden="true" focusable="false">
-                <path d="M4 10h12" />
-                <path className="vb-tools-toggle-stem" d="M10 4v12" />
-              </svg>
-            </summary>
-
+        {toolkitGroups.map(({ title, tools }) => (
+          <section className="vb-tools-group" key={title} aria-label={title}>
+            <h3 className="vb-tools-group-title">{title}</h3>
             <ul className="vb-tools-rows" role="list">
               {tools.map(({ name, mark, projects }) => (
                 <li className="vb-tools-row" key={name}>
@@ -200,7 +189,7 @@ export function Toolkit() {
                 </li>
               ))}
             </ul>
-          </details>
+          </section>
         ))}
       </div>
     </section>

@@ -1,24 +1,22 @@
 .vb-tools {
-  --tools-cover: var(--dusk-2);
-  --tools-sheet: var(--nightfall);
-  --tools-open: color-mix(in srgb, var(--dusk-2) 74%, var(--nightfall));
-  --tools-row: color-mix(in srgb, var(--dusk-3) 32%, var(--tools-open));
-  display: grid;
-  align-items: start;
-  gap: clamp(0.75rem, 2vw, 1.5rem);
-  padding: clamp(2rem, 5vw, 5rem) var(--gutter);
+  padding: clamp(2.5rem, 6vw, 5.5rem) var(--gutter);
   background: var(--night-2);
   color: var(--sand);
 }
 
+/* The title, and the six products as Sadu diamonds on one red thread. */
 .vb-tools-cover {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) clamp(5.5rem, 28vw, 12rem);
+  display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  gap: 0.75rem;
+  justify-content: space-between;
+  gap: 1rem 2rem;
   min-inline-size: 0;
-  padding: clamp(1rem, 3.5vw, 2.75rem);
-  background: var(--tools-cover);
+  margin-block-end: clamp(1rem, 2.5vw, 2rem);
+}
+
+.vb-tools-cover .vb-tools-weave {
+  inline-size: clamp(7.5rem, 22vw, 13rem);
 }
 
 .vb-tools-title {
@@ -26,15 +24,6 @@
   font-size: clamp(3.25rem, 1.75rem + 5vw, 6rem);
   letter-spacing: -0.04em;
   line-height: 1;
-}
-
-.vb .vb-tools-lead {
-  max-inline-size: 25ch;
-  margin-block-start: 0.625rem;
-  color: var(--sand);
-  font-size: var(--step-body);
-  line-height: 1.4;
-  text-wrap: balance;
 }
 
 .vb-tools-weave {
@@ -51,144 +40,79 @@
   stroke-linecap: round;
 }
 
+/* Every group open at once: a ledger of tools, each one stitched to the
+   products that used it, in those products' own colours. */
 .vb-tools-index {
-  --tools-inset: clamp(0.75rem, 1.6vw, 1.5rem);
-  --tools-row-gutter: 0.375rem;
   display: grid;
-  gap: 0.25rem;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 13.5rem), 1fr));
+  gap: clamp(1.75rem, 3vw, 2.5rem) clamp(1.25rem, 2.5vw, 2rem);
   min-inline-size: 0;
 }
 
 .vb-tools-group {
   min-inline-size: 0;
-  background: var(--tools-sheet);
-}
-
-.vb-tools-group[open] {
-  background: var(--tools-open);
-}
-
-.vb-tools-summary {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  align-items: center;
-  column-gap: 0.75rem;
-  row-gap: 0.25rem;
-  min-block-size: 2.75rem;
-  padding: 0.625rem var(--tools-inset);
-  cursor: pointer;
-  list-style: none;
-  line-height: 1.28;
-}
-
-.vb-tools-summary::-webkit-details-marker {
-  display: none;
-}
-
-.vb-tools-summary:is(:hover, :focus-visible) {
-  background: var(--tools-row);
-}
-
-.vb .vb-tools-summary:focus-visible {
-  outline-offset: -2px;
 }
 
 .vb-tools-group-title {
+  margin: 0 0 0.5rem;
+  padding-block-end: 0.5rem;
+  border-block-end: 2px dashed color-mix(in srgb, var(--ribbon) 70%, transparent);
+  color: var(--ember);
   font-family: var(--display);
-  font-size: clamp(1rem, 0.9rem + 0.4vw, 1.31rem);
+  font-size: 1.0625rem;
   font-weight: 700;
-  letter-spacing: -0.025em;
-}
-
-.vb-tools-purpose {
-  grid-column: 1;
-  color: var(--sand-2);
-  font-size: 0.875rem;
-}
-
-.vb-tools-toggle {
-  grid-column: 2;
-  grid-row: 1 / span 2;
-  inline-size: 1.125rem;
-  block-size: 1.125rem;
-  fill: none;
-  stroke: var(--sand-2);
-  stroke-width: 1.75;
-  stroke-linecap: round;
-}
-
-.vb-tools-group[open] .vb-tools-toggle {
-  stroke: var(--ribbon);
-}
-
-.vb-tools-group[open] .vb-tools-toggle-stem {
-  visibility: hidden;
+  letter-spacing: -0.01em;
 }
 
 .vb-tools-rows,
 .vb-tools-uses {
   margin: 0;
+  padding: 0;
   list-style: none;
 }
 
-.vb-tools-rows {
-  display: grid;
-  gap: 0.125rem;
-  padding: 0.125rem var(--tools-row-gutter) var(--tools-row-gutter);
-}
-
 .vb-tools-row {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  align-items: center;
-  column-gap: 0.75rem;
-  min-inline-size: 0;
-  padding-inline: calc(var(--tools-inset) - var(--tools-row-gutter));
-  background: var(--tools-row);
+  display: grid;
+  gap: 0.1rem;
+  padding-block: 0.6rem;
+  border-block-end: 1px solid color-mix(in srgb, var(--sand) 12%, transparent);
 }
 
 .vb-tools-name {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  min-block-size: 2rem;
-  min-inline-size: 0;
-  font-size: 0.9375rem;
-  font-weight: 530;
+  gap: 0.55rem;
+  font-family: var(--display);
+  font-size: 1rem;
+  font-weight: 700;
   line-height: 1.25;
-  padding-block: 0.3125rem;
 }
 
 .vb-tools-mark {
   flex: none;
-  inline-size: 1.125rem;
-  block-size: 1.125rem;
-  color: var(--ember);
+  inline-size: 1.15rem;
+  block-size: 1.15rem;
+  color: var(--sand);
   fill: currentColor;
 }
 
 .vb-tools-uses {
   display: flex;
   flex-wrap: wrap;
-  column-gap: 0.5rem;
-  min-inline-size: 0;
-  padding: 0;
+  column-gap: 0.6rem;
+  padding-inline-start: 1.7rem;
 }
 
 .vb .vb-tools-project {
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-  min-inline-size: 2.75rem;
-  min-block-size: 2.75rem;
+  display: inline-block;
+  padding-block: 0.2rem;
   color: var(--thread-colour);
   font-size: 0.875rem;
-  line-height: 1.25;
+  line-height: 1.3;
   text-decoration: underline;
   text-underline-offset: 0.22em;
   text-decoration-thickness: 1px;
-  text-decoration-color: color-mix(in srgb, currentColor 60%, transparent);
+  text-decoration-color: color-mix(in srgb, currentColor 55%, transparent);
 }
 
 .vb .vb-tools-project:is(:hover, :focus-visible) {
@@ -196,55 +120,21 @@
   text-decoration-thickness: 2px;
 }
 
-@media (min-width: 680px) {
-  .vb-tools-summary {
-    grid-template-columns: minmax(11rem, 0.48fr) minmax(0, 1fr) auto;
-    column-gap: 1.25rem;
-    min-block-size: 3.375rem;
-  }
-
+@media (max-width: 559px) {
+  /* Phones: two groups side by side would crush the names; one column,
+     with the products beside each tool to keep it short. */
   .vb-tools-row {
-    display: grid;
-    grid-template-columns: minmax(10.625rem, 0.47fr) minmax(0, 1fr);
-    column-gap: 1.25rem;
-    min-block-size: 3rem;
+    grid-template-columns: max-content minmax(0, 1fr);
+    align-items: start;
+    column-gap: 0.75rem;
+    padding-block: 0.4rem;
   }
-
-  .vb-tools-purpose,
-  .vb-tools-toggle {
-    grid-column: auto;
-    grid-row: auto;
+  .vb-tools-uses {
+    justify-content: end;
+    padding-inline-start: 0;
+    text-align: end;
   }
-
-  .vb-tools-mark {
-    inline-size: 1.25rem;
-    block-size: 1.25rem;
-  }
-
-  .vb-tools-name,
-  .vb .vb-tools-project {
-    font-size: var(--step-small);
-  }
-}
-
-@media (min-width: 1040px) {
-  .vb-tools {
-    grid-template-columns: minmax(16rem, 0.49fr) minmax(0, 1fr);
-  }
-
-  .vb-tools-cover {
-    grid-template-columns: minmax(0, 1fr);
-    gap: clamp(2.5rem, 4.2vw, 4rem);
-    padding-block: clamp(2.5rem, 4.65vw, 4.375rem);
-  }
-}
-
-@media (max-width: 359px) {
-  .vb-tools-cover {
-    grid-template-columns: minmax(0, 1fr) 4.5rem;
-  }
-
-  .vb-tools-title {
-    font-size: 2.875rem;
+  .vb-tools-name {
+    min-block-size: 1.8rem;
   }
 }

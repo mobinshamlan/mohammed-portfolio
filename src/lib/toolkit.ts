@@ -38,7 +38,6 @@ const vercelProjects = toolkitProjects.filter((id) =>
 export const toolkitGroups = [
   {
     title: "AI & messaging",
-    purpose: "Power calls, chats and predictions.",
     tools: [
       skill("OpenAI Realtime", "openai", "OpenAI Realtime voice"),
       skill("Twilio Voice", "twilio"),
@@ -50,7 +49,6 @@ export const toolkitGroups = [
   },
   {
     title: "Web interfaces",
-    purpose: "Build screens for the browser.",
     tools: [
       skill("Next.js", "next"),
       skill("React", "react"),
@@ -60,7 +58,6 @@ export const toolkitGroups = [
   },
   {
     title: "Phone apps",
-    purpose: "Build for iPhone and Android.",
     tools: [
       skill("React Native", "react", "React Native and Expo"),
       skill("Expo", "expo", "React Native and Expo"),
@@ -68,7 +65,6 @@ export const toolkitGroups = [
   },
   {
     title: "Servers & data",
-    purpose: "Store data and run app services.",
     tools: [
       skill("Supabase", "supabase"),
       skill("PostgreSQL", "postgres", "PostgreSQL and row-level security"),
@@ -80,7 +76,6 @@ export const toolkitGroups = [
   },
   {
     title: "Testing & hosting",
-    purpose: "Check the work and put it online.",
     tools: [
       skill("Vitest", "vitest"),
       skill("Playwright", "playwright"),
