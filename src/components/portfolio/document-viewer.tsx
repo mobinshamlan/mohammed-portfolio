@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { publicUrl } from "@/lib/site";
+import { keepDialogTab } from "@/lib/dialog";
 import { useHydrated } from "@/lib/use-hydrated";
 
 type DocumentViewerProps = {
@@ -44,14 +45,10 @@ export function DocumentViewer({
     }
     if (open && !node.open) {
       node.showModal();
-      document.body.style.overflow = "hidden";
     }
     if (!open && node.open) {
       node.close();
     }
-    return () => {
-      document.body.style.overflow = "";
-    };
   }, [open]);
 
   // Without JavaScript the trigger is a plain link to the file.
@@ -78,7 +75,9 @@ export function DocumentViewer({
       <dialog
         ref={dialog}
         className="vb-dialog"
+        data-format={height > width ? "portrait" : "landscape"}
         aria-label={title}
+        onKeyDown={keepDialogTab}
         onClose={() => {
           setOpen(false);
           trigger.current?.focus();
@@ -115,7 +114,8 @@ export function DocumentViewer({
           ) : null}
           <footer className="vb-dialog-foot">
             <a href={publicUrl(href)} target="_blank" rel="noreferrer">
-              Open the image in a new tab
+              Open larger image
+              <span className="vb-sr"> (opens in a new tab)</span>
             </a>
           </footer>
         </div>

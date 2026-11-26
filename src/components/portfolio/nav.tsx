@@ -6,7 +6,9 @@ import { useEffect, useRef, useState } from "react";
 import type { MouseEvent } from "react";
 import { contact } from "@/lib/contact";
 import { appPath } from "@/lib/site";
+import { keepDialogTab } from "@/lib/dialog";
 import { useHydrated } from "@/lib/use-hydrated";
+import { focusSection, jumpToSection } from "./jump-link";
 import { Jumper } from "./jumper";
 
 const links = [
@@ -18,20 +20,6 @@ const links = [
 
 type Tone = "dark" | "light";
 
-/** Scroll to a section and move focus to its heading. */
-export function focusSection(id: string) {
-  const target = document.getElementById(id);
-  if (!target) {
-    return false;
-  }
-  const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  target.scrollIntoView({ behavior: reduced ? "auto" : "smooth", block: "start" });
-  const heading = target.querySelector<HTMLElement>("h1, h2, h3") ?? target;
-  heading.tabIndex = -1;
-  heading.focus({ preventScroll: true });
-  return true;
-}
-
 export function Nav({
   tone = "dark",
   field,
@@ -42,8 +30,6 @@ export function Nav({
   fieldInk?: string;
 }) {
   const [spy, setSpy] = useState("");
-  // Inside Work, the project being read, so the bar says where you are.
-  const [chapter, setChapter] = useState("");
   const hydrated = useHydrated();
   const menu = useRef<HTMLDialogElement>(null);
   const toggle = useRef<HTMLButtonElement>(null);
@@ -60,20 +46,14 @@ export function Nav({
       return;
     }
     const id = window.location.hash.slice(1);
-    const timer =
-      id && document.getElementById(id) ? window.setTimeout(() => focusSection(id), 300) : undefined;
+    const frame = id ? requestAnimationFrame(() => focusSection(id, "instant")) : undefined;
     function onPop() {
-      const target = window.location.hash.slice(1) || "home";
-      // After the router and the browser have restored their own scroll.
-      window.setTimeout(() => {
-        if (document.getElementById(target)) {
-          focusSection(target);
-        }
-      }, 80);
+      const target = window.location.hash.slice(1);
+      if (target) requestAnimationFrame(() => focusSection(target, "instant"));
     }
     window.addEventListener("popstate", onPop);
     return () => {
-      window.clearTimeout(timer);
+      if (frame !== undefined) cancelAnimationFrame(frame);
       window.removeEventListener("popstate", onPop);
     };
   }, [onHome]);
@@ -82,28 +62,8 @@ export function Nav({
     if (!onHome) {
       return;
     }
-    const chapters = Array.from(document.querySelectorAll<HTMLElement>(".vb-proj[id]"));
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            const name = entry.target.querySelector(".vb-proj-name a")?.firstChild?.textContent ?? "";
-            setChapter(name.trim());
-          }
-        });
-      },
-      { rootMargin: "-45% 0px -50% 0px" },
-    );
-    chapters.forEach((node) => observer.observe(node));
-    return () => observer.disconnect();
-  }, [onHome]);
-
-  useEffect(() => {
-    if (!onHome) {
-      return;
-    }
-    const sections = links
-      .map((item) => document.getElementById(item.id))
+    const sections = ["home", ...links.map((item) => item.id)]
+      .map((id) => document.getElementById(id))
       .filter((node): node is HTMLElement => node !== null);
     const observer = new IntersectionObserver(
       (entries) => {
@@ -121,7 +81,7 @@ export function Nav({
 
   function current(id: string) {
     if (onHome) {
-      return id === spy ? ("page" as const) : undefined;
+      return id === spy ? ("location" as const) : undefined;
     }
     if (id === "work" && onProject) {
       return "page" as const;
@@ -141,43 +101,12 @@ export function Nav({
       closeMenu();
       return;
     }
-    // Focus goes to the section heading, not back to the Menu button. The
-    // browser restores focus to the button as the dialog closes, so the heading
-    // takes focus one tick later.
-    refocus.current = false;
-    const wasOpen = menu.current?.open;
-    closeMenu();
-    if (document.getElementById(id)) {
-      event.preventDefault();
-      window.history.pushState(null, "", `#${id}`);
-      if (wasOpen) {
-        window.setTimeout(() => focusSection(id), 50);
-      } else {
-        focusSection(id);
-      }
+    event.preventDefault();
+    if (menu.current?.open) {
+      refocus.current = false;
+      closeMenu();
     }
-  }
-
-  // Keep Tab and Shift+Tab inside the open menu, whatever the browser does.
-  function trapTab(event: React.KeyboardEvent<HTMLDialogElement>) {
-    if (event.key !== "Tab") {
-      return;
-    }
-    const nodes = Array.from(
-      event.currentTarget.querySelectorAll<HTMLElement>("a[href], button:not([disabled])"),
-    );
-    if (nodes.length === 0) {
-      return;
-    }
-    const first = nodes[0];
-    const last = nodes[nodes.length - 1];
-    if (event.shiftKey && document.activeElement === first) {
-      event.preventDefault();
-      last.focus();
-    } else if (!event.shiftKey && document.activeElement === last) {
-      event.preventDefault();
-      first.focus();
-    }
+    jumpToSection(id);
   }
 
   return (
@@ -193,9 +122,8 @@ export function Nav({
     >
       <div className="vb-brand">
         <Link href="/" className="vb-wordmark">
-          <span className="vb-wordmark-first">Mohammed</span>
-          <span className="vb-wordmark-short" aria-hidden="true">M.</span>
-          <span className="vb-wordmark-rest"> Bin Shamlan</span>
+          <span className="vb-wordmark-full">Mohammed Bin Shamlan</span>
+          <span className="vb-wordmark-short" aria-hidden="true">M. Bin Shamlan</span>
         </Link>
       </div>
 
@@ -209,12 +137,6 @@ export function Nav({
                 onClick={(event) => onHashClick(event, item.id)}
               >
                 {item.label}
-                {item.id === "work" && chapter && spy === "work" ? (
-                  <span className="vb-nav-chapter">
-                    <span className="vb-sr">, now reading </span>
-                    {chapter}
-                  </span>
-                ) : null}
               </Link>
             </li>
           ))}
@@ -222,7 +144,7 @@ export function Nav({
       </nav>
 
       <div className="vb-nav-actions">
-        <Jumper />
+        <Jumper onHome={onHome} />
         <a
           href={contact.github.href}
           className="vb-nav-back"
@@ -246,7 +168,7 @@ export function Nav({
         ref={menu}
         className="vb-menu"
         aria-label="Menu"
-        onKeyDown={trapTab}
+        onKeyDown={keepDialogTab}
         onClose={() => {
           if (refocus.current) {
             toggle.current?.focus();
@@ -255,7 +177,7 @@ export function Nav({
         }}
       >
         <div className="vb-menu-head">
-          <p className="vb-wordmark">Mohammed</p>
+          <p className="vb-wordmark">Mohammed Bin Shamlan</p>
           <button type="button" className="vb-menu-toggle" onClick={closeMenu}>
             Close
           </button>

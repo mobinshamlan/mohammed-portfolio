@@ -6,7 +6,7 @@ import { useEffect, useId, useRef, useState } from "react";
 import { projectPage, projects } from "@/lib/projects";
 import { projectThreads, type ToolkitProjectId } from "@/lib/toolkit";
 import { useHydrated } from "@/lib/use-hydrated";
-import { focusSection } from "./nav";
+import { jumpToSection } from "./jump-link";
 
 type Group = "Projects" | "Sections";
 
@@ -23,11 +23,13 @@ type Item = {
 };
 
 const sections: Item[] = [
+  { label: "Home", group: "Sections", href: "/#home" },
   { label: "Work", group: "Sections", href: "/#work" },
   { label: "Where I come from", group: "Sections", href: "/#about" },
+  { label: "Courses and certificates", group: "Sections", href: "/#certificates" },
   { label: "Skills", group: "Sections", href: "/#skills" },
   { label: "Get in touch", group: "Sections", href: "/#contact" },
-  { label: "How this site was built", group: "Sections", href: "/experiment", note: "page" },
+  { label: "How this site was built", group: "Sections", href: "/experiment", note: "Page" },
 ];
 
 const items: Item[] = [
@@ -51,7 +53,7 @@ const items: Item[] = [
                 group: "Projects" as const,
                 href: projectPage(project),
                 colour: id,
-                note: "page",
+                note: "Page",
               },
             ]
           : []),
@@ -68,10 +70,10 @@ function fold(text: string) {
 }
 
 /**
- * Jump anywhere: Cmd/Ctrl+K or "/" opens a dialog with every project and
+ * Cmd/Ctrl+K opens a dialog with every project and
  * section. Type to filter, arrows to move, Enter to go, Escape to close.
  */
-export function Jumper() {
+export function Jumper({ onHome }: { onHome: boolean }) {
   const router = useRouter();
   const dialog = useRef<HTMLDialogElement>(null);
   const input = useRef<HTMLInputElement>(null);
@@ -89,16 +91,17 @@ export function Jumper() {
   );
   const active = Math.min(index, Math.max(0, shown.length - 1));
 
-  function open() {
+  function open(focusSearch = true) {
     const node = dialog.current;
-    if (!node || node.open) {
+    if (!node || node.open || document.querySelector("dialog:modal")) {
       return;
     }
     setQuery("");
     setIndex(0);
-    returnTo.current = document.activeElement as HTMLElement | null;
+    const focused = document.activeElement;
+    returnTo.current = focused instanceof HTMLElement && focused !== document.body ? focused : opener.current;
     node.showModal();
-    requestAnimationFrame(() => input.current?.focus());
+    (focusSearch ? input : closeButton).current?.focus({ preventScroll: true });
   }
 
   function close() {
@@ -107,21 +110,15 @@ export function Jumper() {
 
   // Keep the selected result in view as the arrows move.
   useEffect(() => {
-    document.getElementById(`${listId}-${active}`)?.scrollIntoView({ block: "nearest" });
-  }, [active, listId]);
+    if (dialog.current?.open) {
+      document.getElementById(`${listId}-${active}`)?.scrollIntoView({ block: "nearest" });
+    }
+  }, [active, listId, query]);
 
   useEffect(() => {
     const onKey = (event: KeyboardEvent) => {
-      const target = event.target as HTMLElement | null;
-      const typing =
-        target &&
-        (target.tagName === "INPUT" ||
-          target.tagName === "TEXTAREA" ||
-          target.isContentEditable);
+      if (event.defaultPrevented || event.isComposing || document.querySelector("dialog:modal")) return;
       if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === "k") {
-        event.preventDefault();
-        open();
-      } else if (event.key === "/" && !typing) {
         event.preventDefault();
         open();
       }
@@ -131,15 +128,17 @@ export function Jumper() {
   }, []);
 
   function go(item: Item) {
+    returnTo.current = null;
     close();
-    router.push(item.href);
-    if (item.href.startsWith("/#")) {
-      const id = item.href.slice(2);
-      window.setTimeout(() => focusSection(id), 400);
+    if (onHome && item.href.startsWith("/#")) {
+      jumpToSection(item.href.slice(2));
+    } else {
+      router.push(item.href);
     }
   }
 
   function onInputKey(event: React.KeyboardEvent<HTMLInputElement>) {
+    if (event.nativeEvent.isComposing) return;
     if (event.key === "Escape") {
       event.preventDefault();
       close();
@@ -147,7 +146,7 @@ export function Jumper() {
     }
     if (event.key === "ArrowDown") {
       event.preventDefault();
-      setIndex((i) => Math.min(shown.length - 1, i + 1));
+      setIndex((i) => Math.max(0, Math.min(shown.length - 1, i + 1)));
     } else if (event.key === "ArrowUp") {
       event.preventDefault();
       setIndex((i) => Math.max(0, i - 1));
@@ -170,9 +169,9 @@ export function Jumper() {
         ref={opener}
         type="button"
         className="vb-jump-open"
-        onClick={open}
+        onClick={(event) => open(event.detail === 0 || !window.matchMedia("(pointer: coarse)").matches)}
         aria-haspopup="dialog"
-        aria-label="Jump to a project or section"
+        aria-keyshortcuts={mac ? "Meta+K" : "Control+K"}
       >
         <svg className="vb-jump-icon" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false">
           <circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" strokeWidth="2" />
@@ -195,12 +194,8 @@ export function Jumper() {
           stops[next]?.focus();
         }}
         onClose={() => {
-          const target = returnTo.current;
-          if (target && target !== document.body && document.contains(target)) {
-            target.focus();
-          } else {
-            opener.current?.focus();
-          }
+          returnTo.current?.focus({ preventScroll: true });
+          returnTo.current = null;
         }}
         onClick={(event) => {
           if (event.target === event.currentTarget) {
@@ -211,7 +206,7 @@ export function Jumper() {
         <div className="vb-jump-body">
           <div className="vb-jump-head">
             <label htmlFor={`${listId}-q`} className="vb-sr">
-              Where to?
+              Find a project or section
             </label>
             <svg className="vb-jump-glass" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
               <circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" strokeWidth="2" />
@@ -222,7 +217,9 @@ export function Jumper() {
               id={`${listId}-q`}
               type="search"
               className="vb-jump-input"
-              placeholder="Where to?"
+              name="portfolio-search"
+              placeholder="Search portfolio"
+              spellCheck={false}
               value={query}
               role="combobox"
               aria-expanded={shown.length > 0}
@@ -236,23 +233,12 @@ export function Jumper() {
               }}
               onKeyDown={onInputKey}
             />
-            <button
-              ref={closeButton}
-              type="button"
-              className="vb-jump-close"
-              onClick={close}
-              aria-label="Close"
-            >
-              <span className="vb-jump-close-key" aria-hidden="true">
-                esc
-              </span>
-              <span className="vb-jump-close-word" aria-hidden="true">
-                Close
-              </span>
+            <button ref={closeButton} type="button" className="vb-jump-close" onClick={close}>
+              Close
             </button>
           </div>
           <p className="vb-jump-empty" role="status">
-            {shown.length === 0 ? "Nothing matches. Try a product name." : ""}
+            {shown.length === 0 ? "No matches." : ""}
           </p>
           <ul
             id={listId}
@@ -280,7 +266,6 @@ export function Jumper() {
                         id={`${listId}-${i}`}
                         role="option"
                         aria-selected={i === active}
-                        aria-label={`${item.label}${item.arabic ? ` ${item.arabic}` : ""}, ${group === "Projects" ? "project" : "section"}${item.note ? ", its own page" : ""}`}
                         className="vb-jump-item"
                         style={
                           item.colour
@@ -316,9 +301,6 @@ export function Jumper() {
             </span>
             <span>
               <kbd>↵</kbd> open
-            </span>
-            <span>
-              <kbd>/</kbd> opens this anywhere
             </span>
           </p>
         </div>

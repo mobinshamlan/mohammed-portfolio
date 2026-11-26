@@ -71,6 +71,7 @@
 
 html:has(.vb) {
   background: #0b0e14;
+  scroll-behavior: auto;
   scroll-padding-top: 5rem;
 }
 
@@ -86,9 +87,8 @@ html:has(.vb) {
 }
 
 .vb :focus-visible {
-  outline: 2px solid var(--ember);
+  outline: 2px solid var(--focus, var(--ember));
   outline-offset: 3px;
-  border-radius: 2px;
 }
 
 .vb img {
@@ -140,7 +140,7 @@ html:has(.vb) {
 }
 
 .vb-skip {
-  position: absolute;
+  position: fixed;
   left: var(--gutter);
   top: 0.75rem;
   z-index: 60;
@@ -149,11 +149,13 @@ html:has(.vb) {
   color: var(--ember-ink);
   font-weight: 500;
   text-decoration: none;
-  transform: translateY(-200%);
+  opacity: 0;
+  pointer-events: none;
 }
 
 .vb-skip:focus {
-  transform: none;
+  opacity: 1;
+  pointer-events: auto;
 }
 
 /* ---------- Navigation ---------- */
@@ -191,7 +193,9 @@ html:has(.vb) {
 }
 
 .vb-wordmark {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
   padding: 0.5rem 0;
   font-family: var(--display);
   font-size: 1.1rem;
@@ -199,12 +203,6 @@ html:has(.vb) {
   letter-spacing: -0.02em;
   text-decoration: none;
   white-space: nowrap;
-}
-
-.vb-wordmark span[lang="ar"] {
-  margin-left: 0.75rem;
-  font-weight: 500;
-  opacity: 0.75;
 }
 
 .vb-nav-links {
@@ -231,13 +229,13 @@ html:has(.vb) {
   color: inherit;
 }
 
-.vb-nav-links a[aria-current="page"] {
+.vb-nav-links a:is([aria-current="page"], [aria-current="location"]) {
   color: inherit;
   text-decoration: underline;
   text-decoration-color: var(--ember);
 }
 
-.vb-nav[data-tone="light"] .vb-nav-links a[aria-current="page"] {
+.vb-nav[data-tone="light"] .vb-nav-links a:is([aria-current="page"], [aria-current="location"]) {
   text-decoration-color: currentColor;
 }
 
@@ -328,8 +326,11 @@ html:has(.vb) {
   text-decoration: none;
 }
 
-.vb-menu-list a[aria-current="page"] {
+.vb-menu-list a:is([aria-current="page"], [aria-current="location"]) {
   color: var(--ember);
+  text-decoration: underline;
+  text-decoration-thickness: 0.06em;
+  text-underline-offset: 0.16em;
 }
 
 .vb-menu-foot {
@@ -464,13 +465,14 @@ html:has(.vb) {
 /* Entrances exist only once JavaScript has marked the page as motion-capable.
    Static HTML shows everything. Waiting content only sits lower; it is never
    transparent, so contrast checks, find-in-page and screen readers always see it. */
-.vb[data-motion="on"] .vb-reveal[data-wait="true"] {
-  transform: translateY(22px);
-}
+@media (min-width: 900px) and (prefers-reduced-motion: no-preference) {
+  .vb[data-motion="on"] .vb-reveal[data-wait="true"]:not([data-in], :focus-within) {
+    transform: translateY(0.625rem);
+  }
 
-.vb[data-motion="on"] .vb-reveal[data-in="true"] {
-  transform: none;
-  transition: transform var(--t-reveal) var(--ease-expo);
+  .vb[data-motion="on"] .vb-reveal[data-in="true"]:not(:focus-within) {
+    transition: transform var(--t-reveal) var(--ease-expo);
+  }
 }
 
 .vb[data-motion="on"]:not([data-loaded="true"]) [data-rise] {
@@ -577,8 +579,10 @@ html:has(.vb) {
 }
 
 .vb-jump {
-  width: min(94vw, 32rem);
-  margin: 10vh auto;
+  width: min(calc(100% - 2rem), 32rem);
+  max-height: calc(100dvh - 3rem);
+  margin: min(5dvh, 2.5rem) auto auto;
+  overflow: hidden;
   padding: 0;
   border: 0;
   border-radius: 0.9rem;
@@ -592,8 +596,10 @@ html:has(.vb) {
 }
 
 .vb-jump-body {
-  display: grid;
-  padding: 0.75rem 0.75rem 0.5rem;
+  display: flex;
+  flex-direction: column;
+  max-height: calc(100dvh - 3rem);
+  padding: 0.75rem;
 }
 
 /* One search row: glass, field, Esc. */
@@ -601,6 +607,7 @@ html:has(.vb) {
   position: relative;
   display: flex;
   align-items: center;
+  flex: none;
   gap: 0.5rem;
 }
 
@@ -650,7 +657,7 @@ html:has(.vb) {
   background: var(--night);
   color: var(--sand-2);
   font: inherit;
-  font-size: 0.8125rem;
+  font-size: var(--step-small);
   cursor: pointer;
   transition: color var(--t-hover) ease;
 }
@@ -659,20 +666,21 @@ html:has(.vb) {
   color: var(--sand);
 }
 
-.vb-jump-close-word {
-  display: none;
-}
-
 .vb-jump-list {
   display: grid;
   gap: 0.5rem;
-  max-height: min(56vh, 30rem);
-  margin: 0.75rem 0 0;
+  min-height: 0;
+  margin: 0.5rem 0 0;
   padding: 0;
   overflow-y: auto;
+  overscroll-behavior: contain;
   list-style: none;
   scrollbar-width: thin;
   scrollbar-color: var(--dusk-3) transparent;
+}
+
+.vb-jump-list[hidden] {
+  display: none;
 }
 
 .vb-jump-rows {
@@ -765,8 +773,7 @@ html:has(.vb) {
   gap: 0.3rem;
 }
 
-.vb-jump-foot kbd,
-.vb-jump-close-key {
+.vb-jump-foot kbd {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -780,15 +787,12 @@ html:has(.vb) {
   line-height: 1.4rem;
 }
 
-/* Phones: the opener is a compact "وين؟" beside Menu; the keyboard hints step aside. */
+/* Phones keep the shorter control labels and use the space for destinations. */
 .vb-jump-open {
   display: inline-flex;
 }
 
 @media (max-width: 899px) {
-  .vb-jump-open {
-    padding: 0 0.8rem;
-  }
   .vb-jump-open {
     justify-content: center;
     gap: 0.35rem;
@@ -803,21 +807,10 @@ html:has(.vb) {
   .vb-jump-foot {
     display: none;
   }
-  .vb-jump {
-    margin-top: 6vh;
-  }
-  .vb-jump-close-key {
-    display: none;
-  }
-  .vb-jump-close-word {
-    display: inline;
-  }
 }
 
-/* 900–1199: the links, Jump to and GitHub share one row with the name, so the
-   Arabic name and the shortcut hint step aside and the links close up. */
+/* The keyboard shortcut steps aside when the navigation gets narrower. */
 @media (min-width: 900px) and (max-width: 1199px) {
-  .vb-wordmark span[lang="ar"],
   .vb-jump-open kbd {
     display: none;
   }
@@ -837,7 +830,7 @@ html:has(.vb) {
   --hour-dune: color-mix(in srgb, var(--dawn-ink) 30%, transparent);
   position: relative;
   isolation: isolate;
-  padding: clamp(2.5rem, 6vw, 4.5rem) var(--gutter) 2rem;
+  padding: clamp(2rem, 5vw, 4rem) var(--gutter) 2rem;
   background: var(--footer-ground);
   color: var(--dawn-ink);
 }
@@ -858,7 +851,6 @@ html:has(.vb) {
 .vb-footer-top {
   display: grid;
   gap: 0.5rem;
-  margin-top: clamp(1rem, 3vw, 2rem);
 }
 
 .vb-footer-name {
@@ -893,8 +885,9 @@ html:has(.vb) {
 }
 
 .vb-footer-grid a {
-  display: inline-block;
-  padding: 0.55rem 0;
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
   color: var(--dawn-ink);
   font-weight: 500;
   text-decoration: underline;
@@ -908,38 +901,30 @@ html:has(.vb) {
   text-decoration-thickness: 2px;
 }
 
-.vb-footer-credit {
-  max-width: 44ch;
-  color: var(--dawn-muted);
-  font-size: var(--step-small);
-  line-height: 1.5;
-}
-
-.vb-footer :focus-visible {
-  outline-color: var(--ember);
-}
-
 @media (max-width: 899px) {
-  .vb-footer {
-    padding-top: 1.75rem;
-  }
-  .vb-footer-top {
-    margin-top: 1rem;
-  }
   .vb-footer-grid {
-    gap: 0.75rem;
-    margin-top: 1.5rem;
+    gap: 0.15rem;
+    margin-top: 1.25rem;
+    padding-top: 0.75rem;
+  }
+
+  .vb-footer-grid ul {
+    column-gap: 1rem;
+  }
+
+  .vb-footer-city {
+    display: block;
+  }
+
+  .vb-footer-dot {
+    display: none;
   }
 }
 
 @media (min-width: 900px) {
   .vb-footer-grid {
-    grid-template-columns: 1fr 1fr 1.4fr;
+    grid-template-columns: 1fr auto;
     align-items: start;
-  }
-  .vb-footer-credit {
-    justify-self: end;
-    text-align: right;
   }
 }
 
@@ -951,9 +936,17 @@ html:has(.vb) {
 
 /* ---------- Dialogs ---------- */
 
+html:has(.vb dialog:modal) {
+  overflow: hidden;
+}
+
+.vb :is(.vb-dialog, .vb-jump, .vb-menu) {
+  overscroll-behavior: contain;
+}
+
 .vb-dialog {
-  width: min(96vw, 1040px);
-  max-height: 94dvh;
+  width: min(calc(100% - 2rem), 58rem);
+  max-height: calc(100dvh - 2rem);
   margin: auto;
   padding: 0;
   border: 0;
@@ -962,13 +955,16 @@ html:has(.vb) {
   color: var(--sand);
 }
 
+.vb-dialog[data-format="portrait"] {
+  width: min(calc(100% - 2rem), 32rem);
+}
+
 .vb-dialog::backdrop {
   background: rgba(4, 6, 10, 0.78);
 }
 
 .vb-dialog-body {
   display: flex;
-  max-height: 94dvh;
   flex-direction: column;
 }
 
@@ -998,11 +994,23 @@ html:has(.vb) {
   height: auto;
   max-height: 70dvh;
   object-fit: contain;
-  background: #000;
+  background: var(--nightfall);
 }
 
 .vb-dialog-foot {
+  flex-wrap: wrap;
+  padding-block: 0.55rem;
   font-size: var(--step-small);
+}
+
+.vb-dialog-foot :is(a, button) {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
+}
+
+.vb-dialog-foot :is(a, button):hover {
+  color: var(--ember);
 }
 
 .vb-dialog-foot a {
@@ -1053,17 +1061,4 @@ html:has(.vb) {
   font-weight: 700;
   letter-spacing: 0;
   line-height: 1.4;
-}
-
-/* Inside Work, the current project follows the link: "Work · Kashta". */
-.vb-nav-chapter {
-  margin-inline-start: 0.4rem;
-  color: var(--ember);
-  font-weight: 700;
-}
-
-.vb-nav-chapter::before {
-  content: "· ";
-  color: var(--sand-2);
-  font-weight: 400;
 }
