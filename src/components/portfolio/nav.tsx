@@ -171,7 +171,7 @@ export function Nav({
     >
       <div className="vb-brand">
         <Link href="/" className="vb-wordmark">
-          Mohammed Bin Shamlan
+          Mohammed<span className="vb-wordmark-rest"> Bin Shamlan</span>
         </Link>
       </div>
 

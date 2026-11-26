@@ -669,3 +669,21 @@
   font-size: 0.8125rem;
   opacity: 0.8;
 }
+
+/* Phones: the first name only, so it never runs under Jump to. */
+@media (max-width: 479px) {
+  .vb-wordmark-rest {
+    display: none;
+  }
+}
+
+/* Seet: the facts sit level with the booking track, not floating above an empty corner. */
+@media (min-width: 900px) {
+  .vb-proj[data-id="seet"] .vb-proj-inner {
+    padding-bottom: calc(clamp(3.5rem, 7vw, 7rem) + var(--edge) + 7rem);
+  }
+  .vb-proj[data-id="seet"] .vb-proj-foot {
+    align-self: end;
+    padding-bottom: 1rem;
+  }
+}

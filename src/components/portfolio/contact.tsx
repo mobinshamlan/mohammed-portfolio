@@ -37,16 +37,19 @@ function useRiyadhTime() {
 export function Contact() {
   const hydrated = useHydrated();
   const time = useRiyadhTime();
-  const [copied, setCopied] = useState(false);
+  const [copied, setCopied] = useState<"idle" | "done" | "failed">("idle");
 
   async function copyEmail() {
     try {
       await navigator.clipboard.writeText(contact.email);
-      setCopied(true);
-      window.setTimeout(() => setCopied(false), 2200);
+      setCopied("done");
     } catch {
-      setCopied(false);
+      // Clipboard blocked: select the address so it can be copied by hand.
+      const text = document.querySelector(".vb-talk-address");
+      if (text) window.getSelection()?.selectAllChildren(text);
+      setCopied("failed");
     }
+    window.setTimeout(() => setCopied("idle"), 3000);
   }
 
   return (
@@ -70,9 +73,9 @@ export function Contact() {
           </a>
           {hydrated ? (
             <button type="button" className="vb-talk-copy" onClick={copyEmail}>
-              <span>{contact.email}</span>
+              <span className="vb-talk-address">{contact.email}</span>
               <span className="vb-talk-copy-hint" aria-live="polite">
-                {copied ? "Copied" : "Copy"}
+                {copied === "done" ? "Copied" : copied === "failed" ? "Press Ctrl/⌘ C" : "Copy"}
               </span>
             </button>
           ) : (
