@@ -1,102 +1,7 @@
-/* ---------- Work chapters: my part, the checked numbers, one real screen ---------- */
+/* ---------- Work chapters: name, one try-it, a few short answers, the links ---------- */
 
 .vb-proj {
   scroll-margin-top: 0;
-}
-
-/* The idea, my part and where it stands: three short labelled rows. */
-.vb-proj-facts {
-  display: grid;
-  margin: 0;
-  max-width: 34rem;
-}
-
-.vb-proj-facts > div {
-  display: grid;
-  grid-template-columns: 7.5rem minmax(0, 1fr);
-  gap: 1rem;
-  padding: 0.85rem 0;
-  border-top: 1px solid color-mix(in srgb, var(--field-ink) 20%, transparent);
-}
-
-.vb-proj-facts dt {
-  color: var(--field-muted);
-  font-size: var(--step-small);
-  line-height: 1.6;
-}
-
-.vb-proj-facts dd {
-  margin: 0;
-  color: var(--field-ink);
-  line-height: 1.55;
-}
-
-.vb-proj-facts dd.vb-proj-idea {
-  font-family: var(--display);
-  font-weight: 700;
-  font-size: 1.1rem;
-  line-height: 1.4;
-}
-
-.vb-proj-proof {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.25rem 1rem;
-  margin-top: 0.35rem;
-}
-
-.vb-proj-facts strong {
-  font-family: var(--display);
-  font-weight: 700;
-}
-
-@media (max-width: 599px) {
-  .vb-proj-facts > div {
-    grid-template-columns: minmax(0, 1fr);
-    gap: 0.2rem;
-  }
-}
-
-.vb-proj-screen {
-  display: grid;
-  grid-template-columns: minmax(0, 11rem) minmax(0, 1fr);
-  gap: 1.25rem;
-  align-items: center;
-  margin: 0;
-}
-
-.vb-proj-screen .vb-phone {
-  max-width: 11rem;
-}
-
-.vb-proj-screen figcaption {
-  max-width: 30ch;
-  color: var(--field-muted);
-  font-size: var(--step-small);
-  line-height: 1.5;
-}
-
-@media (min-width: 900px) {
-  .vb-proj-screen {
-    grid-area: screen;
-  }
-  .vb-proj[data-layout="stage"] .vb-proj-inner {
-    grid-template-areas: "art head" "art foot" "screen foot";
-    grid-template-rows: auto auto 1fr;
-  }
-  .vb-proj[data-layout="stage"] .vb-proj-art {
-    align-self: start;
-  }
-  .vb-proj[data-layout="masthead"] .vb-proj-inner {
-    grid-template-areas: "head head" "foot art" "foot screen";
-  }
-}
-
-@media (max-width: 899px) {
-  .vb-proj-screen {
-    grid-template-columns: 7.5rem minmax(0, 1fr);
-    gap: 1rem;
-  }
 }
 
 /* The heading and lead sit side by side; the products are reached from the opening's tiles. */
@@ -117,36 +22,6 @@
   }
 }
 
-/* Phones: pictures stay in their place, so none drifts over the text under it. */
-@media (max-width: 899px) {
-  .vb[data-motion="on"] .vb-proj[data-layout] :is(.vb-proj-art, .vb-phone, .vb-capture) {
-    animation: none;
-    translate: none;
-  }
-}
-
-@media (min-width: 900px) {
-  .vb-proj-screen[data-phone-only] {
-    display: none;
-  }
-}
-
-
-.vb-proj-screen-wide {
-  grid-template-columns: minmax(0, 1fr);
-  gap: 0.75rem;
-}
-
-.vb-proj-screen-wide figcaption {
-  max-width: 48ch;
-}
-
-@media (min-width: 900px) {
-  .vb-proj[data-layout="masthead"] .vb-proj-screen-wide {
-    max-width: 34rem;
-  }
-}
-
 /* Each product's own world, drawn behind its chapter. Decorative; never above the content. */
 .vb-proj-scene {
   position: absolute;
@@ -161,59 +36,197 @@
   z-index: 1;
 }
 
-/* A product screen opens full size in the viewer: phones can read it. */
-.vb .vb-proj-zoom {
+/* ---------- The answers: a few short lines hung off one stitched seam ----------
+   The seam is sewn in the product's own colour; a small knot marks each
+   question. Labels are mine (the trouble, what it does, my part, the line I
+   drew), answers are one or two plain lines. */
+.vb-proj-answers {
+  display: grid;
+  gap: 1.05rem;
+  max-width: 32rem;
+  margin: 0;
+  padding-inline-start: 1.25rem;
+  border-inline-start: 2px dashed color-mix(in srgb, var(--accent) 65%, transparent);
+}
+
+.vb-proj-answers > div {
   position: relative;
   display: grid;
-  justify-items: start;
-  gap: 0.4rem;
-  padding: 0;
-  border: 0;
-  background: none;
-  color: inherit;
-  font: inherit;
-  text-align: start;
-  cursor: zoom-in;
+  gap: 0.2rem;
 }
 
-.vb-proj-zoom .vb-phone {
-  display: block;
-  width: 100%;
+/* The knot on the seam. */
+.vb-proj-answers > div::before {
+  content: "";
+  position: absolute;
+  top: 0.5rem;
+  left: calc(-1.25rem - 1px);
+  width: 0.55rem;
+  height: 0.55rem;
+  translate: -50% 0;
+  rotate: 45deg;
+  background: var(--accent);
+  box-shadow: 0 0 0 3px var(--field);
 }
 
-.vb-proj-zoom-hint {
-  font-size: 0.8125rem;
-  text-decoration: underline;
-  text-underline-offset: 0.2em;
+.vb-proj-answers dt {
+  color: var(--accent);
+  font-family: var(--display);
+  font-size: 0.9375rem;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.vb-proj-answers dd {
+  margin: 0;
+  max-width: 44ch;
   color: var(--field-ink);
+  font-size: 1rem;
+  line-height: 1.5;
+  text-wrap: pretty;
 }
 
-/* Phones: one decisive proof per product, its demo; real screens wait on desktop and in the case study. */
-@media (max-width: 899px) {
-  .vb-proj-screen,
-  .vb-proj[data-layout="score"] .vb-proj-art,
-  .vb-proj[data-layout="views"] .vb-proj-art {
-    display: none;
+/* The last answer is the rule I set for the product: it carries a little more weight. */
+.vb-proj-answers > div:last-child dd {
+  font-family: var(--display);
+  font-weight: 600;
+  line-height: 1.45;
+}
+
+/* Light fields (Naqah, Seet): the knot keeps a halo of the field, the seam stays readable. */
+.vb-proj[data-light="true"] .vb-proj-answers {
+  border-inline-start-color: color-mix(in srgb, var(--accent) 55%, transparent);
+}
+
+/* ---------- Wide: the same parts, a different composition for each chapter ---------- */
+.vb-proj .vb-proj-visual {
+  min-width: 0;
+}
+
+@media (min-width: 900px) {
+  .vb-proj .vb-proj-inner {
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    grid-template-areas: "head visual" "foot visual";
+    grid-template-rows: auto 1fr;
+    column-gap: clamp(2.5rem, 5vw, 6rem);
+    row-gap: 1.75rem;
+    align-items: start;
   }
-  .vb-proj-facts > div {
-    padding: 0.65rem 0;
+  .vb-proj .vb-proj-head {
+    grid-area: head;
   }
-  .vb-proj-facts > div:last-child dt {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    overflow: hidden;
-    clip-path: inset(50%);
+  .vb-proj .vb-proj-foot {
+    grid-area: foot;
   }
-  .vb-proj-facts > div:last-child dd {
-    font-size: var(--step-small);
+  .vb-proj .vb-proj-visual {
+    grid-area: visual;
+    align-self: center;
+  }
+
+  /* Naqah: the call on the right, the trough beside it; a steady, mid-height room. */
+  .vb-proj[data-id="naqah"] .vb-proj-inner {
+    grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
+  }
+
+  /* Tammeni: a compact page of the exercise book. The phone sits left, the answers right. */
+  .vb-proj[data-id="tammeni"] .vb-proj-inner {
+    grid-template-columns: minmax(0, 6fr) minmax(0, 5fr);
+    grid-template-areas: "visual head" "visual foot";
+    padding-block: clamp(3rem, 5vw, 5rem);
+  }
+
+  /* Seet: opens on a masthead, the chat under the name; tall, like the city at night. */
+  .vb-proj[data-id="seet"] .vb-proj-inner {
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+    grid-template-areas: "head head" "visual foot";
+    grid-template-rows: auto auto;
+    row-gap: 1.5rem;
+    padding-bottom: calc(clamp(3.5rem, 7vw, 7rem) + var(--edge) + 7rem);
+  }
+  .vb-proj[data-id="seet"] .vb-proj-head {
+    grid-template-columns: subgrid;
+    align-items: end;
+    column-gap: normal;
+    padding-bottom: 1.25rem;
+    border-bottom: 1px solid var(--field-ink);
+  }
+  .vb-proj[data-id="seet"] .vb-proj-name {
+    font-size: clamp(5rem, 2rem + 7vw, 10rem);
+  }
+  .vb-proj[data-id="seet"] .vb-proj-foot {
+    align-self: start;
+  }
+
+  /* Kashta: the desert night earns the whole window. The week sits in the
+     open sky; the camp and the Milky Way have room below and behind it. */
+  .vb-proj[data-id="kashta"] .vb-proj-inner {
+    min-height: min(100svh, 62rem);
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    grid-template-rows: auto auto 1fr;
+    grid-template-areas: "head visual" "foot visual" ". visual";
+    align-content: start;
+    padding-top: clamp(4.5rem, 8vw, 8rem);
+    padding-bottom: clamp(7rem, 14vw, 13rem);
+  }
+  .vb-proj[data-id="kashta"] .vb-proj-visual {
+    align-self: start;
+  }
+
+  /* Amanah: the name on the wall beside the cabinet; my part at the left of
+     the counter and the claim standing on it, overlapping the desk's edge. */
+  .vb-proj[data-id="amanah"] .vb-proj-inner {
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    grid-template-areas: "head ." "foot visual";
+    grid-template-rows: auto auto;
+    row-gap: 3rem;
+    padding-bottom: calc(clamp(3.5rem, 7vw, 7rem) + 7rem);
+  }
+  .vb-proj[data-id="amanah"] .vb-proj-visual {
+    align-self: end;
+    justify-self: end;
+    width: min(100%, 46rem);
+    margin-bottom: -5.5rem;
+  }
+  .vb-proj[data-id="amanah"] .vb-proj-foot {
+    align-self: end;
+    padding-bottom: 0.5rem;
+  }
+
+  /* Gthrz: the phone and the host's card on the left, the answers beside; short and close. */
+  .vb-proj[data-id="gthrz"] .vb-proj-inner {
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+    grid-template-areas: "visual head" "visual foot";
+    align-items: center;
+    padding-block: clamp(3rem, 5vw, 5rem);
+  }
+  .vb-proj[data-id="gthrz"] .vb-proj-head {
+    align-self: end;
+  }
+  .vb-proj[data-id="gthrz"] .vb-proj-foot {
+    align-self: start;
   }
 }
 
-/* Phones: the guest-state demo carries Gthrz; the case study's link sits as a text link beside the others. */
+/* ---------- Phones: name, the try-it, then the answers and the links ---------- */
 @media (max-width: 899px) {
-  .vb-proj[data-layout="fan"] .vb-proj-fan {
-    display: none;
+  .vb-proj .vb-proj-head {
+    order: 0;
+  }
+  .vb-proj .vb-proj-visual {
+    order: 1;
+  }
+  .vb-proj .vb-proj-foot {
+    order: 2;
+  }
+  .vb-proj:is([data-id="tammeni"], [data-id="gthrz"]) .vb-proj-inner {
+    padding-block: clamp(3rem, 8vw, 4rem);
+  }
+  /* Kashta: the camp gets its own strip under the links. */
+  .vb-proj[data-id="kashta"] .vb-proj-inner {
+    padding-bottom: 11rem;
+  }
+  .vb-proj-answers {
+    gap: 0.9rem;
   }
   .vb-proj-actions {
     gap: 0.25rem 1.25rem;
@@ -226,84 +239,6 @@
     font-weight: 700;
     text-decoration: underline;
     text-underline-offset: 0.2em;
-  }
-}
-
-/* Tammeni: one real screen beside the parent's rules is enough; the second was a near copy. */
-@media (min-width: 900px) {
-  .vb-proj[data-layout="schedule"] .vb-proj-phones .vb-phone:nth-child(2) {
-    display: none;
-  }
-  .vb-proj[data-layout="schedule"] .vb-proj-phones {
-    max-width: 17rem;
-  }
-}
-
-/* ---------- Less text: my part in one line, one status line, the links ---------- */
-.vb-proj-role {
-  max-width: 34rem;
-  font-family: var(--display);
-  font-weight: 700;
-  font-size: 1.1rem;
-  line-height: 1.4;
-  color: var(--field-ink);
-}
-
-.vb-proj-stand {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  gap: 0.25rem 1rem;
-  color: var(--field-muted);
-  font-size: var(--step-small);
-}
-
-.vb-proj-stand .vb-proj-proof {
-  margin: 0;
-}
-
-/* The screens speak for themselves; Enlarge stays. */
-.vb-proj-screen > figcaption {
-  display: none;
-}
-.vb-proj-screen {
-  grid-template-columns: minmax(0, 11rem);
-}
-
-/* ---------- One reading order for every chapter ----------
-   Name and what it is, then my part and the links, beside one picture. */
-.vb-proj[data-layout="uniform"] .vb-proj-visual {
-  min-width: 0;
-}
-
-@media (min-width: 900px) {
-  .vb-proj[data-layout="uniform"] .vb-proj-inner {
-    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
-    grid-template-areas: "head visual" "foot visual";
-    grid-template-rows: auto 1fr;
-    column-gap: clamp(2.5rem, 5vw, 6rem);
-    row-gap: 1.75rem;
-    align-items: start;
-  }
-  .vb-proj[data-layout="uniform"] .vb-proj-head {
-    grid-area: head;
-  }
-  .vb-proj[data-layout="uniform"] .vb-proj-foot {
-    grid-area: foot;
-  }
-  .vb-proj[data-layout="uniform"] .vb-proj-visual {
-    grid-area: visual;
-    align-self: center;
-  }
-}
-
-/* Phones: name, the picture, then my part and the links. */
-@media (max-width: 899px) {
-  .vb-proj[data-layout="uniform"] .vb-proj-visual {
-    order: 1;
-  }
-  .vb-proj[data-layout="uniform"] .vb-proj-foot {
-    order: 2;
   }
 }
 
@@ -325,58 +260,6 @@
 /* Tammeni keeps its exercise-book page; its school-day line would cross the links. */
 .vb-proj[data-id="tammeni"] .vb-proj-scene > * {
   display: none;
-}
-
-/* Same reading order, different compositions: the picture changes side,
-   Seet opens on a masthead, Amanah sits centred under its name. */
-@media (min-width: 900px) {
-  .vb-proj[data-id="tammeni"] .vb-proj-inner,
-  .vb-proj[data-id="gthrz"] .vb-proj-inner {
-    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
-    grid-template-areas: "visual head" "visual foot";
-  }
-
-  .vb-proj[data-id="seet"] .vb-proj-inner {
-    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
-    grid-template-areas: "head head" "visual foot";
-    grid-template-rows: auto auto;
-    /* Leave room for the heading reveal so the thread stays beside the sample. */
-    row-gap: 1.5rem;
-    padding-bottom: calc(clamp(3.5rem, 7vw, 7rem) + var(--edge) + 7rem);
-  }
-  .vb-proj[data-id="seet"] .vb-proj-head {
-    grid-template-columns: subgrid;
-    align-items: end;
-    column-gap: normal;
-    padding-bottom: 1.25rem;
-    border-bottom: 1px solid var(--field-ink);
-  }
-  .vb-proj[data-id="seet"] .vb-proj-name {
-    font-size: clamp(5rem, 2rem + 7vw, 10rem);
-  }
-  .vb-proj[data-id="seet"] .vb-proj-foot {
-    align-self: start;
-  }
-
-  /* Amanah: the name on the wall beside the cabinet; my part at the left of
-     the counter and the claim standing on it, overlapping the desk's edge. */
-  .vb-proj[data-id="amanah"] .vb-proj-inner {
-    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
-    grid-template-areas: "head ." "foot visual";
-    grid-template-rows: auto auto;
-    row-gap: 3.5rem;
-    padding-bottom: calc(clamp(3.5rem, 7vw, 7rem) + 7rem);
-  }
-  .vb-proj[data-id="amanah"] .vb-proj-visual {
-    align-self: end;
-    justify-self: end;
-    width: min(100%, 46rem);
-    margin-bottom: -5.5rem;
-  }
-  .vb-proj[data-id="amanah"] .vb-proj-foot {
-    align-self: end;
-    padding-bottom: 0.5rem;
-  }
 }
 
 /* ---------- The flow line that joins one product to the next ---------- */
@@ -428,15 +311,6 @@
 
 @media (max-width: 899px) {
   .vb-flow {
-    display: none;
-  }
-}
-
-/* Phones: shorter pictures. The readings, the step lines and the checked
-   numbers wait in the case study; the picture and my part stay. */
-@media (max-width: 899px) {
-  .vb-kp-factor > span,
-  .pf-naqah-what {
     display: none;
   }
 }
@@ -612,7 +486,6 @@
 
 /* A visible cue on links that leave the site (they open in a new tab). */
 .vb-proj-links a[target="_blank"]::after,
-.vb-proj-proof a[target="_blank"]::after,
 .vb-talk-links a[target="_blank"]::after {
   content: "";
   display: inline-block;
@@ -623,53 +496,3 @@
   mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' fill='none' stroke='black' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 2h6v6M10 2 2.5 9.5'/%3E%3C/svg%3E") center / contain no-repeat;
   opacity: 0.75;
 }
-
-/* Phones: name, my part, the try-it, then the status and links. */
-@media (max-width: 899px) {
-  .vb-proj[data-layout="uniform"] .vb-proj-foot {
-    display: contents;
-  }
-  .vb-proj[data-layout="uniform"] .vb-proj-role {
-    order: 0;
-  }
-  .vb-proj[data-layout="uniform"] .vb-proj-actions {
-    order: 0;
-    margin-top: -0.25rem;
-  }
-  .vb-proj[data-layout="uniform"] .vb-proj-visual {
-    order: 1;
-  }
-  .vb-proj[data-layout="uniform"] .vb-proj-stand {
-    order: 2;
-  }
-}
-
-/* On phones, keep the sample and the project links in reading order. */
-@media (max-width: 899px) {
-  .vb-proj[data-layout="uniform"]:is(#tammeni, #seet, #gthrz) .vb-proj-foot {
-    display: grid;
-  }
-
-  .vb-proj[data-layout="uniform"]:is(#tammeni, #seet, #gthrz) .vb-proj-stand {
-    order: 0;
-  }
-
-  .vb-proj[data-layout="uniform"]:is(#tammeni, #seet, #gthrz) .vb-proj-actions {
-    margin-top: 0.35rem;
-  }
-}
-
-/* Amanah on phones: the name, the claim on the desk, then my part and the links. */
-@media (max-width: 899px) {
-  .vb-proj[data-id="amanah"] .vb-proj-foot {
-    display: grid;
-    order: 2;
-  }
-  .vb-proj[data-id="amanah"] .vb-proj-stand {
-    order: 0;
-  }
-  .vb-proj[data-id="amanah"] .vb-proj-actions {
-    margin-top: 0.35rem;
-  }
-}
-

@@ -93,6 +93,12 @@ export type Project = {
   dates: string;
   /** One specific thing Mohammed did on it. */
   contribution: string;
+  /**
+   * The chapter on the home page, as a few short labelled answers in plain
+   * words: the trouble, what it does, my part, the line I drew. Each one or
+   * two short lines, drawn from the facts below.
+   */
+  answers?: { label: string; text: string }[];
   /** An annotated figure of the key decision, drawn from data. */
   proof: Proof;
   /** Where the project opens from the index; defaults to its case study. */
@@ -145,6 +151,12 @@ export const projects: Project[] = [
     statusChip: "Working demo · sample data",
     dates: "Nov 2026",
     contribution: "Lead contributor on a three-person team: the call flow, the owner's website and the test suite.",
+    answers: [
+      { label: "The trouble", text: "The owner lives in the city. Every ranch update means a call, a scroll back through a chat, or a drive." },
+      { label: "What it does", text: "Phones the worker, asks the owner's questions one at a time, keeps the facts, then calls the owner." },
+      { label: "My part", text: "Led a team of 3: the phone call, the owner's website and the checks." },
+      { label: "The line I drew", text: "The worker types nothing. The audio is thrown away; the owner reads facts, not recordings." },
+    ],
     proof: {
       title: "What the ranch call keeps, and what it throws away",
       moments: [
@@ -285,6 +297,12 @@ export const projects: Project[] = [
     statusChip: "Live demo",
     dates: "Oct–Nov 2026",
     contribution: "With Shaima Saud and Razan: the parent dashboard, the per-child alert schedules and the Lulwa voice flow.",
+    answers: [
+      { label: "The trouble", text: "Parents hear about attendance, grades and exams late, buried in notifications, or not at all." },
+      { label: "What it does", text: "A short call or text about each child, on the schedule the parent sets. Lulwa answers questions on the call." },
+      { label: "My part", text: "Team of 3. The parents' page, the update schedules and Lulwa's calls." },
+      { label: "The line I drew", text: "Different rules per child and per topic, so an exam and an absence never get the same alert." },
+    ],
     proof: {
       title: "One family, two children, different rules per topic",
       moments: [
@@ -434,6 +452,12 @@ export const projects: Project[] = [
     dates: "Nov 2026",
     contribution:
       "Solo: built the WhatsApp webhook, the Claude tool loop, the booking trigger and the dashboard.",
+    answers: [
+      { label: "The trouble", text: "Brands message an influencer all day. Slots get promised twice, and a booking is 'confirmed' before any money arrives." },
+      { label: "What it does", text: "Answers on WhatsApp with the real prices and free days, holds the slot and sends a deposit link." },
+      { label: "My part", text: "Solo. The WhatsApp replies, the booking rules and the creator's dashboard." },
+      { label: "The line I drew", text: "Only a paid deposit can confirm a booking. The AI has no way to say the word." },
+    ],
     proof: {
       title: "A booking's four states, and who may move it",
       moments: [
@@ -554,6 +578,12 @@ export const projects: Project[] = [
     statusChip: "Live",
     dates: "Nov 2026",
     contribution: "Solo: the scoring model, the forecast pipeline, the Llama guards and the Arabic-first interface.",
+    answers: [
+      { label: "The trouble", text: "Picking a night for a kashta means checking wind, dust, cloud and the moon for every site by hand." },
+      { label: "What it does", text: "Scores the next seven nights at 62 campsites from the real forecast, and picks the best." },
+      { label: "My part", text: "Solo. The scoring, the forecast feed and the AI's explanations." },
+      { label: "The line I drew", text: "Code does the score. The AI only explains it, and any number not in the forecast is cut." },
+    ],
     proof: {
       title: "How a night gets its Kashta Score",
       moments: [
@@ -708,6 +738,12 @@ export const projects: Project[] = [
     statusChip: "Working first version",
     dates: "Oct–Nov 2026",
     contribution: "Solo: the private matching with Gemini, the hashed tracking links, the staff review and the bilingual interface.",
+    answers: [
+      { label: "The trouble", text: "Lost things end up on a public board or group chat, which shows everyone more than it should." },
+      { label: "What it does", text: "A private lost and found. AI suggests matches, staff approve, and the owner proves it's theirs on a private link." },
+      { label: "My part", text: "Solo. The AI matching, the private claim links and the staff review." },
+      { label: "The line I drew", text: "Nothing about an item is ever public. Every staff decision goes on a log that can't be rewritten." },
+    ],
     proof: {
       title: "A report's path, with a person at the decision",
       moments: [
@@ -848,6 +884,12 @@ export const projects: Project[] = [
     statusChip: "Code on GitHub",
     dates: "Mar–Sep 2026",
     contribution: "Solo: the React Native app, the Supabase schema with row-level security and the Smart Planner.",
+    answers: [
+      { label: "The trouble", text: "Event apps show a host's address and guest list to more people than the host meant." },
+      { label: "What it does", text: "Guests ask to join, the host approves, and the address is shared only when the host says so." },
+      { label: "My part", text: "Solo. The phone app, the host's privacy controls and the AI planner." },
+      { label: "The line I drew", text: "Only approved guests ever see the exact location. The planner drafts an event but never publishes it." },
+    ],
     proof: {
       title: "What a guest can see, by state",
       moments: [

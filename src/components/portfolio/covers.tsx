@@ -63,20 +63,22 @@ function Head({ project }: { project: Project }) {
   );
 }
 
-/** My part in a few words, where it stands, and where to go next. */
-const role: Record<string, string> = {
-  naqah: "I led a team of 3: the phone call, the owner's website and the checks.",
-  tammeni: "Team of 3. I built the parents' page, the update schedules and Lulwa's calls.",
-  seet: "Solo. I built the WhatsApp replies, the booking rules and the creator's dashboard.",
-  kashta: "Solo. I built the campsite scoring, the weather feed and the AI's explanations.",
-  amanah: "Solo. I built the AI matching, private claim links and the staff review.",
-  gthrz: "Solo. I built the phone app, the host's privacy controls and the AI planner.",
-};
-
+/**
+ * The chapter answered in a few short lines, each hanging off one stitched
+ * seam: the trouble, what it does, my part, the line I drew. Then the links.
+ */
 function Foot({ project }: { project: Project }) {
+  const answers = project.answers ?? [{ label: "My part", text: project.contribution }];
   return (
     <Reveal className="vb-proj-foot" delay={0.08}>
-      <p className="vb-proj-role">{role[project.id] ?? project.contribution}</p>
+      <dl className="vb-proj-answers">
+        {answers.map((answer) => (
+          <div key={answer.label}>
+            <dt>{answer.label}</dt>
+            <dd>{answer.text}</dd>
+          </div>
+        ))}
+      </dl>
       <div className="vb-proj-actions">
         {project.id === "gthrz" ? (
           <Link href={projectPage(project)} prefetch={false} className="vb-btn vb-btn-field">
@@ -122,83 +124,18 @@ function Section({
 }
 
 /*
- * Every chapter reads the same way: the name and what it is, then my part and
- * the links, beside one picture of how the product works. Real screens and the
- * full demos are in each case study.
+ * Every chapter has the same parts (name, try-it, answers, links) and its own
+ * room: Naqah and Kashta keep the try-it on the right, Tammeni and Gthrz on
+ * the left, Seet opens on a masthead and Amanah stands its claim on the desk.
+ * The sizes differ on purpose: Tammeni and Gthrz are short, Kashta fills the
+ * window, Seet and Amanah run long. The layout name is only a note.
  */
-function Naqah() {
-  const project = projectById.naqah;
+function Chapter({ id, layout, scene, proof }: { id: ProjectId; layout: string; scene: ReactNode; proof: ReactNode }) {
+  const project = projectById[id];
   return (
-    <Section id="naqah" scene={<NaqahScene />} layout="uniform">
+    <Section id={id} scene={scene} layout={layout}>
       <Head project={project} />
-      <Foot project={project} />
-      <div className="vb-proj-visual">
-        <NaqahProof />
-      </div>
-    </Section>
-  );
-}
-
-function Tammeni() {
-  const project = projectById.tammeni;
-  return (
-    <Section id="tammeni" scene={<TammeniScene />} layout="uniform">
-      <Head project={project} />
-      <div className="vb-proj-visual">
-        <TammeniProof />
-      </div>
-      <Foot project={project} />
-    </Section>
-  );
-}
-
-function Seet() {
-  const project = projectById.seet;
-  return (
-    <Section id="seet" scene={<SeetScene />} layout="uniform">
-      <Head project={project} />
-      <div className="vb-proj-visual">
-        <SeetProof />
-      </div>
-      <Foot project={project} />
-    </Section>
-  );
-}
-
-function Kashta() {
-  const project = projectById.kashta;
-  return (
-    <Section id="kashta" scene={<KashtaScene />} layout="uniform">
-      <Head project={project} />
-      <Foot project={project} />
-      <div className="vb-proj-visual">
-        <KashtaProof />
-      </div>
-    </Section>
-  );
-}
-
-function Amanah() {
-  const project = projectById.amanah;
-  return (
-    <Section id="amanah" scene={<AmanahScene />} layout="uniform">
-      <Head project={project} />
-      <Foot project={project} />
-      <div className="vb-proj-visual">
-        <AmanahProof />
-      </div>
-    </Section>
-  );
-}
-
-function Gthrz() {
-  const project = projectById.gthrz;
-  return (
-    <Section id="gthrz" scene={<GthrzScene />} layout="uniform">
-      <Head project={project} />
-      <div className="vb-proj-visual">
-        <GthrzProof />
-      </div>
+      <div className="vb-proj-visual">{proof}</div>
       <Foot project={project} />
     </Section>
   );
@@ -211,12 +148,12 @@ export function Covers() {
         Work
       </h2>
       <FlowLine />
-      <Naqah />
-      <Tammeni />
-      <Seet />
-      <Kashta />
-      <Amanah />
-      <Gthrz />
+      <Chapter id="naqah" layout="trough" scene={<NaqahScene />} proof={<NaqahProof />} />
+      <Chapter id="tammeni" layout="page" scene={<TammeniScene />} proof={<TammeniProof />} />
+      <Chapter id="seet" layout="banner" scene={<SeetScene />} proof={<SeetProof />} />
+      <Chapter id="kashta" layout="night" scene={<KashtaScene />} proof={<KashtaProof />} />
+      <Chapter id="amanah" layout="counter" scene={<AmanahScene />} proof={<AmanahProof />} />
+      <Chapter id="gthrz" layout="close" scene={<GthrzScene />} proof={<GthrzProof />} />
     </section>
   );
 }
