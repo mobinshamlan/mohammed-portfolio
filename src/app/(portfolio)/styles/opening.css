@@ -58,13 +58,6 @@
   text-wrap: balance;
 }
 
-.vb-open-meta {
-  max-width: 40ch;
-  color: var(--sand-2);
-  font-size: var(--step-small);
-  line-height: 1.5;
-  text-wrap: pretty;
-}
 
 .vb-open-actions {
   grid-area: actions;
@@ -259,9 +252,6 @@
     max-width: min(46%, 34rem);
   }
 
-  .vb-open-meta {
-    max-width: 48ch;
-  }
 
   .vb-open-actions {
     margin-top: 2rem;

@@ -26,10 +26,7 @@ export function Hero() {
       </h1>
 
       <div className="vb-open-say" data-rise="2">
-        <p className="vb-open-lead">Six products so far, from camel ranches to school mornings.</p>
-        <p className="vb-open-meta">
-          Software developer in Riyadh · Computer Science, Queen Mary University of London, 2026
-        </p>
+        <p className="vb-open-lead">Software &amp; AI product developer</p>
       </div>
 
       <div className="vb-open-actions" data-rise="3">
