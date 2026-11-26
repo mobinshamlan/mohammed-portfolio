@@ -10,7 +10,7 @@ export const metadata: Metadata = {
     template: "%s — Mohammed Bin Shamlan",
   },
   description:
-    "Software developer in Saudi Arabia building Arabic-first AI products for real Saudi life: Naqah, Tammeni, Seet, Kashta, Amanah and Gthrz.",
+    "Software developer in Saudi Arabia. Six products so far: Naqah, Tammeni, Seet, Kashta, Amanah and Gthrz.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

@@ -12,7 +12,7 @@ import { Toolkit } from "@/components/portfolio/toolkit";
 export const metadata: Metadata = {
   title: { absolute: "Mohammed Bin Shamlan — AI products for real Saudi life" },
   description:
-    "Software developer in Saudi Arabia building Arabic-first AI products: Naqah, Tammeni, Seet, Kashta, Amanah and Gthrz. Case studies, journey, skills and contact.",
+    "Software developer in Saudi Arabia. Six products so far: Naqah, Tammeni, Seet, Kashta, Amanah and Gthrz. Case studies, journey, skills and contact.",
 };
 
 export default function HomePage() {
