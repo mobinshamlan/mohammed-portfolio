@@ -14,6 +14,12 @@ import "./styles/scenes-seet.css";
 import "./styles/scenes-kashta.css";
 import "./styles/scenes-amanah.css";
 import "./styles/scenes-gthrz.css";
+import "./styles/proof-naqah.css";
+import "./styles/proof-tammeni.css";
+import "./styles/proof-seet.css";
+import "./styles/proof-kashta.css";
+import "./styles/proof-amanah.css";
+import "./styles/proof-gthrz.css";
 
 // The portfolio: one display face and one text face, both Arabic and Latin.
 const display = Alexandria({

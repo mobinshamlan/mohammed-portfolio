@@ -1,0 +1,302 @@
+/* Amanah on the home page: two lost-and-found tags, one for each side of the
+   desk, tied by a dotted string where Gemini suggests the match. The tags are
+   paper on the cream field; the string and its label carry the brass accent. */
+
+.vb-ap {
+  width: 100%;
+  max-width: 44rem;
+  margin-inline: auto;
+}
+
+.vb-ap-figure {
+  --tag: color-mix(in srgb, #fff 62%, var(--field));
+  --string: var(--accent);
+  --cut: 1.1rem;
+  display: grid;
+  gap: 1rem;
+  margin: 0;
+}
+
+.vb-ap-tags {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(6.5rem, 8.5rem) minmax(0, 1fr);
+  align-items: stretch;
+}
+
+/* A tag: paper with its tied end cut at the corners and a punched eyelet. */
+.vb-ap-tag {
+  position: relative;
+  display: grid;
+  align-content: start;
+  gap: 0.7rem;
+  padding: 1.15rem 1.25rem 1.25rem;
+  background: var(--tag);
+  filter: drop-shadow(0 0.9rem 1.2rem color-mix(in srgb, var(--field-ink) 16%, transparent));
+}
+
+.vb-ap-tag[data-side="owner"] {
+  padding-inline-end: 2.4rem;
+  clip-path: polygon(
+    0 0,
+    calc(100% - var(--cut)) 0,
+    100% var(--cut),
+    100% calc(100% - var(--cut)),
+    calc(100% - var(--cut)) 100%,
+    0 100%
+  );
+}
+
+.vb-ap-tag[data-side="finder"] {
+  padding-inline-start: 2.4rem;
+  clip-path: polygon(
+    var(--cut) 0,
+    100% 0,
+    100% 100%,
+    var(--cut) 100%,
+    0 calc(100% - var(--cut)),
+    0 var(--cut)
+  );
+}
+
+/* The eyelet sits where the string is tied. */
+.vb-ap-tag::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  width: 0.8rem;
+  height: 0.8rem;
+  margin-top: -0.4rem;
+  border: 2px solid var(--string);
+  border-radius: 50%;
+  background: var(--field);
+}
+
+.vb-ap-tag[data-side="owner"]::after {
+  right: 0.85rem;
+}
+
+.vb-ap-tag[data-side="finder"]::after {
+  left: 0.85rem;
+}
+
+.vb-ap-tag p {
+  margin: 0;
+}
+
+.vb-ap-who {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  line-height: 1.35;
+  color: var(--field-muted);
+}
+
+.vb-ap-item {
+  display: grid;
+  font-size: 0.9375rem;
+  line-height: 1.35;
+}
+
+.vb-ap-item [lang="ar"] {
+  font-size: 1.375rem;
+  font-weight: 700;
+  line-height: 1.4;
+  text-align: start;
+}
+
+.vb-ap-qa {
+  display: grid;
+  gap: 0.45rem;
+  padding-top: 0.7rem;
+  border-top: 1px dashed color-mix(in srgb, var(--field-ink) 30%, transparent);
+}
+
+.vb-ap-q {
+  display: grid;
+  font-size: 0.875rem;
+  line-height: 1.35;
+}
+
+.vb-ap-q [lang="ar"] {
+  font-size: 1.0625rem;
+  font-weight: 700;
+  line-height: 1.5;
+  text-align: start;
+}
+
+.vb-ap-a {
+  font-size: 0.875rem;
+}
+
+.vb-ap-a strong,
+.vb-ap-facts dd {
+  font-weight: 700;
+}
+
+.vb-ap-facts {
+  display: grid;
+  gap: 0.35rem;
+  margin: 0;
+  padding-top: 0.7rem;
+  border-top: 1px dashed color-mix(in srgb, var(--field-ink) 30%, transparent);
+  font-size: 0.875rem;
+}
+
+.vb-ap-facts div {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.vb-ap-facts dt {
+  color: var(--field-muted);
+}
+
+.vb-ap-facts dd {
+  margin: 0;
+}
+
+/* The string between the eyelets, and what it means, written just above it. */
+.vb-ap-match {
+  position: relative;
+  display: grid;
+  align-items: end;
+  justify-items: center;
+  margin: 0 -1.3rem;
+  padding: 0 1.3rem;
+}
+
+.vb-ap-match::before {
+  content: "";
+  position: absolute;
+  inset: calc(50% - 1px) 0 auto;
+  border-top: 2px dashed var(--string);
+  transform-origin: left center;
+}
+
+.vb-ap-match span {
+  position: relative;
+  bottom: calc(50% + 0.5rem);
+  max-width: 7rem;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  line-height: 1.3;
+  text-align: center;
+  color: var(--string);
+}
+
+/* A person makes the call. */
+.vb-ap-decision {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.7rem;
+  margin: 0;
+  padding: 0.9rem 1.1rem;
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--field-ink) 7%, transparent);
+  font-size: 0.9375rem;
+  line-height: 1.45;
+}
+
+.vb-ap-decision svg {
+  flex: none;
+  margin-top: 0.1rem;
+  color: var(--field-ink);
+}
+
+.vb-ap-caption {
+  font-size: 0.8125rem;
+  color: var(--field-muted);
+}
+
+/* Phones: the tags hang one above the other, tied by a vertical string. */
+@media (max-width: 599px) {
+  .vb-ap-tags {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .vb-ap-tag[data-side="owner"] {
+    padding: 1.1rem 1.1rem 2.2rem;
+    clip-path: polygon(
+      0 0,
+      100% 0,
+      100% calc(100% - var(--cut)),
+      calc(100% - var(--cut)) 100%,
+      var(--cut) 100%,
+      0 calc(100% - var(--cut))
+    );
+  }
+  .vb-ap-tag[data-side="finder"] {
+    padding: 2.2rem 1.1rem 1.1rem;
+    clip-path: polygon(
+      var(--cut) 0,
+      calc(100% - var(--cut)) 0,
+      100% var(--cut),
+      100% 100%,
+      0 100%,
+      0 var(--cut)
+    );
+  }
+  .vb-ap-tag::after {
+    left: 50%;
+    right: auto;
+    margin: 0 0 0 -0.4rem;
+  }
+  .vb-ap-tag[data-side="owner"]::after {
+    top: auto;
+    right: auto;
+    bottom: 0.75rem;
+  }
+  .vb-ap-tag[data-side="finder"]::after {
+    top: 0.75rem;
+    left: 50%;
+  }
+  .vb-ap-match {
+    min-height: 4.5rem;
+    align-items: center;
+    justify-items: start;
+    margin: -1.1rem 0;
+    padding: 0 0 0 calc(50% + 0.9rem);
+    z-index: 1;
+  }
+  .vb-ap-match::before {
+    inset: 0 auto 0 calc(50% - 1px);
+    border-top: 0;
+    border-left: 2px dashed var(--string);
+    transform-origin: center top;
+  }
+  .vb-ap-match span {
+    bottom: auto;
+    max-width: 12rem;
+    text-align: start;
+  }
+}
+
+/* The tags arrive from either side and the string is drawn between them.
+   Transform only; with reduced motion everything is simply in place. */
+@media (prefers-reduced-motion: no-preference) {
+  .vb[data-motion="on"] .vb-ap[data-wait="true"]:not([data-in="true"]) .vb-ap-tag[data-side="owner"] {
+    transform: translateX(-1.25rem);
+  }
+  .vb[data-motion="on"] .vb-ap[data-wait="true"]:not([data-in="true"]) .vb-ap-tag[data-side="finder"] {
+    transform: translateX(1.25rem);
+  }
+  .vb[data-motion="on"] .vb-ap[data-wait="true"]:not([data-in="true"]) .vb-ap-match::before {
+    transform: scaleX(0);
+  }
+  .vb[data-motion="on"] .vb-ap[data-in="true"] .vb-ap-tag,
+  .vb[data-motion="on"] .vb-ap[data-in="true"] .vb-ap-match::before {
+    transform: none;
+    transition: transform 900ms var(--ease-expo);
+  }
+  .vb[data-motion="on"] .vb-ap[data-in="true"] .vb-ap-match::before {
+    transition-delay: 350ms;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) and (max-width: 599px) {
+  .vb[data-motion="on"] .vb-ap[data-wait="true"]:not([data-in="true"]) .vb-ap-tag[data-side] {
+    transform: translateY(0.75rem);
+  }
+  .vb[data-motion="on"] .vb-ap[data-wait="true"]:not([data-in="true"]) .vb-ap-match::before {
+    transform: scaleY(0);
+  }
+}

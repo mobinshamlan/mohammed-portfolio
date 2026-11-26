@@ -1,0 +1,185 @@
+/* Gthrz on the home page: one invitation, the address step by step. The same
+   little map at each step: locked, then an area, then the host's exact pin.
+   The card is opaque so the map grid of the scene stays behind it. */
+
+.vb-gz {
+  width: 100%;
+  max-width: 34rem;
+}
+
+.vb-gz-card {
+  display: grid;
+  gap: 1.25rem;
+  margin: 0;
+  padding: clamp(1.1rem, 2.4vw, 1.6rem);
+  border-radius: 16px;
+  background: color-mix(in srgb, var(--field) 90%, var(--field-ink));
+  color: var(--field-ink);
+  box-shadow: 0 1.75rem 3.5rem -1.5rem rgb(0 0 0 / 0.65);
+}
+
+.vb-gz-card p {
+  margin: 0;
+}
+
+.vb-gz-event {
+  display: grid;
+  gap: 0.1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid color-mix(in srgb, var(--field-ink) 14%, transparent);
+}
+
+.vb-gz-title {
+  font-family: var(--display);
+  font-size: 1.25rem;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.vb-gz-meta {
+  font-size: 0.8125rem;
+  color: var(--field-muted);
+}
+
+/* The steps hang on one rail, through the middle of each map. */
+.vb-gz-steps {
+  position: relative;
+  display: grid;
+  gap: 1rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.vb-gz-steps::before {
+  content: "";
+  position: absolute;
+  top: 1.75rem;
+  bottom: 1.75rem;
+  left: calc(1.75rem - 1px);
+  border-left: 2px solid color-mix(in srgb, var(--accent) 45%, transparent);
+}
+
+.vb-gz-steps li {
+  position: relative;
+  display: grid;
+  grid-template-columns: 3.5rem minmax(0, 1fr);
+  align-items: center;
+  gap: 1rem;
+}
+
+.vb-gz-map {
+  display: block;
+  width: 3.5rem;
+  height: 3.5rem;
+}
+
+.vb-gz-map-ground {
+  fill: color-mix(in srgb, var(--field) 86%, var(--field-ink));
+  stroke: color-mix(in srgb, var(--field-ink) 18%, transparent);
+  stroke-width: 1;
+}
+
+.vb-gz-map-streets path {
+  fill: none;
+  stroke: color-mix(in srgb, var(--field-ink) 22%, transparent);
+  stroke-width: 2.5;
+}
+
+.vb-gz-map-veil {
+  fill: color-mix(in srgb, var(--field) 85%, var(--field-ink));
+}
+
+.vb-gz-map-lock path {
+  fill: none;
+  stroke: var(--field-muted);
+  stroke-width: 2.5;
+  stroke-linecap: round;
+}
+
+.vb-gz-map-lock rect:last-child {
+  fill: var(--field-muted);
+}
+
+.vb-gz-map-area {
+  fill: color-mix(in srgb, var(--accent) 30%, transparent);
+  stroke: var(--accent);
+  stroke-width: 1.5;
+  stroke-dasharray: 3 3;
+}
+
+.vb-gz-map-pin .vb-gz-map-area {
+  fill: color-mix(in srgb, var(--accent) 14%, transparent);
+  stroke: none;
+}
+
+.vb-gz-map-pin path {
+  fill: var(--accent);
+}
+
+.vb-gz-map-dot {
+  fill: var(--field);
+}
+
+.vb-gz-text {
+  display: grid;
+  gap: 0.05rem;
+}
+
+.vb-gz-when {
+  font-size: 0.8125rem;
+  color: var(--field-muted);
+}
+
+.vb-gz-sees {
+  font-family: var(--display);
+  font-size: 1.0625rem;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.vb-gz-steps li[data-stage="hidden"] .vb-gz-sees {
+  font-family: var(--text);
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--field-muted);
+}
+
+.vb-gz-detail {
+  font-size: 0.875rem;
+  line-height: 1.4;
+}
+
+.vb-gz-caption {
+  font-size: 0.8125rem;
+  color: var(--field-muted);
+}
+
+/* The steps follow each other in, a beat apart, as the card arrives.
+   Transform only; with reduced motion they are simply there. */
+@media (prefers-reduced-motion: no-preference) {
+  .vb[data-motion="on"] .vb-gz[data-wait="true"]:not([data-in="true"]) .vb-gz-steps li {
+    transform: translateY(0.9rem);
+  }
+  .vb[data-motion="on"] .vb-gz[data-wait="true"]:not([data-in="true"]) .vb-gz-steps::before {
+    transform: scaleY(0);
+  }
+  .vb[data-motion="on"] .vb-gz[data-in="true"] .vb-gz-steps li,
+  .vb[data-motion="on"] .vb-gz[data-in="true"] .vb-gz-steps::before {
+    transform: none;
+    transition: transform 800ms var(--ease-expo);
+  }
+  .vb[data-motion="on"] .vb-gz-steps::before {
+    transform-origin: center top;
+  }
+  .vb[data-motion="on"] .vb-gz[data-in="true"] .vb-gz-steps::before {
+    transition-duration: 1100ms;
+    transition-delay: 150ms;
+  }
+  .vb[data-motion="on"] .vb-gz[data-in="true"] .vb-gz-steps li:nth-child(2) {
+    transition-delay: 120ms;
+  }
+  .vb[data-motion="on"] .vb-gz[data-in="true"] .vb-gz-steps li:nth-child(3) {
+    transition-delay: 240ms;
+  }
+}
