@@ -1,43 +1,42 @@
-/* Kashta on the home page: one real night, and the points that made its score.
-   The card is opaque so the Milky Way and the camp stay behind it, not in it. */
+/* Kashta on the home page: one small panel on the night sky. Pick tonight's
+   wind; the score answers. The panel is the night, a shade lighter, so the
+   Milky Way and the camp stay behind it. */
 
 .vb-kp {
   width: 100%;
-  max-width: 40rem;
+  max-width: 34rem;
   margin-inline: auto;
 }
 
 .vb-kp-card {
   display: grid;
-  gap: 1.25rem;
+  gap: 1.1rem;
   margin: 0;
-  padding: clamp(1.1rem, 2.4vw, 1.75rem);
+  padding: clamp(1.1rem, 2.4vw, 1.5rem);
+  border: 1px solid color-mix(in srgb, var(--field-ink) 14%, transparent);
   border-radius: 16px;
-  background: color-mix(in srgb, var(--field) 88%, var(--field-ink));
+  background: color-mix(in srgb, color-mix(in srgb, var(--field) 90%, var(--field-ink)) 86%, transparent);
   color: var(--field-ink);
-  box-shadow: 0 1.75rem 3.5rem -1.5rem rgb(0 0 0 / 0.6);
 }
 
-/* The score and the night it belongs to. */
-.vb-kp-top {
+.vb-kp-main {
   display: grid;
   grid-template-columns: auto minmax(0, 1fr);
   align-items: center;
-  gap: 1.25rem;
-  padding-bottom: 1.25rem;
-  border-bottom: 1px solid color-mix(in srgb, var(--field-ink) 16%, transparent);
+  gap: 1.5rem;
 }
 
 .vb-kp-score {
-  display: flex;
-  align-items: center;
-  gap: 0.6rem;
+  display: grid;
+  justify-items: start;
+  gap: 0.35rem;
+  min-width: 7.5rem;
   margin: 0;
 }
 
 .vb-kp-score strong {
   font-family: var(--display);
-  font-size: clamp(3.75rem, 2.5rem + 4vw, 5.25rem);
+  font-size: clamp(4rem, 3rem + 3vw, 5rem);
   font-weight: 800;
   line-height: 0.85;
   letter-spacing: -0.03em;
@@ -46,178 +45,144 @@
 }
 
 .vb-kp-score > span {
-  font-size: 0.8125rem;
-  line-height: 1.35;
-  color: var(--field-muted);
+  max-width: 9rem;
+  font-size: 0.875rem;
+  font-weight: 700;
+  line-height: 1.3;
 }
 
-.vb-kp-rating {
-  font-weight: 700;
+/* A dangerous night is held down at 35, whatever else is good. */
+.vb-kp-score[data-capped="true"] strong {
   color: var(--field-ink);
 }
 
-.vb-kp-where {
+.vb-kp-wind {
   display: grid;
-  gap: 0.15rem;
-}
-
-.vb-kp-where p {
-  margin: 0;
-}
-
-.vb-kp-ar {
-  font-size: 1.25rem;
-  font-weight: 700;
-  line-height: 1.5;
-  text-align: start;
-}
-
-.vb-kp-site {
-  font-size: 0.9375rem;
-  line-height: 1.4;
-  text-wrap: balance;
-}
-
-.vb-kp-date {
-  font-size: 0.8125rem;
-  color: var(--field-muted);
-}
-
-.vb-kp-date span {
-  white-space: nowrap;
-}
-
-/* Each reading earns points up to its weight: the track is as long as the weight. */
-.vb-kp-rows {
-  display: grid;
-  gap: 0.7rem;
+  gap: 0.55rem;
+  min-width: 0;
   margin: 0;
   padding: 0;
-  list-style: none;
+  border: 0;
 }
 
-.vb-kp-rows li {
-  display: grid;
-  grid-template-columns: minmax(0, 11rem) minmax(0, 1fr) 3.4rem;
-  align-items: center;
-  gap: 0.9rem;
-}
-
-.vb-kp-factor {
-  display: grid;
+.vb-kp-wind legend {
+  float: left;
+  margin-bottom: 0.55rem;
+  padding: 0;
   font-size: 0.9375rem;
   font-weight: 600;
-  line-height: 1.25;
 }
 
-.vb-kp-factor span {
-  font-size: 0.8125rem;
-  font-weight: 400;
-  color: var(--field-muted);
+.vb-kp-seg {
+  clear: left;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.25rem;
+  padding: 0.25rem;
+  border-radius: 14px;
+  background: color-mix(in srgb, var(--field-ink) 9%, transparent);
 }
 
-.vb-kp-track {
+.vb-kp-seg label {
   position: relative;
   display: block;
-  width: var(--track);
-  height: 0.6rem;
-  border-radius: 999px;
-  background: color-mix(in srgb, var(--field-ink) 14%, transparent);
-  overflow: hidden;
+  cursor: pointer;
 }
 
-.vb-kp-track span {
+.vb-kp-seg input {
   position: absolute;
   inset: 0;
-  width: var(--fill);
-  border-radius: inherit;
-  background: var(--accent);
-  transform-origin: left center;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
 }
 
-.vb-kp-points {
-  font-family: var(--display);
-  font-size: 1rem;
-  font-weight: 700;
+.vb-kp-seg span {
+  display: grid;
+  justify-items: center;
+  align-content: center;
+  min-height: 3.25rem;
+  padding: 0.35rem 0.25rem;
+  border-radius: 10px;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  line-height: 1.2;
+  text-align: center;
+  transition:
+    background-color 200ms var(--ease-out),
+    color 200ms var(--ease-out);
+}
+
+.vb-kp-seg small {
+  font-size: 0.75rem;
+  font-weight: 400;
+  color: var(--field-muted);
   font-variant-numeric: tabular-nums;
-  text-align: end;
   white-space: nowrap;
 }
 
-.vb-kp-points span {
-  font-weight: 400;
-  color: var(--field-muted);
+.vb-kp-seg label:hover span {
+  background: color-mix(in srgb, var(--field-ink) 8%, transparent);
 }
 
-/* Dust is the one reading that lost a point. */
-.vb-kp-points[data-short="true"] {
-  color: var(--accent);
+.vb-kp-seg input:checked + span {
+  background: var(--accent);
+  color: var(--field);
 }
 
-.vb-kp-sum {
-  margin: 0;
+.vb-kp-seg input:checked + span small {
+  color: color-mix(in srgb, var(--field) 80%, var(--accent));
+}
+
+.vb-kp-seg input:focus-visible + span {
+  outline: 2px solid var(--field-ink);
+  outline-offset: 2px;
+}
+
+.vb-kp-foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.35rem 1rem;
   padding-top: 0.9rem;
-  border-top: 1px solid color-mix(in srgb, var(--field-ink) 16%, transparent);
-  font-family: var(--display);
-  font-size: 1rem;
-  font-variant-numeric: tabular-nums;
-  text-align: end;
-  color: var(--field-muted);
+  border-top: 1px solid color-mix(in srgb, var(--field-ink) 14%, transparent);
 }
 
-.vb-kp-sum strong {
-  font-size: 1.25rem;
-  color: var(--accent);
-}
-
-/* The one rule the picture proves. */
 .vb-kp-rule {
-  display: grid;
-  gap: 0.1rem;
-}
-
-.vb-kp-rule p {
-  margin: 0;
-  font-size: 1.0625rem;
+  font-size: 1rem;
   font-weight: 700;
   line-height: 1.4;
 }
 
-.vb-kp-rule p:not([lang]) {
-  font-size: 0.9375rem;
-  font-weight: 400;
-}
-
-.vb-kp-caption {
+.vb-kp-note {
   font-size: 0.8125rem;
   color: var(--field-muted);
 }
 
-/* Phones: the reading's name and value above its bar, so nothing is squeezed. */
+/* Phones: the score sits above the choice. */
 @media (max-width: 479px) {
-  .vb-kp-top {
+  .vb-kp-main {
     grid-template-columns: minmax(0, 1fr);
+    gap: 1rem;
+  }
+  .vb-kp-score {
+    grid-template-columns: auto minmax(0, 1fr);
+    align-items: center;
     gap: 0.9rem;
-  }
-  .vb-kp-rows li {
-    grid-template-columns: minmax(0, 1fr) auto;
-    row-gap: 0.35rem;
-  }
-  .vb-kp-track {
-    grid-column: 1 / -1;
-    grid-row: 2;
   }
 }
 
-/* The bars fill in, one after another, as the card arrives. Transform only;
-   with reduced motion they are simply full. */
+/* The new score drops in. Transform and opacity only; reduced motion just swaps it. */
 @media (prefers-reduced-motion: no-preference) {
-  .vb[data-motion="on"] .vb-kp[data-wait="true"]:not([data-in="true"]) .vb-kp-track span {
-    transform: scaleX(0.04);
+  .vb-kp-score strong {
+    animation: vb-kp-tick 450ms var(--ease-expo);
   }
-  .vb[data-motion="on"] .vb-kp[data-in="true"] .vb-kp-track span {
-    transform: none;
-    transition: transform 900ms var(--ease-expo);
-    transition-delay: calc(250ms + var(--i) * 90ms);
+
+  @keyframes vb-kp-tick {
+    from {
+      opacity: 0.2;
+      transform: translateY(-0.2em);
+    }
   }
 }
