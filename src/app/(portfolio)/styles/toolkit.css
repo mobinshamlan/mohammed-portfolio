@@ -1,197 +1,250 @@
-/* An index of the work, typeset in the portrait's navy and hood blue. */
 .vb-tools {
-  --tools-stripe: color-mix(in srgb, var(--dusk-2) 58%, var(--night-2));
-  --tools-active: color-mix(in srgb, var(--dusk-3) 60%, var(--night-2));
+  --tools-cover: var(--dusk-2);
+  --tools-sheet: var(--nightfall);
+  --tools-open: color-mix(in srgb, var(--dusk-2) 74%, var(--nightfall));
+  --tools-row: color-mix(in srgb, var(--dusk-3) 32%, var(--tools-open));
   display: grid;
-  gap: 1.25rem;
-  padding: clamp(1.875rem, 4.5vw, 4.5rem) var(--gutter);
+  align-items: start;
+  gap: clamp(0.75rem, 2vw, 1.5rem);
+  padding: clamp(2rem, 5vw, 5rem) var(--gutter);
   background: var(--night-2);
   color: var(--sand);
 }
 
+.vb-tools-cover {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) clamp(5.5rem, 28vw, 12rem);
+  align-items: center;
+  gap: 0.75rem;
+  min-inline-size: 0;
+  padding: clamp(1rem, 3.5vw, 2.75rem);
+  background: var(--tools-cover);
+}
+
 .vb-tools-title {
-  color: var(--ember);
-  font-size: clamp(3.25rem, 2rem + 4.5vw, 6rem);
+  color: var(--sand);
+  font-size: clamp(3.25rem, 1.75rem + 5vw, 6rem);
   letter-spacing: -0.04em;
-  line-height: 1.02;
+  line-height: 1;
 }
 
 .vb .vb-tools-lead {
-  max-inline-size: 34ch;
+  max-inline-size: 25ch;
   margin-block-start: 0.625rem;
-  color: var(--sand-2);
+  color: var(--sand);
   font-size: var(--step-body);
   line-height: 1.4;
-  text-wrap: pretty;
+  text-wrap: balance;
+}
+
+.vb-tools-weave {
+  display: block;
+  inline-size: 100%;
+  block-size: auto;
+}
+
+.vb-tools-stitch {
+  fill: none;
+  stroke: var(--ribbon);
+  stroke-width: 2.5;
+  stroke-dasharray: 4 5;
+  stroke-linecap: round;
 }
 
 .vb-tools-index {
+  --tools-inset: clamp(0.75rem, 1.6vw, 1.5rem);
+  --tools-row-gutter: 0.375rem;
+  display: grid;
+  gap: 0.25rem;
   min-inline-size: 0;
 }
 
-.vb-tools-list {
+.vb-tools-group {
+  min-inline-size: 0;
+  background: var(--tools-sheet);
+}
+
+.vb-tools-group[open] {
+  background: var(--tools-open);
+}
+
+.vb-tools-summary {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  column-gap: 0.75rem;
+  row-gap: 0.25rem;
+  min-block-size: 2.75rem;
+  padding: 0.625rem var(--tools-inset);
+  cursor: pointer;
+  list-style: none;
+  line-height: 1.28;
+}
+
+.vb-tools-summary::-webkit-details-marker {
+  display: none;
+}
+
+.vb-tools-summary:is(:hover, :focus-visible) {
+  background: var(--tools-row);
+}
+
+.vb .vb-tools-summary:focus-visible {
+  outline-offset: -2px;
+}
+
+.vb-tools-group-title {
+  font-family: var(--display);
+  font-size: clamp(1rem, 0.9rem + 0.4vw, 1.31rem);
+  font-weight: 700;
+  letter-spacing: -0.025em;
+}
+
+.vb-tools-purpose {
+  grid-column: 1;
+  color: var(--sand-2);
+  font-size: 0.875rem;
+}
+
+.vb-tools-toggle {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  inline-size: 1.125rem;
+  block-size: 1.125rem;
+  fill: none;
+  stroke: var(--sand-2);
+  stroke-width: 1.75;
+  stroke-linecap: round;
+}
+
+.vb-tools-group[open] .vb-tools-toggle {
+  stroke: var(--ribbon);
+}
+
+.vb-tools-group[open] .vb-tools-toggle-stem {
+  visibility: hidden;
+}
+
+.vb-tools-rows,
+.vb-tools-uses {
   margin: 0;
-  padding: 0;
   list-style: none;
 }
 
-.vb-tools-list > li:nth-child(odd) {
-  background: var(--tools-stripe);
-}
-
-.vb .vb-tools-chapter {
+.vb-tools-rows {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  column-gap: 0.75rem;
-  row-gap: 0.2rem;
-  align-items: baseline;
-  min-block-size: 2.75rem;
-  padding: 0.5625rem 0.75rem;
-  text-decoration: none;
+  gap: 0.125rem;
+  padding: 0.125rem var(--tools-row-gutter) var(--tools-row-gutter);
 }
 
-.vb-tools-chapter h3 {
-  font-size: clamp(1rem, 0.91rem + 0.38vw, 1.3rem);
-  line-height: 1.25;
-  text-wrap: wrap;
-}
-
-.vb-tools-chapter p {
-  grid-column: 1 / -1;
-  grid-row: 2;
-  color: var(--sand-2);
-  font-size: 1rem;
-  line-height: 1.375;
-  text-wrap: pretty;
-}
-
-.vb-tools-project {
-  grid-column: 2;
-  grid-row: 1;
-  display: inline-flex;
+.vb-tools-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
   align-items: center;
-  justify-content: end;
-  gap: 0.375rem;
-  color: var(--ember);
-  font-size: var(--step-small);
-  font-weight: 500;
+  column-gap: 0.75rem;
+  min-inline-size: 0;
+  padding-inline: calc(var(--tools-inset) - var(--tools-row-gutter));
+  background: var(--tools-row);
+}
+
+.vb-tools-name {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-block-size: 2rem;
+  min-inline-size: 0;
+  font-size: 0.9375rem;
+  font-weight: 530;
   line-height: 1.25;
+  padding-block: 0.3125rem;
 }
 
-.vb-tools-project > span {
-  text-decoration: underline;
-  text-underline-offset: 0.2em;
-}
-
-.vb-tools-arrow {
+.vb-tools-mark {
   flex: none;
-  inline-size: 1rem;
-  block-size: 1rem;
+  inline-size: 1.125rem;
+  block-size: 1.125rem;
+  color: var(--ember);
+  fill: currentColor;
 }
 
-.vb .vb-tools-chapter:is(:hover, :focus-visible) {
-  background: var(--tools-active);
+.vb-tools-uses {
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: 0.5rem;
+  min-inline-size: 0;
+  padding: 0;
 }
 
-.vb-tools-chapter:is(:hover, :focus-visible) .vb-tools-project > span {
+.vb .vb-tools-project {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  min-inline-size: 2.75rem;
+  min-block-size: 2.75rem;
+  color: var(--thread-colour);
+  font-size: 0.875rem;
+  line-height: 1.25;
+  text-decoration: underline;
+  text-underline-offset: 0.22em;
+  text-decoration-thickness: 1px;
+  text-decoration-color: color-mix(in srgb, currentColor 60%, transparent);
+}
+
+.vb .vb-tools-project:is(:hover, :focus-visible) {
+  text-decoration-color: currentColor;
   text-decoration-thickness: 2px;
 }
 
-.vb .vb-tools-chapter:focus-visible {
-  position: relative;
-  outline-offset: -2px;
-  border-radius: 0;
-}
-
-.vb-tools-stack {
-  margin-block-start: 0.5rem;
-}
-
-.vb-tools-stack > summary {
-  inline-size: fit-content;
-  padding-inline: 0.625rem 0.875rem;
-  color: var(--sand-2);
-  font-family: var(--text);
-  font-size: var(--step-small);
-  font-weight: 500;
-}
-
-.vb-tools-stack > summary:is(:hover, :focus-visible) {
-  color: var(--sand);
-  text-decoration: underline;
-}
-
-.vb-tools-stack-list {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 13rem), 1fr));
-  gap: 1rem 1.75rem;
-  margin: 0;
-  padding: 0.75rem 0.75rem 0;
-  line-height: 1.45;
-}
-
-.vb-tools-stack-list dt {
-  font-size: var(--step-small);
-  font-weight: 600;
-}
-
-.vb-tools-stack-list dd {
-  margin: 0.2rem 0 0;
-  color: var(--sand-2);
-  font-size: 1rem;
-}
-
-@media (min-width: 760px) {
-  .vb .vb-tools-chapter {
-    grid-template-columns: minmax(13.5rem, 0.72fr) minmax(0, 1fr) 6.5rem;
-    align-items: center;
-    column-gap: clamp(1rem, 2vw, 2rem);
-    min-block-size: 3.75rem;
-    padding: 0.75rem 1.125rem;
+@media (min-width: 680px) {
+  .vb-tools-summary {
+    grid-template-columns: minmax(11rem, 0.48fr) minmax(0, 1fr) auto;
+    column-gap: 1.25rem;
+    min-block-size: 3.375rem;
   }
 
-  .vb-tools-chapter p {
-    grid-column: 2;
-    grid-row: 1;
+  .vb-tools-row {
+    display: grid;
+    grid-template-columns: minmax(10.625rem, 0.47fr) minmax(0, 1fr);
+    column-gap: 1.25rem;
+    min-block-size: 3rem;
   }
 
-  .vb-tools-project {
-    grid-column: 3;
+  .vb-tools-purpose,
+  .vb-tools-toggle {
+    grid-column: auto;
+    grid-row: auto;
   }
 
-  .vb-tools-stack-list {
-    padding-inline: 1.125rem;
+  .vb-tools-mark {
+    inline-size: 1.25rem;
+    block-size: 1.25rem;
+  }
+
+  .vb-tools-name,
+  .vb .vb-tools-project {
+    font-size: var(--step-small);
   }
 }
 
-@media (min-width: 1100px) {
+@media (min-width: 1040px) {
   .vb-tools {
-    grid-template-columns: minmax(15rem, 0.38fr) minmax(0, 1fr);
-    column-gap: clamp(2rem, 4.3vw, 4.5rem);
+    grid-template-columns: minmax(16rem, 0.49fr) minmax(0, 1fr);
   }
 
-  .vb-tools-heading {
-    align-self: start;
-    padding-block-start: clamp(2rem, 5vw, 4.5rem);
-  }
-
-  .vb .vb-tools-lead {
-    max-inline-size: 24ch;
-    margin-block-start: 0.875rem;
+  .vb-tools-cover {
+    grid-template-columns: minmax(0, 1fr);
+    gap: clamp(2.5rem, 4.2vw, 4rem);
+    padding-block: clamp(2.5rem, 4.65vw, 4.375rem);
   }
 }
 
-@media (hover: hover) and (prefers-reduced-motion: no-preference) {
-  .vb-tools-arrow {
-    transition: transform var(--t-hover) var(--ease-out);
+@media (max-width: 359px) {
+  .vb-tools-cover {
+    grid-template-columns: minmax(0, 1fr) 4.5rem;
   }
 
-  .vb-tools-chapter:hover .vb-tools-arrow {
-    transform: translateY(-2px);
+  .vb-tools-title {
+    font-size: 2.875rem;
   }
-}
-
-/* Each skill carries the colour of the product that proves it. */
-.vb-tools-list > li {
-  box-shadow: inset 0.3rem 0 0 var(--mark, var(--ember));
 }

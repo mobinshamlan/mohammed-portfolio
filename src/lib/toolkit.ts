@@ -1,77 +1,96 @@
-import type { ProjectId } from "@/lib/projects";
+import { projectById, projects, type ProjectId } from "@/lib/projects";
 import { skillGroups } from "@/lib/skills";
 
-type Capability = {
-  title: string;
-  example: string;
-  project: ProjectId;
-};
+export type ToolkitProjectId = Exclude<ProjectId, "experiment">;
 
-export const toolkit: readonly Capability[] = [
-  {
-    title: "Voice assistants",
-    example: "Turn camel ranch calls into daily reports.",
-    project: "naqah",
-  },
-  {
-    title: "Scheduled alerts",
-    example: "Let parents schedule school calls or texts.",
-    project: "tammeni",
-  },
-  {
-    title: "Booking systems",
-    example: "Book influencer ads over WhatsApp.",
-    project: "seet",
-  },
-  {
-    title: "Forecast analysis",
-    example: "Rank camping nights by wind and dust.",
-    project: "kashta",
-  },
-  {
-    title: "Web apps",
-    example: "Track lost items through private links.",
-    project: "amanah",
-  },
-  {
-    title: "iPhone & Android apps",
-    example: "Show event addresses to approved guests.",
-    project: "gthrz",
-  },
-];
+function isWorkChapter(id: ProjectId): id is ToolkitProjectId {
+  return id !== "experiment";
+}
 
-const selectedTools = new Set([
-  "TypeScript",
-  "Python",
-  "SQL",
-  "Next.js",
-  "React",
-  "React Native and Expo",
-  "Tailwind CSS",
-  "FastAPI",
-  "Supabase",
-  "PostgreSQL and row-level security",
-  "OpenAI Realtime voice",
-  "Twilio Voice",
-  "Anthropic Claude with tools",
-  "Google Gemini",
-  "Llama 4 Scout on Cloudflare Workers AI",
-  "Vitest",
-  "Playwright",
-]);
+export const toolkitProjects = projects.map(({ id }) => id).filter(isWorkChapter);
 
-const toolGroupLabels: Record<string, string> = {
-  Languages: "Programming languages",
-  "Web and mobile": "Websites and apps",
-  "Backend and data": "Data and accounts",
-  AI: "AI and phone calls",
-  "Tools and testing": "Automated testing",
-};
+const projectEvidence = new Map(
+  skillGroups.flatMap(({ skills }) =>
+    skills.map(({ name, projects = [] }) => [name, projects.filter(isWorkChapter)] as const),
+  ),
+);
 
-export const toolkitTools = skillGroups.flatMap(({ title, skills }) => {
-  const names = skills
-    .filter(({ name, projects }) => projects?.length && selectedTools.has(name))
-    .map(({ name }) => name);
+function tool<Mark extends string>(
+  name: string,
+  mark: Mark,
+  usedIn: readonly ToolkitProjectId[],
+) {
+  return { name, mark, projects: usedIn };
+}
 
-  return names.length ? [{ title: toolGroupLabels[title] ?? title, names }] : [];
-});
+function skill<Mark extends string>(name: string, mark: Mark, evidence = name) {
+  return tool(name, mark, projectEvidence.get(evidence) ?? []);
+}
+
+function stackTool<Mark extends string>(name: string, mark: Mark) {
+  return tool(name, mark, toolkitProjects.filter((id) => projectById[id].stack.includes(name)));
+}
+
+const vercelProjects = toolkitProjects.filter((id) =>
+  projectById[id].links.some(({ href }) => /^https:\/\/[^/]+\.vercel\.app(?:\/|$)/.test(href)),
+);
+
+export const toolkitGroups = [
+  {
+    title: "AI & messaging",
+    purpose: "Power calls, chats and predictions.",
+    tools: [
+      skill("OpenAI Realtime", "openai", "OpenAI Realtime voice"),
+      skill("Twilio Voice", "twilio"),
+      skill("Anthropic Claude", "claude", "Anthropic Claude with tools"),
+      skill("Google Gemini", "gemini"),
+      skill("Llama 4 Scout", "llama", "Llama 4 Scout on Cloudflare Workers AI"),
+      stackTool("WhatsApp Cloud API", "whatsapp"),
+    ],
+  },
+  {
+    title: "Web interfaces",
+    purpose: "Build screens for the browser.",
+    tools: [
+      skill("Next.js", "next"),
+      skill("React", "react"),
+      skill("TypeScript", "typescript"),
+      skill("Tailwind CSS", "tailwind"),
+    ],
+  },
+  {
+    title: "Phone apps",
+    purpose: "Build for iPhone and Android.",
+    tools: [
+      skill("React Native", "react", "React Native and Expo"),
+      skill("Expo", "expo", "React Native and Expo"),
+    ],
+  },
+  {
+    title: "Servers & data",
+    purpose: "Store data and run app services.",
+    tools: [
+      skill("Supabase", "supabase"),
+      skill("PostgreSQL", "postgres", "PostgreSQL and row-level security"),
+      skill("SQL", "sql"),
+      skill("Python", "python"),
+      skill("FastAPI", "fastapi"),
+      skill("Open-Meteo", "weather", "Open-Meteo and SunCalc"),
+    ],
+  },
+  {
+    title: "Testing & hosting",
+    purpose: "Check the work and put it online.",
+    tools: [
+      skill("Vitest", "vitest"),
+      skill("Playwright", "playwright"),
+      tool("Vercel", "vercel", vercelProjects),
+      stackTool("Railway", "railway"),
+    ],
+  },
+].map((group) => ({
+  ...group,
+  tools: group.tools.filter(({ projects }) => projects.length > 0),
+}));
+
+export type ToolkitMark = (typeof toolkitGroups)[number]["tools"][number]["mark"];
