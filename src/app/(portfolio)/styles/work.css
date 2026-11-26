@@ -513,3 +513,159 @@
     margin-top: -5rem;
   }
 }
+
+/* ---------- Let's talk: one panel to close the page ---------- */
+.vb-talk {
+  padding: clamp(3rem, 7vw, 6rem) var(--gutter) calc(clamp(3rem, 6vw, 5rem) + var(--edge));
+}
+
+.vb-talk-panel {
+  position: relative;
+  display: grid;
+  justify-items: center;
+  gap: 1.25rem;
+  max-width: 56rem;
+  margin-inline: auto;
+  padding: clamp(2.5rem, 6vw, 4.5rem) clamp(1.25rem, 4vw, 3rem);
+  overflow: hidden;
+  border-radius: 1.5rem;
+  background: linear-gradient(160deg, #16244a, #0d1630 70%);
+  box-shadow: 0 2rem 4rem -2rem rgba(0, 0, 0, 0.6);
+  text-align: center;
+}
+
+.vb-talk-glow {
+  position: absolute;
+  inset: -40% 15% auto;
+  height: 80%;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(134, 169, 245, 0.35), transparent);
+  filter: blur(2rem);
+  pointer-events: none;
+}
+
+.vb-talk-panel > :not(.vb-talk-glow) {
+  position: relative;
+}
+
+/* The six products' colours, the end of the line that joined them. */
+.vb-talk-swatches {
+  display: flex;
+  gap: 0.4rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.vb-talk-swatches li {
+  width: 0.8rem;
+  height: 0.8rem;
+  border-radius: 50%;
+  box-shadow: 0 0 0 1px rgba(242, 236, 223, 0.25);
+}
+
+.vb-talk-title {
+  font-family: var(--display);
+  font-weight: 800;
+  font-size: clamp(2.4rem, 1.2rem + 5vw, 5rem);
+  line-height: 0.95;
+  letter-spacing: -0.035em;
+  text-wrap: balance;
+}
+
+.vb-talk-lead {
+  color: var(--sand-2);
+  font-size: var(--step-lead);
+}
+
+.vb-talk-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+.vb .vb-talk-mail {
+  min-height: 3.25rem;
+  padding-inline: 2rem;
+  font-size: 1.1rem;
+}
+
+.vb .vb-talk-copy {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-height: 3.25rem;
+  padding: 0 0.5rem 0 1.25rem;
+  border: 1px solid rgba(242, 236, 223, 0.18);
+  border-radius: 999px;
+  background: rgba(242, 236, 223, 0.04);
+  color: var(--sand);
+  font: inherit;
+  cursor: pointer;
+  transition: border-color var(--t-hover) ease;
+}
+
+.vb .vb-talk-copy:hover {
+  border-color: var(--ember);
+}
+
+.vb-talk-copy-hint {
+  padding: 0.35rem 0.8rem;
+  border-radius: 999px;
+  background: rgba(134, 169, 245, 0.16);
+  color: var(--ember);
+  font-size: var(--step-small);
+}
+
+.vb-talk-links {
+  display: flex;
+  gap: 1.75rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.vb-talk-links a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
+  color: var(--sand);
+  text-decoration: underline;
+  text-underline-offset: 0.25em;
+  text-decoration-color: rgba(242, 236, 223, 0.35);
+}
+
+.vb-talk-links a:hover {
+  text-decoration-color: var(--ember);
+}
+
+.vb-talk-status {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--sand-2);
+  font-size: var(--step-small);
+}
+
+@media (max-width: 599px) {
+  .vb .vb-talk-copy {
+    max-width: 100%;
+    font-size: 0.9rem;
+  }
+}
+
+.vb .vb-contact.vb-talk {
+  display: block;
+}
+
+.vb-talk-time {
+  margin-top: -0.75rem;
+  color: var(--sand-2);
+  font-size: 0.8125rem;
+  opacity: 0.8;
+}
