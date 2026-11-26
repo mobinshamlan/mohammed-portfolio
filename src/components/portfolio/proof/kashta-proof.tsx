@@ -1,41 +1,76 @@
 "use client";
 
 import { useState, type CSSProperties } from "react";
-import { kashtaExample, kashtaLimits, kashtaNight, kashtaRating, kashtaScore } from "@/lib/kashta-example";
+import { kashtaExample, kashtaLimits, kashtaRamp, kashtaRating, kashtaWeights } from "@/lib/kashta-example";
 import { Reveal } from "../reveal";
 
 /*
- * Kashta on the home page: tonight's camp, and the wind. Pick a gust and the
- * tent's cloth, the sand and the sky answer; so does the score, by the app's
- * own rule. Every other reading is the real 25 Nov forecast at Al-Rahmaniya.
+ * Kashta on the home page: one campsite, the next seven nights. Tap a night and
+ * the camp shows that night's weather, the score lands and the reason appears,
+ * the way the app does it: code ranks the nights, the AI only explains. The
+ * first night is the real 25 Nov forecast at Al-Rahmaniya; the other six are a
+ * sample, all scored by the app's own rule (score.ts, mirrored in kashta-example).
  */
-const winds = [
-  { id: "calm", label: "Calm", gust: 12 },
-  { id: "gusty", label: "Gusty", gust: 48 },
-  { id: "storm", label: "Storm", gust: 60 },
-] as const;
+type Night = {
+  day: string;
+  /** Strongest gust, km/h. */
+  wind: number;
+  /** Highest chance of rain, %. */
+  rain: number;
+  /** Peak surface dust, µg/m³. */
+  dust: number;
+  /** Mean cloud cover 20:00–04:00, %. */
+  cloud: number;
+  why: string;
+  real?: boolean;
+};
 
-type WindId = (typeof winds)[number]["id"];
+const nights: Night[] = [
+  { day: "Wed", wind: 11.5, rain: 0, dust: 85, cloud: 0, real: true, why: "Calm wind, no rain, a clear sky. The best night of the week." },
+  { day: "Thu", wind: 38, rain: 0, dust: 220, cloud: 15, why: "Gusts near 38 km/h and some dust take a few points. Still a good kashta." },
+  { day: "Fri", wind: 58, rain: 0, dust: 390, cloud: 40, why: "Gusts of 58 km/h are dangerous, so the score is held at 35 whatever else is good." },
+  { day: "Sat", wind: 44, rain: 45, dust: 300, cloud: 60, why: "Gusty, dusty, and a 45% chance of rain. Possible, not pleasant." },
+  { day: "Sun", wind: 18, rain: 0, dust: 120, cloud: 70, why: "Overcast, which counts little for a kashta. Calm and dry otherwise." },
+  { day: "Mon", wind: 34, rain: 0, dust: 110, cloud: 5, why: "A light breeze and little dust. Nearly as good as Wednesday." },
+  { day: "Tue", wind: 26, rain: 65, dust: 90, cloud: 85, why: "A 65% chance of rain under heavy cloud. Stay home." },
+];
 
 const ratingWords = { excellent: "Excellent night", good: "Good night", fair: "Fair night", poor: "Poor night" } as const;
 
-function scoreFor(gust: number) {
-  const result = kashtaScore({ wind: gust, dust: kashtaNight.dust, cloud: kashtaNight.cloud });
-  const capped = result.dangers.length > 0;
-  return {
-    score: result.score,
-    words: capped ? `Capped at ${kashtaLimits.cap}: dangerous wind` : ratingWords[kashtaRating(result.score)],
-    capped,
+/** The app's Kashta Score for one night: temperature is mild all week, so it scores 100. */
+function scoreNight(night: Night) {
+  const { wind, rain, dust, cloud } = kashtaLimits;
+  const factors = {
+    temp: 100,
+    wind: kashtaRamp(night.wind, wind.good, wind.bad),
+    rain: kashtaRamp(night.rain, rain.good, rain.bad),
+    dust: kashtaRamp(night.dust, dust.good, dust.bad),
+    cloud: kashtaRamp(night.cloud, cloud.good, cloud.bad),
   };
+  const sum = (Object.keys(kashtaWeights) as (keyof typeof kashtaWeights)[]).reduce(
+    (acc, key) => acc + factors[key] * kashtaWeights[key],
+    0,
+  );
+  const dangerous = night.wind >= wind.bad || night.dust >= dust.bad;
+  const uncapped = Math.max(0, Math.min(100, Math.round(sum)));
+  return { score: dangerous ? Math.min(uncapped, kashtaLimits.cap) : uncapped, dangerous };
 }
 
-/** Where a gust sits on the wind rule: 0 at the good limit, 1 at the bad one. */
-function ramp(gust: number) {
-  const { good, bad } = kashtaLimits.wind;
-  return Math.min(1, Math.max(0, (gust - good) / (bad - good)));
+const scored = nights.map((night) => ({ ...night, ...scoreNight(night) }));
+const bestIndex = scored.reduce((best, night, index) => (night.score > scored[best].score ? index : best), 0);
+
+function windWord(gust: number) {
+  if (gust >= kashtaLimits.wind.bad) return "storm";
+  if (gust > kashtaLimits.wind.good) return "gusty";
+  return "calm";
 }
 
-/** The camp tonight: a black hair tent with its door lit, a cloth on its pole, sand and stars. */
+/** 0 at the good limit, 1 at the bad one: how much of a reading the picture should show. */
+function fraction(value: number, good: number, bad: number) {
+  return Math.min(1, Math.max(0, (value - good) / (bad - good)));
+}
+
+/** The camp tonight: a black hair tent with its door lit, a cloth on its pole, sand, sky and weather. */
 function Camp() {
   return (
     <svg className="vb-kp-camp" viewBox="0 0 560 230" preserveAspectRatio="xMidYMax slice" aria-hidden="true" focusable="false">
@@ -54,7 +89,20 @@ function Camp() {
         <circle cx="60" cy="110" r="0.8" />
         <path d="M304 76 l1.4 6.6 6.6 1.4 -6.6 1.4 -1.4 6.6 -1.4 -6.6 -6.6 -1.4 6.6 -1.4z" />
       </g>
-      {/* Dust lifted off the dunes; invisible when calm. */}
+      {/* Cloud cover: a low bank that thickens with the forecast. */}
+      <g className="vb-kp-cloud" fill="#2a3150">
+        <ellipse cx="120" cy="52" rx="150" ry="26" />
+        <ellipse cx="330" cy="34" rx="190" ry="30" />
+        <ellipse cx="500" cy="70" rx="140" ry="24" />
+        <ellipse cx="240" cy="92" rx="220" ry="22" opacity="0.7" />
+      </g>
+      {/* Rain, when the chance is high. */}
+      <g className="vb-kp-rain" stroke="#9fb3e0" strokeWidth="1" strokeLinecap="round">
+        {Array.from({ length: 14 }, (_, i) => (
+          <path key={i} d={`M${30 + i * 40} ${60 + (i % 3) * 18} l -6 24`} />
+        ))}
+      </g>
+      {/* Dust lifted off the dunes; invisible when the air is clean. */}
       <g className="vb-kp-dust" stroke="#d9c7b0" strokeLinecap="round" fill="none">
         <path d="M-40 150 Q 80 142 200 150 T 440 148 T 640 150" strokeWidth="1.2" opacity="0.5" />
         <path d="M-60 176 Q 120 168 260 176 T 520 174 T 700 176" strokeWidth="1.6" opacity="0.4" />
@@ -83,63 +131,65 @@ function Camp() {
 }
 
 /**
- * Pick tonight's wind; the camp and the score answer. Without JavaScript it
- * shows the calm night, scored.
+ * Pick a night; the camp, the score and the reason answer. Without JavaScript
+ * it shows the best night, scored.
  */
 export function KashtaProof() {
-  const [wind, setWind] = useState<WindId>("calm");
-  const current = winds.find((w) => w.id === wind) ?? winds[0];
-  const { score, words, capped } = scoreFor(current.gust);
-  const position = ramp(current.gust);
+  const [picked, setPicked] = useState(bestIndex);
+  const night = scored[picked];
+  const weather = {
+    "--dust": fraction(night.dust, kashtaLimits.dust.good, kashtaLimits.dust.bad),
+    "--cloud": fraction(night.cloud, kashtaLimits.cloud.good, kashtaLimits.cloud.bad),
+    "--rain": fraction(night.rain, kashtaLimits.rain.good, kashtaLimits.rain.bad),
+  } as CSSProperties;
 
   return (
     <Reveal className="vb-kp">
-      <figure className="vb-kp-card" data-wind={wind} data-ui="">
+      <figure className="vb-kp-card" data-wind={windWord(night.wind)} data-ui="" style={weather}>
+        <p className="vb-kp-site">
+          <strong>{kashtaExample.site}</strong>
+          <span>Next 7 nights, ranked by the app</span>
+        </p>
+
         <Camp />
 
-        <div className="vb-kp-read">
-          <p className="vb-kp-score" role="status" aria-atomic="true" data-capped={capped ? "true" : undefined}>
-            <span className="vb-sr">Kashta Score </span>
-            <strong key={score}>{score}</strong>
-            <span>{words}</span>
-          </p>
-
-          <div className="vb-kp-pick" role="group" aria-label="Tonight's wind">
-            <p className="vb-kp-pick-label">Tonight&rsquo;s wind</p>
-            <div className="vb-kp-seg">
-              {winds.map((w) => (
-                <button
-                  key={w.id}
-                  type="button"
-                  aria-pressed={wind === w.id}
-                  onClick={() => setWind(w.id)}
-                >
-                  {w.label}
-                  <small>{w.gust} km/h</small>
-                </button>
-              ))}
-            </div>
-          </div>
+        <div className="vb-kp-week" role="group" aria-label="Pick a night">
+          {scored.map((n, index) => (
+            <button
+              key={n.day}
+              type="button"
+              aria-pressed={picked === index}
+              data-best={index === bestIndex ? "true" : undefined}
+              data-capped={n.dangerous ? "true" : undefined}
+              onClick={() => setPicked(index)}
+              style={{ "--score": n.score } as CSSProperties}
+            >
+              {index === bestIndex ? <small className="vb-kp-best">Best</small> : null}
+              <i className="vb-kp-bar" aria-hidden="true" />
+              <b>{n.score}</b>
+              <span>{n.day}</span>
+              <span className="vb-sr">
+                , Kashta Score {n.score}
+                {index === bestIndex ? ", best night" : ""}
+              </span>
+            </button>
+          ))}
         </div>
 
-        {/* The wind rule, as score.ts has it: full marks to 30 km/h, nothing from 55. */}
-        <div className="vb-kp-rule" style={{ "--at": position } as CSSProperties}>
-          <p className="vb-kp-rule-title">
-            How wind changes the score <span>no penalty up to {kashtaLimits.wind.good} km/h, zero from {kashtaLimits.wind.bad}</span>
+        <div className="vb-kp-read" role="status" aria-atomic="true">
+          <p className="vb-kp-score" data-capped={night.dangerous ? "true" : undefined}>
+            <span className="vb-sr">{night.day}: Kashta Score </span>
+            <strong key={night.score}>{night.score}</strong>
+            <span>{night.dangerous ? `Held at ${kashtaLimits.cap}: dangerous` : ratingWords[kashtaRating(night.score)]}</span>
           </p>
-          <div className="vb-kp-track" aria-hidden="true">
-            <span className="vb-kp-safe">Safe</span>
-            <span className="vb-kp-danger">Dangerous</span>
-            <i className="vb-kp-pin" data-capped={capped ? "true" : undefined}>
-              {current.gust}
-            </i>
-          </div>
+          <p className="vb-kp-why" key={picked}>
+            <span className="vb-kp-why-label">Why, in the AI&rsquo;s words</span>
+            {night.why}
+          </p>
         </div>
 
         <figcaption className="vb-kp-foot">
-          <p className="vb-kp-note">
-            Example from a real forecast: {kashtaExample.site}, {kashtaExample.shortNight}. The app scores it; the AI only explains why.
-          </p>
+          Wednesday is the real {kashtaExample.shortNight} forecast; the other nights are a sample. All seven are scored by the app&rsquo;s own rule. The AI never scores, it only explains.
         </figcaption>
       </figure>
     </Reveal>

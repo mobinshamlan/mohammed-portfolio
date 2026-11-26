@@ -208,8 +208,8 @@
     mask-image: linear-gradient(to bottom, rgb(0 0 0 / 0.55), rgb(0 0 0 / 0.35) 60%, transparent);
   }
   .ks-camp {
-    bottom: calc(32% - 2rem);
-    height: 15rem;
+    bottom: 0;
+    height: 12rem;
   }
 }
 
