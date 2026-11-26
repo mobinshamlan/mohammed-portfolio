@@ -301,8 +301,49 @@
   .vb-gz-host {
     width: 100%;
   }
+  /* The guest's phone takes the column, and the real screen is cropped
+     tighter around the title, date and location line (x 42 to 300, y 540
+     to 640 of the 455 px capture) so it reads at a glance. */
   .vb-gz-guest {
-    width: min(100%, 16.5rem);
+    width: min(100%, 22rem);
+  }
+  .vb-gz-slice-cover {
+    aspect-ratio: 373 / 112;
+  }
+  .vb-gz-slice-rows {
+    aspect-ratio: 258 / 100;
+  }
+  .vb-gz-slice-rows img {
+    width: calc(455 / 258 * 100%);
+    margin-left: calc(-42 / 258 * 100%);
+    margin-top: calc(-540 / 258 * 100%);
+  }
+  .vb-gz-under {
+    gap: 0.75rem;
+    padding: 0.4rem 0.9rem 0.95rem;
+  }
+  .vb-gz-where {
+    padding: 0.7rem 0.75rem;
+  }
+  .vb-gz-where svg {
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+  .vb-gz-label {
+    font-size: 0.8125rem;
+  }
+  .vb-gz-where strong {
+    font-size: 1.0625rem;
+  }
+  .vb-gz-guest[data-state="approved"] .vb-gz-where strong {
+    font-size: 1.25rem;
+  }
+  .vb-gz-fine {
+    font-size: 0.8125rem;
+  }
+  .vb-gz-going {
+    min-height: 2.85rem;
+    font-size: 1rem;
   }
 }
 
