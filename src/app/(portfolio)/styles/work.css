@@ -307,13 +307,19 @@
   }
 }
 
-/* Scenes in the shared layout. Amanah's picture is already its tags, so the
-   hanging tags step aside; Seet's skyline gets its own band under the content. */
-/* Amanah's hanging tags only where its centred column leaves room for them. */
-@media (max-width: 1199px) {
-  .vb-proj[data-id="amanah"] .vb-proj-scene {
-    display: none;
-  }
+/* Amanah: the lost-property office is deep green, so the chapter's text turns
+   to cream and brass; the counter at the foot needs room under the content. */
+.vb-proj[data-id="amanah"] {
+  background: #0f3328;
+}
+
+.vb-proj[data-id="amanah"] .vb-proj-inner {
+  --field: #0f3328;
+  --field-ink: #f2ecdf;
+  --field-muted: #b5c7bb;
+  --accent: #e0bb66;
+  color: var(--field-ink);
+  padding-bottom: calc(clamp(3.5rem, 7vw, 7rem) + 5rem);
 }
 
 /* Tammeni keeps its exercise-book page; its school-day line would cross the links. */
@@ -352,30 +358,24 @@
     align-self: start;
   }
 
+  /* Amanah: the name on the wall beside the cabinet; my part at the left of
+     the counter and the claim standing on it, overlapping the desk's edge. */
   .vb-proj[data-id="amanah"] .vb-proj-inner {
-    grid-template-columns: minmax(0, 1fr);
-    grid-template-areas: "head" "visual" "foot";
-    justify-items: center;
-    text-align: center;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    grid-template-areas: "head ." "foot visual";
+    grid-template-rows: auto auto;
+    row-gap: 3.5rem;
+    padding-bottom: calc(clamp(3.5rem, 7vw, 7rem) + 7rem);
   }
   .vb-proj[data-id="amanah"] .vb-proj-visual {
-    width: min(100%, 48rem);
+    align-self: end;
+    justify-self: end;
+    width: min(100%, 46rem);
+    margin-bottom: -5.5rem;
   }
-  .vb-proj[data-id="amanah"] :is(.vb-proj-stand, .vb-proj-actions, .vb-proj-links) {
-    justify-content: center;
-  }
-  .vb-proj[data-id="amanah"] .vb-proj-role {
-    margin-inline: auto;
-  }
-}
-
-@media (min-width: 900px) {
-  .vb-proj[data-id="amanah"] .vb-proj-name a {
-    display: inline-grid;
-    justify-items: center;
-  }
-  .vb-proj[data-id="amanah"] .vb-proj-name span[lang="ar"] {
-    margin: 0;
+  .vb-proj[data-id="amanah"] .vb-proj-foot {
+    align-self: end;
+    padding-bottom: 0.5rem;
   }
 }
 
@@ -659,8 +659,17 @@
   }
 }
 
-/* The thread runs down Amanah's left margin; the key tag that sat in its way steps aside. */
-.vb-proj[data-id="amanah"] .am-tag[data-slot="2"] {
-  display: none;
+/* Amanah on phones: the name, the claim on the desk, then my part and the links. */
+@media (max-width: 899px) {
+  .vb-proj[data-id="amanah"] .vb-proj-foot {
+    display: grid;
+    order: 2;
+  }
+  .vb-proj[data-id="amanah"] .vb-proj-stand {
+    order: 0;
+  }
+  .vb-proj[data-id="amanah"] .vb-proj-actions {
+    margin-top: 0.35rem;
+  }
 }
 
