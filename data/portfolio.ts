@@ -5,10 +5,10 @@
 
 export const portfolio = {
   name: "Mohammed Bin Shamlan",
-  title: "Software & AI product developer",
+  title: "Software Developer exploring AI Engineering",
   location: "Saudi Arabia",
   summary:
-    "Mohammed Bin Shamlan is a software and AI product developer in Saudi Arabia, open to work. He studied computer science at Queen Mary University of London and completed the AI Bootcamp using Meta tools at Tuwaiq Academy.",
+    "Mohammed Bin Shamlan is a software developer based in Saudi Arabia. He studied computer science at Queen Mary University of London and is now exploring AI engineering in the AI Bootcamp at Tuwaiq Academy.",
   education: [
     {
       qualification: "BSc Computer Science (Hons)",
@@ -20,9 +20,9 @@ export const portfolio = {
     {
       qualification: "AI Bootcamp",
       institution: "Tuwaiq Academy",
-      period: "18 Oct – 12 Nov 2026",
-      detail: "Completed using Meta tools.",
-      status: "completed",
+      period: "In progress",
+      detail: "",
+      status: "current",
     },
   ],
   skills: [

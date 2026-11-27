@@ -7,7 +7,7 @@ import { portfolio } from "../../../data/portfolio";
 export const metadata: Metadata = {
   title: "Mohammed Bin Shamlan",
   description:
-    "Software and AI product developer in Saudi Arabia, open to work. Computer science graduate of Queen Mary University of London; completed the AI Bootcamp at Tuwaiq Academy.",
+    "Software developer in Saudi Arabia exploring AI engineering. Computer science graduate of Queen Mary University of London, now in the AI Bootcamp at Tuwaiq Academy.",
 };
 
 const sections = [
