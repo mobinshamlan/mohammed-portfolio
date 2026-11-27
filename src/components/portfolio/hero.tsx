@@ -50,7 +50,7 @@ export function Hero() {
           aria-hidden="true"
           focusable="false"
         >
-          <path d="M 41 0 C 42 3 56 3 60 7 C 64 10 59 12 60 15 L 60 100" />
+          <path d="M 41 0 C 34 24 9 35 10 57 C 11 76 37 83 60 100" />
         </svg>
       </figure>
     </section>
