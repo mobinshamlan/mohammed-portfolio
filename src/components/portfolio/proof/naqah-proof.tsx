@@ -24,21 +24,30 @@ const lines = [
 
 const CALL_LENGTH = 10;
 
+type Call = { phase: "ringing" | "live" | "ended"; tick: number };
+
 export function NaqahProof() {
   const hydrated = useHydrated();
-  const [tick, setTick] = useState(-1);
+  const [call, setCall] = useState<Call>({ phase: "ringing", tick: 0 });
   const transcript = useRef<HTMLOListElement>(null);
-  const ringing = tick < 0;
-  const ended = tick >= CALL_LENGTH;
-  const live = !ringing && !ended;
+  const { phase, tick } = call;
+  const ringing = phase === "ringing";
+  const ended = phase === "ended";
+  const live = phase === "live";
 
   useEffect(() => {
     if (!live) return;
-    const timer = window.setInterval(() => setTick((seconds) => seconds + 1), 1000);
+    const timer = window.setInterval(() => {
+      setCall((current) => {
+        if (current.phase !== "live") return current;
+        const nextTick = current.tick + 1;
+        return { phase: nextTick >= CALL_LENGTH ? "ended" : "live", tick: nextTick };
+      });
+    }, 1000);
     return () => window.clearInterval(timer);
   }, [live]);
 
-  const said = lines.filter((l) => !ringing && tick >= l.at);
+  const said = lines.filter((line) => tick >= line.at);
   const lineCount = said.length;
   useEffect(() => {
     const log = transcript.current;
@@ -47,24 +56,32 @@ export function NaqahProof() {
 
   const flagged = said.some((l) => "flag" in l);
   const speaking = live && lines.some((l) => tick >= l.at && tick < l.at + 2);
-  const clock = `0:${String(Math.min(tick, CALL_LENGTH)).padStart(2, "0")}`;
-  const state = ringing ? "ringing" : ended ? "ended" : "live";
+  const clock = `0:${String(tick).padStart(2, "0")}`;
+
+  function handleCall() {
+    setCall((current) => {
+      if (current.phase === "live") return { ...current, phase: "ended" };
+      return { phase: "live", tick: 0 };
+    });
+  }
 
   return (
     <Reveal className="pf-nq">
-      <figure className="pf-nq-fig" data-state={state}>
+      <figure className="pf-nq-fig" data-state={phase}>
         {/* The herd, as the ranch's record keeps it: one mark per camel. */}
         <div className="pf-nq-herd">
           <p className="pf-nq-herd-title">
             Tonight at the trough <span>12 camels · sample</span>
           </p>
-          <ul className="pf-nq-marks" aria-label="Herd tonight">
+          <ul className="pf-nq-marks" role="list" aria-label="Herd tonight">
             {Array.from({ length: HERD }, (_, i) => {
-              const wadha = i === WADHA;
+              const wadha = flagged && i === WADHA;
               return (
-                <li key={i} data-wadha={wadha ? "true" : undefined} data-lit={wadha && flagged ? "true" : undefined}>
+                <li key={i} data-lit={wadha ? "true" : undefined}>
                   <CamelMark />
-                  <span className="vb-sr">{wadha ? "Wadha, did not drink" : `Camel ${i + 1}, drank`}</span>
+                  <span className="vb-sr">
+                    {wadha ? "Wadha, did not drink" : `Camel ${i + 1}${flagged ? ", drank" : ""}`}
+                  </span>
                   {wadha ? (
                     <span className="pf-nq-name" lang="ar" aria-hidden="true">
                       وضحى
@@ -75,8 +92,13 @@ export function NaqahProof() {
             })}
           </ul>
           <p className="pf-nq-source">
-            <strong>5:40 pm</strong> the worker answered: <span lang="ar" dir="rtl">كلها شربت إلا وضحى.</span>
-            <span className="pf-nq-source-en">All drank but Wadha.</span>
+            {flagged ? (
+              <>
+                <strong><time dateTime="17:40">5:40 pm</time></strong> · Worker&rsquo;s report
+                <span className="pf-nq-source-ar" lang="ar" dir="rtl">كلها شربت إلا وضحى.</span>
+                <span className="pf-nq-source-en">All drank but Wadha.</span>
+              </>
+            ) : ended ? "The call ended before the report." : "Waiting for tonight’s report."}
           </p>
         </div>
 
@@ -96,7 +118,7 @@ export function NaqahProof() {
           <ol
             ref={transcript}
             className="pf-nq-lines"
-            tabIndex={ringing ? undefined : 0}
+            tabIndex={lineCount > 0 ? 0 : undefined}
             aria-label="Call transcript"
             aria-live="polite"
           >
@@ -109,7 +131,9 @@ export function NaqahProof() {
                 <span className="pf-nq-en">{l.en}</span>
               </li>
             ))}
-            {ended ? <li className="pf-nq-note">Saved to the ranch&rsquo;s record.</li> : null}
+            {ended && lineCount === lines.length ? (
+              <li className="pf-nq-note">Saved to the ranch&rsquo;s record.</li>
+            ) : null}
           </ol>
 
           <div className="pf-nq-dock">
@@ -123,7 +147,7 @@ export function NaqahProof() {
                 <button
                   type="button"
                   className={`pf-ip-call ${live ? "pf-ip-call-end" : "pf-ip-call-go"}`}
-                  onClick={() => setTick(live ? CALL_LENGTH : 0)}
+                  onClick={handleCall}
                 >
                   <i>{live ? <CallEndIcon /> : <CallIcon />}</i>
                   {ringing ? "Accept" : live ? "End call" : "Call again"}

@@ -104,7 +104,7 @@
   justify-content: space-between;
   min-height: calc(var(--ip-w) * 0.15);
   margin: 0;
-  padding: calc(var(--ip-w) * 0.03) calc(var(--ip-w) * 0.1) 0;
+  padding: calc(var(--ip-w) * 0.03) calc(var(--ip-w) * 0.09) 0 calc(var(--ip-w) * 0.105);
   font-size: 0.8125rem;
   font-weight: 700;
   font-variant-numeric: tabular-nums;
@@ -114,7 +114,7 @@
 .pf-ip-icons {
   display: flex;
   align-items: center;
-  gap: 0.3rem;
+  gap: 0.25rem;
 }
 
 .pf-ip-icons svg {
@@ -124,16 +124,15 @@
 }
 
 .pf-ip-signal {
-  width: 1rem;
+  width: 0.9rem;
 }
 
 .pf-ip-wifi {
-  width: 0.85rem;
+  width: 0.7rem;
 }
 
 .pf-ip-battery {
-  width: 1.45rem;
-  height: 0.7rem;
+  width: 1.2rem;
 }
 
 .pf-ip-body {
@@ -278,13 +277,15 @@
 }
 
 .pf-nq-marks li {
-  position: relative;
   display: grid;
+  align-content: center;
   justify-items: center;
-  padding: 0.55rem 0.35rem 0.5rem;
+  aspect-ratio: 1;
+  padding: 0.3rem 0.35rem;
   border-radius: 10px;
   background: color-mix(in srgb, var(--field-ink) 7%, var(--field));
   color: var(--field-ink);
+  transition-property: none;
 }
 
 .naqah-mark {
@@ -295,36 +296,26 @@
   fill: currentColor;
 }
 
-/* Every mark but Wadha's drank: full ink. Wadha stands outlined until the call names her. */
-.pf-nq-marks li[data-wadha="true"] {
-  color: color-mix(in srgb, var(--field-ink) 32%, var(--field));
-  box-shadow: inset 0 0 0 2px color-mix(in srgb, var(--accent) 55%, transparent);
-}
-
 .pf-nq-marks li[data-lit="true"] {
   color: var(--field);
   background: var(--accent);
-  box-shadow: 0 0.6rem 1.2rem -0.5rem color-mix(in srgb, var(--accent) 70%, transparent);
+}
+
+.pf-nq-marks li[data-lit="true"] .naqah-mark {
+  width: 76%;
+  max-width: 2.5rem;
 }
 
 .pf-nq-name {
-  margin-top: 0.2rem;
+  margin-top: 0.1rem;
   font-family: var(--display);
-  font-size: 0.8125rem;
+  font-size: clamp(0.625rem, 2.9cqw, 0.8125rem);
   font-weight: 700;
   line-height: 1.2;
-  color: var(--field-ink);
-}
-
-.pf-nq-marks li[data-lit="true"] .pf-nq-name {
-  color: var(--field);
 }
 
 .pf-nq-source {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  gap: 0.2rem 0.4rem;
+  min-block-size: 3lh;
   margin: 0;
   color: var(--field-muted);
   font-size: 0.9rem;
@@ -337,14 +328,16 @@
   font-variant-numeric: tabular-nums;
 }
 
-.pf-nq-source [lang="ar"] {
+.pf-nq-source-ar {
+  display: block;
+  width: fit-content;
   color: var(--field-ink);
   font-family: var(--display);
   font-weight: 600;
 }
 
 .pf-nq-source-en {
-  width: 100%;
+  display: block;
   font-size: 0.8125rem;
 }
 
@@ -533,7 +526,7 @@
   .pf-nq-lines li {
     animation: pf-nq-in 420ms var(--ease-expo) both;
   }
-  .pf-nq-marks li {
+  .pf-nq-marks li[data-lit="true"] {
     transition:
       background-color 300ms var(--ease-out),
       color 300ms var(--ease-out);
@@ -592,7 +585,7 @@
     gap: 0.4rem;
   }
   .pf-nq-marks li {
-    padding: 0.4rem 0.2rem;
+    padding-inline: 0.2rem;
   }
 }
 
