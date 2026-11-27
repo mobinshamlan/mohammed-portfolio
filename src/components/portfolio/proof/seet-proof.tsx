@@ -1,14 +1,14 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useHydrated } from "@/lib/use-hydrated";
 import { Reveal } from "../reveal";
 
 /*
  * Seet on the home page: the influencer's ads number on WhatsApp beside the
  * calendar in their Seet dashboard (navy and gold). A brand asks for Tuesday,
- * Seet answers with the price, holds the day and sends the deposit link. One
- * button stands in for the brand paying; only then does Tuesday turn from
+ * Seet answers with the price, holds the day and sends the deposit link. The
+ * link opens a simulated payment; only after it is paid does Tuesday turn from
  * "held" to "booked". The AI never says "confirmed" on its own.
  * Without JavaScript it shows the hold.
  */
@@ -39,7 +39,28 @@ function CheckIcon() {
 
 export function SeetProof() {
   const hydrated = useHydrated();
-  const [paid, setPaid] = useState(false);
+  const [stage, setStage] = useState<"chat" | "checkout" | "paid">("chat");
+  const paid = stage === "paid";
+  const checkout = stage === "checkout";
+  const checkoutControls = useRef<HTMLDivElement>(null);
+  const action = useRef<HTMLButtonElement>(null);
+  const chat = useRef<HTMLOListElement>(null);
+  const deposit = useRef<HTMLButtonElement>(null);
+  const returningFromCheckout = useRef(false);
+
+  useEffect(() => {
+    const messages = chat.current;
+    if (messages && !checkout) messages.scrollTop = paid ? messages.scrollHeight : 0;
+    if (checkout) {
+      checkoutControls.current?.scrollIntoView({ block: "nearest", behavior: "instant" });
+      action.current?.focus({ preventScroll: true });
+    }
+    if (!checkout && returningFromCheckout.current) {
+      returningFromCheckout.current = false;
+      deposit.current?.focus({ preventScroll: true });
+      deposit.current?.scrollIntoView({ block: "nearest", behavior: "instant" });
+    }
+  }, [checkout, paid]);
 
   return (
     <Reveal className="pf-seet">
@@ -72,7 +93,7 @@ export function SeetProof() {
             </span>
           </div>
 
-          <ol className="pf-seet-chat" aria-label="Sample ad booking chat">
+          <ol ref={chat} className="pf-seet-chat" role="list" aria-label="Sample ad booking chat" tabIndex={0}>
             <li className="pf-seet-stamp" aria-hidden="true">
               Today
             </li>
@@ -89,9 +110,13 @@ export function SeetProof() {
                 سناب ستوري ٤٬٥٠٠ ر.س، والثلاثاء فاضي. حجزته لكم مؤقتًا ويتأكد بعد العربون ٢٬٢٥٠ ر.س.
               </span>
               <small>A Snapchat Story is SAR 4,500 and Tuesday is free. I&rsquo;ve held it for you; it&rsquo;s confirmed once the SAR 2,250 deposit is paid.</small>
-              <span className="pf-seet-linkcard" aria-hidden="true">
-                <b>Deposit link · SAR 2,250</b>
-              </span>
+              {hydrated && stage === "chat" ? (
+                <button ref={deposit} type="button" className="pf-seet-linkcard" onClick={() => setStage("checkout")}>
+                  <b>Open deposit link · SAR 2,250</b>
+                </button>
+              ) : (
+                <span className="pf-seet-linkcard"><b>Deposit link · SAR 2,250</b></span>
+              )}
               <time>
                 9:14 <Ticks read />
               </time>
@@ -116,18 +141,35 @@ export function SeetProof() {
             ) : null}
           </ol>
 
-          {/* The one action: stand in for the brand paying the link. */}
-          <div className="pf-seet-wa-foot">
-            <button
-              type="button"
-              className="pf-seet-pay"
-              onClick={() => setPaid((p) => !p)}
-              disabled={!hydrated}
-              aria-hidden={hydrated ? undefined : "true"}
-            >
-              {paid ? "Reset sample" : "Simulate deposit"}
-            </button>
-          </div>
+          {stage !== "chat" ? (
+            <div ref={checkoutControls} className="pf-seet-wa-foot">
+              {checkout ? <p className="pf-seet-checkout">Seet checkout · Demo payment only</p> : null}
+              <button
+                ref={action}
+                type="button"
+                className="pf-seet-pay"
+                onClick={() => {
+                  setStage(paid ? "chat" : "paid");
+                  if (paid) chat.current?.focus({ preventScroll: true });
+                }}
+              >
+                {paid ? "Reset sample" : "Simulate paying SAR 2,250"}
+              </button>
+              {checkout ? (
+                <button
+                  type="button"
+                  className="pf-seet-pay"
+                  data-secondary=""
+                  onClick={() => {
+                    returningFromCheckout.current = true;
+                    setStage("chat");
+                  }}
+                >
+                  Back to chat
+                </button>
+              ) : null}
+            </div>
+          ) : null}
         </div>
 
         {/* The influencer's calendar in Seet: the week, and Tuesday on it. */}
@@ -152,7 +194,7 @@ export function SeetProof() {
             <strong>Tuesday · Snapchat Story</strong>
             <span className="pf-seet-day-who">Mathaq restaurant · SAR 4,500</span>
             <span className="pf-seet-day-money">
-              {paid ? "Deposit paid SAR 2,250 · SAR 2,250 due after the story" : "SAR 2,250 deposit due within 24 hours"}
+              {paid ? "SAR 2,250 paid · SAR 2,250 due after the story" : "SAR 2,250 deposit due within 24 hours"}
             </span>
           </div>
         </figcaption>

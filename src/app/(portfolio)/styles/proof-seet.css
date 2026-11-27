@@ -45,6 +45,7 @@
 /* ---------- The WhatsApp chat ---------- */
 
 .pf-seet-wa {
+  container-type: inline-size;
   display: grid;
   grid-template-rows: auto minmax(0, 1fr) auto;
   overflow: hidden;
@@ -117,9 +118,24 @@
   display: grid;
   align-content: start;
   gap: 0.4rem;
+  block-size: 22rem;
   margin: 0;
   padding: 0.75rem 0.75rem 0.9rem;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--wa-muted) transparent;
   list-style: none;
+}
+
+.pf-seet .pf-seet-chat:focus-visible {
+  outline-color: var(--wa-ink);
+  outline-offset: -2px;
+}
+
+@container (width < 20rem) {
+  .pf-seet-chat {
+    block-size: 27rem;
+  }
 }
 
 .pf-seet-stamp {
@@ -215,6 +231,25 @@
   font-weight: 400;
 }
 
+button.pf-seet-linkcard {
+  min-block-size: 2.75rem;
+  border: 1px solid currentColor;
+  color: var(--seet-gold);
+  align-items: center;
+  text-align: start;
+  cursor: pointer;
+}
+
+button.pf-seet-linkcard:hover {
+  background: rgb(0 0 0 / 0.37);
+}
+
+.pf-seet-checkout {
+  color: var(--wa-ink);
+  font-size: 0.875rem;
+  text-align: center;
+}
+
 .pf-seet-linkcard b {
   font-size: 0.75rem;
   font-weight: 700;
@@ -246,7 +281,7 @@
   font-weight: 700;
 }
 
-/* The chat's foot: where the keyboard would be, the one action. */
+/* The simulated checkout and the replay action sit below the chat. */
 .pf-seet-wa-foot {
   display: grid;
   gap: 0.45rem;
@@ -280,24 +315,21 @@
   transform: scale(0.98);
 }
 
-.pf-seet-stage[data-paid="true"] .pf-seet-pay {
+.pf-seet-stage[data-paid="true"] .pf-seet-pay,
+.pf-seet .pf-seet-pay[data-secondary] {
   background: transparent;
   box-shadow: inset 0 0 0 1.5px color-mix(in srgb, var(--wa-ink) 35%, transparent);
   color: var(--wa-ink);
 }
 
-.pf-seet-stage[data-paid="true"] .pf-seet-pay:hover {
+.pf-seet-stage[data-paid="true"] .pf-seet-pay:hover,
+.pf-seet .pf-seet-pay[data-secondary]:hover {
   background: color-mix(in srgb, var(--wa-ink) 10%, transparent);
 }
 
 .pf-seet-pay:focus-visible {
   outline: 2px solid var(--wa-ink);
   outline-offset: 3px;
-}
-
-/* Without JavaScript the hold stands on its own. */
-.pf-seet-pay:disabled {
-  visibility: hidden;
 }
 
 /* ---------- The influencer's calendar in Seet ---------- */
@@ -375,7 +407,7 @@
   background: color-mix(in srgb, var(--seet-cream) 14%, var(--seet-navy));
 }
 
-/* Tuesday held: a dashed gold frame. Booked: filled gold. */
+/* Tuesday held: a dashed gold frame. Booked: the dashboard's green. */
 .pf-seet-week li[data-slot] {
   border-style: dashed;
   border-color: var(--seet-gold);
@@ -388,13 +420,13 @@
 
 .pf-seet-stage[data-paid="true"] .pf-seet-week li[data-slot] {
   border-style: solid;
-  background: var(--seet-gold);
-  color: var(--seet-navy);
-  box-shadow: 0 0.6rem 1.4rem -0.6rem color-mix(in srgb, var(--seet-gold) 80%, transparent);
+  border-color: transparent;
+  background: #123228;
+  color: var(--seet-ok);
 }
 
 .pf-seet-stage[data-paid="true"] .pf-seet-week li[data-slot] b {
-  color: var(--seet-navy);
+  color: var(--seet-cream);
 }
 
 /* Tuesday's card: the state in words, then what is booked and what is owed. */
@@ -430,8 +462,9 @@
 
 .pf-seet-stage[data-paid="true"] .pf-seet-pill {
   border-style: solid;
-  background: var(--seet-gold);
-  color: var(--seet-navy);
+  border-color: transparent;
+  background: #123228;
+  color: var(--seet-ok);
 }
 
 .pf-seet-day strong {
@@ -482,8 +515,7 @@
   .pf-seet-week li[data-slot] {
     transition:
       background-color 320ms var(--ease-out) 300ms,
-      color 320ms var(--ease-out) 300ms,
-      box-shadow 320ms var(--ease-out) 300ms;
+      color 320ms var(--ease-out) 300ms;
   }
 
   @keyframes pf-seet-in {

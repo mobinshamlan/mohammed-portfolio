@@ -28,7 +28,7 @@ type Night = {
 const nights: Night[] = [
   { day: "Wed", wind: 11.5, rain: 0, dust: 85, cloud: 0, why: "Calm wind, no rain, a clear sky. The best night of the week." },
   { day: "Thu", wind: 38, rain: 0, dust: 220, cloud: 15, why: "Gusts near 38 km/h and some dust take a few points. Still a good kashta." },
-  { day: "Fri", wind: 58, rain: 0, dust: 390, cloud: 40, why: "Gusts of 58 km/h are dangerous, so the score is held at 35 whatever else is good." },
+  { day: "Fri", wind: 58, rain: 0, dust: 390, cloud: 40, why: "Gusts reach 58 km/h. Kashta caps the score at 35 for safety." },
   { day: "Sat", wind: 44, rain: 45, dust: 300, cloud: 60, why: "Gusty, dusty, and a 45% chance of rain. Possible, not pleasant." },
   { day: "Sun", wind: 18, rain: 0, dust: 120, cloud: 70, why: "Overcast, which counts little for a kashta. Calm and dry otherwise." },
   { day: "Mon", wind: 34, rain: 0, dust: 110, cloud: 5, why: "A light breeze and little dust. Nearly as good as Wednesday." },
@@ -146,10 +146,10 @@ export function KashtaProof() {
 
   return (
     <Reveal className="vb-kp">
-      <figure className="vb-kp-card" data-wind={windWord(night.wind)} data-ui="" style={weather}>
+      <figure className="vb-kp-card" data-wind={windWord(night.wind)} data-rain={night.rain > 0 || undefined} data-ui="" style={weather}>
         <p className="vb-kp-site">
           <strong>{kashtaExample.site}</strong>
-          <span>Sample forecast</span>
+          <span>Sample AI forecast</span>
         </p>
 
         <Camp />
@@ -161,15 +161,13 @@ export function KashtaProof() {
               type="button"
               disabled={!hydrated}
               aria-pressed={picked === index}
-              data-best={index === bestIndex ? "true" : undefined}
               data-capped={n.dangerous ? "true" : undefined}
               onClick={() => setPicked(index)}
-              style={{ "--score": n.score } as CSSProperties}
             >
-              {index === bestIndex ? <small className="vb-kp-best">Best</small> : null}
-              <i className="vb-kp-bar" aria-hidden="true" />
-              <b>{n.score}</b>
               <span>{n.day}</span>
+              <b>{n.score}</b>
+              {index === bestIndex ? <small className="vb-kp-best">Best</small> : null}
+              {n.dangerous ? <span className="vb-sr">Dangerous night</span> : null}
             </button>
           ))}
         </div>
@@ -178,16 +176,21 @@ export function KashtaProof() {
           <p className="vb-kp-score" data-capped={night.dangerous ? "true" : undefined}>
             <span className="vb-sr">{night.day}: Kashta Score </span>
             <strong key={night.score}>{night.score}</strong>
-            <span>{night.dangerous ? `Held at ${kashtaLimits.cap}: dangerous` : ratingWords[kashtaRating(night.score)]}</span>
+            <span>{night.dangerous ? "Dangerous night" : ratingWords[kashtaRating(night.score)]}</span>
           </p>
           <p className="vb-kp-why" key={picked}>
-            <span className="vb-kp-why-label">AI forecast summary</span>
+            <span className="vb-kp-why-label">AI forecast summary · Scripted example</span>
             {night.why}
           </p>
         </div>
 
         <figcaption className="vb-kp-foot">
-          Wednesday uses a recorded forecast. The other six nights are examples scored by Kashta.
+          <span>Wednesday uses a recorded forecast and the other nights use example readings.</span>
+          {hydrated ? (
+            <button type="button" onClick={() => setPicked(bestIndex)}>
+              Reset to {scored[bestIndex].day}
+            </button>
+          ) : null}
         </figcaption>
       </figure>
     </Reveal>
