@@ -2,14 +2,15 @@ import type { ProjectId } from "@/lib/projects";
 
 /**
  * Skills with evidence. `projects` lists where each one was used, checked
- * against the repositories. `learning` marks the Tuwaiq Academy bootcamp.
+ * against the repositories. `training` marks skills studied during the
+ * completed Tuwaiq Academy AI Bootcamp.
  * A skill with neither is listed on the CV or from the QMUL degree.
  */
 
 export type Skill = {
   name: string;
   projects?: ProjectId[];
-  learning?: boolean;
+  training?: boolean;
 };
 
 export type SkillGroup = {
@@ -45,7 +46,7 @@ export const skillGroups: SkillGroup[] = [
         name: "Tailwind CSS",
         projects: ["naqah", "tammeni", "kashta", "amanah"],
       },
-      { name: "Arabic-first, RTL interfaces", projects: ["naqah", "tammeni", "seet", "kashta", "amanah"] },
+      { name: "Arabic and right-to-left interfaces", projects: ["naqah", "tammeni", "seet", "kashta", "amanah"] },
       { name: "zustand", projects: ["naqah"] },
       { name: "Zod", projects: ["kashta"] },
     ],
@@ -77,8 +78,8 @@ export const skillGroups: SkillGroup[] = [
       { name: "Google Gemini", projects: ["amanah"] },
       { name: "Llama 4 Scout on Cloudflare Workers AI", projects: ["kashta"] },
       { name: "Guarding model output with schemas", projects: ["kashta", "seet"] },
-      { name: "Prompt engineering", learning: true },
-      { name: "AI evaluation", learning: true },
+      { name: "Prompt engineering", training: true },
+      { name: "AI evaluation", training: true },
     ],
   },
   {

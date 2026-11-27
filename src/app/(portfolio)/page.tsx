@@ -12,7 +12,7 @@ import { Toolkit } from "@/components/portfolio/toolkit";
 export const metadata: Metadata = {
   title: { absolute: "Mohammed Bin Shamlan — Software & AI product developer" },
   description:
-    "Software and AI products by Mohammed Bin Shamlan in Riyadh. Explore Naqah, Gthrz, Amanah, Kashta, Seet and Tammeni.",
+    "Software and AI products by Mohammed Bin Shamlan in Saudi Arabia. Open to work in software or AI products. Explore Naqah, Gthrz, Amanah, Kashta, Seet and Tammeni.",
 };
 
 export default function HomePage() {

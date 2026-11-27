@@ -31,7 +31,7 @@ export function RouteMap({ children }: { children: ReactNode }) {
   }, []);
 
   return (
-    <ol ref={ref} className="vb-route" aria-label="Riyadh (RUH), London (LHR), Riyadh (RUH)">
+    <ol ref={ref} className="vb-route" aria-label="Saudi Arabia, London, Saudi Arabia">
       {children}
     </ol>
   );

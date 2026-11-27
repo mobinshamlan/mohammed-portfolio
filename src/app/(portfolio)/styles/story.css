@@ -1,5 +1,5 @@
-/* Where I come from: a flight route, Riyadh to London and back. Three stops on
-   one thread; each is marked by its airport code and the thing it left behind. */
+/* Where I come from: a route from Saudi Arabia to London and back. Three stops on
+   one thread; each is marked by a place code and the thing it left behind. */
 .vb-story {
   --route-thread: color-mix(in srgb, var(--ribbon) 78%, var(--sand));
   --route-pin-size: 0.8rem;
