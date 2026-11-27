@@ -159,7 +159,7 @@
 }
 
 @media (max-width: 599px) {
-  /* Phones: one column, with the products beside each tool to keep it short. */
+  /* Each link starts on the same rail, including on rows with six products. */
   .vb-tools-cover {
     align-items: start;
   }
@@ -172,16 +172,27 @@
   }
 
   .vb-tools-row {
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);
+    grid-template-columns: minmax(6.25rem, 0.75fr) minmax(0, 1.25fr);
     align-items: start;
     column-gap: 0.65rem;
   }
   .vb-tools-uses {
-    justify-content: end;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    column-gap: 0.35rem;
     padding-inline-start: 0;
-    text-align: end;
   }
-  .vb-tools-name {
-    min-block-size: 2rem;
+  .vb-tools-name,
+  .vb .vb-tools-project {
+    min-block-size: 44px;
+  }
+  .vb .vb-tools-project {
+    min-inline-size: 44px;
+  }
+}
+
+@media (max-width: 379px) {
+  .vb-tools-uses {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }

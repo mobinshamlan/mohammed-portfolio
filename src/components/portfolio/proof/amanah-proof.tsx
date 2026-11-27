@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, type CSSProperties } from "react";
+import { useRef, useState, type CSSProperties } from "react";
 import { useHydrated } from "@/lib/use-hydrated";
 import { Reveal } from "../reveal";
 import { Tag } from "../scenes/amanah-scene";
@@ -15,7 +15,7 @@ import { Tag } from "../scenes/amanah-scene";
 const answers = [
   { id: "yellow", label: "Yellow", swatch: "#e2b23a" },
   { id: "black", label: "Black", swatch: "#1c1c1c" },
-  { id: "wooden", label: "Wooden", swatch: "#8a5a2e" },
+  { id: "brown", label: "Brown", swatch: "#8a5a2e" },
 ] as const;
 
 type AnswerId = (typeof answers)[number]["id"];
@@ -34,8 +34,14 @@ function Lock() {
 export function AmanahProof() {
   const hydrated = useHydrated();
   const [answer, setAnswer] = useState<AnswerId | null>(null);
+  const firstAnswer = useRef<HTMLButtonElement>(null);
   const verdict = answer === null ? "open" : answer === truth ? "match" : "miss";
   const chosen = answers.find((a) => a.id === answer);
+
+  function resetClaim() {
+    setAnswer(null);
+    requestAnimationFrame(() => firstAnswer.current?.focus({ preventScroll: true }));
+  }
 
   return (
     <Reveal className="vb-ap">
@@ -67,7 +73,7 @@ export function AmanahProof() {
 
           <ol className="vb-ap-chat" aria-label="Sample claim conversation">
             <li className="vb-ap-msg" data-from="amanah">
-              <span>The AI matched your report to a blue umbrella found at the library desk.</span>
+              <span>We found a blue umbrella at the library desk that might be yours.</span>
             </li>
             <li className="vb-ap-msg vb-ap-ask" data-from="amanah">
               <span lang="ar" dir="rtl">
@@ -86,10 +92,12 @@ export function AmanahProof() {
             {answers.map((a) => (
               <button
                 key={a.id}
+                ref={a === answers[0] ? firstAnswer : undefined}
                 type="button"
-                disabled={!hydrated}
+                disabled={!hydrated || (chosen !== undefined && answer !== a.id)}
                 aria-pressed={answer === a.id}
-                onClick={() => setAnswer(a.id)}
+                aria-disabled={answer === a.id ? true : undefined}
+                onClick={() => setAnswer((current) => current ?? a.id)}
                 style={{ "--swatch": a.swatch } as CSSProperties}
               >
                 {a.label}
@@ -97,19 +105,22 @@ export function AmanahProof() {
             ))}
           </div>
 
-          <figcaption className="vb-ap-result" role="status" aria-atomic="true">
-            {verdict === "open" ? (
-              <strong>Waiting for the owner&rsquo;s answer.</strong>
-            ) : verdict === "match" ? (
-              <>
-                <strong>Matches the finder&rsquo;s note.</strong> Staff stamp the tag and hand it over.
-              </>
-            ) : (
-              <>
-                <strong>Doesn&rsquo;t match the note.</strong> Staff keep the umbrella; the report stays open.
-              </>
-            )}
-          </figcaption>
+          <div className="vb-ap-result">
+            <p role="status" aria-atomic="true">
+              {verdict === "open" ? (
+                <strong>Waiting for the owner&rsquo;s answer.</strong>
+              ) : verdict === "match" ? (
+                <>
+                  <strong>Matches the finder&rsquo;s note.</strong> Staff stamp the tag and hand it over.
+                </>
+              ) : (
+                <>
+                  <strong>Doesn&rsquo;t match the note.</strong> Staff keep the umbrella and leave the report open.
+                </>
+              )}
+            </p>
+            {chosen ? <button className="vb-ap-reset" type="button" onClick={resetClaim}>Start a new claim</button> : null}
+          </div>
         </div>
       </figure>
     </Reveal>

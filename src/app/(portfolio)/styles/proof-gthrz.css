@@ -25,7 +25,7 @@
   margin: 0;
 }
 
-.vb-gz :is(.vb-gz-status, .vb-gz-where, .vb-gz-going) svg {
+.vb-gz :is(.vb-gz-status, .vb-gz-event-nav, .vb-gz-event-chips, .vb-gz-where, .vb-gz-going) svg {
   flex: none;
   width: 1.05rem;
   height: 1.05rem;
@@ -79,6 +79,24 @@
 
 .vb-gz-status svg {
   margin-top: 0.1rem;
+}
+
+.vb-gz .vb-gz-view-guests {
+  justify-self: start;
+  min-block-size: 44px;
+  padding: 0.4rem 0.65rem;
+  border: 1px solid currentColor;
+  border-radius: 0.55rem;
+  background: transparent;
+  color: var(--gz-ink);
+  font: inherit;
+  font-size: 0.8125rem;
+  cursor: pointer;
+}
+
+.vb-gz .vb-gz-event-guests:focus {
+  outline: 2px solid var(--gz-event-accent);
+  outline-offset: 2px;
 }
 
 .vb-gz-req {
@@ -154,142 +172,238 @@
   outline-offset: 3px;
 }
 
-/* ---- Sara's phone: the real event screen, continued ---- */
+/* ---- Sara's Pizza Night event page ---- */
 .vb-gz-screen {
-  --ip-bg: #0a090c;
-  --ip-ink: #f3eee6;
+  --ip-bg: #0d0f14;
+  --ip-ink: #f5f5f6;
+  --gz-event-panel: #15161a;
+  --gz-event-raised: #1c2025;
+  --gz-event-rule: #282b31;
+  --gz-event-muted: #a9abb1;
+  --gz-event-accent: #ae9bff;
+  --gz-event-gutter: 0.85rem;
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
 .vb-gz-screen .pf-ip-body {
   grid-template-rows: auto minmax(0, 1fr) auto;
-  gap: 0.7rem;
-  padding: 0.35rem 0.7rem 0.5rem;
 }
 
-/* The crop: the cover photo of the real Pizza Night screen (455 px wide,
-   screen area 373 px wide from x = 42, clean from y 142 to 290). */
-.vb-gz-shot {
-  display: grid;
+.vb-gz-event-nav {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.25rem var(--gz-event-gutter);
+  font-size: 0.6875rem;
 }
 
-.vb-gz-slice {
-  overflow: hidden;
-  border-radius: 14px;
+.vb-gz-event-back,
+.vb-gz-event-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  background: var(--gz-event-raised);
 }
 
-.vb-gz-slice img {
+.vb-gz-event-back {
+  gap: 0.1rem;
+  min-height: 1.375rem;
+  margin-inline-end: auto;
+  padding: 0 0.55rem 0 0.35rem;
+}
+
+.vb-gz-event-icon {
+  width: 1.625rem;
+  height: 1.625rem;
+}
+
+.vb-gz .vb-gz-event-back svg {
+  width: 0.55rem;
+  height: 0.55rem;
+}
+
+.vb-gz .vb-gz-event-icon svg {
+  width: 0.78rem;
+  height: 0.78rem;
+}
+
+.vb-gz-event-scroll {
+  overflow-y: auto;
+  overflow-anchor: none;
+  scrollbar-width: thin;
+  scrollbar-color: #646772 transparent;
+}
+
+.vb-gz .vb-gz-event-scroll:focus-visible {
+  outline-color: var(--gz-event-accent);
+  outline-offset: -2px;
+}
+
+.vb-gz-event-cover {
   display: block;
-  width: calc(455 / 373 * 100%);
-  max-width: none;
+  width: calc(100% - 2 * var(--gz-event-gutter));
   height: auto;
-  margin-left: calc(-42 / 373 * 100%);
+  margin-inline: var(--gz-event-gutter);
+  border-radius: 0.75rem;
 }
 
-.vb-gz-slice-cover {
-  aspect-ratio: 373 / 132;
+.vb-gz-event-details {
+  padding: 0.4rem var(--gz-event-gutter) 0.85rem;
+  border-radius: 0.85rem 0.85rem 0 0;
+  background: var(--gz-event-panel);
 }
 
-.vb-gz-slice-cover img {
-  margin-top: calc(-142 / 373 * 100%);
-}
-
-.vb-gz-rows {
-  display: grid;
+.vb-gz-event-chips {
+  display: flex;
+  flex-wrap: wrap;
   gap: 0.2rem;
-  padding: 0.65rem 0.2rem 0;
-  color: var(--ip-ink);
+  margin: 0 0 0.85rem;
+  padding: 0;
+  list-style: none;
 }
 
-.vb-gz-rows p {
-  margin: 0;
+.vb-gz-event-chips li {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.15rem;
+  padding: 0.14rem 0.28rem;
+  border-radius: 999px;
+  background: var(--gz-event-raised);
+  color: var(--gz-event-muted);
+  font-size: 0.6875rem;
+  line-height: 1.15;
+  white-space: nowrap;
+}
+
+.vb-gz .vb-gz-event-chips svg {
+  width: 0.55rem;
+  height: 0.55rem;
 }
 
 .vb-gz-title {
-  font-family: var(--display);
+  font-size: 0.9375rem;
   font-weight: 700;
-  font-size: 1.2rem;
-  line-height: 1.15;
+  line-height: 1.2;
+  letter-spacing: -0.025em;
 }
 
-.vb-gz-when {
-  color: var(--gz-muted);
-  font-size: 0.8125rem;
+.vb-gz-when,
+.vb-gz-where,
+.vb-gz-event-label,
+.vb-gz-guest-label {
+  color: var(--gz-event-muted);
+  font-size: 0.75rem;
   line-height: 1.35;
 }
 
-.vb-gz-address {
-  align-self: center;
-  margin: 0;
-  overflow: hidden;
-  border-radius: 12px;
-  background: var(--gz-panel);
-  line-height: 1.3;
+.vb-gz p.vb-gz-when,
+.vb-gz p.vb-gz-where {
+  margin-block-start: 0.2rem;
 }
 
 .vb-gz-where {
-  display: grid;
-  gap: 0.25rem;
-  padding: 0.65rem 0.8rem;
-}
-
-.vb-gz-where + .vb-gz-where {
-  border-top: 1px solid var(--gz-panel-2);
-}
-
-.vb-gz-where dt {
   display: flex;
+  align-items: flex-start;
+  gap: 0.2rem;
+}
+
+.vb-gz .vb-gz-where svg {
+  width: 0.7rem;
+  height: 0.7rem;
+  margin-block-start: 0.04rem;
+}
+
+.vb-gz-screen[data-state="approved"] .vb-gz-where svg {
+  color: var(--gz-event-accent);
+}
+
+.vb-gz-event-guests {
+  margin-block-start: 0.55rem;
+  padding-block-start: 0.45rem;
+  border-block-start: 1px solid var(--gz-event-rule);
+}
+
+.vb-gz-guest-row {
+  display: flex;
+  justify-content: space-between;
   align-items: center;
   gap: 0.5rem;
-  color: var(--gz-muted);
-  font-size: 0.8125rem;
+  margin-block-start: 0.32rem;
 }
 
-.vb-gz-where dd {
-  margin: 0;
-  margin-inline-start: 1.55rem;
-  color: var(--gz-ink);
-  font-size: 0.875rem;
-  font-weight: 500;
-}
-
-.vb-gz-address-time {
+.vb-gz-guest-photos {
   display: block;
-  margin-top: 0.2rem;
-  color: var(--gz-muted);
-  font-size: 0.8125rem;
+  width: 6.1rem;
+  height: auto;
 }
 
-.vb-gz-where[data-visible] {
-  background: color-mix(in srgb, var(--accent) 16%, var(--gz-panel));
+.vb-gz-guest-lock {
+  display: flex;
 }
 
-.vb-gz-where[data-visible] svg {
-  color: var(--accent);
+.vb-gz-guest-lock span {
+  width: 1.3rem;
+  height: 1.3rem;
+  border: 2px solid var(--gz-event-panel);
+  border-radius: 50%;
+  background: var(--gz-event-rule);
 }
 
-/* The app's wide bottom button: Requested, then Going. */
+.vb-gz-guest-lock span + span {
+  margin-inline-start: -0.34rem;
+}
+
+.vb-gz-event-about {
+  display: grid;
+  gap: 0.12rem;
+  margin-block-start: 0.95rem;
+  font-size: 0.6875rem;
+  line-height: 1.5;
+}
+
+/* The event action stays in view while its details scroll. */
+.vb-gz-event-footer {
+  padding: 0.35rem 0.6rem 0.2rem;
+  border-block-start: 1px solid var(--gz-event-rule);
+  background: var(--gz-event-panel);
+}
+
+.vb-gz-scroll-hint {
+  padding-block-end: 0.3rem;
+  color: var(--gz-event-muted);
+  font-size: 0.75rem;
+  text-align: center;
+}
+
 .vb-gz-going {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0.35rem;
-  align-self: end;
-  min-height: 2.5rem;
-  border-radius: 12px;
-  background: var(--gz-panel-2);
-  color: var(--gz-muted);
-  font-size: 0.875rem;
-  font-weight: 700;
+  gap: 0.25rem;
+  min-height: 1.9rem;
+  border: 1px solid var(--gz-event-rule);
+  border-radius: 0.65rem;
+  background: var(--gz-event-raised);
+  color: var(--gz-event-muted);
+  font-size: 0.75rem;
+  font-weight: 650;
 }
 
-.vb-gz-going svg {
-  width: 0.9rem;
-  height: 0.9rem;
+.vb-gz .vb-gz-going svg {
+  width: 0.7rem;
+  height: 0.7rem;
 }
 
-.vb-gz-screen[data-state="approved"] .vb-gz-going {
-  background: color-mix(in srgb, var(--accent) 22%, var(--gz-panel));
-  color: var(--gz-ink);
+.vb-gz-screen[data-state="approved"] .vb-gz-scroll-hint {
+  padding-block-end: 0.3rem;
+  color: var(--gz-event-muted);
+  font-size: 0.75rem;
+  text-align: center;
+}
+
+.vb-gz-going {
+  color: var(--ip-ink);
 }
 
 /* Phones and narrow columns: the host's card above Sara's phone. */
@@ -315,30 +429,16 @@
   }
 }
 
-/* The answer lands on the guest's screen. Reduced motion: it simply changes. */
+/* The location pin appears when the host approves. */
 @media (prefers-reduced-motion: no-preference) {
-  .vb-gz-where:first-child dd {
-    animation: vb-gz-in 440ms var(--ease-expo);
-  }
-  .vb-gz-where[data-visible] svg {
-    animation: vb-gz-drop 560ms var(--ease-expo);
-  }
-  .vb-gz-going {
-    transition:
-      background-color 300ms var(--ease-out) 200ms,
-      color 300ms var(--ease-out) 200ms;
+  .vb-gz-screen[data-state="approved"] .vb-gz-where svg {
+    animation: vb-gz-drop 460ms var(--ease-expo);
   }
 
-  @keyframes vb-gz-in {
-    from {
-      opacity: 0;
-      transform: translateY(0.35rem);
-    }
-  }
   @keyframes vb-gz-drop {
     from {
       opacity: 0;
-      transform: translateY(-0.6rem);
+      transform: translateY(-0.35rem);
     }
   }
 }

@@ -27,9 +27,14 @@ const gallery = [
 function Phones() {
   return (
     <div className="vb-case-phones">
-      {heroShots.map((shot, index) => (
+      {heroShots.map((shot) => (
         <figure key={shot.src} className="vb-capture" data-ui="">
-          <GthrzImg shot={shot} sizes="(max-width: 899px) 17rem, 230px" priority={index === 1} />
+          <GthrzImg shot={shot} sizes="(min-width: 1200px) 230px, (min-width: 900px) min(25vw, 17rem), 14rem" priority={shot === gthrzShots.details} />
+          {shot === gthrzShots.details ? (
+            <figcaption className="vb-case-phone-caption">
+              Pizza Night guest view. Approved guests get the address two hours before the event.
+            </figcaption>
+          ) : null}
         </figure>
       ))}
     </div>

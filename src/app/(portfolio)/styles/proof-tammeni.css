@@ -17,7 +17,8 @@
   gap: clamp(1rem, 3vw, 2rem);
 }
 
-.pf-tammeni svg {
+.pf-tm-methods svg,
+.pf-tm-corners svg {
   flex: none;
   width: 1rem;
   height: 1rem;
@@ -34,6 +35,8 @@
 
 /* ---- The rule: cream paper, green ink, the product's own settings row ---- */
 .pf-tm-rule {
+  --tm-method-selected: color-mix(in srgb, var(--field) 12%, var(--field-ink));
+  --tm-method-border: color-mix(in srgb, var(--field) 25%, var(--field-ink));
   min-width: 0;
   margin: 0;
   padding: 1.1rem 1.15rem 1rem;
@@ -71,23 +74,19 @@
   color: color-mix(in srgb, var(--field) 80%, var(--field-ink));
 }
 
-.pf-tm-seg {
+.pf-tm-methods {
   clear: left;
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 0.25rem;
-  padding: 0.25rem;
-  border-radius: 12px;
-  background: color-mix(in srgb, var(--field) 10%, var(--field-ink));
+  gap: 0.4rem;
 }
 
-.pf-tm-seg label {
+.pf-tm-methods label {
   position: relative;
   display: block;
   cursor: pointer;
 }
 
-.pf-tm-seg input {
+.pf-tm-methods input {
   position: absolute;
   inset: 0;
   margin: 0;
@@ -95,35 +94,51 @@
   cursor: pointer;
 }
 
-.pf-tm-seg span {
-  display: flex;
+.pf-tm-methods label > span {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
   align-items: center;
-  justify-content: center;
   gap: 0.45rem;
   min-height: 2.75rem;
-  border-radius: 9px;
-  font-size: 0.9375rem;
-  font-weight: 700;
+  padding: 0.45rem 0.55rem;
+  border: 1px solid var(--tm-method-border);
+  border-radius: 10px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  line-height: 1.25;
   transition:
     background-color 200ms var(--ease-out),
-    color 200ms var(--ease-out);
+    border-color 200ms var(--ease-out);
 }
 
-.pf-tm-seg label:hover span {
-  background: color-mix(in srgb, var(--field) 10%, transparent);
+.pf-tm-methods label > span::after {
+  content: "";
+  width: 0.9rem;
+  height: 0.9rem;
+  border: 1px solid currentColor;
+  border-radius: 50%;
 }
 
-.pf-tm-seg input:checked + span {
+.pf-tm-methods label:hover > span,
+.pf-tm-methods input:checked + span {
+  border-color: var(--field);
+}
+
+.pf-tm-methods input:checked + span {
+  background: var(--tm-method-selected);
+}
+
+.pf-tm-methods input:checked + span::after {
   background: var(--field);
-  color: var(--accent);
+  box-shadow: inset 0 0 0 3px var(--tm-method-selected);
 }
 
-.pf-tm-seg input:focus-visible + span {
+.pf-tm-methods input:focus-visible + span {
   outline: 2px solid var(--field);
   outline-offset: 2px;
 }
 
-.pf-tm-rule-note {
+.pf-tammeni .pf-tm-rule-note {
   margin-top: 0.75rem;
   font-size: 0.8125rem;
   line-height: 1.4;
@@ -151,9 +166,9 @@
 }
 
 .pf-tm-call {
-  grid-template-rows: auto 1fr auto;
-  gap: 0.75rem;
-  padding-top: 0.75rem;
+  grid-template-rows: auto auto auto;
+  gap: 0.5rem;
+  padding-top: 0.5rem;
 }
 
 /* The time on the lock screen. */
@@ -256,8 +271,7 @@
   stroke-width: 1.5;
 }
 
-/* A call: Lulwa's gold ring on the dark screen, her voice as a wave, and the
-   two round buttons iOS puts at the foot (decoration; the rule is the control). */
+/* A call: Lulwa's gold ring and voice waveform on the dark screen. */
 .pf-tm-caller {
   display: grid;
   justify-items: center;
@@ -280,8 +294,8 @@
   position: relative;
   display: grid;
   place-items: center;
-  width: 4rem;
-  height: 4rem;
+  width: 3rem;
+  height: 3rem;
   margin-bottom: 0.3rem;
   border-radius: 50%;
 }
@@ -299,8 +313,8 @@
 .pf-tm-avatar {
   display: grid;
   place-items: center;
-  width: 3.4rem;
-  height: 3.4rem;
+  width: 2.5rem;
+  height: 2.5rem;
   border-radius: 50%;
   background: var(--accent);
   color: var(--field);
@@ -348,8 +362,28 @@
   font-size: 0.875rem;
 }
 
-.pf-tm-call .pf-ip-calls {
-  padding-bottom: 0.4rem;
+.pf-tm-follow {
+  display: grid;
+  gap: 0.35rem;
+  font-size: 0.8125rem;
+  line-height: 1.35;
+}
+
+.pf-tm-follow [role="status"]:not(:empty) {
+  display: grid;
+  gap: 0.25rem;
+}
+
+.pf-tm-follow button {
+  display: grid;
+  gap: 0.15rem;
+  min-block-size: 2.75rem;
+  padding: 0.35rem 0.55rem;
+  border: 1px solid var(--accent);
+  border-radius: 0.65rem;
+  background: transparent;
+  color: var(--ip-ink);
+  cursor: pointer;
 }
 
 /* Narrow columns and phones: the rule on top, the phone under it. */
@@ -385,14 +419,14 @@
   }
 
   .pf-tm-ring::before {
-    animation: pf-tm-pulse 1.8s ease-out infinite;
+    animation: pf-tm-pulse 1.8s ease-out 2;
   }
   .pf-tm-ring::after {
-    animation: pf-tm-pulse 1.8s ease-out infinite 0.6s;
+    animation: pf-tm-pulse 1.8s ease-out 2 0.6s;
   }
 
   .pf-tm-wave i {
-    animation: pf-tm-wave 900ms ease-in-out infinite alternate;
+    animation: pf-tm-wave 750ms ease-in-out 4 alternate;
   }
   .pf-tm-wave i:nth-child(2) {
     animation-delay: 120ms;

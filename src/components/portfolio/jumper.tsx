@@ -79,6 +79,7 @@ export function Jumper({ onHome }: { onHome: boolean }) {
   const input = useRef<HTMLInputElement>(null);
   const closeButton = useRef<HTMLButtonElement>(null);
   const opener = useRef<HTMLButtonElement>(null);
+  const results = useRef<HTMLUListElement>(null);
   const [query, setQuery] = useState("");
   const [index, setIndex] = useState(0);
   const listId = useId();
@@ -101,6 +102,7 @@ export function Jumper({ onHome }: { onHome: boolean }) {
     const focused = document.activeElement;
     returnTo.current = focused instanceof HTMLElement && focused !== document.body ? focused : opener.current;
     node.showModal();
+    results.current?.scrollTo({ top: 0, behavior: "instant" });
     (focusSearch ? input : closeButton).current?.focus({ preventScroll: true });
   }
 
@@ -241,6 +243,7 @@ export function Jumper({ onHome }: { onHome: boolean }) {
             {shown.length === 0 ? "No matches." : ""}
           </p>
           <ul
+            ref={results}
             id={listId}
             role="listbox"
             className="vb-jump-list"

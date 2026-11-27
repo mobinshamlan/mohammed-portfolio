@@ -155,7 +155,7 @@
   .vb-case-shot[data-crop="kashta"] .vb-window-img {
     object-position: 50% 70%;
   }
-  .vb-case-hero-art .vb-case-phones .vb-capture:not(:nth-child(2)) {
+  .vb-case-hero-art .vb-case-phones .vb-capture:not(:first-child) {
     display: none;
   }
   .vb-case-hero-art .vb-case-phones {
@@ -295,6 +295,20 @@
   }
 }
 
+.vb-case-phone-caption {
+  display: none;
+}
+
+@media (max-width: 899px) {
+  .vb-case-phone-caption {
+    display: block;
+    margin-block-start: 0.65rem;
+    font-size: 0.875rem;
+    line-height: 1.45;
+    text-align: center;
+  }
+}
+
 .vb-case-phones {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -302,6 +316,17 @@
   align-items: end;
   max-width: 44rem;
   margin: 0 auto;
+}
+
+@media (900px <= width < 1200px) {
+  .vb-case-phones {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    max-width: 34rem;
+  }
+
+  .vb-case-phones .vb-capture:nth-child(3) {
+    display: none;
+  }
 }
 
 @media (min-width: 900px) {

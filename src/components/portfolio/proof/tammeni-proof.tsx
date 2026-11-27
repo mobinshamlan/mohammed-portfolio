@@ -43,14 +43,14 @@ function CameraIcon() {
 const ways = [
   {
     id: "text",
-    label: "Text",
+    label: "Text message",
     icon: <TextIcon />,
     ar: "ريم وصلت المدرسة الساعة ٧:٠٥ الصبح.",
     en: "Reem got to school at 7:05 this morning.",
   },
   {
     id: "call",
-    label: "Call",
+    label: "Phone call",
     icon: <PhoneIcon />,
     ar: "هلا، معك لولوة من طمّني. ريم وصلت المدرسة الساعة ٧:٠٥. تبين تسألين عن شي؟",
     en: "Hi, it’s Lulwa from Tammeni. Reem got to school at 7:05. Anything you want to ask?",
@@ -65,6 +65,7 @@ const ways = [
 export function TammeniProof() {
   const hydrated = useHydrated();
   const [way, setWay] = useState<(typeof ways)[number]["id"]>("text");
+  const [asked, setAsked] = useState(false);
   const id = useId();
   const shown = ways.find((w) => w.id === way) ?? ways[0];
 
@@ -79,10 +80,13 @@ export function TammeniProof() {
             </span>
             <span className="pf-tm-rule-what">Get an update when Reem arrives</span>
           </legend>
-          <div className="pf-tm-seg">
+          <div className="pf-tm-methods">
             {ways.map((w) => (
               <label key={w.id}>
-                <input type="radio" name={`${id}-way`} value={w.id} checked={way === w.id} onChange={() => setWay(w.id)} />
+                <input type="radio" name={`${id}-way`} value={w.id} checked={way === w.id} onChange={() => {
+                  setWay(w.id);
+                  setAsked(false);
+                }} />
                 <span>
                   {w.icon}
                   {w.label}
@@ -98,10 +102,10 @@ export function TammeniProof() {
           time="7:06"
           label="The parent's phone"
           className="pf-tm-phone"
-          screenProps={{ className: "pf-tm-screen", role: "status", "aria-atomic": true, "data-kind": shown.id }}
+          screenProps={{ className: "pf-tm-screen", "data-kind": shown.id }}
         >
           {shown.id === "text" ? (
-            <div className="pf-tm-lock" key="text">
+            <div className="pf-tm-lock" key="text" role="status">
               <p className="pf-tm-clock" aria-hidden="true">
                 <span className="pf-tm-time">7:06</span>
               </p>
@@ -140,7 +144,7 @@ export function TammeniProof() {
                 <strong>Lulwa</strong>
                 <span>Tammeni · sample call</span>
               </div>
-              <div className="pf-tm-saying">
+              <div className="pf-tm-saying" role="status">
                 <span className="pf-tm-wave" aria-hidden="true">
                   <i />
                   <i />
@@ -152,6 +156,20 @@ export function TammeniProof() {
                   {shown.ar}
                 </span>
                 <p className="pf-tm-gloss">{shown.en}</p>
+              </div>
+              <div className="pf-tm-follow">
+                <button type="button" aria-expanded={asked} aria-controls={`${id}-follow`} onClick={() => setAsked((open) => !open)}>
+                  <span className="pf-tm-ar" lang="ar" dir="rtl">سجّلتوا ريم حاضرة؟</span>
+                  <span className="pf-tm-gloss" lang="en">Was Reem marked present?</span>
+                </button>
+                <div id={`${id}-follow`} role="status">
+                  {asked ? (
+                    <>
+                      <p className="pf-tm-ar pf-tm-said" lang="ar" dir="rtl">لولوة: إيه، سجّلنا ريم حاضرة الساعة ٧:٠٥ الصبح.</p>
+                      <p className="pf-tm-gloss" lang="en">Lulwa: Yes, Reem was marked present at 7:05 am.</p>
+                    </>
+                  ) : null}
+                </div>
               </div>
             </div>
           )}
