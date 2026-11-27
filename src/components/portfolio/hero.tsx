@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { contact } from "@/lib/contact";
 import { graduation } from "@/lib/portrait";
 import { publicUrl } from "@/lib/site";
 import { JumpLink } from "./jump-link";
@@ -19,6 +20,7 @@ export function Hero() {
 
       <p className="vb-open-role" data-rise="2">
         Software &amp; AI product developer
+        <span className="vb-open-status">{contact.status}</span>
       </p>
 
       <div className="vb-open-actions" data-rise="3">
@@ -41,7 +43,15 @@ export function Hero() {
           preload
           className="vb-open-img"
         />
-        <span className="vb-open-thread" aria-hidden="true" />
+        <svg
+          className="vb-open-thread"
+          viewBox="0 0 120 100"
+          preserveAspectRatio="none"
+          aria-hidden="true"
+          focusable="false"
+        >
+          <path d="M 41 0 C 34 24 9 35 10 57 C 11 76 37 83 60 100" />
+        </svg>
       </figure>
     </section>
   );

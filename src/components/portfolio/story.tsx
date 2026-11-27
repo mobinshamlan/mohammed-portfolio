@@ -24,8 +24,8 @@ export function Story() {
         <RouteStop
           id="story-home"
           kind="home"
-          code="RUH"
-          place="Riyadh"
+          code="KSA"
+          place="Saudi Arabia"
           when="Where I grew up"
           flyToNext
           art={
@@ -83,9 +83,9 @@ export function Story() {
         <RouteStop
           id="story-now"
           kind="return"
-          code="RUH"
-          place="Back to Riyadh"
-          when="Tuwaiq Academy"
+          code="KSA"
+          place="Back in Saudi Arabia"
+          when="AI bootcamp · 18 Oct–12 Nov 2026"
           art={
             <ul className="vb-route-work" aria-label="Products built for life in Saudi Arabia">
               {homeWork.map(({ id, use }) => {
@@ -114,7 +114,7 @@ export function Story() {
           }
         >
           <p className="vb-route-line">
-            At the AI bootcamp, I’m building products for everyday life in Saudi Arabia.
+            I completed an AI bootcamp using Meta tools at Tuwaiq Academy, where I built products for everyday life in Saudi Arabia.
           </p>
         </RouteStop>
       </RouteMap>

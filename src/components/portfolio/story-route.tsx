@@ -15,7 +15,7 @@ function Plane() {
 }
 
 /**
- * One stop on the route. The airport code is the typographic mark of the place,
+ * One stop on the route. The place code is its typographic mark,
  * the artefact (a photo, a certificate, the products) is what the stop left behind.
  * Each stop except the last draws the leg to the next one.
  */

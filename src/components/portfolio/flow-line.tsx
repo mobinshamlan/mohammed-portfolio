@@ -83,22 +83,42 @@ export function FlowLine() {
       const f = (n: number) => Math.round(n * 10) / 10;
       let d = "";
 
-      // The opening's thread drops in from above; the seam continues it straight
-      // down onto the first try-it when it lands over it, or sweeps across to it.
+      // Pick up the opening's thread where it crosses the dune edge. Sampling
+      // the actual curve keeps the hand-off aligned as the layout changes.
       const thread = document.querySelector(".vb-open-thread")?.getBoundingClientRect();
+      const openingPath = document.querySelector<SVGPathElement>(".vb-open-thread path");
       const first = stops[0];
       // The opening clips its thread at its own edge, which is where Work begins.
       if (thread && thread.bottom - box.top >= -1) {
-        const tx = thread.left + thread.width / 2 - box.left;
+        let tx = thread.left + thread.width / 2 - box.left;
         const ty = 0;
-        const visual = first.chapter.querySelector<HTMLElement>(".vb-proj-visual")?.getBoundingClientRect();
-        if (visual && tx > visual.left - box.left + 48 && tx < visual.right - box.left - 48 && first.entry.y > ty) {
-          first.entry = { x: tx, y: first.entry.y };
-          d += `M ${f(tx)} ${f(ty)} L ${f(tx)} ${f(first.entry.y)}`;
-        } else {
-          const k = Math.max(40, (first.entry.y - ty) * 0.6);
-          d += `M ${f(tx)} ${f(ty)} C ${f(tx)} ${f(ty + k)}, ${f(first.entry.x)} ${f(first.entry.y - k)}, ${f(first.entry.x)} ${f(first.entry.y)}`;
+        let tangent = { x: 0, y: 1 };
+        const matrix = openingPath?.getScreenCTM();
+        if (openingPath && matrix) {
+          const length = openingPath.getTotalLength();
+          const pointAt = (distance: number) => {
+            const point = openingPath.getPointAtLength(distance);
+            return new DOMPoint(point.x, point.y).matrixTransform(matrix);
+          };
+          if (pointAt(length).y >= box.top) {
+            let low = 0;
+            let high = length;
+            for (let i = 0; i < 24; i += 1) {
+              const middle = (low + high) / 2;
+              if (pointAt(middle).y < box.top) low = middle;
+              else high = middle;
+            }
+            const edge = pointAt(high);
+            const before = pointAt(Math.max(0, high - 2));
+            tx = edge.x - box.left;
+            const dx = edge.x - before.x;
+            const dy = edge.y - before.y;
+            const size = Math.hypot(dx, dy) || 1;
+            tangent = { x: dx / size, y: dy / size };
+          }
         }
+        const k = Math.max(40, Math.min(120, (first.entry.y - ty) * 0.18));
+        d += `M ${f(tx)} ${f(ty)} C ${f(tx + tangent.x * k)} ${f(ty + tangent.y * k)}, ${f(first.entry.x)} ${f(first.entry.y - k)}, ${f(first.entry.x)} ${f(first.entry.y)}`;
       }
 
       // Between chapters: straight down from the try-it, one long sweep across
@@ -131,9 +151,12 @@ export function FlowLine() {
     build();
     const observer = new ResizeObserver(build);
     observer.observe(work);
+    const openingThread = document.querySelector(".vb-open-thread");
+    openingThread?.addEventListener("animationend", build);
     window.addEventListener("resize", build);
     return () => {
       observer.disconnect();
+      openingThread?.removeEventListener("animationend", build);
       window.removeEventListener("resize", build);
       delete work.dataset.flow;
     };

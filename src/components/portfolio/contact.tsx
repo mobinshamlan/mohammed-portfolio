@@ -52,6 +52,8 @@ export function Contact() {
         <div className="vb-talk-main">
           <h2 id="contact-title" className="vb-talk-title">Get in touch</h2>
           <p className="vb-talk-lead">
+            <span className="vb-talk-status">{contact.status}</span>
+            <br />
             I&rsquo;m looking for a job in software or AI products. Let&rsquo;s keep in touch.
           </p>
           <div className="vb-talk-actions">
@@ -72,7 +74,7 @@ export function Contact() {
 
         <div className="vb-talk-postmark">
           <p className="vb-talk-city">
-            Riyadh<span>Saudi Arabia</span>
+            Saudi Arabia<span>Based in Riyadh</span>
           </p>
           {time ? <p className="vb-talk-time">{time} local time</p> : null}
           <ul className="vb-talk-links">
