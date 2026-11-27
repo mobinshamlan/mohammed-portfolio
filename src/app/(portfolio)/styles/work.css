@@ -9,22 +9,6 @@
 }
 
 /* The heading and lead sit side by side; the products are reached from the opening's tiles. */
-@media (min-width: 900px) {
-  .vb-work-head {
-    grid-template-columns: minmax(0, 1fr);
-  }
-  .vb-work-intro {
-    grid-template-columns: minmax(0, 6fr) minmax(0, 5fr);
-    column-gap: clamp(2rem, 5vw, 6rem);
-    align-items: end;
-  }
-  .vb-work-intro .vb-title {
-    grid-column: 1 / -1;
-  }
-  .vb-work-lead {
-    margin: 0;
-  }
-}
 
 /* Each product's own world, drawn behind its chapter. Decorative; never above the content. */
 .vb-proj-scene {
