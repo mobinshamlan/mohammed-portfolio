@@ -1,15 +1,13 @@
 /* ---------- Opening: the name, the role, the way in ----------
    Who and what, in two sizes, on the dusk ground. The graduation figure
    stands small at the right in its real colours, taken down a step and
-   softened so it sits in the night. From the ribbon on the diploma one red
-   thread drops under the dune: the thread that later sews the work together. */
+   lit in the hood's blue. One curved red thread leaves the diploma, settles
+   under the dune and continues through the work. */
 
 .vb-open {
   /* The figure's width; its height and the thread's start follow from it. */
   --fig-w: 7.5rem;
   --fig-h: calc(var(--fig-w) * 1.823);
-  /* Where the ribbon bow sits on the cut-out. */
-  --ribbon-x: 34%;
   --ribbon-y: 41%;
 
   position: relative;
@@ -47,10 +45,37 @@
 /* Above the base rule that zeroes paragraph margins. */
 .vb-open > .vb-open-role {
   grid-area: role;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.65rem 1rem;
   margin-top: 2rem;
   font-size: clamp(1.25rem, 1.05rem + 0.9vw, 1.7rem);
   line-height: 1.3;
   color: var(--sand);
+}
+
+.vb-open-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  min-height: 1.9rem;
+  padding: 0.25rem 0.65rem;
+  border: 1px solid color-mix(in srgb, var(--ribbon) 65%, transparent);
+  border-radius: 999px;
+  color: var(--sand);
+  font-size: 0.72em;
+  font-weight: 600;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.vb-open-status::before {
+  content: "";
+  width: 0.45rem;
+  height: 0.45rem;
+  border-radius: 50%;
+  background: var(--ribbon);
 }
 
 .vb-open-actions {
@@ -92,10 +117,9 @@
   display: block;
   width: 100%;
   height: auto;
-  /* Real colours, a step down, so the figure sits in the dusk rather than on it. */
-  filter: saturate(0.7) contrast(0.92) brightness(0.8);
-  /* The gown melts into the night below the diploma. */
-  mask-image: linear-gradient(to bottom, #000 52%, transparent 90%);
+  /* Lift the face and blue hood while keeping the gown grounded in the night. */
+  filter: saturate(0.88) contrast(1.02) brightness(1.14);
+  mask-image: linear-gradient(to bottom, #000 74%, rgb(0 0 0 / 0.86) 84%, transparent 100%);
 }
 
 /* The studio light, behind the head and shoulders, in the hood's blue. */
@@ -108,35 +132,31 @@
   aspect-ratio: 1;
   translate: -50% -50%;
   border-radius: 50%;
-  background: radial-gradient(closest-side, rgb(134 169 245 / 0.28), rgb(134 169 245 / 0.06) 55%, transparent);
+  background: radial-gradient(closest-side, rgb(134 169 245 / 0.4), rgb(134 169 245 / 0.12) 58%, transparent);
 }
 
-/* One red thread from the ribbon bow, straight down and under the dune.
-   Stitches 7px long with 5px between, the pitch of the seam in the work. */
+/* The thread leaves the bow in a small S, then carries the line under the dune. */
 .vb-open-thread {
   position: absolute;
   z-index: 3;
-  left: var(--ribbon-x);
+  left: 0;
   top: var(--ribbon-y);
+  width: 100%;
+  height: calc(100% - var(--ribbon-y) + var(--edge) + 1.5rem);
+  bottom: auto;
   /* Past the figure's foot, through the section's padding, to its edge. */
   bottom: calc(-1 * (var(--edge) + 1.5rem));
-  width: 2px;
-  margin-left: -1px;
-  transform-origin: top;
-  background: repeating-linear-gradient(to bottom, var(--ribbon) 0 8px, transparent 8px 12px);
+  overflow: visible;
+  fill: none;
+  stroke: var(--ribbon);
+  stroke-width: 2;
+  stroke-dasharray: 7 5;
+  stroke-linecap: round;
+  vector-effect: non-scaling-stroke;
 }
 
-/* The knot where the thread leaves the bow. */
-.vb-open-thread::before {
-  content: "";
-  position: absolute;
-  left: 50%;
-  top: 0;
-  width: 7px;
-  height: 7px;
-  translate: -50% -50%;
-  border-radius: 50%;
-  background: var(--ribbon);
+.vb-open-thread path {
+  vector-effect: non-scaling-stroke;
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -204,6 +224,7 @@
 
   .vb-open-thread {
     /* Far enough to reach the section's edge at any height; the section clips it. */
-    bottom: -24rem;
+    height: calc(100% - var(--ribbon-y) + 24rem);
+    bottom: auto;
   }
 }
