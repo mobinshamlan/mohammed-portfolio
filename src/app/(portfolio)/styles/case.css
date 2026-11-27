@@ -1239,33 +1239,6 @@
   }
 }
 
-.vb-case-demo .vb-case-text {
-  margin-bottom: 1.5rem;
-}
-
-.vb-case-demo .vb-call {
-  background: var(--night-2);
-  color: var(--sand);
-  --accent: var(--ember);
-}
-
-.vb-case-demo .vb-call .vb-btn-field {
-  background: var(--ember);
-  color: var(--ember-ink);
-}
-
-.vb-case-demo .vb-call-line {
-  background: var(--night-3);
-}
-
-.vb-case-demo .vb-call-line[data-who="worker"] {
-  background: #263048;
-}
-
-.vb-case-demo .vb-call-facts {
-  background: var(--night-3);
-}
-
 .vb-decision-pair {
   display: grid;
   gap: 2.5rem;
@@ -1502,28 +1475,6 @@
   font-size: var(--step-small);
 }
 
-.vb-art-toggle {
-  min-height: 2.75rem;
-  padding: 0 0.7rem;
-  border: 0;
-  border-radius: 999px;
-  background: var(--night);
-  color: var(--sand);
-  cursor: pointer;
-  font-size: var(--step-small);
-  font-weight: 500;
-}
-
-.vb-art-toggle[aria-pressed="true"] {
-  background: var(--ember);
-  color: var(--ember-ink);
-}
-
-.vb-art-toggle:disabled {
-  opacity: 0.45;
-  cursor: default;
-}
-
 .vb-art-sum {
   font-size: var(--step-small);
   line-height: 1.5;
@@ -1575,10 +1526,6 @@
   gap: 0.6rem;
 }
 
-.vb-art-score td:nth-child(3) {
-  color: var(--sand-2);
-}
-
 @media (min-width: 600px) {
   .vb-art-naqah-grid {
     grid-template-columns: 3fr 2fr;
@@ -1587,7 +1534,6 @@
 
 /* Wide tables become labelled rows on phones. */
 @media (max-width: 599px) {
-  .vb-art-score thead,
   .vb-art-gthrz thead {
     position: absolute;
     width: 1px;
@@ -1595,7 +1541,6 @@
     overflow: hidden;
     clip: rect(0 0 0 0);
   }
-  .vb-art-score tr,
   .vb-art-gthrz tr {
     display: grid;
     gap: 0.2rem;
@@ -1603,13 +1548,10 @@
     margin-bottom: 0.5rem;
     border-radius: 0.4rem;
   }
-  .vb-art-score th,
-  .vb-art-score td,
   .vb-art-gthrz th,
   .vb-art-gthrz td {
     padding: 0;
   }
-  .vb-art-score td::before,
   .vb-art-gthrz td::before {
     content: attr(data-label) ": ";
     color: var(--sand-2);
@@ -1740,8 +1682,4 @@
       --drift: 1rem;
     }
   }
-}
-
-.vb-case-hour {
-  margin-bottom: 1.25rem;
 }
