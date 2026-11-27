@@ -1,8 +1,19 @@
 # Mohammed Bin Shamlan — portfolio
 
-Live at https://mobinshamlan.github.io/mohammed-portfolio/
+Software & AI product developer. This is the source of my portfolio site:
 
-Next.js 16 (static export), React 19 and TypeScript. The portfolio is styled with plain CSS in `src/app/(portfolio)/styles/`; Tailwind CSS is used only by the `/version-a` baseline.
+**https://mobinshamlan.github.io/mohammed-portfolio/**
+
+The home page walks through six products I built or helped build — Naqah, Gthrz, Amanah, Kashta, Seet and Tammeni — each with a small try-it you can play with in the browser, then where I come from, my courses and certificates, the tools I use, and how to reach me.
+
+## Built with
+
+- Next.js 16 (static export) and React 19, in TypeScript
+- Plain CSS, one file per area in `src/app/(portfolio)/styles/`
+- Alexandria and Readex Pro from Google Fonts
+- No backend: every try-it runs on sample data in the page
+
+## Run it locally
 
 ```bash
 npm install
@@ -11,26 +22,26 @@ npm run lint
 npm run build   # writes the static site to out/
 ```
 
-Pushing to `main` deploys to GitHub Pages (`.github/workflows/pages.yml`).
+Every push to `main` builds the site and publishes it to GitHub Pages (`.github/workflows/pages.yml`).
 
-## Routes
+## Pages
 
-- `/` — the portfolio: hero with the Naqah call example, a section for each project, the Work Line index, about, journey, skills, certificates and contact. Press ⌘K or `/` to jump to a project.
-- `/projects/gthrz` — Gthrz, the one product not yet deployed. The others open on the home page and link to their live apps.
-- `/experiment` — the prompt experiment: one brief, two prompts. Choose Version A or Version B.
-- `/version-a` — the weak-prompt baseline, kept exactly as it was.
-- `/version-b/` and `/version-b/projects/<slug>/` — old links; each is a small page that forwards to the new path.
+- `/` — the portfolio. Press ⌘K (Ctrl K) or `/` to jump to any project or section.
+- `/projects/gthrz/` — how Gthrz works. It is the one product without a public deployment; the others link to their live apps.
+- `/experiment/` — how this site was built: one brief, two prompts.
+- `/version-a/` — the result of the short first prompt, kept as it was.
+- `/version-b/…` — old links that forward to the current pages.
 
 ## Where things are
 
-- Project content, statuses and evidence: `src/lib/projects.ts`.
-- Portfolio components: `src/components/portfolio/`.
-- Product screenshots in `public/images/projects/` are captures of the live demos.
-- `data/portfolio.ts` holds the Version A content only.
+- Project text and links: `src/lib/projects.ts`
+- Home page sections: `src/components/portfolio/`
+- Try-its: `src/components/portfolio/proof/`, with their backdrops in `scenes/`
+- Product screenshots: `public/images/projects/` (captured from the real apps)
+- Version A content: `data/portfolio.ts`
 
-## Version A prompt
-
-This is the prompt that produced the Version A baseline:
+<details>
+<summary>The Version A prompt</summary>
 
 ```text
 Build me a modern personal portfolio website that includes information about me.
@@ -87,3 +98,5 @@ Keep the portfolio content in a separate data file so it can be reused for anoth
 
 Do not create Version B yet.
 ```
+
+</details>
